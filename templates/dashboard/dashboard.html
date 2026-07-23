@@ -153,42 +153,6 @@
           </div>
       </section>
 
-      <!-- ===== PROCHAINES RÉSERVATIONS ===== -->
-      <section class="member-section">
-          <div class="section-header">
-              <span class="section-subtitle">Planning</span>
-              <h2>Prochaines réservations</h2>
-          </div>
-
-          <div class="upcoming-list">
-              {% for u in upcoming_reservations %}
-              <div class="upcoming-item">
-                  <div class="upcoming-date">
-                      <span class="day">{{ u.date_debut|date:"d" }}</span>
-                      <span class="month">{{ u.date_debut|date:"M" }}</span>
-                  </div>
-                  <div class="upcoming-info">
-                      <p class="upcoming-space">{{ u.espace.nom|default:'Espace' }}</p>
-                      <p class="upcoming-duration">
-                        {% if u.date_debut != u.date_fin %}
-                          {{ u.date_debut|date:"d/m" }} - {{ u.date_fin|date:"d/m" }}
-                        {% else %}
-                          {{ u.date_debut|date:"d/m/Y" }}
-                        {% endif %}
-                      </p>
-                  </div>
-                  <a class="btn-small" href="{% url 'reservation:detail' u.id %}">Détails</a>
-              </div>
-              {% empty %}
-              <div class="upcoming-item">
-                  <div class="upcoming-info" style="text-align:center; width:100%;">
-                      <p class="upcoming-space">Aucune réservation à venir</p>
-                      <p class="upcoming-duration">-</p>
-                  </div>
-              </div>
-              {% endfor %}
-          </div>
-      </section>
 
       <!-- ===== NOTIFICATIONS ===== -->
       <section class="member-section">
