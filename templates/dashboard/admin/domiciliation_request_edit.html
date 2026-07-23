@@ -1,0 +1,68 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier demande | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+        <div>
+            <h2>Modifier la demande</h2>
+            <p style="color:var(--text-light);font-size:14px;">{{ request.numero_demande }} - {{ request.entreprise.company_name }}</p>
+        </div>
+        <a href="{% url 'dashboard_admin:domiciliation_requests' %}" class="btn-secondary">← Retour</a>
+    </div>
+
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="grid">
+                <div class="field">
+                    <label>Formule</label>
+                    {{ form.formule }}
+                    {% if form.formule.errors %}<div class="error">{{ form.formule.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Entreprise</label>
+                    {{ form.entreprise }}
+                    {% if form.entreprise.errors %}<div class="error">{{ form.entreprise.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field" style="grid-column:1/-1">
+                    <label>Adresse domiciliation</label>
+                    {{ form.adresse_domiciliation }}
+                    {% if form.adresse_domiciliation.errors %}<div class="error">{{ form.adresse_domiciliation.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field" style="grid-column:1/-1">
+                    <label>Observations</label>
+                    {{ form.observations }}
+                    {% if form.observations.errors %}<div class="error">{{ form.observations.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Date début</label>
+                    {{ form.date_debut }}
+                    {% if form.date_debut.errors %}<div class="error">{{ form.date_debut.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Date fin</label>
+                    {{ form.date_fin }}
+                    {% if form.date_fin.errors %}<div class="error">{{ form.date_fin.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:18px;">
+                <button type="submit" class="btn-primary">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
+

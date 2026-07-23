@@ -1,0 +1,20 @@
+{% extends "layouts/base_admin.html" %}
+
+{% block title %}Supprimer article | Administration{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold mb-4">Supprimer l’article</h1>
+
+    <div class="bg-white p-4 rounded shadow">
+        <p class="mb-4">
+            Êtes-vous sûr de vouloir supprimer : <strong>{{ target_article.title }}</strong> ?
+        </p>
+
+        <form method="post" class="space-y-2">
+            {% csrf_token %}
+            <button type="submit" class="btn-danger">Supprimer</button>
+            <a href="{% url 'blog:articles_list' %}" class="btn-secondary">Annuler</a>
+        </form>
+    </div>
+{% endblock %}
+

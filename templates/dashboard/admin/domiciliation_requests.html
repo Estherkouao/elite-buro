@@ -1,0 +1,75 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Demandes domiciliation | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+        <div>
+            <h2>Demandes de domiciliation</h2>
+            <p style="color:var(--text-light);font-size:14px;">Valider, refuser et modifier les demandes.</p>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:domiciliation' %}" class="btn-secondary">← Retour</a>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Entreprise</th>
+                    <th>Utilisateur</th>
+                    <th>Formule</th>
+                    <th>Statut</th>
+                    <th>Créé</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for req in requests %}
+                <tr>
+                    <td><strong>{{ req.numero_demande }}</strong></td>
+                    <td>{{ req.entreprise.company_name }}</td>
+                    <td>{{ req.utilisateur.full_name|default:req.utilisateur.email }}</td>
+                    <td>{{ req.formule.nom }}</td>
+                    <td>
+                        <span class="status-badge">{{ req.statut }}</span>
+                    </td>
+                    <td>{{ req.date_creation|date:"d/m/Y" }}</td>
+                    <td>
+                        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                            <a class="btn-secondary" href="{% url 'dashboard_admin:domiciliation_request_edit' plan_id=req.id %}">Modifier</a>
+
+                            <form method="post" action="{% url 'dashboard_admin:domiciliation_request_validate' request_id=req.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-primary">Valider</button>
+                            </form>
+
+                            <form method="post" action="{% url 'dashboard_admin:domiciliation_request_refuse' request_id=req.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="text" name="motif" placeholder="Motif" style="width:120px;"/>
+                                <button type="submit" class="btn-danger">Refuser</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align:center;padding:30px;">
+                        Aucune demande.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,406 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Utilisateurs | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+
+        <div>
+
+            <h2>
+                
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des comptes ADMIN, MANAGER, MEMBER et TRAINER.
+            </p>
+
+
+        </div>
+
+
+
+        <a href="{% url 'dashboard_admin:user_create' %}"
+           class="btn-primary">
+
+            + Créer un utilisateur
+
+        </a>
+
+
+    </div>
+
+
+
+
+
+    <!-- TABLE -->
+
+    <div class="table-container">
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Nom
+                    </th>
+
+
+                    <th>
+                        Email
+                    </th>
+
+
+                    <th>
+                        Téléphone
+                    </th>
+
+
+                    <th>
+                        Entreprise
+                    </th>
+
+
+                    <th>
+                        Poste
+                    </th>
+
+
+                    <th>
+                        Rôle
+                    </th>
+
+
+                    <th>
+                        Statut
+                    </th>
+
+
+                    <th>
+                        Créé
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+                </tr>
+
+            </thead>
+
+
+
+
+
+            <tbody>
+
+
+            {% for u in users %}
+
+
+                <tr>
+
+
+                    <!-- NOM -->
+
+                    <td>
+
+                        <strong>
+                            {{ u.full_name|default:u.email }}
+                        </strong>
+
+                    </td>
+
+
+
+
+
+                    <!-- EMAIL -->
+
+                    <td>
+
+                        {{ u.email }}
+
+                    </td>
+
+
+
+
+
+                    <!-- TELEPHONE -->
+
+                    <td>
+
+                        {{ u.phone|default:"-" }}
+
+                    </td>
+
+
+
+
+
+
+                    <!-- ENTREPRISE -->
+
+                    <td>
+
+                        {{ u.company_name|default:"-" }}
+
+                    </td>
+
+
+
+
+
+
+                    <!-- POSTE -->
+
+                    <td>
+
+                        {{ u.job_title|default:"-" }}
+
+                    </td>
+
+
+
+
+
+
+                    <!-- ROLE -->
+
+                    <td>
+
+                        <strong>
+                            {{ u.role }}
+                        </strong>
+
+                    </td>
+
+
+
+                    <!-- STATUT -->
+
+                    <td>
+
+
+                        {% if u.is_active %}
+
+
+                            <span class="status-badge confirmed">
+
+                                Actif
+
+                            </span>
+
+
+                        {% else %}
+
+
+                            <span class="status-badge cancelled">
+
+                                Inactif
+
+                            </span>
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+
+
+
+                    <!-- DATE CREATION -->
+
+                    <td>
+
+                        {{ u.created_at|date:"d/m/Y" }}
+
+                    </td>
+
+
+
+
+
+
+
+                    <!-- ACTIONS -->
+
+                    <td>
+
+
+                        <a href="{% url 'dashboard_admin:user_edit' user_id=u.id %}"
+                            class="btn-action">
+                              Modifier
+                          </a>
+
+
+
+
+
+
+                        {% if u.is_active %}
+
+
+
+                            <form method="post"
+                                  action="{% url 'dashboard_admin:user_deactivate' user_id=u.id %}"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('Désactiver ce compte ?')">
+
+
+                                {% csrf_token %}
+
+
+                                <button type="submit"
+                                        class="btn-action"
+                                        style="background:var(--warning-color);">
+
+
+                                    Désactiver
+
+
+                                </button>
+
+
+                            </form>
+
+
+
+
+                        {% else %}
+
+
+
+
+
+                            <form method="post"
+                                  action="{% url 'dashboard_admin:user_reactivate' u.id %}"
+                                  style="display:inline;"
+                                  onsubmit="return confirm('Réactiver ce compte ?')">
+
+
+                                {% csrf_token %}
+
+
+                                <button type="submit"
+                                        class="btn-action"
+                                        style="background:var(--success-color);">
+
+
+                                    Réactiver
+
+
+                                </button>
+
+
+                            </form>
+
+
+
+
+                        {% endif %}
+
+
+
+
+
+
+                        <form method="post"
+                              action="{% url 'dashboard_admin:user_delete' u.id %}"
+                              style="display:inline;"
+                              onsubmit="return confirm('Supprimer ce compte ?')">
+
+
+                            {% csrf_token %}
+
+
+                            <button type="submit"
+                                    class="btn-action"
+                                    style="background:var(--danger-color);">
+
+
+                                Supprimer
+
+
+                            </button>
+
+
+                        </form>
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+
+
+            {% empty %}
+
+
+
+                <tr>
+
+                    <td colspan="10"
+                        style="text-align:center;padding:30px;">
+
+
+                        Aucun utilisateur trouvé.
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+
+            {% endfor %}
+
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

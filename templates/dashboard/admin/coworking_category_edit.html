@@ -1,0 +1,266 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier catégorie | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+
+        <div class="admin-page-title">
+
+            <h1>
+                Modifier la catégorie
+            </h1>
+
+
+            <p>
+                {{ target_category.nom }}
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- FORMULAIRE -->
+
+
+    <div class="admin-form-card">
+
+
+        <form method="post" enctype="multipart/form-data">
+
+
+            {% csrf_token %}
+
+
+
+            <div class="admin-form-grid">
+
+
+
+                <!-- NOM -->
+
+                <div class="admin-form-group">
+
+
+                    <label>
+                        Nom
+                    </label>
+
+
+                    {{ form.nom }}
+
+
+
+                    {% if form.nom.errors %}
+
+                    <div class="form-error">
+
+                        {{ form.nom.errors }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+
+
+                <!-- SLUG -->
+
+                <div class="admin-form-group">
+
+
+                    <label>
+                        Slug
+                    </label>
+
+
+                    {{ form.slug }}
+
+
+
+                    {% if form.slug.errors %}
+
+                    <div class="form-error">
+
+                        {{ form.slug.errors }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="admin-form-group full">
+
+
+                    <label>
+                        Description
+                    </label>
+
+
+                    {{ form.description }}
+
+
+
+                    {% if form.description.errors %}
+
+                    <div class="form-error">
+
+                        {{ form.description.errors }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+
+
+
+
+                <!-- ICONE -->
+
+                <div class="admin-form-group">
+
+
+                    <label>
+                        Icône (texte / emoji)
+                    </label>
+
+
+                    {{ form.icone }}
+
+
+
+                    {% if form.icone.errors %}
+
+                    <div class="form-error">
+
+                        {{ form.icone.errors }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+
+
+
+
+                <!-- IMAGE -->
+
+                <div class="admin-form-group">
+
+
+                    <label>
+                        Image
+                    </label>
+
+
+                    {{ form.image }}
+
+
+
+                    {% if form.image.errors %}
+
+                    <div class="form-error">
+
+                        {{ form.image.errors }}
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+
+            <!-- ACTIONS -->
+
+
+            <div class="admin-form-actions">
+
+
+                <button type="submit"
+                        class="btn-admin-primary">
+
+
+                    Enregistrer
+
+
+                </button>
+
+
+
+
+                <a href="{% url 'dashboard_admin:coworking' %}"
+                   class="btn-admin-secondary">
+
+
+                    Annuler
+
+
+                </a>
+
+
+
+            </div>
+
+
+
+
+        </form>
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}

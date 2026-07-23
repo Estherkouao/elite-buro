@@ -1,0 +1,205 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Formations | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+        <div>
+            <h2></h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des formations, catégories et contenus pédagogiques.
+            </p>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+            <a href="{% url 'dashboard_admin:formations_category_list' %}" class="btn-secondary">
+                Catégories
+            </a>
+
+            <a href="{% url 'dashboard_admin:sessions_list' %}" class="btn-secondary">
+                Sessions
+            </a>
+
+            <a href="{% url 'dashboard_admin:formations_trainers_list' %}" class="btn-secondary">
+                Formateurs
+            </a>
+
+            <a href="{% url 'dashboard_admin:inscriptions_list' %}" class="btn-secondary">
+                Inscriptions
+            </a>
+
+
+            <a href="{% url 'dashboard_admin:formations_create' %}" class="btn-primary">
+                + Nouvelle formation
+            </a>
+
+
+        </div>
+
+    </div>
+
+    <!-- KPI -->
+
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+            <div class="kpi-icon">🎓</div>
+            <div class="kpi-content">
+                <div class="kpi-label">Formations</div>
+                <div class="kpi-value">{{ formations|length }}</div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon">📅</div>
+            <div class="kpi-content">
+                <div class="kpi-label">Sessions</div>
+                <div class="kpi-value">{{ sessions }}</div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon">👨‍🎓</div>
+            <div class="kpi-content">
+                <div class="kpi-label">Inscriptions</div>
+                <div class="kpi-value"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-container">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Formation</th>
+                    <th>Catégorie</th>
+                    <th>Niveau</th>
+                    <th>Durée</th>
+                    <th>Prix</th>
+                    <th>Média</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for f in formations %}
+
+                <tr>
+
+                    <td>
+                        {% if f.image %}
+                            <img src="{{ f.image.url }}"
+                                 style="width:70px;height:50px;border-radius:8px;object-fit:cover;">
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <strong>{{ f.titre }}</strong><br>
+                        <small>{{ f.slug }}</small>
+                    </td>
+
+                    <td>{{ f.category.name }}</td>
+
+                    <td>{{ f.get_niveau_display }}</td>
+
+                    <td>{{ f.duree }} h</td>
+
+                    <td>{{ f.prix }} FCFA</td>
+
+                    <td>
+
+                        {% if f.video %}
+                            🎥
+                        {% endif %}
+
+                        {% if f.video_url %}
+                            ▶️
+                        {% endif %}
+
+                        {% if f.pdf %}
+                            📄
+                        {% endif %}
+
+                        {% if not f.video and not f.video_url and not f.pdf %}
+                            —
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if f.actif %}
+                            <span class="status-badge confirmed">
+                                Actif
+                            </span>
+                        {% else %}
+                            <span class="status-badge cancelled">
+                                Inactif
+                            </span>
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="table-actions">
+
+                            <a href="{% url 'dashboard_admin:formations_detail' f.id %}"
+                            class="action-btn"
+                            style="background:#2563eb;">
+                                Voir
+                            </a>
+
+                            <a href="{% url 'dashboard_admin:formations_edit' f.id %}"
+                            class="action-btn action-edit">
+                                Modifier
+                            </a>
+
+                            <a href="{% url 'dashboard_admin:formations_delete' f.id %}"
+                            class="action-btn action-cancel">
+                                Supprimer
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="9" style="text-align:center;padding:35px;">
+                        Aucune formation enregistrée.
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

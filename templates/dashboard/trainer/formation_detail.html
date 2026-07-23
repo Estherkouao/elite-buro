@@ -1,0 +1,286 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+
+
+{% block title %}
+{{ formation.titre }} — Elite Bureau
+{% endblock %}
+
+
+{% block page_title %}
+{{ formation.titre }}
+{% endblock %}
+
+
+{% block content_area %}
+
+<div class="content">
+
+
+<div class="panel">
+
+<div class="panel-body padded">
+
+
+<div style="
+display:flex;
+gap:25px;
+align-items:flex-start;
+">
+
+
+{% if formation.image %}
+
+<img src="{{ formation.image.url }}"
+style="
+width:260px;
+height:180px;
+object-fit:cover;
+border-radius:12px;
+">
+
+{% endif %}
+
+
+
+<div>
+
+<h1 style="
+font-size:28px;
+font-weight:700;
+color:var(--navy);
+">
+{{ formation.titre }}
+</h1>
+
+
+<p style="color:var(--text-muted);">
+{{ formation.description_complete }}
+</p>
+
+
+<div style="margin-top:15px;">
+
+<span class="badge badge-info">
+{{ formation.get_niveau_display }}
+</span>
+
+
+<span class="badge badge-gray">
+{{ formation.duree }} heures
+</span>
+
+
+<span class="badge badge-success">
+{{ formation.prix|floatformat:0 }} FCFA
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<hr style="margin:30px 0;">
+
+
+
+<h2>
+Sessions disponibles
+</h2>
+
+
+{% for session in sessions %}
+
+<div class="panel" style="margin-top:15px;">
+
+<div class="panel-body">
+
+
+<h3>
+Session du {{session.date_debut}}
+au {{session.date_fin}}
+</h3>
+
+
+<p>
+Horaire :
+{{session.heure_debut}}
+-
+{{session.heure_fin}}
+</p>
+
+
+<p>
+Places restantes :
+{{session.places_restantes}}
+</p>
+
+<hr style="margin:40px 0;">
+
+
+<h2 style="
+font-size:22px;
+font-weight:700;
+color:var(--navy);
+margin-bottom:20px;
+">
+Documents pédagogiques
+</h2>
+
+
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:15px;
+">
+
+
+{% for document in documents %}
+
+<div class="panel">
+
+
+<div class="panel-body padded">
+
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+
+<div style="
+width:45px;
+height:45px;
+border-radius:10px;
+background:var(--info-bg);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+">
+📄
+</div>
+
+
+
+<div style="flex:1;">
+
+
+<h3 style="
+font-size:15px;
+font-weight:700;
+color:var(--navy);
+">
+{{ document.titre }}
+</h3>
+
+
+{% if document.description %}
+<p style="
+font-size:13px;
+color:var(--text-muted);
+">
+{{ document.description|truncatewords:12 }}
+</p>
+{% endif %}
+
+
+<p style="
+font-size:12px;
+color:var(--text-light);
+margin-top:5px;
+">
+Ajouté le {{ document.created_at|date:"d/m/Y" }}
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+{% if document.fichier %}
+
+<a href="{{ document.fichier.url }}"
+target="_blank"
+style="
+display:block;
+margin-top:15px;
+text-align:center;
+padding:8px;
+background:var(--gold);
+color:var(--navy-dark);
+border-radius:6px;
+font-weight:600;
+font-size:13px;
+">
+📥 Ouvrir le document
+</a>
+
+{% endif %}
+
+
+</div>
+
+
+</div>
+
+
+{% empty %}
+
+
+<div style="
+padding:30px;
+text-align:center;
+color:var(--text-muted);
+grid-column:1/-1;
+">
+
+📂 Aucun document pédagogique pour cette formation.
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+
+<a href="{% url 'dashboard_trainer:students' %}"
+class="btn">
+Voir les étudiants
+</a>
+
+
+</div>
+
+</div>
+
+
+{% empty %}
+
+<p>
+Aucune session disponible.
+</p>
+
+{% endfor %}
+
+
+</div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,419 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Formations | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+
+        <div>
+
+
+            <h2>
+                Formations
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion du catalogue, des sessions et des inscriptions.
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:formations_create' %}"
+               class="btn-primary">
+
+
+                + Créer une formation
+
+
+            </a>
+
+            <a href="{% url 'dashboard_admin:sessions_create' %}"
+               class="btn-secondary">
+                + Créer une session
+            </a>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- STATISTIQUES -->
+
+
+    <div class="kpi-grid">
+
+
+
+        <div class="kpi-card">
+
+
+            <div class="kpi-icon">
+                🎓
+            </div>
+
+
+            <div class="kpi-content">
+
+
+                <div class="kpi-label">
+
+                    Sessions
+
+                </div>
+
+
+                <div class="kpi-value">
+
+                    {{ sessions|default:0 }}
+
+                </div>
+
+
+                <div class="kpi-change positive">
+
+                    Sessions disponibles
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+        <div class="kpi-card">
+
+
+            <div class="kpi-icon">
+                👥
+            </div>
+
+
+            <div class="kpi-content">
+
+
+                <div class="kpi-label">
+
+                    Inscriptions
+
+                </div>
+
+
+                <div class="kpi-value">
+
+                    {{ registrations|default:0 }}
+
+                </div>
+
+
+                <div class="kpi-change positive">
+
+                    Participants
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <!-- TABLE -->
+
+
+
+    <div class="table-container">
+
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+
+                <tr>
+
+
+                    <th>
+                        Titre
+                    </th>
+
+
+                    <th>
+                        Catégorie
+                    </th>
+
+
+                    <th>
+                        Niveau
+                    </th>
+
+
+                    <th>
+                        Prix
+                    </th>
+
+
+                    <th>
+                        Actif
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+
+
+
+            <tbody>
+
+
+
+
+            {% for f in formations %}
+
+
+
+
+
+                <tr>
+
+
+
+
+                    <td>
+
+                        <strong>
+                            {{ f.titre }}
+                        </strong>
+
+
+                    </td>
+
+
+
+
+
+
+                    <td>
+
+
+                        {{ f.category.name }}
+
+
+                    </td>
+
+
+
+
+
+
+                    <td>
+
+
+                        {{ f.niveau }}
+
+
+                    </td>
+
+
+
+
+
+
+                    <td>
+
+
+                        {{ f.prix }} FCFA
+
+
+                    </td>
+
+
+
+
+
+
+
+                    <td>
+
+
+
+                        {% if f.actif %}
+
+
+                            <span class="status-badge confirmed">
+
+                                Active
+
+                            </span>
+
+
+
+                        {% else %}
+
+
+                            <span class="status-badge cancelled">
+
+                                Inactive
+
+                            </span>
+
+
+
+                        {% endif %}
+
+
+
+
+                    </td>
+
+
+
+
+
+
+
+                    <td>
+
+
+                        <a href="{% url 'dashboard_admin:formation_edit' f.id %}"
+                           class="btn-action">
+
+
+                            Modifier
+
+
+                        </a>
+
+
+
+
+
+                        <a href="{% url 'dashboard_admin:formation_delete' f.id %}"
+                           class="btn-action"
+                           style="background:var(--danger-color);">
+
+
+                            Supprimer
+
+
+                        </a>
+
+
+
+                    </td>
+
+
+
+
+
+
+                </tr>
+
+
+
+
+
+
+            {% empty %}
+
+
+
+
+
+                <tr>
+
+
+                    <td colspan="6"
+                        style="text-align:center;padding:30px;">
+
+
+                        Aucune formation disponible.
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+
+            {% endfor %}
+
+
+
+
+
+            </tbody>
+
+
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+{% endblock %}

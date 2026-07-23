@@ -1,0 +1,31 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block title %}Supprimer formateur | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto p-6">
+
+  <h1 class="text-2xl font-bold mb-4">Supprimer un formateur</h1>
+
+  <div class="bg-white shadow rounded p-6">
+    <p>
+      Vous êtes sur le point de supprimer :
+      <strong>{{ trainer.user.full_name }}</strong>
+      (<em>{{ trainer.user.email }}</em>)
+    </p>
+
+    <form method="post" class="mt-6">
+      {% csrf_token %}
+      <div class="flex gap-3">
+        <button class="btn btn-danger" type="submit">Confirmer</button>
+        <a class="btn btn-secondary" href="{% url 'dashboard_admin:formations_trainers_list' %}">Annuler</a>
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}
+

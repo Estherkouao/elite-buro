@@ -1,0 +1,491 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Espaces | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+        <div>
+            <h2></h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des espaces de coworking, disponibilités et catalogue.
+            </p>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:coworking_category_create' %}" class="btn-primary">
+                + Catégorie
+            </a>
+
+            <a href="{% url 'dashboard_admin:coworking_workspace_create' %}" class="btn-primary">
+                + Espace
+            </a>
+
+            <a href="{% url 'dashboard_admin:coworking_equipment_create' %}" class="btn-primary">
+                + Équipement
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <!-- STATISTIQUE -->
+
+
+    <div class="kpi-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px;">
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">🏢</div>
+
+            <div class="kpi-content">
+
+                <div class="kpi-label">CoworkingSpaces</div>
+
+                <div class="kpi-value">{{ coworking_spaces|length }}</div>
+
+                <div class="kpi-change positive">Agences ELITEBURO</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">🧩</div>
+
+            <div class="kpi-content">
+
+                <div class="kpi-label">Catégories</div>
+
+                <div class="kpi-value">{{ categories|length }}</div>
+
+                <div class="kpi-change positive">Types d’espaces</div>
+
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">🔌</div>
+
+            <div class="kpi-content">
+
+                <div class="kpi-label">Équipements</div>
+
+                <div class="kpi-value">{{ equipments|length }}</div>
+
+                <div class="kpi-change positive">Matériels référencés</div>
+
+            </div>
+
+        </div>
+
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">🗓️</div>
+
+            <div class="kpi-content">
+
+                <div class="kpi-label">Disponibilités</div>
+
+                <div class="kpi-value">{{ availability_count }}</div>
+
+                <div class="kpi-change positive">Créneaux enregistrés</div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- LISTES COMPLETES (Back-office) -->
+
+    <div class="section-block" style="margin-top:18px;">
+
+    
+
+
+        <h3 class="font-display" style="margin:22px 0 10px;">Catégories</h3>
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr> 
+                        <th>Image</th>
+                        <th>Nom</th>
+                        <th>Slug</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in categories %}
+                        <tr>
+
+
+                            <td>
+
+                                {% if c.image %}
+
+                                    <img 
+                                        src="{{ c.image.url }}"
+                                        alt="{{ c.nom }}"
+                                        style="
+                                            width:80px;
+                                            height:60px;
+                                            object-fit:cover;
+                                            border-radius:10px;
+                                        "
+                                    >
+
+                                {% else %}
+
+                                    <span style="color:var(--text-light);">
+                                        Aucune image
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+
+                            <td>
+
+                                <strong>
+                                    {{ c.nom }}
+                                </strong>
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ c.slug }}
+
+                            </td>
+
+
+
+                            <td>
+
+
+                                <a href="{% url 'dashboard_admin:coworking_category_edit' c.id %}"
+                                class="btn-action">
+
+                                    Modifier
+
+                                </a>
+
+
+
+                                <a href="{% url 'dashboard_admin:coworking_category_delete' c.id %}"
+                                class="btn-action"
+                                style="background:var(--danger-color);">
+
+                                    Supprimer
+
+                                </a>
+
+
+                            </td>
+
+
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="3" style="text-align:center;padding:20px;">Aucune catégorie.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <h3 class="font-display" style="margin:22px 0 10px;">Équipements</h3>
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Slug</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in equipments %}
+                        <tr>
+                            <td><strong>{{ e.nom }}</strong></td>
+                            <td>{{ e.slug }}</td>
+                            <td>
+                                <a href="{% url 'dashboard_admin:coworking_equipment_edit' e.id %}" class="btn-action">Modifier</a>
+                                <a href="{% url 'dashboard_admin:coworking_equipment_delete' e.id %}" class="btn-action" style="background:var(--danger-color);">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="3" style="text-align:center;padding:20px;">Aucun équipement.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        
+
+
+        <h3 class="font-display" style="margin:22px 0 10px;">Workspaces (table existante)</h3>
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-container">
+
+
+
+        <table class="admin-table">
+
+
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Image
+                    </th>
+
+
+                    <th>
+                        Nom
+                    </th>
+
+
+                    <th>
+                        Coworking
+                    </th>
+
+
+                    <th>
+                        Catégorie
+                    </th>
+
+
+                    <th>
+                        Capacité
+                    </th>
+
+
+                    <th>
+                        Disponibilité
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+                </tr>
+
+            </thead>
+
+
+
+
+
+            <tbody>
+
+
+
+            {% for s in spaces %}
+
+
+
+                <tr>
+
+
+                    <td>
+
+                        {% if s.image_principale %}
+
+                            <img
+                                src="{{ s.image_principale.url }}"
+                                alt="{{ s.nom }}"
+                                style="
+                                    width:80px;
+                                    height:60px;
+                                    object-fit:cover;
+                                    border-radius:10px;
+                                "
+                            >
+
+                        {% else %}
+
+                            <span style="color:var(--text-light);">
+                                Aucune image
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+
+                    <td>
+
+                        <strong>
+                            {{ s.nom }}
+                        </strong>
+
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ s.espace.nom }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ s.categorie.nom }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ s.capacite }} personnes
+
+                    </td>
+
+
+
+
+                    <td>
+
+
+                        {% if s.disponible %}
+
+
+                            <span class="status-badge confirmed">
+
+                                Disponible
+
+                            </span>
+
+
+                        {% else %}
+
+
+                            <span class="status-badge cancelled">
+
+                                Indisponible
+
+                            </span>
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+                    <td>
+
+
+                        <a href="{% url 'dashboard_admin:coworking_workspace_edit' s.id %}"
+                           class="btn-action">
+
+                            Modifier
+
+                        </a>
+
+
+
+                        <a href="{% url 'dashboard_admin:coworking_workspace_delete' s.id %}"
+                           class="btn-action"
+                           style="background:var(--danger-color);">
+
+                            Supprimer
+
+                        </a>
+
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+
+            {% empty %}
+
+
+
+
+                <tr>
+
+                    <td colspan="7" style="text-align:center;padding:30px;">
+
+                        Aucun espace disponible.
+
+                    </td>
+
+                </tr>
+
+
+
+
+            {% endfor %}
+
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

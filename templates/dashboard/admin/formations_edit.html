@@ -1,0 +1,208 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier la formation | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Modifier la formation
+            </h2>
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Modifiez les informations de la formation puis enregistrez les changements.
+            </p>
+
+        </div>
+
+        <a href="{% url 'dashboard_admin:formations_list' %}"
+           class="btn-secondary">
+            ← Retour
+        </a>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h3>
+                {{ formation.titre }}
+            </h3>
+
+        </div>
+
+        <div class="panel-body padded">
+
+            <form method="post"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% for field in form %}
+
+                <div style="margin-bottom:22px;">
+
+                    <label style="
+                        display:block;
+                        margin-bottom:8px;
+                        font-weight:600;
+                        color:var(--navy);
+                        font-size:14px;
+                    ">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small style="
+                            display:block;
+                            margin-top:6px;
+                            color:var(--text-light);
+                            font-size:12px;
+                        ">
+                            {{ field.help_text }}
+                        </small>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div style="
+                            margin-top:6px;
+                            color:#dc2626;
+                            font-size:13px;
+                        ">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+
+                <div style="
+                    display:flex;
+                    justify-content:flex-end;
+                    gap:12px;
+                    margin-top:35px;
+                ">
+
+                    <a href="{% url 'dashboard_admin:formations_list' %}"
+                       class="btn-secondary">
+
+                        Annuler
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        💾 Enregistrer les modifications
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.panel{
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.05);
+}
+
+.panel-header{
+    padding:20px 25px;
+    border-bottom:1px solid #ececec;
+}
+
+.panel-body{
+    padding:30px;
+}
+
+form input,
+form select,
+form textarea{
+
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #d9d9d9;
+    border-radius:8px;
+    font-size:14px;
+    transition:.25s;
+    background:#fff;
+
+}
+
+form textarea{
+
+    min-height:140px;
+    resize:vertical;
+
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus{
+
+    outline:none;
+    border-color:#caa64b;
+    box-shadow:0 0 0 3px rgba(202,166,75,.15);
+
+}
+
+.btn-primary{
+
+    padding:12px 24px;
+    border:none;
+    border-radius:8px;
+    background:var(--gold);
+    color:var(--navy-dark);
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn-secondary{
+
+    padding:12px 24px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    text-decoration:none;
+    color:var(--navy);
+    background:#fff;
+    font-weight:600;
+
+}
+
+.btn-secondary:hover{
+
+    background:#f8f8f8;
+
+}
+
+</style>
+
+{% endblock %}

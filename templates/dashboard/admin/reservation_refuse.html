@@ -1,0 +1,20 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Refuser réservation | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Refuser réservation</h1>
+    <p class="mt-2 text-sm text-gray-600">{{ reservation.reservation_number }}</p>
+  </div>
+
+  <div class="mt-6 rounded-3xl border border-orange/30 bg-white shadow-sm p-6">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      <p class="text-sm text-gray-700">Refuser la réservation et mettre à jour le statut.</p>
+      <button type="submit" class="rounded-md bg-orange/90 px-4 py-2 font-bold text-white">Confirmer refus</button>
+      <a href="{% url 'dashboard_admin:reservation_detail' reservation.id %}" class="ml-4 text-navy font-bold">Annuler</a>
+    </form>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,272 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Méthodes de paiement | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+
+        <div>
+
+            <h2>
+                Méthodes de paiement
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des moyens de paiement disponibles pour les réservations.
+            </p>
+
+
+        </div>
+
+
+
+
+        <a href="{% url 'dashboard_admin:payment_methods_create' %}"
+           class="btn-primary">
+
+            + Créer une méthode
+
+        </a>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- TABLE -->
+
+
+    <div class="table-container">
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+
+                <tr>
+
+
+                    <th>
+                        Nom
+                    </th>
+
+
+                    <th>
+                        Code
+                    </th>
+
+
+                    <th>
+                        Ordre
+                    </th>
+
+
+                    <th>
+                        Statut
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+
+            <tbody>
+
+
+
+            {% for method in methods %}
+
+
+
+                <tr>
+
+
+
+                    <!-- NOM -->
+
+
+                    <td>
+
+
+                        <strong>
+                            {{ method.nom }}
+                        </strong>
+
+
+                    </td>
+
+
+
+
+
+
+                    <!-- CODE -->
+
+
+                    <td>
+
+                        {{ method.code|default:"-" }}
+
+                    </td>
+
+
+
+
+
+
+                    <!-- ORDRE -->
+
+
+                    <td>
+
+                        {{ method.ordre }}
+
+                    </td>
+
+
+
+
+
+
+                    <!-- STATUT -->
+
+
+                    <td>
+
+
+                        {% if method.is_active %}
+
+
+                            <span class="status-badge confirmed">
+
+                                Actif
+
+                            </span>
+
+
+                        {% else %}
+
+
+                            <span class="status-badge cancelled">
+
+                                Inactif
+
+                            </span>
+
+
+                        {% endif %}
+
+
+                    </td>
+
+
+
+
+
+
+                    <!-- ACTIONS -->
+
+
+                    <td>
+
+
+                        <a href="{% url 'dashboard_admin:payment_methods_edit' method_id=method.id %}"
+                           class="btn-action">
+
+
+                            Modifier
+
+
+                        </a>
+
+
+
+
+
+                        <a href="{% url 'dashboard_admin:payment_methods_delete' method_id=method.id %}"
+                           class="btn-action"
+                           style="background:var(--danger-color);">
+
+
+                            Supprimer
+
+
+                        </a>
+
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+
+            {% empty %}
+
+
+
+                <tr>
+
+
+                    <td colspan="5"
+                        style="text-align:center;padding:30px;">
+
+
+                        Aucune méthode de paiement trouvée.
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+            {% endfor %}
+
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+{% load humanize %}
+
+{% block title %}Documents — Elite Bureau{% endblock %}
+
+{% block page_title %}Documents pédagogiques{% endblock %}
+
+{% block content_area %}
+<div class="content">
+  <div class="section-header">
+    <h2 class="section-title"></h2>
+    <a href="{% url 'dashboard_trainer:add_document' %}" class="section-link" style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; background:var(--gold); color:var(--navy-dark); border-radius:6px; font-weight:600; font-size:13px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un document
+    </a>
+  </div>
+
+  <!-- Filter by formation -->
+  <div class="panel" style="margin-bottom:20px;">
+    <div class="panel-body padded">
+      <form method="get" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <label style="font-size:13px; font-weight:600; color:var(--navy);">Filtrer par formation :</label>
+        <select name="formation" onchange="this.form.submit()" style="padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:13px; background:var(--white); min-width:200px;">
+          <option value="">Toutes les formations</option>
+          {% for f in formations %}
+          <option value="{{ f.id }}" {% if request.GET.formation == f.id|stringformat:"i" %}selected{% endif %}>{{ f.titre }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+  </div>
+
+  <!-- Documents List -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px;">
+    {% for doc in documents %}
+    <div class="panel">
+      <div class="panel-body padded">
+        <div style="display:flex; align-items:flex-start; gap:14px;">
+          <div style="width:44px; height:44px; border-radius:10px; background:var(--info-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--info);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:14px; font-weight:600; color:var(--dark); margin-bottom:2px;">{{ doc.titre }}</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">{{ doc.formation.titre }}</div>
+            {% if doc.description %}
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">{{ doc.description|truncatewords:15 }}</div>
+            {% endif %}
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span style="font-size:11px; color:var(--text-light);">{{ doc.created_at|date:"d M Y" }}</span>
+              {% if doc.fichier %}
+
+              <a href="{{ doc.fichier.url }}"
+                target="_blank"
+                style="font-size:12px; color:var(--gold); font-weight:600;">
+                Télécharger
+              </a>
+
+              <form method="post"
+                    action="{% url 'dashboard_trainer:delete_document' doc.id %}"
+                    style="display:inline;"
+                    onsubmit="return confirm('Voulez-vous supprimer ce document ?');">
+
+                  {% csrf_token %}
+
+                  <button type="submit"
+                          style="
+                          border:none;
+                          background:none;
+                          color:#dc2626;
+                          font-size:12px;
+                          font-weight:600;
+                          cursor:pointer;">
+                      Supprimer
+                  </button>
+
+              </form>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div style="grid-column:1/-1; text-align:center; padding:64px 22px; color:var(--text-muted);">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px; opacity:0.4;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <div style="font-size:15px;">Aucun document pour le moment.</div>
+      <div style="font-size:13px; margin-top:4px;">Ajoutez des documents pédagogiques pour vos formations.</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

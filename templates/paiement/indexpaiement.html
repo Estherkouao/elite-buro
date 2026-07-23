@@ -1,0 +1,883 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement — Elite Bureau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & VARIABLES
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #17325C; --navy-light: #23416F; --gold: #B99646; --gold-light: #d4b36a;
+      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
+      --white: #FFFFFF; --border: #D8D0C2; --success: #2E7D32; --error: #C62828;
+      --warning: #F57F17;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: var(--gold); font-weight: 500; transition: color 0.2s; }
+    a:hover { color: var(--navy); }
+    img { max-width: 100%; height: auto; display: block; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .gold-divider { width: 60px; height: 2px; background: var(--gold); }
+
+    /* HEADER */
+    .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); height: 72px; display: flex; align-items: center; }
+    .header .container { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark { width: 40px; height: 40px; background: var(--navy); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-display); font-weight: 700; font-size: 18px; }
+    .logo-text .name { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: 0.22em; color: var(--navy); }
+    .logo-text .tagline { font-size: 10px; letter-spacing: 0.18em; font-style: italic; color: var(--gold); margin-top: -2px; }
+    .nav { display: flex; align-items: center; gap: 36px; }
+    .nav a { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; color: var(--navy); transition: opacity 0.2s; }
+    .nav a:hover { opacity: 0.6; }
+    .nav a.active { color: var(--gold); }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--navy); transition: transform 0.3s; }
+
+    /* HERO */
+    .hero { min-height: 40vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 72px; background: var(--navy); position: relative; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 30, 60, 0.92), rgba(23, 50, 92, 0.85)); z-index: 1; }
+    .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&q=80') center/cover no-repeat; opacity: 0.25; }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 56px 24px; }
+    .hero-content .gold-divider { margin: 0 auto 28px; }
+    .hero-content h1 { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
+    .hero-content p { font-size: 16px; color: rgba(255,255,255,0.65); font-weight: 300; line-height: 1.7; max-width: 480px; margin: 0 auto; }
+
+    /* PAYMENT PAGE */
+    .payment-page { 
+        padding: 120px 0 80px; 
+        background: var(--ivory); 
+    }
+    .payment-layout { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: flex-start; }
+
+    /* STATUS MESSAGES */
+    .status-message { padding: 16px 24px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; font-weight: 500; }
+    .status-message.success { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+    .status-message.error { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
+    .status-message.warning { background: #FFF8E1; color: #F57F17; border: 1px solid #FFE082; }
+
+    /* LEFT — PAYMENT METHODS */
+    .payment-methods { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }
+    .payment-methods-header { padding: 28px 32px 20px; border-bottom: 1px solid var(--border); }
+    .payment-methods-header h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--navy); }
+    .payment-methods-header p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+    .method-list { padding: 16px 32px; display: flex; flex-direction: column; gap: 0; }
+    .method-item { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: opacity 0.2s; }
+    .method-item:last-child { border-bottom: none; }
+    .method-item:hover { opacity: 0.8; }
+    .method-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color 0.2s; }
+    .method-item.active .method-radio { border-color: var(--navy); }
+    .method-radio-inner { width: 12px; height: 12px; border-radius: 50%; background: var(--navy); opacity: 0; transition: opacity 0.2s; }
+    .method-item.active .method-radio-inner { opacity: 1; }
+    .method-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .method-icon svg { width: 24px; height: 24px; }
+    .method-info { flex: 1; }
+    .method-info .method-name { font-size: 15px; font-weight: 600; color: var(--dark); }
+    .method-info .method-desc { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .method-logos { display: flex; align-items: center; gap: 8px; }
+    .method-badge { width: 40px; height: 26px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; border: 1px solid var(--border); }
+    .method-badge.inactive { opacity: 0.3; }
+
+    /* PAYMENT FORM */
+    .payment-form { padding: 28px 32px 32px; border-top: 1px solid var(--border); display: none; }
+    .payment-form.active { display: block; }
+    .form-section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--dark); margin-bottom: 6px; }
+    .form-group label .required { color: var(--error); }
+    .form-input { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-body); font-size: 14px; color: var(--dark); background: var(--white); transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+    .form-input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(23, 50, 92, 0.08); }
+    .form-input::placeholder { color: rgba(0,0,0,0.3); }
+    .form-input.icon-left { padding-left: 44px; }
+    .form-input.error { border-color: var(--error); }
+    .input-wrapper { position: relative; }
+    .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; opacity: 0.4; }
+    .field-error { font-size: 12px; color: var(--error); margin-top: 4px; display: none; }
+    .field-error.visible { display: block; }
+
+    /* CARD PREVIEW */
+    .card-preview { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); border-radius: 12px; padding: 28px 24px; color: var(--white); margin-bottom: 24px; min-height: 180px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    .card-chip { width: 36px; height: 28px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); border-radius: 6px; margin-bottom: 20px; }
+    .card-number-display { font-size: 20px; letter-spacing: 3px; font-weight: 400; }
+    .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; }
+    .card-holder { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; }
+    .card-holder-name { font-size: 14px; font-weight: 500; letter-spacing: 0.5px; margin-top: 4px; }
+    .card-expiry-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; }
+    .card-expiry-value { font-size: 14px; font-weight: 500; margin-top: 4px; }
+    .card-brand { position: absolute; top: 20px; right: 24px; font-size: 22px; font-weight: 700; color: var(--gold); }
+
+    /* PAY BUTTON */
+    .pay-button { width: 100%; padding: 16px; background: var(--navy); color: var(--white); font-family: var(--font-body); font-size: 15px; font-weight: 600; letter-spacing: 0.06em; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 8px; }
+    .pay-button:hover { background: var(--navy-light); }
+    .pay-button:active { transform: scale(0.98); }
+    .pay-button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .pay-button.loading { position: relative; color: transparent; }
+    .pay-button.loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; transform: translate(-50%, -50%); }
+    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .security-note { display: flex; align-items: center; gap: 10px; padding: 16px 0 0; }
+    .security-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .security-note p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ORDER SUMMARY */
+    .order-summary { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; position: sticky; top: 96px; }
+    .summary-header { padding: 24px 28px 18px; border-bottom: 1px solid var(--border); }
+    .summary-header h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); }
+    .summary-body { padding: 20px 28px; }
+    .summary-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .summary-item:last-child { border-bottom: none; }
+    .summary-thumb { width: 56px; height: 56px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: var(--ivory); }
+    .summary-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .summary-item-info { flex: 1; }
+    .summary-item-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .summary-item-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .summary-item-price { font-size: 15px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .summary-divider { height: 1px; background: var(--border); margin: 4px 0; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+    .summary-row .label { font-size: 14px; color: var(--text-muted); }
+    .summary-row .value { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .summary-total { display: flex; justify-content: space-between; align-items: center; padding: 18px 0 0; margin-top: 8px; border-top: 2px solid var(--navy); }
+    .summary-total .label { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--navy); }
+    .summary-total .value { font-size: 24px; font-weight: 700; color: var(--navy); }
+    .summary-total .currency { font-size: 14px; font-weight: 400; margin-left: 2px; }
+
+    .promo-section { padding: 16px 28px; border-top: 1px solid var(--border); }
+    .promo-input { display: flex; gap: 0; }
+    .promo-input input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 6px 0 0 6px; font-family: var(--font-body); font-size: 13px; outline: none; }
+    .promo-input input:focus { border-color: var(--navy); }
+    .promo-input button { padding: 10px 16px; background: var(--gold); color: var(--navy); font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: none; border-radius: 0 6px 6px 0; cursor: pointer; }
+
+    /* MOBILE MONEY */
+    .mm-operators { display: flex; gap: 12px; margin-bottom: 20px; }
+    .mm-operator { flex: 1; border: 2px solid var(--border); border-radius: 10px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--white); }
+    .mm-operator:hover, .mm-operator.active { border-color: var(--navy); background: rgba(23, 50, 92, 0.03); }
+    .mm-operator-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .mm-operator-color { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: var(--white); }
+    .mm-orange { background: #FF7900; }
+    .mm-mtn { background: #FFCC00; color: #333 !important; }
+    .mm-moov { background: #0073CF; }
+    .mm-wave { background: #1A1AFF; }
+
+    /* BANK TRANSFER */
+    .bank-info { background: var(--ivory); border-radius: 8px; padding: 20px; }
+    .bank-info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .bank-info-row:last-child { border-bottom: none; }
+    .bank-info-row .bank-label { color: var(--text-muted); font-weight: 500; }
+    .bank-info-row .bank-value { font-weight: 600; color: var(--dark); }
+
+    /* STRIPE / PAYPAL SPECIFIC */
+    .stripe-card-element { padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--white); min-height: 44px; }
+    .paypal-button-container { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+
+    /* LOADING OVERLAY */
+    .payment-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; }
+    .payment-overlay.active { display: flex; }
+    .payment-overlay .spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* FOOTER */
+    .footer { background: #111111; padding: 56px 0 40px; }
+    .footer-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand .logo-mark { width: 36px; height: 36px; font-size: 16px; }
+    .footer-brand .footer-name { font-family: var(--font-display); font-size: 16px; letter-spacing: 0.22em; color: var(--white); font-weight: 600; }
+    .footer-brand .footer-tagline { font-size: 10px; letter-spacing: 0.18em; font-style: italic; color: rgba(255,255,255,0.35); margin-top: -2px; }
+    .footer-info { text-align: right; }
+    .footer-info p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; }
+    .footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .payment-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .nav-toggle { display: flex; }
+      .hero { min-height: 32vh; }
+      .hero-content { padding: 36px 24px; }
+      .method-list { padding: 12px 20px; }
+      .payment-methods-header { padding: 20px; }
+      .payment-form { padding: 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .card-number-display { font-size: 16px; }
+      .summary-body { padding: 16px 20px; }
+      .summary-header { padding: 18px 20px; }
+      .footer-top { flex-direction: column; text-align: center; }
+      .footer-info { text-align: center; }
+    }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <button 
+      onclick="history.back()"
+      class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-navy shadow-sm hover:bg-gray-50 transition">
+
+      ← Retour
+
+  </button>
+  
+  </header>
+  
+
+
+
+  <!-- PAYMENT PAGE -->
+  <section class="payment-page">
+    <div class="container">
+      <div class="payment-layout">
+
+        <!-- LEFT: PAYMENT METHODS -->
+        <div class="payment-methods reveal">
+
+          {% if success %}
+          <div class="status-message success">
+            ✅ Paiement réussi ! Votre transaction a été confirmée.
+            {% if transaction %}
+            <br><small>Référence : {{ transaction.transaction_id }}</small>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          {% if cancelled %}
+          <div class="status-message warning">
+            ⚠️ Paiement annulé. Vous pouvez réessayer avec un autre moyen de paiement.
+          </div>
+          {% endif %}
+
+          <div class="payment-methods-header">
+            <h2>Moyen de paiement</h2>
+            <p>Sélectionnez votre méthode de paiement préférée</p>
+          </div>
+
+          <div class="method-list" id="provider-list">
+            {% for provider in providers %}
+            <div class="method-item {% if forloop.first %}active{% endif %}"
+                 data-method="{{ provider.code }}"
+                 data-code="{{ provider.code }}">
+              <div class="method-radio"><div class="method-radio-inner"></div></div>
+              <div class="method-icon" style="background: var(--ivory);">
+
+                {% if provider.code == 'cinetpay' %}
+                <!-- CinetPay -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5">
+                    <rect x="1" y="4" width="22" height="16" rx="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+
+                {% elif provider.code == 'orange' %}
+                <!-- Orange Money -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#FF7900" stroke-width="1.5">
+                    <rect x="5" y="2" width="14" height="20" rx="2"/>
+                    <line x1="12" y1="18" x2="12" y2="18.01"/>
+                </svg>
+
+                {% elif provider.code == 'wave' %}
+                <!-- Wave -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1A1AFF" stroke-width="1.5">
+                    <path d="M3 21h18"/>
+                    <path d="M3 10h18"/>
+                    <path d="M12 3l9 7H3l9-7z"/>
+                </svg>
+
+                {% elif provider.code == 'mtn' %}
+                <!-- MTN Mobile Money -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#FFCC00" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M8 12h8"/>
+                    <path d="M12 8v8"/>
+                </svg>
+
+                {% elif provider.code == 'moov' %}
+                <!-- Moov Money -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M8 12h8"/>
+                    <path d="M12 8l4 4-4 4"/>
+                </svg>
+
+                {% elif provider.code == 'visa' %}
+                <!-- Visa / Mastercard -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F71" stroke-width="1.5">
+                    <rect x="1" y="5" width="22" height="14" rx="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                    <circle cx="9" cy="15" r="1"/>
+                    <circle cx="15" cy="15" r="1"/>
+                </svg>
+
+                {% elif provider.code == 'stripe' %}
+                <!-- Stripe -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#6772E5" stroke-width="1.5">
+                    <rect x="1" y="4" width="22" height="16" rx="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+
+                {% elif provider.code == 'paypal' %}
+                <!-- PayPal -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="#003087" stroke-width="1.5">
+                    <path d="M7 11l1-5h8c2 0 4 1 4 4s-2 4-4 4h-3l-1 5"/>
+                </svg>
+
+                {% elif provider.code == 'manual' %}
+                <!-- Paiement manuel -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5">
+                    <path d="M12 1v22"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7"/>
+                </svg>
+
+                {% else %}
+                <!-- Autre -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M6 12h.01M18 12h.01"/>
+                </svg>
+
+                {% endif %}
+
+            </div>
+              <div class="method-info">
+                <div class="method-name">{{ provider.name }}</div>
+                <div class="method-desc">{{ provider.description|default:'' }}</div>
+              </div>
+              <div class="method-logos">
+                <div class="method-badge" style="background:var(--navy);color:#fff;border-color:var(--navy);">
+                  {{ provider.code|upper|slice:":4" }}
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <div style="padding: 24px; text-align: center; color: var(--text-muted);">
+              Aucun moyen de paiement disponible pour le moment.
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- DYNAMIC PAYMENT FORM -->
+          <div class="payment-form active" id="dynamic-payment-form">
+            <div class="form-section-title" id="form-title">Détails du paiement</div>
+
+            <form id="payment-form" onsubmit="return submitPayment(event)">
+              {% csrf_token %}
+              <input type="hidden" name="provider_code" id="provider-code" value="{{ providers.first.code|default:'' }}" />
+              <input type="hidden" name="amount" value="{{ amount }}" />
+              <input type="hidden" name="currency" value="XOF" />
+
+              <!-- PHONE NUMBER (for mobile money) -->
+              <div class="form-group" id="phone-group">
+                <label>Numéro de téléphone <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+                  <input type="tel" name="phone_number" class="form-input icon-left" placeholder="+225 07 00 00 00 00" />
+                </div>
+                <div class="field-error" id="phone-error">Veuillez entrer un numéro de téléphone valide</div>
+              </div>
+
+              <!-- EMAIL -->
+              <div class="form-group">
+                <label>Adresse email <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <input type="email" name="email" class="form-input icon-left" placeholder="vous@email.com" />
+                </div>
+              </div>
+
+              <!-- STRIPE CARD ELEMENT -->
+              <div id="stripe-card-group" style="display:none;">
+                <div class="form-group">
+                  <label>Numéro de carte <span class="required">*</span></label>
+                  <div class="stripe-card-element" id="stripe-card-element">
+                    <!-- Stripe Elements will mount here -->
+                  </div>
+                  <div class="field-error" id="stripe-error"></div>
+                </div>
+              </div>
+
+              <div class="security-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <p>Votre transaction est sécurisée. Les données bancaires sont cryptées et jamais stockées.</p>
+              </div>
+
+              <button type="submit" class="pay-button" id="submit-btn">
+                Payer {{ amount }} FCFA
+              </button>
+            </form>
+
+            <div id="paypal-button-container" style="display:none; margin-top: 16px;"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: ORDER SUMMARY -->
+        <div class="order-summary reveal">
+          <div class="summary-header">
+            <h3>Résumé de votre commande</h3>
+          </div>
+          <div class="summary-body">
+            <div class="summary-item">
+              <div class="summary-thumb">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=120&q=80" alt="Bureau privatif" />
+              </div>
+              <div class="summary-item-info">
+                <div class="summary-item-name">{{ description|default:"Bureau privatif" }}</div>
+                <div class="summary-item-desc">Réservation Elite Buro</div>
+              </div>
+              <div class="summary-item-price">{{ amount }} F</div>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row">
+              <span class="label">Sous-total</span>
+              <span class="value">{{ amount }} FCFA</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Frais de service</span>
+              <span class="value">0 FCFA</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">TVA (18%)</span>
+              <span class="value" style="color: var(--success);">Incluse</span>
+            </div>
+            <div class="summary-total">
+              <span class="label">Total</span>
+              <span class="value">{{ amount }}<span class="currency">FCFA</span></span>
+            </div>
+          </div>
+          <div class="promo-section">
+            <div class="promo-input">
+              <input type="text" placeholder="Code promo" />
+              <button>Appliquer</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PAYMENT OVERLAY -->
+  <div class="payment-overlay" id="payment-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  
+  <script>
+    /* ═══════════════════════════════════════════
+       PROVIDER CONFIGURATION
+       ═══════════════════════════════════════════ */
+    const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    const AMOUNT = parseFloat('{{ amount|default:"0" }}') || 125000;
+    const CURRENCY = 'XOF';
+    const RESERVATION_ID = '{{ reservation_id|default:"" }}';
+    const INSCRIPTION_ID = '{{ inscription_id|default:"" }}';
+    const PROVIDERS = {
+      {% for p in providers %}
+      '{{ p.code }}': {
+        name: '{{ p.name }}',
+        code: '{{ p.code }}',
+        sandbox: {{ p.sandbox_mode|lower }},
+      },
+      {% endfor %}
+    };
+
+    // Stripe config loaded lazily
+    let stripeInstance = null;
+    let stripeElements = null;
+    let stripeCard = null;
+
+    /* ═══════════════════════════════════════════
+       METHOD SELECTION
+       ═══════════════════════════════════════════ */
+    const methodItems = document.querySelectorAll('.method-item');
+    const currentForm = document.getElementById('dynamic-payment-form');
+    const providerCodeInput = document.getElementById('provider-code');
+    const submitBtn = document.getElementById('submit-btn');
+    const phoneGroup = document.getElementById('phone-group');
+    const stripeCardGroup = document.getElementById('stripe-card-group');
+    const paypalContainer = document.getElementById('paypal-button-container');
+
+    function updateForm(code) {
+      providerCodeInput.value = code;
+
+      // Show/hide phone field
+      const needsPhone = ['orange', 'wave', 'cinetpay', 'moov'].includes(code);
+      phoneGroup.style.display = needsPhone ? 'block' : 'none';
+
+      // Show/hide Stripe card
+      const needsStripe = code === 'stripe';
+      stripeCardGroup.style.display = needsStripe ? 'block' : 'none';
+
+      // Show/hide PayPal button
+      const needsPaypal = code === 'paypal';
+      paypalContainer.style.display = needsPaypal ? 'block' : 'none';
+      submitBtn.style.display = needsPaypal ? 'none' : 'block';
+
+      // Update button text
+      const providerName = PROVIDERS[code]?.name || code;
+      submitBtn.textContent = `Payer ${AMOUNT.toLocaleString()} FCFA via ${providerName}`;
+
+      // Load Stripe if needed
+      if (needsStripe) loadStripe();
+
+      // Load PayPal if needed
+      if (needsPaypal) loadPayPal();
+    }
+
+    methodItems.forEach(item => {
+      item.addEventListener('click', function() {
+        methodItems.forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+        updateForm(this.dataset.code);
+      });
+    });
+
+    // Init with first provider
+    if (methodItems.length > 0) {
+      updateForm(methodItems[0].dataset.code);
+    }
+
+    /* ═══════════════════════════════════════════
+       PAYMENT SUBMISSION
+       ═══════════════════════════════════════════ */
+    async function submitPayment(event) {
+      event.preventDefault();
+      const code = providerCodeInput.value;
+      const phone = document.querySelector('[name=phone_number]')?.value || '';
+      const email = document.querySelector('[name=email]')?.value || '';
+
+      // Validation
+      const needsPhone = ['orange', 'wave', 'cinetpay', 'moov'].includes(code);
+      if (needsPhone && !phone.trim()) {
+        document.getElementById('phone-error').classList.add('visible');
+        return false;
+      }
+      document.getElementById('phone-error').classList.remove('visible');
+
+      // Stripe payment
+      if (code === 'stripe') {
+        return processStripePayment(email);
+      }
+
+      // Show loading
+      setLoading(true);
+
+      try {
+        const payload = {
+          provider_code: code,
+          amount: AMOUNT,
+          currency: CURRENCY,
+          phone_number: phone,
+          email: email,
+          description: 'Paiement Elite Buro',
+        };
+        if (RESERVATION_ID) {
+          payload.reservation_id = RESERVATION_ID;
+        }
+        if (INSCRIPTION_ID) {
+          payload.inscription_id = INSCRIPTION_ID;
+        }
+
+        const response = await fetch('/paiement/process/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': CSRF_TOKEN,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Redirect to payment URL if provided
+          if (result.payment_url) {
+            // Add reservation_id to the redirect URL
+            const separator = result.payment_url.includes('?') ? '&' : '?';
+            const redirectUrl = RESERVATION_ID
+              ? `${result.payment_url}${separator}reservation_id=${RESERVATION_ID}`
+              : result.payment_url;
+            window.location.href = redirectUrl;
+          } else if (result.approval_url) {
+            const separator = result.approval_url.includes('?') ? '&' : '?';
+            const redirectUrl = RESERVATION_ID
+              ? `${result.approval_url}${separator}reservation_id=${RESERVATION_ID}`
+              : result.approval_url;
+            window.location.href = redirectUrl;
+          } else {
+            // Success without redirect - if we have a reservation or inscription, go to success page
+            if (RESERVATION_ID) {
+              window.location.href = `/paiement/success/?reservation_id=${RESERVATION_ID}`;
+            } else if (INSCRIPTION_ID) {
+              window.location.href = `/paiement/success/?inscription_id=${INSCRIPTION_ID}`;
+            } else {
+              showSuccess('Paiement réussi !');
+            }
+          }
+        } else {
+          showError(result.error || result.error_message || 'Erreur de paiement');
+        }
+      } catch (err) {
+        showError('Erreur réseau: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+
+      return false;
+    }
+
+    /* ═══════════════════════════════════════════
+       STRIPE INTEGRATION
+       ═══════════════════════════════════════════ */
+    async function loadStripe() {
+      if (stripeInstance) return;
+
+      try {
+        // Get Stripe publishable key from our config endpoint
+        const resp = await fetch('/paiement/config/stripe/');
+        const data = await resp.json();
+        const publishableKey = data.config?.publishable_key;
+
+        if (!publishableKey) {
+          console.warn('Stripe non configuré (clé manquante)');
+          return;
+        }
+
+        // Load Stripe.js dynamically
+        const script = document.createElement('script');
+        script.src = 'https://js.stripe.com/v3/';
+        script.onload = () => {
+          stripeInstance = Stripe(publishableKey);
+          stripeElements = stripeInstance.elements();
+          stripeCard = stripeElements.create('card', {
+            style: {
+              base: {
+                fontSize: '16px',
+                fontFamily: '"Source Sans 3", sans-serif',
+                color: '#1C1C1C',
+                '::placeholder': { color: '#aaa' },
+              },
+            },
+          });
+          stripeCard.mount('#stripe-card-element');
+
+          stripeCard.on('change', (event) => {
+            const errorEl = document.getElementById('stripe-error');
+            if (event.error) {
+              errorEl.textContent = event.error.message;
+              errorEl.classList.add('visible');
+            } else {
+              errorEl.textContent = '';
+              errorEl.classList.remove('visible');
+            }
+          });
+        };
+        document.body.appendChild(script);
+      } catch (err) {
+        console.warn('Erreur chargement Stripe:', err);
+      }
+    }
+
+    async function processStripePayment(email) {
+      if (!stripeCard) {
+        showError('Stripe n\'est pas encore chargé');
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        // Create payment intent on server
+        const resp = await fetch('/paiement/process/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': CSRF_TOKEN,
+          },
+          body: JSON.stringify({
+            provider_code: 'stripe',
+            amount: AMOUNT,
+            currency: CURRENCY,
+            email: email,
+            description: 'Paiement Elite Buro',
+          }),
+        });
+
+        const result = await resp.json();
+
+        if (!result.success) {
+          showError(result.error || result.error_message || 'Erreur Stripe');
+          setLoading(false);
+          return;
+        }
+
+        // Confirm payment with Stripe.js
+        const { error, paymentIntent } = await stripeInstance.confirmCardPayment(
+          result.client_secret,
+          {
+            payment_method: { card: stripeCard },
+            receipt_email: email,
+          }
+        );
+
+        if (error) {
+          showError(error.message);
+          setLoading(false);
+        } else if (paymentIntent.status === 'succeeded') {
+          showSuccess('Paiement réussi !');
+        }
+      } catch (err) {
+        showError('Erreur: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       PAYPAL INTEGRATION
+       ═══════════════════════════════════════════ */
+    async function loadPayPal() {
+      if (document.getElementById('paypal-sdk-loaded')) return;
+
+      try {
+        const resp = await fetch('/paiement/config/paypal/');
+        const data = await resp.json();
+        const clientId = data.config?.client_id;
+
+        if (!clientId) {
+          console.warn('PayPal non configuré (client_id manquant)');
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.id = 'paypal-sdk-loaded';
+        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=EUR`;
+        script.onload = () => renderPayPalButtons();
+        document.body.appendChild(script);
+      } catch (err) {
+        console.warn('Erreur chargement PayPal:', err);
+      }
+    }
+
+    function renderPayPalButtons() {
+      paypal.Buttons({
+        createOrder: async () => {
+          const resp = await fetch('/paiement/process/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': CSRF_TOKEN,
+            },
+            body: JSON.stringify({
+              provider_code: 'paypal',
+              amount: AMOUNT,
+              currency: 'XOF',
+              email: document.querySelector('[name=email]')?.value || '',
+              description: 'Paiement Elite Buro',
+            }),
+          });
+          const data = await resp.json();
+          return data.provider_data?.id || data.order_id;
+        },
+        onApprove: async (data) => {
+          setLoading(true);
+          try {
+            const verifyResp = await fetch(`/paiement/config/paypal/`, {
+              method: 'GET',
+            });
+            showSuccess('Paiement PayPal réussi !');
+          } catch (err) {
+            showError('Erreur PayPal: ' + err.message);
+          }
+          setLoading(false);
+        },
+        onError: (err) => {
+          showError('Erreur PayPal: ' + err.toString());
+        },
+      }).render('#paypal-button-container');
+    }
+
+    /* ═══════════════════════════════════════════
+       UI HELPERS
+       ═══════════════════════════════════════════ */
+    function setLoading(loading) {
+      const overlay = document.getElementById('payment-overlay');
+      const btn = document.getElementById('submit-btn');
+      if (loading) {
+        overlay.classList.add('active');
+        btn.disabled = true;
+        btn.classList.add('loading');
+      } else {
+        overlay.classList.remove('active');
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
+    }
+
+    function showSuccess(msg) {
+      const container = document.querySelector('.payment-methods');
+      const existing = container.querySelector('.status-message');
+      if (existing) existing.remove();
+      const div = document.createElement('div');
+      div.className = 'status-message success';
+      div.innerHTML = '✅ ' + msg;
+      container.insertBefore(div, container.firstChild);
+      div.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showError(msg) {
+      const container = document.querySelector('.payment-methods');
+      const existing = container.querySelector('.status-message');
+      if (existing) existing.remove();
+      const div = document.createElement('div');
+      div.className = 'status-message error';
+      div.innerHTML = '❌ ' + msg;
+      container.insertBefore(div, container.firstChild);
+      div.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* ═══════════════════════════════════════════
+       INTERSECTION OBSERVER
+       ═══════════════════════════════════════════ */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ═══════════════════════════════════════════
+       MOBILE MENU
+       ═══════════════════════════════════════════ */
+    document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+      const nav = document.querySelector('.nav');
+      if (nav.style.display === 'flex') { nav.style.display = 'none'; }
+      else {
+        nav.style.display = 'flex'; nav.style.flexDirection = 'column';
+        nav.style.position = 'absolute'; nav.style.top = '72px'; nav.style.right = '24px';
+        nav.style.background = 'white'; nav.style.padding = '24px'; nav.style.borderRadius = '8px';
+        nav.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)'; nav.style.gap = '20px';
+      }
+    });
+  </script>
+
+</body>
+</html>
+

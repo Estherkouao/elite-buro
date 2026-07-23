@@ -1,0 +1,113 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer équipement | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="admin-page-title">
+
+    <h1>Créer un équipement</h1>
+
+    <p>
+        Projecteur, écran, WiFi, etc.
+    </p>
+
+</div>
+
+
+
+<div class="admin-form-card">
+
+
+<form method="post">
+
+{% csrf_token %}
+
+
+
+<div class="admin-form-grid">
+
+
+    <!-- NOM -->
+    <div class="admin-form-group">
+
+        <label>Nom</label>
+
+        {{ form.nom }}
+
+        {% if form.nom.errors %}
+
+            <div class="form-error">
+                {{ form.nom.errors }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+
+
+    <!-- SLUG -->
+    <div class="admin-form-group">
+
+        <label>Slug</label>
+
+        {{ form.slug }}
+
+        {% if form.slug.errors %}
+
+            <div class="form-error">
+                {{ form.slug.errors }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="admin-form-actions">
+
+
+    <button type="submit" class="btn-admin-primary">
+
+        Créer
+
+    </button>
+
+
+
+    <a href="{% url 'dashboard_admin:coworking' %}"
+       class="btn-admin-secondary">
+
+        Annuler
+
+    </a>
+
+
+
+</div>
+
+
+
+
+
+</form>
+
+
+</div>
+
+
+
+{% endblock %}œ

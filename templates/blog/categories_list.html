@@ -1,0 +1,49 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Catégories blog | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <div>
+    <h2>Catégories blog</h2>
+    <p style="color:#666;">Gérer les catégories utilisées dans le blog.</p>
+  </div>
+
+  <div style="margin-left:auto; display:flex; gap:10px;">
+    <a class="btn-admin-primary" href="{% url 'blog:category_create' %}">Créer</a>
+  </div>
+</div>
+
+<div class="admin-table-card">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Slug</th>
+        <th>Créé</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+      <tr>
+        <td>{{ category.name }}</td>
+        <td>{{ category.slug }}</td>
+        <td>{{ category.created_at|date:'d/m/Y' }}</td>
+        <td>
+          <div class="admin-actions">
+            <a class="btn-admin-secondary" href="{% url 'blog:category_edit' category.id %}">Modifier</a>
+            <a class="btn-admin-danger" href="{% url 'blog:category_delete' category.id %}">Supprimer</a>
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4">Aucune catégorie.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

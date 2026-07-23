@@ -1,0 +1,27 @@
+conbine{% extends 'layouts/base_public.html' %}
+{% extends 'dashboard/base_member.html' %}
+
+{% block title %}Calendrier disponibilités | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <div class="flex items-start justify-between gap-4 flex-wrap">
+    <div>
+      <h1 class="font-display text-3xl font-bold">Calendrier</h1>
+      <p class="mt-2 text-sm text-gray-600">Visualisez la disponibilité de votre espace.</p>
+    </div>
+    <a href="{% url 'reservation:list' %}" class="inline-flex items-center rounded-xl border border-navy/20 px-4 py-2 font-semibold text-navy hover:bg-navy/5 transition">Retour</a>
+  </div>
+
+  {% if error %}
+    <div class="mt-4 rounded-xl border border-red/20 bg-red/5 p-4 text-red-700 text-sm">{{ error }}</div>
+  {% endif %}
+
+  <div class="mt-6 rounded-2xl border border-navy/10 bg-white shadow-sm p-6">
+    <div class="text-sm text-gray-600">Zone calendrier (version initiale). Les disponibilités interactives arrivent ensuite.</div>
+    <div class="mt-2 text-sm text-gray-600">Espace : <span class="font-semibold">{{ espace_id }}</span></div>
+    <div class="mt-2 text-sm text-gray-600">Date début : <span class="font-semibold">{{ from }}</span></div>
+  </div>
+</div>
+{% endblock %}
+

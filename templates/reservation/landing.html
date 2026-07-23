@@ -1,0 +1,416 @@
+{% extends "layouts/base_public_landing.html" %}
+{% load static %}
+
+{% block title %}Réserver un espace | EliteBuro{% endblock %}
+
+{% block content %}
+<!-- 
+    EliteBuro - Landing Page de Réservation
+    Fichier : templates/reservation/landing.html
+    Style : Premium, Professionnel, Moderne
+    Couleurs : #0D2B55 (Bleu Marine), #C9A02C (Doré), #FAFAF7 (Crème)
+-->
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+    :root {
+        --elite-navy: #0D2B55;
+        --elite-gold: #C9A02C;
+        --elite-cream: #FAFAF7;
+        --elite-text: #1F2937;
+    }
+
+    body {
+        font-family: 'Inter', 'DM Sans', sans-serif;
+        background-color: var(--elite-cream);
+        color: var(--elite-text);
+    }
+
+    .font-playfair {
+        font-family: 'Playfair Display', serif;
+    }
+
+    .bg-elite-navy { background-color: var(--elite-navy); }
+    .text-elite-navy { color: var(--elite-navy); }
+    .bg-elite-gold { background-color: var(--elite-gold); }
+    .text-elite-gold { color: var(--elite-gold); }
+    .border-elite-gold { border-color: var(--elite-gold); }
+    
+    .btn-gold {
+        background-color: var(--elite-gold);
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+        background-color: #b08c26;
+        transform: translateY(-2px);
+    }
+
+    .hero-overlay {
+        background: linear-gradient(rgba(13, 43, 85, 0.7), rgba(13, 43, 85, 0.7));
+    }
+
+    .card-premium {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-premium:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .timeline-step::after {
+        content: '';
+        position: absolute;
+        top: 1.5rem;
+        left: 50%;
+        width: 100%;
+        height: 2px;
+        background-color: var(--elite-gold);
+        z-index: 0;
+    }
+    .timeline-step:last-child::after { display: none; }
+        .hero-title {
+        color: #C9A02C;
+        text-shadow: 0 4px 15px rgba(0,0,0,.5);
+        }
+
+        .hero-text {
+            color: rgba(255,255,255,.9);
+        }
+</style>
+
+<!-- 2) HERO SECTION -->
+<section class="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-elite-navy">
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000" alt="" class="w-full h-full object-cover opacity-30">
+    </div>
+    <div class="absolute inset-0 bg-elite-navy/60"></div>
+
+    <div class="container mx-auto px-6 relative z-10 text-center text-elite-gold">
+        <h1 class="hero-title text-4xl md:text-6xl font-playfair font-bold mb-6 leading-tight">
+            Réservez votre espace professionnel <br class="hidden md:block">
+            en toute simplicité
+        </h1>
+       <p class="hero-text text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+            Bureaux privés, Hot Desks, salles de réunion, formations et conférences disponibles en temps réel.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{% url 'reservation:create' %}" class="btn-gold px-8 py-4 rounded-full font-semibold text-lg inline-block">
+                Réserver maintenant
+            </a>
+            <a href="#nos-espaces" class="bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 px-8 py-4 rounded-full font-semibold text-lg transition-all inline-block">
+                Voir les espaces
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 3) BARRE DE RECHERCHE DE DISPONIBILITÉ -->
+<section class="relative z-20 -mt-16 container mx-auto px-6">
+    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-2xl">
+        <form action="{% url 'reservation:search' %}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Type d'espace</label>
+                <select name="type_reservation" class="w-full border-gray-200 rounded-lg focus:ring-elite-gold focus:border-elite-gold p-3 bg-gray-50">
+                    <option value="">Tous les types</option>
+                    <option value="private_office">Bureau privé</option>
+                    <option value="hot_desk">Hot Desk</option>
+                    <option value="meeting_room">Salle de réunion</option>
+                    <option value="training_room">Salle de formation</option>
+                    <option value="conference_room">Salle de conférence</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Date</label>
+                <input type="date" name="date" class="w-full border-gray-200 rounded-lg focus:ring-elite-gold focus:border-elite-gold p-3 bg-gray-50">
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Heure</label>
+                <input type="time" name="heure" class="w-full border-gray-200 rounded-lg focus:ring-elite-gold focus:border-elite-gold p-3 bg-gray-50">
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Personnes</label>
+                <input type="number" name="capacite" placeholder="1" min="1" class="w-full border-gray-200 rounded-lg focus:ring-elite-gold focus:border-elite-gold p-3 bg-gray-50">
+            </div>
+            <button type="submit" class="btn-gold w-full py-4 rounded-lg font-bold">
+                Rechercher
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- 4) SECTION "NOS ESPACES" -->
+<section id="nos-espaces" class="py-24 container mx-auto px-6">
+    <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Nos Espaces</h2>
+        <div class="w-20 h-1 bg-elite-gold mx-auto"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        {% for space in categories %}
+        <div class="card-premium overflow-hidden flex flex-col">
+            <div class="h-48 overflow-hidden">
+                {% if space.image %}
+                <img src="{{ space.image.url }}"
+                    alt="{{ space.nom }}"
+                    class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+            {% else %}
+                <img src="{% static 'images/default-space.jpg' %}"
+                    alt="{{ space.nom }}"
+                    class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+            {% endif %}
+            </div>
+            <div class="p-5 flex-grow flex flex-col">
+                <h3 class="text-xl font-bold text-elite-navy mb-2">{{ space.nom }}</h3>
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ space.description|default:"Espace professionnel haut de gamme" }}</p>
+                <div class="mt-auto pt-4 border-t border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs text-gray-500">{{ space.workspaces.count }} espace(s)</span>
+                        <span class="text-elite-gold font-bold">{{ space.workspaces.first.prix_journee|floatformat:0|default:"—" }} F/j</span>
+                    </div>
+                    <a href="{% url 'reservation:create' %}?categorie={{ space.slug }}" class="block text-center py-2 border border-elite-gold text-elite-gold hover:bg-elite-gold hover:text-white rounded transition-colors font-semibold">
+                        Réserver
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <!-- Fallback if no categories provided -->
+        <p class="col-span-full text-center text-gray-500 italic">Découvrez nos espaces exclusifs prochainement.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- 5) SECTION "POURQUOI CHOISIR ELITEBURO ?" -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Pourquoi choisir EliteBuro ?</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">L'excellence au service de votre productivité avec des équipements de pointe.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for advantage in advantages %}
+            <div class="p-8 border border-gray-100 rounded-2xl hover:border-elite-gold transition-colors group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform inline-block">{{ advantage.icon }}</div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">{{ advantage.title }}</h3>
+                <p class="text-gray-600">{{ advantage.description }}</p>
+            </div>
+            {% empty %}
+            <!-- Default values as per requirements -->
+            <div class="p-8 border border-gray-100 rounded-2xl">
+                <div class="text-4xl mb-4">📶</div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">Wi-Fi Haut Débit</h3>
+                <p class="text-gray-600">Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
+            </div>
+            <div class="p-8 border border-gray-100 rounded-2xl">
+                <div class="text-4xl mb-4">❄️</div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">Climatisation</h3>
+                <p class="text-gray-600">Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
+            </div>
+            <div class="p-8 border border-gray-100 rounded-2xl">
+                <div class="text-4xl mb-4">☕</div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">Café offert</h3>
+                <p class="text-gray-600">Une sélection de cafés et thés premium en libre-service pour nos membres.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 6) SECTION "COMMENT ÇA FONCTIONNE" -->
+<section class="py-24 overflow-hidden" style="background-color: var(--elite-cream);">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-20">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Comment ça fonctionne</h2>
+            <p class="text-gray-600">Réservez votre espace en moins de 2 minutes.</p>
+        </div>
+
+        <div class="relative flex flex-col md:flex-row justify-between items-start gap-12 md:gap-4">
+            <!-- Steps -->
+            <div class="timeline-step relative z-10 flex flex-col items-center text-center flex-1">
+                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 shadow-lg">1</div>
+                <h4 class="font-bold text-elite-navy mb-2">Choisir un espace</h4>
+                <p class="text-sm text-gray-600">Sélectionnez le type de bureau adapté.</p>
+            </div>
+            <div class="timeline-step relative z-10 flex flex-col items-center text-center flex-1">
+                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 shadow-lg">2</div>
+                <h4 class="font-bold text-elite-navy mb-2">Sélectionner la date</h4>
+                <p class="text-sm text-gray-600">Vérifiez les disponibilités en temps réel.</p>
+            </div>
+            <div class="timeline-step relative z-10 flex flex-col items-center text-center flex-1">
+                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 shadow-lg">3</div>
+                <h4 class="font-bold text-elite-navy mb-2">Confirmer</h4>
+                <p class="text-sm text-gray-600">Validez les détails de votre réservation.</p>
+            </div>
+            <div class="timeline-step relative z-10 flex flex-col items-center text-center flex-1">
+                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 shadow-lg">4</div>
+                <h4 class="font-bold text-elite-navy mb-2">Paiement</h4>
+                <p class="text-sm text-gray-600">Effectuez le règlement sécurisé.</p>
+            </div>
+            <div class="timeline-step relative z-10 flex flex-col items-center text-center flex-1">
+                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl mb-4 shadow-lg">5</div>
+                <h4 class="font-bold text-elite-navy mb-2">Confirmation</h4>
+                <p class="text-sm text-gray-600">Recevez votre accès par email.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7) SECTION "ESPACES POPULAIRES" -->
+<section class="py-24 container mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Espaces Populaires</h2>
+            <p class="text-gray-600">Les lieux les plus prisés par notre communauté.</p>
+        </div>
+        <a href="{% url 'coworking:workspace_list' %}" class="text-elite-gold font-bold flex items-center gap-2 hover:gap-4 transition-all mt-4 md:mt-0">
+            Voir tout le catalogue <span>→</span>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for space in popular_spaces %}
+        <div class="card-premium overflow-hidden group">
+            <div class="relative h-64 overflow-hidden">
+                {% if space.image_principale %}
+                    <img src="{{ space.image_principale.url }}"
+                         alt="{{ space.nom }}"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                {% else %}
+                    <img src="{% static 'images/default-space.jpg' %}"
+                         alt="{{ space.nom }}"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                {% endif %}
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-elite-navy">
+                    {{ space.categorie.nom }}
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-elite-navy">{{ space.nom }}</h3>
+                    <span class="text-elite-gold font-bold">{{ space.prix_journee|floatformat:0 }} F/j</span>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-gray-500 mb-6">
+                    <span class="flex items-center gap-1">👥 {{ space.capacite }} pers.</span>
+                    <span class="flex items-center gap-1">📐 {{ space.superficie }} m²</span>
+                </div>
+                <a href="{% url 'reservation:create' %}?espace={{ space.slug }}" class="btn-gold block text-center py-3 rounded-lg font-bold">
+                    Réserver cet espace
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <!-- Mockup popular space if empty -->
+        <div class="card-premium overflow-hidden group opacity-50">
+            <div class="h-64 bg-gray-200 flex items-center justify-center text-gray-400">Image Espace</div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-elite-navy">Espace Signature</h3>
+                <p class="text-gray-500 text-sm mt-2 italic">Aucun espace populaire pour le moment.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- 8) SECTION "TÉMOIGNAGES" -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Ils nous font confiance</h2>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            <!-- Slider Structure -->
+            <div class="relative">
+                {% for testimonial in testimonials %}
+                <div class="testimonial-slide {% if not forloop.first %}hidden{% endif %}">
+                    <div class="flex flex-col items-center text-center">
+                        <img src="{{ testimonial.photo_url|default:'https://i.pravatar.cc/150?img=1' }}" alt="{{ testimonial.name }}" class="w-24 h-24 rounded-full border-4 border-elite-gold mb-6 object-cover">
+                        <div class="flex gap-1 mb-4">
+                            <span class="text-elite-gold">★★★★★</span>
+                        </div>
+                        <p class="text-xl italic text-gray-700 mb-8 leading-relaxed">
+                            "{{ testimonial.comment }}"
+                        </p>
+                        <h4 class="font-bold text-elite-navy text-lg">{{ testimonial.name }}</h4>
+                        <p class="text-gray-500">{{ testimonial.company }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-10 text-gray-400 italic">Découvrez bientôt les avis de nos clients.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 9) SECTION STATISTIQUES -->
+<section class="py-20 bg-elite-navy text-white">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+            <div class="space-y-2">
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="500">500+</div>
+                <p class="text-gray-300 uppercase tracking-widest text-sm">Réservations</p>
+            </div>
+            <div class="space-y-2">
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="120">120+</div>
+                <p class="text-gray-300 uppercase tracking-widest text-sm">Entreprises</p>
+            </div>
+            <div class="space-y-2">
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="98">98%</div>
+                <p class="text-gray-300 uppercase tracking-widest text-sm">Clients satisfaits</p>
+            </div>
+            <div class="space-y-2">
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="15">15</div>
+                <p class="text-gray-300 uppercase tracking-widest text-sm">Espaces disponibles</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 10) SECTION CTA FINAL -->
+<section class="py-24 bg-elite-navy/95 relative overflow-hidden">
+   <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=2000" 
+         alt="" 
+         class="w-full h-full object-cover opacity-20">
+</div>
+
+<div class="absolute inset-0 bg-elite-navy/80"></div>
+    <div class="container mx-auto px-6 relative z-10 text-center">
+        <h2 class="text-3xl md:text-5xl font-playfair font-bold text-elite-gold mb-8">
+            Prêt à réserver votre espace ?
+        </h2>
+        <p class="text-elite-navy mb-12 max-w-xl mx-auto font-medium">
+    Rejoignez la communauté EliteBuro et profitez d'un cadre de travail exceptionnel dès aujourd'hui.
+</p>
+        <a href="{% url 'reservation:create' %}" class="btn-gold px-12 py-5 rounded-full font-bold text-xl inline-block">
+            Réserver maintenant
+        </a>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+// Simple testimonial slider
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.testimonial-slide');
+    if (slides.length > 1) {
+        let current = 0;
+        setInterval(function() {
+            slides[current].classList.add('hidden');
+            current = (current + 1) % slides.length;
+            slides[current].classList.remove('hidden');
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}
+
+{% endblock %}
+

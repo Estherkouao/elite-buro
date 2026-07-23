@@ -1,0 +1,151 @@
+<header class="fixed top-0 left-0 w-full z-50 bg-[#0D2B55] shadow-xl">
+
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+        <!-- LOGO -->
+        <div>
+            <h1 class="text-2xl font-black text-[#C9A02C]">
+                EliteBuro
+            </h1>
+
+            <p class="text-xs text-white">
+                Mon Espace
+            </p>
+        </div>
+
+
+        <!-- NAVIGATION -->
+        <nav class="flex gap-6">
+
+            <a href="{% url 'accounts:dashboard' %}"
+               class="text-white font-semibold hover:text-[#C9A02C] transition">
+                Dashboard
+            </a>
+
+            <a href="{% url 'reservation:list' %}"
+               class="text-white font-semibold hover:text-[#C9A02C] transition">
+                Réservations
+            </a>
+
+            <a href="{% url 'formation:my_courses' %}"
+               class="text-white font-semibold hover:text-[#C9A02C] transition">
+                Formations
+            </a>
+
+            <a href="{% url 'dashboard_admin:payments' %}"
+               class="text-white font-semibold hover:text-[#C9A02C] transition">
+                Factures
+            </a>
+
+
+            <a href="{% url 'reclamation:member_list' %}"
+               class="text-white font-semibold hover:text-[#C9A02C] transition">
+                Réclamations
+            </a>
+
+
+            <a href="{% url 'domiciliation:history_list' %}"
+               class="text-white font-semibold hover:text-[#C9A02C] transition">
+                Domiciliation
+            </a>
+
+
+        </nav>
+
+
+        <!-- ACTIONS -->
+<div class="flex items-center gap-4">
+
+
+    <!-- NOTIFICATION -->
+    <button class="relative text-white text-xl">
+
+        🔔
+
+        <span class="absolute -top-2 -right-2 bg-[#C9A02C] text-[#0D2B55] text-xs font-bold rounded-full px-2">
+            3
+        </span>
+
+    </button>
+
+
+
+    <!-- PROFIL -->
+    <div class="relative group">
+
+        <button
+            class="bg-[#C9A02C] text-[#0D2B55] w-10 h-10 rounded-full flex items-center justify-center font-bold">
+
+            👤
+
+        </button>
+
+
+
+        <!-- MENU -->
+        <div class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl 
+                    opacity-0 invisible group-hover:opacity-100 
+                    group-hover:visible transition duration-200 overflow-hidden">
+
+
+            <a href="{% url 'accounts:profile' %}"
+               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+
+                👤 Mes informations
+
+            </a>
+
+            <a href="{% url 'formation:my_courses' %}"
+               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+
+                📚 Mes formations
+
+            </a>
+
+            <a href="#"
+               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+
+                ⚙️ Paramètres
+
+            </a>
+
+
+
+            <a href="#"
+               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+
+                ❓ Aide & Support
+
+            </a>
+
+
+
+            <hr>
+
+
+
+            <a href="{% url 'accounts:logout' %}"
+               class="block px-5 py-3 text-red-600 font-semibold hover:bg-red-50">
+
+                🚪 Déconnexion
+
+            </a>
+            <a href="{% url 'paiement:index' %}"
+               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+
+                💳 Paiement
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+    </div>
+
+</header>

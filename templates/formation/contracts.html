@@ -1,0 +1,30 @@
+{% extends "dashboard/base_member.html" %}
+
+{% block title %}Mes contrats | ELITEBURO{% endblock %}
+
+{% block content %}
+<div class="space-y-5">
+  <h1 class="text-2xl font-bold">Mes contrats</h1>
+
+  <div class="space-y-4">
+    {% for c in contracts %}
+      <div class="rounded border p-4 flex items-start justify-between gap-3">
+        <div>
+          <div class="font-semibold">{{ c.devis.inscription.numero }}</div>
+          <div class="text-sm text-slate-600">Formation: {% if c.devis.inscription.session %}{{ c.devis.inscription.session.formation.titre }}{% else %}—{% endif %}</div>
+          <div class="text-sm text-slate-600">Statut: {{ c.statut }} · Signé: {{ c.signé }}</div>
+          <div class="text-sm text-slate-600">Date: {{ c.date }}</div>
+        </div>
+        <div class="flex flex-col gap-2 items-end">
+          {% if c.contrat_pdf %}
+            <a class="rounded bg-slate-900 px-3 py-1 text-white text-sm" href="{{ c.contrat_pdf.url }}" download>Télécharger</a>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <div class="rounded border p-6 text-slate-600">Aucun contrat.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+

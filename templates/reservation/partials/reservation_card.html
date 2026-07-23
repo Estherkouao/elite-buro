@@ -1,0 +1,95 @@
+<div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 p-6">
+
+    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
+
+        <!-- Informations -->
+        <div class="flex-1">
+
+            <div class="flex items-center gap-3 mb-4">
+
+                <h3 class="text-xl font-bold text-navy">
+                    {{ r.espace.nom }}
+                </h3>
+
+                {% include 'reservation/partials/status_badge.html' with statut=r.statut %}
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+
+                <div>
+                    <span class="font-semibold text-gray-500">
+                        Référence
+                    </span><br>
+
+                    <span class="text-gold font-bold">
+                        {{ r.reservation_number }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="font-semibold text-gray-500">
+                        Type
+                    </span><br>
+
+                    {{ r.get_type_reservation_display }}
+                </div>
+
+                <div>
+                    <span class="font-semibold text-gray-500">
+                        Date
+                    </span><br>
+
+                    {{ r.date_debut|date:"d/m/Y" }}
+
+                    {% if r.date_fin %}
+                        → {{ r.date_fin|date:"d/m/Y" }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <span class="font-semibold text-gray-500">
+                        Participants
+                    </span><br>
+
+                    {{ r.nombre_personnes }}
+                </div>
+
+                <div>
+                    <span class="font-semibold text-gray-500">
+                        Montant
+                    </span><br>
+
+                    <span class="text-lg font-bold text-green-600">
+                        {{ r.montant_total }} FCFA
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Boutons -->
+        <div class="flex flex-col gap-3 w-full lg:w-52">
+
+            <a href="{% url 'reservation:detail' r.id %}"
+               class="w-full rounded-xl bg-navy text-white text-center py-3 font-semibold hover:opacity-90 transition">
+
+                Voir les détails
+
+            </a>
+
+            {% if r.statut == "awaiting_payment" %}
+            <a href="{% url 'paiement:index' %}?reservation_id={{ r.id }}&amount={{ r.montant_total|floatformat:0 }}&description={{ r.reservation_number }}"
+               class="w-full rounded-xl bg-green-600 text-white text-center py-3 font-semibold hover:bg-green-700 transition">
+
+                Payer
+
+            </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>

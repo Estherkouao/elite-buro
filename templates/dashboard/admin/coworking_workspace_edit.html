@@ -1,0 +1,328 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier espace | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+<div class="content">
+
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+        <div class="admin-page-title">
+
+            <h1>
+                Modifier l'espace
+            </h1>
+
+            <p>
+                {{ target_workspace.nom }}
+            </p>
+
+        </div>
+
+
+        <a href="{% url 'dashboard_admin:coworking' %}" 
+           class="btn-admin-secondary">
+
+            ← Retour
+
+        </a>
+
+
+    </div>
+
+
+
+
+    <!-- FORMULAIRE -->
+
+    <div class="admin-form-card">
+
+
+        <form method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+
+            <div class="admin-form-grid">
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Catégorie
+                    </label>
+
+                    {{ form.categorie }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Nom
+                    </label>
+
+                    {{ form.nom }}
+
+                </div>
+
+
+
+                <div class="admin-form-group full">
+
+                    <label>
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                </div>
+
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Capacité
+                    </label>
+
+                    {{ form.capacite }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Superficie
+                    </label>
+
+                    {{ form.superficie }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Étage
+                    </label>
+
+                    {{ form.etage }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Numéro
+                    </label>
+
+                    {{ form.numero }}
+
+                </div>
+
+
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Prix heure
+                    </label>
+
+                    {{ form.prix_heure }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Prix demi-journée
+                    </label>
+
+                    {{ form.prix_demi_journee }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Prix journée
+                    </label>
+
+                    {{ form.prix_journee }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Prix semaine
+                    </label>
+
+                    {{ form.prix_semaine }}
+
+                </div>
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Prix mois
+                    </label>
+
+                    {{ form.prix_mois }}
+
+                </div>
+
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Caution
+                    </label>
+
+                    {{ form.caution }}
+
+                </div>
+
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Disponible
+                    </label>
+
+                    {{ form.disponible }}
+
+                </div>
+
+
+
+
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Vedette
+                    </label>
+
+                    {{ form.vedette }}
+
+                </div>
+
+
+
+
+
+
+                <div class="admin-form-group full">
+
+                    <label>
+                        Image principale
+                    </label>
+
+                    {{ form.image_principale }}
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="admin-form-actions">
+
+
+                <button type="submit" class="btn-admin-primary">
+
+                    Enregistrer
+
+                </button>
+
+
+
+                <a href="{% url 'dashboard_admin:coworking' %}" 
+                   class="btn-admin-secondary">
+
+                    Annuler
+
+                </a>
+
+
+
+            </div>
+
+
+
+
+        </form>
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

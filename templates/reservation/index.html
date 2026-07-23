@@ -1,0 +1,47 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% block title %}Réservations | EliteBuro{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="font-display text-2xl font-bold text-navy">Mes réservations</h1>
+      <p class="text-sm text-gray-500">Liste de toutes vos réservations</p>
+    </div>
+    <a href="{% url 'reservation:create' %}" 
+       class="inline-flex items-center rounded-xl bg-gold px-4 py-2 text-sm font-semibold text-white hover:bg-gold/90 transition">
+      + Nouvelle réservation
+    </a>
+  </div>
+
+  <!-- Liste -->
+  <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="px-4 py-3 bg-navy text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-between">
+      <span>Réservations</span>
+      <span class="text-white/80">{{ reservations|length }} résultat{{ reservations|length|pluralize }}</span>
+    </div>
+
+    <div class="p-4">
+      {% if reservations %}
+          <div class="space-y-5">
+              {% for r in reservations %}
+                  {% include 'reservation/partials/reservation_card.html' %}
+              {% endfor %}
+          </div>
+      {% else %}
+        <div class="text-center py-10 text-gray-500">
+          <p>Aucune réservation pour le moment.</p>
+          <a href="{% url 'reservation:create' %}" class="mt-2 inline-block text-gold font-semibold hover:underline">Créer une réservation</a>
+        </div>
+      {% endif %}
+    </div>
+
+</div>
+{% endblock %}

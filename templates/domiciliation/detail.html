@@ -1,0 +1,90 @@
+{% extends "dashboard/base_member.html" %}
+
+{% load static %}
+
+{% block title %}{{ plan.nom }} | EliteBuro{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/domiciliation.css' %}">
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+<div class="container">
+
+    <nav class="breadcrumb">
+        <a href="{% url 'domiciliation:index' %}">Accueil</a>
+        /
+        <a href="{% url 'domiciliation:plans' %}">Formules</a>
+        /
+        {{ plan.nom }}
+    </nav>
+
+    <div class="card" style="padding:40px; margin-top:30px;">
+
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:50px; align-items:start;">
+
+            <!-- Informations -->
+            <div>
+
+                <h1 style="color:var(--primary); margin-bottom:10px;">
+                    {{ plan.nom }}
+                </h1>
+
+                <p style="color:var(--secondary); font-size:1.4rem; font-weight:700; margin-bottom:30px;">
+                    {{ plan.prix|floatformat:0 }} FCFA / mois
+                </p>
+
+                <h3 style="margin-bottom:20px;">
+                    Avantages inclus
+                </h3>
+
+                <div style="line-height:1.9;">
+                    {{ plan.avantages|linebreaksbr }}
+                </div>
+
+            </div>
+
+            <!-- Résumé -->
+            <div class="card" style="background:#fafafa;">
+
+                <h3 style="text-align:center; color:var(--primary); margin-bottom:25px;">
+                    Récapitulatif
+                </h3>
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                    <span>Abonnement</span>
+                    <strong>{{ plan.prix|floatformat:0 }} FCFA</strong>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <span>Caution (1 mois)</span>
+                    <strong>{{ plan.prix|floatformat:0 }} FCFA</strong>
+                </div>
+
+                <hr style="margin:20px 0;">
+
+                <div style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:700; margin-bottom:30px;">
+
+                    <span>Total estimé</span>
+
+                    <span style="color:var(--primary);">
+                        {{ plan.prix|add:plan.prix|floatformat:0 }} FCFA
+                    </span>
+
+                </div>
+
+                <a href="{% url 'domiciliation:new_request' %}"
+                   class="btn btn-primary"
+                   style="display:block; width:100%; text-align:center;">
+                    Souscrire maintenant
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

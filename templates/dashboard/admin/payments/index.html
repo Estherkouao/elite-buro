@@ -1,0 +1,275 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Paiements | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+<div class="content">
+
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Paiements
+            </h2>
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des paiements, factures et reçus des réservations.
+            </p>
+
+        </div>
+
+
+        <a href="{% url 'dashboard_admin:payment_methods' %}"
+           class="btn-primary">
+
+            Méthodes de paiement
+
+        </a>
+
+
+    </div>
+
+
+
+
+
+    <!-- TABLE -->
+
+    <div class="table-container">
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Réservation
+                    </th>
+
+
+                    <th>
+                        Facture
+                    </th>
+
+
+                    <th>
+                        Montant
+                    </th>
+
+
+                    <th>
+                        Statut
+                    </th>
+
+
+                    <th>
+                        Date
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+            <tbody>
+
+
+            {% for invoice in invoices %}
+
+
+                <tr>
+
+
+                    <!-- RESERVATION -->
+
+                    <td>
+
+                        <strong>
+                            #{{ invoice.reservation.reservation_number }}
+                        </strong>
+
+                    </td>
+
+
+
+
+
+                    <!-- FACTURE -->
+
+                    <td>
+
+                        {{ invoice.numero|default:"-" }}
+
+                    </td>
+
+
+
+
+
+                    <!-- MONTANT -->
+
+                    <td>
+
+                        {% if invoice.montant %}
+
+                            {{ invoice.montant }} FCFA
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+
+
+
+                    <!-- STATUT -->
+
+                    <td>
+
+
+                        {% if invoice.statut == "PAID" %}
+
+                            <span class="status-badge confirmed">
+                                Payée
+                            </span>
+
+
+                        {% elif invoice.statut == "PENDING" %}
+
+                            <span class="status-badge pending">
+                                En attente
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="status-badge cancelled">
+                                {{ invoice.statut|default:"-" }}
+                            </span>
+
+
+                        {% endif %}
+
+
+                    </td>
+
+
+
+
+
+
+                    <!-- DATE -->
+
+                    <td>
+
+                        {{ invoice.date|date:"d/m/Y H:i" }}
+
+                    </td>
+
+
+
+
+
+
+                    <!-- ACTIONS -->
+
+                    <td>
+
+
+                        <a href="{% url 'dashboard_admin:payment_reservation_detail' reservation_id=invoice.reservation.id %}"
+                           class="btn-action">
+
+                            Voir
+
+                        </a>
+
+
+
+
+                        {% if invoice.pdf %}
+
+
+                            <a href="{% url 'dashboard_admin:invoice_download' invoice_id=invoice.id %}"
+                               class="btn-action"
+                               style="background:var(--success-color);">
+
+                                Télécharger
+
+                            </a>
+
+
+                        {% endif %}
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+            {% empty %}
+
+
+
+                <tr>
+
+
+                    <td colspan="6"
+                        style="text-align:center;padding:30px;">
+
+
+                        Aucun paiement trouvé.
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+            {% endfor %}
+
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

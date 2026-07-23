@@ -1,0 +1,37 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% block title %}Facture {{ reservation.reservation_number }} | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <nav class="text-sm text-gray-600" aria-label="breadcrumb">
+      <ol class="flex gap-2 items-center">
+        <li><a class="text-gold hover:underline" href="{% url 'reservation:list' %}">Réservations</a></li>
+        <li aria-current="page" class="text-gray-500">Facture</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="rounded-2xl border border-navy/10 bg-white shadow-sm p-6">
+    <h2 class="font-display text-2xl font-bold">Facture</h2>
+    <p class="mt-2 text-sm text-gray-600">Réservation : <span class="font-semibold">{{ reservation.reservation_number }}</span></p>
+
+    <div class="mt-6 rounded-xl bg-cream/30 border border-navy/10 p-4">
+      <div class="text-sm text-gray-700">
+        Montant : <span class="font-semibold">{{ reservation.total }} FCFA</span>
+      </div>
+      <div class="text-sm text-gray-700 mt-1">
+        Statut : <span class="font-semibold">{% if reservation.invoice %}{{ reservation.invoice.statut }}{% else %}Non générée{% endif %}</span>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <a href="{% if reservation.invoice %}{{ reservation.invoice.pdf.url }}{% endif %}" class="inline-flex items-center rounded-xl bg-navy px-4 py-2 font-semibold text-white hover:bg-navy/90 transition" download>
+        Télécharger PDF
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

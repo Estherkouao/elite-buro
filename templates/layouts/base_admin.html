@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Administration | EliteBuro{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- CSS Admin -->
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- ===========================
+         SIDEBAR
+    ============================ -->
+    {% include "partials/admin_sidebar.html" %}
+
+    <!-- ===========================
+         CONTENU PRINCIPAL
+    ============================ -->
+    <div class="main-container">
+
+        <!-- HEADER -->
+        {% include "partials/header.html" %}
+
+        <!-- MESSAGES DJANGO -->
+        {% include "partials/messages.html" %}
+
+        <!-- CONTENU -->
+        <main class="content">
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+    </div>
+
+ 
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

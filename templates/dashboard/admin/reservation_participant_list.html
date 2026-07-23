@@ -1,0 +1,48 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Participants | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Participants</h1>
+    <p class="mt-2 text-sm text-gray-600">Réservation #{{ reservation.reservation_number }}</p>
+  </div>
+
+  <div class="mt-6 overflow-x-auto rounded-3xl border border-navy/10 bg-white shadow-sm">
+    <table class="min-w-full text-sm">
+      <thead class="text-gray-500">
+        <tr class="text-left">
+          <th class="py-3 px-4">Prénom</th>
+          <th class="py-3 px-4">Nom</th>
+          <th class="py-3 px-4">Email</th>
+          <th class="py-3 px-4">Téléphone</th>
+          <th class="py-3 px-4">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-navy/10">
+        {% for p in participants %}
+          <tr class="hover:bg-cream/40">
+            <td class="py-3 px-4">{{ p.prenom }}</td>
+            <td class="py-3 px-4">{{ p.nom }}</td>
+            <td class="py-3 px-4">{{ p.email }}</td>
+            <td class="py-3 px-4">{{ p.telephone }}</td>
+            <td class="py-3 px-4">
+              <div class="flex flex-wrap gap-2">
+                <a href="{% url 'dashboard_admin:reservation_participant_edit' reservation.id p.id %}" class="rounded-md border border-navy/20 px-3 py-1 text-navy font-semibold">Modifier</a>
+                <a href="{% url 'dashboard_admin:reservation_participant_delete' reservation.id p.id %}" class="rounded-md border border-red-500/30 px-3 py-1 text-red-600 font-semibold">Supprimer</a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="py-6 text-center text-gray-500">Aucun participant.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6 flex flex-wrap gap-3">
+    <a href="{% url 'dashboard_admin:reservation_participant_add' reservation.id %}" class="rounded-md bg-navy px-4 py-2 font-bold text-white">+ Ajouter</a>
+    <a href="{% url 'dashboard_admin:reservation_detail' reservation.id %}" class="rounded-md border border-navy/20 px-4 py-2 font-bold text-navy text-center">← Retour réservation</a>
+  </div>
+{% endblock %}
+

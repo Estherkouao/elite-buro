@@ -1,0 +1,46 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier Réclamation | Admin{% endblock %}
+
+{% block content %}
+<div class="section">
+  <h1>Modifier la réclamation</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+      <label>Objet</label>
+      <input type="text" name="objet" value="{{ reclamation.objet }}" required />
+    </div>
+
+    <div class="form-row">
+      <label>Description</label>
+      <textarea name="description" rows="6" required>{{ reclamation.description }}</textarea>
+    </div>
+
+    <div class="form-row">
+      <label>Réponse admin (optionnel)</label>
+      <textarea name="reponse_admin" rows="4">{{ reclamation.reponse_admin|default_if_none:'' }}</textarea>
+    </div>
+
+    <div class="form-row">
+      <label>Statut</label>
+      <select name="statut">
+        {% for v,label in reclamation.statut.field.choices %}
+          {# Django field choices not available in template safely; fallback to hardcoded values #}
+        {% endfor %}
+        <option value="ouverte" {% if reclamation.statut == 'ouverte' %}selected{% endif %}>Ouverte</option>
+        <option value="cloturee" {% if reclamation.statut == 'cloturee' %}selected{% endif %}>Clôturée</option>
+      </select>
+      <small>Les actions Clôturer/Réouvrir sont disponibles sur la page détail.</small>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit">Enregistrer</button>
+      <a href="{% url 'reclamation_admin:detail' reclamation.id %}" class="btn btn-secondary">Annuler</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
+

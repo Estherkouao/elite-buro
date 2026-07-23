@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteBuro - Historique de la demande</title>
+    <link rel="stylesheet" href="{% static 'css/domiciliation.css' %}">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #FAFAF7;
+            margin: 0;
+            padding: 0;
+            color: #0D2B55;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0D2B55;
+            margin-bottom: 4px;
+        }
+        .subtitle {
+            color: #6B7280;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: #6B7280;
+            margin-bottom: 24px;
+        }
+        .breadcrumb a {
+            color: #0D2B55;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border: 1px solid rgba(13,43,85,0.08);
+            margin-bottom: 24px;
+        }
+        .card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0D2B55;
+            margin-bottom: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 0.9rem;
+        }
+        th {
+            background: #F3F4F6;
+            color: #0D2B55;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tr:hover { background: #F9FAFB; }
+        .empty-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9CA3AF;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            background: #0D2B55;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .back-link:hover { background: #1a3f6f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{% url 'domiciliation:index' %}">Accueil</a> /
+            <a href="{% url 'domiciliation:history_list' %}">Mes demandes</a> /
+            Historique
+        </nav>
+
+        <h1>📋 Historique de la demande</h1>
+        <p class="subtitle">{{ demande.numero_demande }} — {{ demande.entreprise.company_name }}</p>
+
+        <div class="card">
+            <h3>Journal des événements</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Action</th>
+                        <th>Détails</th>
+                        <th>Utilisateur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.created_at|date:'d/m/Y H:i' }}</td>
+                        <td><strong>{{ log.action }}</strong></td>
+                        <td>{{ log.details|default:'—' }}</td>
+                        <td>{{ log.utilisateur|default:'—' }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-message">Aucun événement enregistré pour cette demande.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 10px;">
+            <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}" class="back-link">
+                ← Retour au suivi de la demande
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+

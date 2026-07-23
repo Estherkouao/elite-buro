@@ -1,0 +1,289 @@
+
+
+
+
+{% block title %}Dashboard Admin - EliteBuro{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- EliteBuro Admin Dashboard (CSS/JS statiques) -->
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+<style>
+  main, .p-8 { padding: 0 !important; }
+</style>
+
+<div class="flex">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>EliteBuro</h2>
+            <p class="admin-badge">Admin</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard_admin:index' %}" class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+            <a href="{% url 'dashboard_admin:reservations' %}" class="nav-item" data-section="reservations">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">Réservations</span>
+                <span class="nav-badge">{{ stats.reservations|default_if_none:0 }}</span>
+            </a>
+            <a href="{% url 'dashboard_admin:coworking' %}" class="nav-item" data-section="espaces">
+                <span class="nav-icon">🏢</span>
+                <span class="nav-label">Espaces</span>
+            </a>
+            <a href="{% url 'dashboard_admin:users' %}" class="nav-item" data-section="membres">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Membres</span>
+                <span class="nav-badge">{{ stats.users|default_if_none:0 }}</span>
+            </a>
+            <a href="{% url 'dashboard_admin:companies' %}" class="nav-item" data-section="entreprises">
+                <span class="nav-icon">🏢</span>
+                <span class="nav-label">Entreprises</span>
+            </a>
+            <a href="{% url 'dashboard_admin:domiciliation' %}" class="nav-item" data-section="domiciliation">
+                <span class="nav-icon">🏛️</span>
+                <span class="nav-label">Domiciliation</span>
+            </a>
+            <a href="{% url 'dashboard_admin:formations' %}" class="nav-item" data-section="formations">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Formations</span>
+            </a>
+            <a href="{% url 'dashboard_admin:payments' %}" class="nav-item" data-section="paiements">
+                <span class="nav-icon">💳</span>
+                <span class="nav-label">Paiements</span>
+            </a>
+                    {# Réclamations (admin) #}
+            <a href="{% url 'reclamation_admin:list' %}"
+            class="nav-item {% if active_section == 'reclamations' %}active{% endif %}">
+                <span class="nav-icon">🧾</span>
+                <span class="nav-label">Réclamations</span>
+            </a>
+
+            {# Blog - Catégories #}
+            <a href="{% url 'blog:articles_list' %}"
+            class="nav-item {% if active_section == 'blog_categories' %}active{% endif %}">
+                <span class="nav-icon">📝</span>
+                <span class="nav-label">blog</span>
+            </a>
+            
+
+            <a href="" class="nav-item" data-section="profil">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Profil</span>
+            </a>
+            <a href="#" class="nav-item" data-section="parametres">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Paramètres</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{% url 'accounts:logout' %}" class="logout-btn">🚪 Déconnexion</a>
+            <a href="{% url 'core:home' %}"
+           class="nav-item {% if active_section == 'dashboard' %}active{% endif %}">
+            <span class="nav-icon"></span>
+            <span class="nav-label">home</span>
+        </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-container" style="margin-left: var(--sidebar-width);">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle">☰</button>
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <input type="text" placeholder="Rechercher..." class="search-input">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="notifications">
+                    <button class="notification-btn">🔔
+                        <span class="notification-count">{{ recent_activity|length|default:0 }}</span>
+                    </button>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-dropdown">
+                        <a href="">👤 Profil</a>
+                        <a href="#">🔐 Sécurité</a>
+                        <a href="{% url 'accounts:logout' %}">🚪 Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2></h2>
+                    <div class="date-range">
+                        <input type="date" id="date-from" value="2026-07-01">
+                        <span>à</span>
+                        <input type="date" id="date-to" value="2026-07-14">
+                        <button class="btn-filter">Filtrer</button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon">📅</div>
+                        <div class="kpi-content">
+                            <p class="kpi-label">Réservations</p>
+                            <p class="kpi-value">{{ stats.reservations|default_if_none:0 }}</p>
+                            <p class="kpi-change positive">Mise à jour en temps réel (DB)</p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon">💰</div>
+                        <div class="kpi-content">
+                            <p class="kpi-label">Chiffre d'Affaires</p>
+                            <p class="kpi-value">{{ stats.income_total|default_if_none:0|floatformat:0 }} F</p>
+                            <p class="kpi-change positive">Calcul via montants</p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon">👥</div>
+                        <div class="kpi-content">
+                            <p class="kpi-label">Membres</p>
+                            <p class="kpi-value">{{ stats.users|default_if_none:0 }}</p>
+                            <p class="kpi-change positive">Actifs / inscrits</p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon">📊</div>
+                        <div class="kpi-content">
+                            <p class="kpi-label">Disponibilité (aujourd'hui)</p>
+                            <p class="kpi-value">{{ availability_summary|length|default:0 }}</p>
+                            <p class="kpi-change positive">Espaces affichés</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Réservations par Type</h3>
+                        <div class="chart-placeholder">
+                            <div class="chart-bar" style="height: 70%;">Bureau Privatif</div>
+                            <div class="chart-bar" style="height: 50%;">Hot Desk</div>
+                            <div class="chart-bar" style="height: 60%;">Salle Réunion</div>
+                            <div class="chart-bar" style="height: 45%;">Formation</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Revenus (aperçu)</h3>
+                        <div class="chart-placeholder">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Disponibilité des Espaces</h3>
+                        <div class="availability-list">
+                          {% for item in availability_summary %}
+                            {% with available=item.available_count count=item.count %}
+                            {% with pct=0 %}
+                            {% if count and count != 0 %}
+                              {% widthratio available count 100 as pct %}
+                            {% endif %}
+
+
+                            <div class="availability-item">
+                                <span class="space-name">{{ item.espace__nom|default:"Espace" }}</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ pct }}%;"></div>
+                                </div>
+                                {% if available|default:0|floatformat:"0" == 0 %}
+                                  <span class="availability-status occupied">Occupé</span>
+                                {% elif available|default:0|floatformat:"0" == count|default:0|floatformat:"0" %}
+                                  <span class="availability-status">Libre</span>
+                                {% else %}
+                                  <span class="availability-status">Partiellement</span>
+                                {% endif %}
+                            </div>
+                            {% endwith %}
+                            {% endwith %}
+                          {% empty %}
+                            <div class="availability-item">
+                                <span class="space-name">Aucun espace</span>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                                <span class="availability-status occupied">Occupé</span>
+                            </div>
+                          {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity 
+                <div class="activity-section">
+                    <h3>Activité Récente</h3>
+                    <div class="activity-list">
+                        {% for label, dt, url_name in recent_activity %}
+                            <div class="activity-item">
+                                <div class="activity-icon">✓</div>
+                                <div class="activity-content">
+                                    <p class="activity-title">{{ label }}</p>
+                                    <p class="activity-desc">{{ dt|date:"Y-m-d" }}</p>
+                                    <p class="activity-time">Dernière mise à jour</p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="activity-item">
+                                <div class="activity-icon">✓</div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Aucune activité</p>
+                                    <p class="activity-desc">—</p>
+                                    <p class="activity-time">—</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section> -->
+
+            
+
+            <section id="parametres" class="content-section">
+                <div class="section-header">
+                    <h2>Paramètres</h2>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Admin</h3>
+                        <div class="settings-form">
+                            <a class="btn-secondary" href="">Voir mon profil</a>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <h3>Comptes</h3>
+                        <div class="settings-form">
+                            <a class="btn-secondary" href="{% url 'dashboard_admin:users' %}">Gérer les membres</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/admin.js' %}"></script>
+{% endblock %}
+

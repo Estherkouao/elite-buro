@@ -1,0 +1,20 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Annuler réservation | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Annuler réservation</h1>
+    <p class="mt-2 text-sm text-gray-600">{{ reservation.reservation_number }}</p>
+  </div>
+
+  <div class="mt-6 rounded-3xl border border-red-500/30 bg-white shadow-sm p-6">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="rounded-md bg-red-600 px-4 py-2 font-bold text-white">Confirmer annulation</button>
+      <a href="{% url 'dashboard_admin:reservation_detail' reservation.id %}" class="ml-4 text-navy font-bold">Annuler</a>
+    </form>
+  </div>
+{% endblock %}
+

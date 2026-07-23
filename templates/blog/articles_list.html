@@ -1,0 +1,183 @@
+{% extends "layouts/base_admin.html" %}
+
+{% block title %}Articles | Administration{% endblock %}
+
+{% block content %}
+
+<div class="content-section active">
+
+    <div class="section-header">
+
+        <div>
+            <h2>
+                Articles
+            </h2>
+
+            <p style="color:var(--text-light); font-size:14px;">
+                Gestion des articles du blog EliteBuro
+            </p>
+        </div>
+
+
+        <div style="display:flex; gap:15px; flex-wrap:wrap;">
+
+            <a href="{% url 'blog:article_create' %}" 
+               class="btn-primary">
+                + Créer un article
+            </a>
+
+
+            <a href="{% url 'blog:categories_list' %}" 
+               class="btn-secondary">
+                + Gérer les catégories
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    {% if not articles %}
+
+        <div class="activity-section">
+
+            <p style="text-align:center; color:var(--text-light);">
+                Aucun article disponible.
+            </p>
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="table-container">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Titre</th>
+                        <th>Catégorie</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for article in articles %}
+
+                    <tr>
+
+
+                        <td>
+                            <strong>
+                                {{ article.title }}
+                            </strong>
+                        </td>
+
+
+
+                        <td>
+
+                            {% if article.category %}
+
+                                {{ article.category.name }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <td>
+
+                            {% if article.is_published %}
+
+                                <span class="status-badge confirmed">
+                                    Publié
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-badge pending">
+                                    Brouillon
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <td>
+
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+                                
+                                <a href="{% url 'blog:article_detail' id=article.id %}"
+                        
+                                target="_blank"
+                                class="btn-action"
+                                style="background:#2563eb;color:white;">
+
+                                    👁 Voir
+
+                                </a>
+
+
+                                <!-- Modifier -->
+                                <a href="{% url 'blog:article_edit' article.id %}"
+                                class="btn-action">
+
+                                    ✏️ Modifier
+
+                                </a>
+
+
+
+                                <!-- Supprimer -->
+                                <a href="{% url 'blog:article_delete' article.id %}"
+                                class="btn-action"
+                                style="background:var(--danger-color);">
+
+                                    🗑 Supprimer
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+{% endblock %}

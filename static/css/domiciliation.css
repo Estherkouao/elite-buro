@@ -1,0 +1,38 @@
+/* EliteBuro Domiciliation Common Styles */
+:root {
+    --primary: #002B5B;
+    --secondary: #C5A059;
+    --dark: #1a1a1a;
+    --light: #f8f9fa;
+    --white: #ffffff;
+    --gray: #6c757d;
+    --border: #dee2e6;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--dark); background-color: #f4f7f6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+/* Components */
+.btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: var(--secondary); color: white; }
+.btn-outline { border: 2px solid var(--primary); color: var(--primary); }
+
+.card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+
+.badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+.badge-active { background: #e8f5e9; color: var(--success); }
+.badge-pending { background: #fff8e1; color: var(--warning); }
+
+/* Forms */
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); }
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; }
+
+/* Navigation Helpers */
+.breadcrumb { margin-bottom: 30px; font-size: 0.9rem; color: var(--gray); }
+.breadcrumb a { color: var(--secondary); text-decoration: none; }

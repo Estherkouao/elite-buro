@@ -1,0 +1,42 @@
+{% comment %}
+Navigation barre membre (réutilisable dans tous les templates du membre)
+- Utilise les classes/DOM attendues par static/js/member.js
+  (nav-link avec data-section)
+{% endcomment %}
+
+<header class="header w-full">
+  <div class="header-container">
+    <div class="logo">
+      <h1>EliteBuro</h1>
+      <p>Mon Espace</p>
+    </div>
+
+    <nav class="main-nav">
+      <a href="{% url 'accounts:dashboard' %}" class="nav-link" data-section="dashboard">Dashboard</a>
+      <a href="{% url 'reservation:list' %}" class="nav-link" data-section="reservations">Réservations</a>
+      <a href="{% url 'formation:my_courses' %}" class="nav-link" data-section="formations">Formations</a>
+      <a href="{% url 'dashboard_admin:payments' %}" class="nav-link" data-section="factures">Factures</a>
+      <a href="#" class="nav-link" data-section="reclamations">Réclamations</a>
+      <a href="{% url 'domiciliation:history_list' %}" class="nav-link" data-section="domiciliation">Domiciliation</a>
+      <a href="{% url 'accounts:profile' %}" class="nav-link" data-section="profil">Profil</a>
+    </nav>
+
+    <div class="user-controls">
+      <button class="notification-icon">🔔
+        <span class="notification-badge">3</span>
+      </button>
+
+      <div class="user-menu">
+        <button class="user-btn">👤</button>
+        <div class="dropdown-menu">
+          <a href="#">Mes Informations</a>
+          <a href="#">Paramètres</a>
+          <a href="#">Aide & Support</a>
+          <hr>
+          <a href="{% url 'accounts:logout' %}" class="logout">Déconnexion</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+

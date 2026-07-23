@@ -1,0 +1,86 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% load static %}
+
+{% block title %}Réclamation : {{ reclamation.objet }} | EliteBuro{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+<main class="main-content">
+  <section id="reclamation-detail" class="content-section active">
+    <div class="section-header">
+      <div>
+        <span class="section-subtitle">Service client</span>
+        <h2>Détail de la réclamation</h2>
+      </div>
+      <a href="{% url 'reclamation:member_list' %}" class="view-all">← Retour à mes réclamations</a>
+    </div>
+
+    <div style="background:white; border-radius:1rem; box-shadow:0 10px 30px rgba(13,43,85,.08); overflow:hidden; max-width:900px;">
+      
+      <!-- En-tête statut -->
+      <div style="padding:2rem; border-bottom:1px solid #E5E7EB; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+        <div>
+          <h3 style="margin:0 0 8px; color:#0D2B55; font-family:'Playfair Display',serif; font-size:24px;">{{ reclamation.objet }}</h3>
+          <p style="margin:0; color:#64748B; font-size:14px;">
+            Soumise le {{ reclamation.created_at|date:"d/m/Y à H:i" }}
+          </p>
+        </div>
+        <div>
+          {% if reclamation.statut == 'cloturee' %}
+            <span style="display:inline-block; padding:8px 20px; background:#DCFCE7; color:#0B6B39; border-radius:30px; font-weight:700; font-size:14px;">
+              ✅ Clôturée
+            </span>
+          {% else %}
+            <span style="display:inline-block; padding:8px 20px; background:#FEF3C7; color:#92400E; border-radius:30px; font-weight:700; font-size:14px;">
+              ⏳ En cours de traitement
+            </span>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div style="padding:2rem; border-bottom:1px solid #E5E7EB;">
+        <h4 style="color:#0D2B55; margin:0 0 12px; font-size:16px;">📝 Description</h4>
+        <p style="color:#1E293B; line-height:1.8; font-size:15px; white-space:pre-wrap; margin:0;">{{ reclamation.description }}</p>
+      </div>
+
+      <!-- Réponse admin -->
+      {% if reclamation.reponse_admin %}
+        <div style="padding:2rem; background:#F8FAFC;">
+          <h4 style="color:#0D2B55; margin:0 0 12px; font-size:16px;">💬 Réponse de notre équipe</h4>
+          <div style="background:white; border-radius:12px; padding:1.5rem; border-left:4px solid #C9A02C;">
+            <p style="color:#1E293B; line-height:1.8; font-size:15px; white-space:pre-wrap; margin:0;">{{ reclamation.reponse_admin }}</p>
+          </div>
+          {% if reclamation.closed_at %}
+            <p style="margin-top:15px; color:#64748B; font-size:13px;">
+              Traité le {{ reclamation.closed_at|date:"d/m/Y à H:i" }}
+            </p>
+          {% endif %}
+        </div>
+      {% else %}
+        <div style="padding:2rem; background:#FFF7DF; text-align:center;">
+          <p style="color:#92400E; font-weight:600; font-size:15px; margin:0;">
+            ⏳ Votre réclamation est en cours d'examen. Notre équipe vous répondra sous 48h ouvrées.
+          </p>
+        </div>
+      {% endif %}
+
+      <!-- Pied de page -->
+      <div style="padding:1.5rem 2rem; background:#FAFAF7; display:flex; gap:15px; flex-wrap:wrap;">
+        <a href="{% url 'reclamation:member_list' %}"
+           style="padding:12px 24px; background:#F1F5F9; color:#0D2B55; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px;">
+          ← Mes réclamations
+        </a>
+        <a href="{% url 'reclamation:member_create' %}"
+           style="padding:12px 24px; background:#0D2B55; color:white; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px;">
+          + Nouvelle réclamation
+        </a>
+      </div>
+
+    </div>
+  </section>
+</main>
+{% endblock %}
+

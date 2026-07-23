@@ -1,0 +1,147 @@
+{% extends "layouts/base_public.html" %}
+
+{% load static %}
+
+{% block title %}Galerie | Coworking | EliteBuro{% endblock %}
+
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="bg-cream/70">
+  <div class="mx-auto max-w-7xl px-6 py-10">
+
+    <nav class="flex items-center gap-2 text-sm text-navy/70" aria-label="breadcrumb">
+      <a href="{% url 'coworking:index' %}" class="hover:text-gold transition">Coworking</a>
+      <span aria-hidden="true">/</span>
+      <span class="font-semibold text-navy">Galerie</span>
+    </nav>
+
+    <div class="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h1 class="font-display text-2xl sm:text-3xl font-bold text-navy">Galerie des espaces</h1>
+        <p class="mt-2 text-sm text-navy/70">Parcourez les images et découvrez l’ambiance de chaque espace.</p>
+      </div>
+
+      <a href="{% url 'coworking:workspace_list' %}" class="inline-flex items-center justify-center rounded-2xl bg-navy px-6 py-3 text-sm font-bold text-white shadow-lg shadow-navy/20 transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2">
+        Voir le catalogue
+      </a>
+    </div>
+
+    <div class="mt-8 overflow-hidden rounded-3xl border border-navy/10 bg-white shadow-sm">
+      <div class="relative">
+        <div class="gallery-slider relative">
+          <div class="gallery-track flex transition-transform duration-500 ease-out">
+            {% for image in images %}
+              <div class="gallery-slide min-w-full">
+                <div class="relative aspect-[16/10] w-full bg-navy/5">
+                  <img
+                    class="absolute inset-0 h-full w-full object-cover"
+                    src="{{ image.image.url }}"
+                    alt="Image de galerie"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent"></div>
+                  <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between">
+                    <div>
+                      <div class="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/95 backdrop-blur">
+                        {{ image.workspace.nom }}
+                      </div>
+                      <div class="mt-2 text-sm font-semibold text-white/95">{{ image.workspace.categorie.nom }}</div>
+                    </div>
+                    <a href="{% url 'coworking:workspace_detail' image.workspace.slug %}" class="rounded-2xl bg-gold px-4 py-2 text-sm font-bold text-navy shadow-sm transition hover:opacity-95">
+                      Voir
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <button
+            type="button"
+            class="gallery-prev absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-sm ring-1 ring-navy/10 hover:bg-white transition"
+            aria-label="Image précédente"
+          >
+            <svg class="h-5 w-5 text-navy" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414l4.293 4.293 4.293-4.293a1 1 0 011.414 1.414l-5 5z" clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="gallery-next absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-sm ring-1 ring-navy/10 hover:bg-white transition"
+            aria-label="Image suivante"
+          >
+            <svg class="h-5 w-5 text-navy" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414L8.0 6.414 3.707 10.707a1 1 0 01-1.414-1.414l5-5z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="border-t border-navy/10 p-4">
+        <div class="flex flex-wrap items-center gap-3" role="tablist" aria-label="Sélecteur d’images">
+          {% for image in images %}
+            <button
+              type="button"
+              class="gallery-thumb rounded-2xl overflow-hidden border border-navy/10 bg-white p-0.5 transition hover:border-gold"
+              data-index="{{ forloop.counter0 }}"
+              aria-label="Aller à l’image {{ forloop.counter }}"
+              {% if forloop.first %}aria-selected="true"{% else %}aria-selected="false"{% endif %}
+            >
+              <img class="h-16 w-20 object-cover" src="{{ image.image.url }}" alt="Miniature" loading="lazy" />
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% block extra_js %}
+<script type="module">
+  const track = document.querySelector('.gallery-track');
+  const prev = document.querySelector('.gallery-prev');
+  const next = document.querySelector('.gallery-next');
+  const thumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+
+  if (!track || thumbs.length === 0) {
+    // No gallery data
+  } else {
+    let index = 0;
+
+    const setIndex = (nextIndex) => {
+      const count = thumbs.length;
+      index = (nextIndex + count) % count;
+      const x = -index * 100;
+      track.style.transform = `translateX(${x}%)`;
+
+      thumbs.forEach((t) => {
+        const selected = Number(t.dataset.index) === index;
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+        t.classList.toggle('border-gold', selected);
+      });
+    };
+
+    prev?.addEventListener('click', () => setIndex(index - 1));
+    next?.addEventListener('click', () => setIndex(index + 1));
+
+    thumbs.forEach((t) => {
+      t.addEventListener('click', () => {
+        const i = Number(t.dataset.index);
+        if (Number.isFinite(i)) setIndex(i);
+      });
+    });
+
+    setIndex(0);
+  }
+</script>
+{% endblock %}
+
+{% endblock %}
+

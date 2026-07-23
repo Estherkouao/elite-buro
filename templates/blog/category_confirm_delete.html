@@ -1,0 +1,26 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Supprimer catégorie | EliteBuro{% endblock %}
+
+{% block content %}
+<div>
+  <h2>Supprimer la catégorie</h2>
+  <p style="color:#666;">Action irréversible.</p>
+</div>
+
+<div class="mt-6 rounded-3xl border border-red-500/20 bg-white shadow-sm p-6">
+  <div class="text-gray-700">
+    <p class="font-semibold">Catégorie : {{ target_category.name }}</p>
+    <p class="text-sm mt-2">Slug : {{ target_category.slug }}</p>
+  </div>
+
+  <form method="post" class="mt-6">
+    {% csrf_token %}
+    <div class="flex gap-3">
+      <button type="submit" class="rounded-md bg-red-600 px-4 py-2 text-white font-semibold">Supprimer</button>
+      <a href="{% url 'blog:categories_list' %}" class="rounded-md border border-navy/20 px-4 py-2 text-navy font-semibold">Annuler</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
+

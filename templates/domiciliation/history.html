@@ -1,0 +1,287 @@
+{% extends 'dashboard/base_member.html' %}
+{% load static %}
+
+
+{% block title %}
+Mes demandes de domiciliation | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<link rel="stylesheet" href="{% static 'css/domiciliation.css' %}">
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+    <a href="javascript:history.back()"
+       class="inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#0D2B55] hover:bg-gray-300 transition">
+
+        ← Retour
+
+    </a>
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="mb-8 text-sm text-gray-500">
+
+        <a href="{% url 'accounts:dashboard' %}"
+           class="text-[#0D2B55] font-semibold hover:underline">
+
+            Tableau de bord
+
+        </a>
+
+        /
+
+        Mes demandes
+
+    </div>
+
+
+
+
+    <!-- TITRE -->
+
+    <div class="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+        <div>
+
+            <h1 class="text-3xl font-black text-[#0D2B55]">
+
+                📁 Mes demandes de domiciliation
+
+            </h1>
+
+
+            <p class="mt-3 text-gray-500">
+
+                Retrouvez toutes vos demandes de domiciliation et suivez leur évolution.
+
+            </p>
+
+        </div>
+
+        <a href="{% url 'domiciliation:new_request' %}"
+           class="inline-flex items-center gap-2 rounded-xl bg-[#C9A02C] px-6 py-3 font-bold text-[#0D2B55] hover:scale-105 transition self-start">
+
+            + Nouvelle demande
+
+        </a>
+
+    </div>
+
+
+
+
+
+
+    {% if demandes %}
+
+
+
+        <div class="space-y-6">
+
+
+            {% for demande in demandes %}
+
+
+
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 
+                        flex flex-col lg:flex-row 
+                        lg:items-center 
+                        lg:justify-between
+                        gap-6
+                        hover:shadow-xl
+                        transition">
+
+
+
+                <!-- INFORMATIONS -->
+
+                <div>
+
+
+                    <h3 class="text-xl font-bold text-[#0D2B55]">
+
+                        {{ demande.numero_demande }}
+
+                    </h3>
+
+
+
+                    <p class="mt-2 text-gray-600">
+
+                        🏢 {{ demande.entreprise.company_name }}
+
+                    </p>
+
+
+
+                    <p class="mt-2 text-[#C9A02C] font-semibold">
+
+                        📌 {{ demande.formule.nom }}
+
+                    </p>
+
+
+
+                    <p class="mt-2 text-sm text-gray-400">
+
+                        Créé le 
+                        {{ demande.date_creation|date:"d/m/Y" }}
+
+                    </p>
+
+
+
+                </div>
+
+
+
+
+
+
+                <!-- DROITE -->
+
+
+                <div class="flex flex-col items-start lg:items-end gap-4">
+
+
+                    <span class="
+                        px-5 py-2 
+                        rounded-full
+                        text-sm
+                        font-bold
+
+                        {% if demande.statut == 'EN_ATTENTE' %}
+                            bg-yellow-100 text-yellow-700
+
+                        {% elif demande.statut == 'ACTIVE' %}
+                            bg-green-100 text-green-700
+
+                        {% elif demande.statut == 'REFUSEE' %}
+                            bg-red-100 text-red-700
+
+                        {% else %}
+                            bg-gray-100 text-gray-700
+
+                        {% endif %}
+                    ">
+
+                        {{ demande.statut }}
+
+                    </span>
+
+
+
+
+
+                    <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
+
+                       class="inline-flex items-center
+                              rounded-xl
+                              bg-[#0D2B55]
+                              px-6 py-3
+                              text-white
+                              font-bold
+                              hover:bg-[#163d72]
+                              transition">
+
+
+                        Consulter →
+
+                    </a>
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+            {% endfor %}
+
+
+
+        </div>
+
+
+
+
+
+    {% else %}
+
+
+
+        <!-- VIDE -->
+
+
+        <div class="bg-white rounded-3xl shadow-xl p-12 text-center">
+
+
+            <div class="text-6xl mb-5">
+
+                📭
+
+            </div>
+
+
+
+            <h3 class="text-2xl font-black text-[#0D2B55]">
+
+                Aucune demande de domiciliation
+
+            </h3>
+
+
+
+            <p class="mt-4 text-gray-500">
+
+                Vous n'avez pas encore de demande de domiciliation.
+
+                Lancez-vous dès maintenant !
+
+            </p>
+
+
+
+
+
+            <a href="{% url 'domiciliation:new_request' %}"
+
+               class="inline-block mt-8
+                      rounded-xl
+                      bg-[#C9A02C]
+                      px-8 py-4
+                      font-bold
+                      text-[#0D2B55]
+                      hover:scale-105
+                      transition">
+
+
+                Faire une demande
+
+            </a>
+
+
+
+        </div>
+
+
+
+    {% endif %}
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+
+    <meta charset="UTF-8">
+
+    <title>{% block title %}Dashboard | EliteBuro{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-cream text-navy">
+
+
+<div class="flex">
+
+    {% include 'partials/sidebar.html' %}
+
+    <div class="flex-1 min-h-screen">
+
+        {% include 'partials/header.html' %}
+
+        {% include 'partials/messages.html' %}
+
+        <main class="p-6">
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+</div>
+
+</body>
+</html>

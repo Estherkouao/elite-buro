@@ -1,0 +1,38 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Participant | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Participant</h1>
+    <p class="mt-2 text-sm text-gray-600">Réservation #{{ reservation.reservation_number }}</p>
+  </div>
+
+  <div class="mt-6 rounded-3xl border border-navy/10 bg-white shadow-sm p-6">
+    <div class="space-y-2 text-sm">
+      <div class="flex justify-between gap-4">
+        <span class="text-gray-600">Prénom</span>
+        <span class="font-semibold text-navy">{{ participant.prenom }}</span>
+      </div>
+      <div class="flex justify-between gap-4">
+        <span class="text-gray-600">Nom</span>
+        <span class="font-semibold text-navy">{{ participant.nom }}</span>
+      </div>
+      <div class="flex justify-between gap-4">
+        <span class="text-gray-600">Email</span>
+        <span class="font-semibold text-navy">{{ participant.email }}</span>
+      </div>
+      <div class="flex justify-between gap-4">
+        <span class="text-gray-600">Téléphone</span>
+        <span class="font-semibold text-navy">{{ participant.telephone }}</span>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="{% url 'dashboard_admin:reservation_participant_edit' reservation.id participant.id %}" class="rounded-md bg-navy px-4 py-2 font-bold text-white">Modifier</a>
+      <a href="{% url 'dashboard_admin:reservation_participant_delete' reservation.id participant.id %}" class="rounded-md border border-red-500/30 px-4 py-2 font-bold text-red-600">Supprimer</a>
+      <a href="{% url 'dashboard_admin:reservation_participant_list' reservation.id %}" class="rounded-md border border-navy/20 px-4 py-2 font-bold text-navy">Retour</a>
+    </div>
+  </div>
+{% endblock %}
+

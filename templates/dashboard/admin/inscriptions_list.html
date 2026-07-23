@@ -1,0 +1,95 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Inscriptions | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="section-header">
+    <div>
+      <h2>Inscriptions</h2>
+      <p style="color:var(--text-light);font-size:14px;">Gestion des inscriptions de formation (Valider / Refuser / Annuler)</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="{% url 'dashboard_admin:formations_list' %}" class="btn-secondary">Formations</a>
+      <a href="{% url 'dashboard_admin:sessions_list' %}" class="btn-secondary">Sessions</a>
+      <a href="{% url 'dashboard_admin:inscriptions_list' %}" class="btn-primary">Inscriptions</a>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Inscription</th>
+          <th>Formation</th>
+          <th>Session</th>
+          <th>Membre</th>
+          <th>Formateur</th>
+          <th>Entreprise</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for ins in inscriptions %}
+        <tr>
+          <td>
+            <strong>{{ ins.numero }}</strong><br>
+            <small>{{ ins.date }}</small>
+          </td>
+          <td>
+            {% if ins.session %}{{ ins.session.formation.titre }}{% else %}—{% endif %}
+          </td>
+          <td>
+            {% if ins.session %}
+              {{ ins.session.date_debut }} - {{ ins.session.date_fin }}<br>
+              <small>{{ ins.session.heure_debut }} → {{ ins.session.heure_fin }}</small>
+            {% else %}
+              Non spécifiée
+            {% endif %}
+          </td>
+          <td>
+            {{ ins.membre.first_name }} {{ ins.membre.last_name }}<br>
+            <small>{{ ins.membre.email }}</small>
+          </td>
+          <td>
+            {% if ins.session %}{{ ins.session.formateur.user.first_name }} {{ ins.session.formateur.user.last_name }}{% else %}—{% endif %}
+          </td>
+          <td>
+            {% if ins.entreprise %}{{ ins.entreprise.company_name }}{% else %}—{% endif %}
+          </td>
+          <td>
+            {{ ins.get_statut_display }}
+          </td>
+          <td>
+            <div class="table-actions">
+
+              <form method="post" action="{% url 'dashboard_admin:inscription_validate' ins.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-btn action-edit" onclick="return confirm('Valider cette inscription ?')">Valider</button>
+              </form>
+
+              <form method="post" action="{% url 'dashboard_admin:inscription_refuse' ins.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-btn action-cancel" onclick="return confirm('Refuser cette inscription ?')">Refuser</button>
+              </form>
+
+              <form method="post" action="{% url 'dashboard_admin:inscription_cancel' ins.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-btn action-cancel" onclick="return confirm('Annuler cette inscription ?')">Annuler</button>
+              </form>
+
+            </div>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="8" style="text-align:center;padding:35px;">Aucune inscription.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+

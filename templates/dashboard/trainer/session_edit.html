@@ -1,0 +1,94 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+{% load static %}
+
+{% block title %}Modifier la session — Elite Bureau{% endblock %}
+
+{% block page_title %}Modifier la session{% endblock %}
+
+{% block content_area %}
+<div class="content">
+  <!-- Page Header -->
+  <div class="section-header">
+    <h2 class="section-title">Modifier la session</h2>
+    <a href="{% url 'dashboard_trainer:sessions' %}" class="section-link">← Retour aux sessions</a>
+  </div>
+
+  <!-- Session Form -->
+  <div class="panel">
+    <div class="panel-header">
+      <h3>Informations de la session</h3>
+      {% if session %}
+      <span class="badge 
+        {% if session.statut == 'open' or session.statut == 'published' %}badge-success
+        {% elif session.statut == 'draft' %}badge-gray
+        {% elif session.statut == 'closed' %}badge-info
+        {% elif session.statut == 'canceled' %}badge-danger
+        {% else %}badge-warning{% endif %}">
+        {{ session.get_statut_display }}
+      </span>
+      {% endif %}
+    </div>
+    <div class="panel-body padded">
+      <form method="post" enctype="multipart/form-data" style="max-width: 720px;">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          {% for field in form %}
+            <div class="admin-form-group" style="grid-column:{% if field.name == 'formation' or field.name == 'salle_reference' %}span 2{% endif %};">
+              <label style="display:block; font-size:13px; font-weight:600; color:var(--navy); margin-bottom:6px;">
+                {{ field.label }}
+                {% if field.field.required %}<span style="color:var(--danger);">*</span>{% endif %}
+              </label>
+              {{ field }}
+              {% if field.help_text %}
+                <small style="color:var(--text-light); font-size:11px; display:block; margin-top:4px;">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <div style="color:var(--danger); font-size:12px; margin-top:4px;">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:28px; padding-top:20px; border-top:1px solid var(--border-light);">
+          <a href="{% url 'dashboard_trainer:sessions' %}" class="btn-admin-secondary" style="padding:10px 24px; border-radius:6px; border:1px solid var(--border); color:var(--text-muted); font-weight:600; font-size:14px; background:var(--white);">
+            Annuler
+          </a>
+          <button type="submit" style="padding:10px 24px; border-radius:6px; border:none; background:var(--gold); color:var(--navy-dark); font-weight:600; font-size:14px; cursor:pointer;">
+            Enregistrer les modifications
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+  .admin-form-group select,
+  .admin-form-group input,
+  .admin-form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--dark);
+    transition: border-color 0.2s;
+  }
+  .admin-form-group select:focus,
+  .admin-form-group input:focus,
+  .admin-form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-pale);
+  }
+</style>
+{% endblock %}
+

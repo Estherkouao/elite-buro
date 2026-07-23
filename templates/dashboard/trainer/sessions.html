@@ -1,0 +1,144 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+{% load humanize %}
+
+{% block title %}Mes sessions — Elite Bureau{% endblock %}
+
+{% block page_title %}Mes sessions de formation{% endblock %}
+
+{% block content_area %}
+<div class="content">
+  <!-- Page Header -->
+  <div class="section-header">
+    <h2 class="section-title">Mes sessions</h2>
+    <div style="display:flex; gap:8px;">
+      <form method="get" style="display:flex; gap:8px; align-items:center;">
+        <select name="statut" onchange="this.form.submit()" style="padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:13px; background:var(--white);">
+          <option value="">Tous les statuts</option>
+          <option value="draft" {% if statut_filter == "draft" %}selected{% endif %}>Brouillon</option>
+          <option value="published" {% if statut_filter == "published" %}selected{% endif %}>Publié</option>
+          <option value="open" {% if statut_filter == "open" %}selected{% endif %}>Ouvert</option>
+          <option value="closed" {% if statut_filter == "closed" %}selected{% endif %}>Fermé</option>
+          <option value="canceled" {% if statut_filter == "canceled" %}selected{% endif %}>Annulé</option>
+        </select>
+      </form>
+      <a href="{% url 'dashboard_trainer:session_create' %}" class="btn-primary" style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; background:var(--gold); color:var(--navy-dark); border-radius:6px; font-weight:600; font-size:13px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nouvelle session
+      </a>
+    </div>
+  </div>
+
+  <!-- Sessions Table -->
+  <div class="panel">
+    <div class="panel-body" style="padding:0;">
+      <table class="session-table">
+        <thead>
+          <tr>
+            <th>Formation</th>
+            <th>Date</th>
+            <th>Inscrits</th>
+            <th>Places</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in sessions %}
+          <tr>
+            <td>
+              <div class="session-name">{{ s.formation_title }}</div>
+              <div class="session-date">{{ s.session.formation.description_courte|truncatewords:8 }}</div>
+            </td>
+            <td>
+              <div class="session-date">{{ s.session.date_debut|date:"d M Y" }}</div>
+              <div class="session-date">{{ s.session.heure_debut|time:"H:i" }} – {{ s.session.heure_fin|time:"H:i" }}</div>
+            </td>
+            <td>
+              <div style="font-weight:600;">{{ s.regs_confirmed }} confirmés</div>
+              <div class="session-date">{{ s.regs_pending }} en attente</div>
+            </td>
+            <td>
+              <div style="font-weight:600;">{{ s.regs_total }} / {{ s.capacity }}</div>
+              {% if s.capacity > 0 %}
+              <div style="width:60px; height:4px; background:var(--cream); border-radius:2px; margin-top:4px;">
+                <div style="width:{% widthratio s.regs_total s.capacity 100 %}%; height:100%; background:var(--gold); border-radius:2px;"></div>
+              </div>
+              {% endif %}
+            </td>
+            <td>
+              {% if s.session.statut == "open" or s.session.statut == "published" %}
+                <span class="badge badge-success">{{ s.session.get_statut_display }}</span>
+              {% elif s.session.statut == "draft" %}
+                <span class="badge badge-gray">{{ s.session.get_statut_display }}</span>
+              {% elif s.session.statut == "closed" %}
+                <span class="badge badge-info">{{ s.session.get_statut_display }}</span>
+              {% elif s.session.statut == "canceled" %}
+                <span class="badge badge-danger">{{ s.session.get_statut_display }}</span>
+              {% else %}
+                <span class="badge badge-warning">{{ s.session.get_statut_display }}</span>
+              {% endif %}
+            </td>
+            <td>
+              <div style="display:flex; gap:6px;">
+
+                <a href="#" 
+                  class="btn-icon" 
+                  title="Voir détails">
+                    👁
+                </a>
+
+
+                <a href="{% url 'dashboard_trainer:session_edit' s.session.id %}" 
+                  class="btn-icon" 
+                  title="Modifier">
+                    ✏️
+                </a>
+
+
+                <form method="post"
+                      action="{% url 'dashboard_trainer:session_delete' s.session.id %}"
+                      onsubmit="return confirm('Voulez-vous vraiment supprimer cette session ?');">
+
+                    {% csrf_token %}
+
+                    <button type="submit"
+                            class="btn-icon"
+                            title="Supprimer"
+                            style="cursor:pointer;color:#dc2626;">
+                        🗑
+                    </button>
+
+                </form>
+
+            </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" style="text-align:center; padding:48px 22px; color:var(--text-muted);">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px; opacity:0.4;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <div style="font-size:15px;">Aucune session pour le moment.</div>
+              <div style="font-size:13px; margin-top:4px;">Créez votre première session pour commencer.</div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<style>
+  .btn-icon {
+    width: 32px; height: 32px; border-radius: 6px;
+    border: 1px solid var(--border);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text-muted); transition: all 0.2s;
+  }
+  .btn-icon:hover { border-color: var(--navy); color: var(--navy); background: var(--ivory); }
+</style>
+{% endblock %}
+

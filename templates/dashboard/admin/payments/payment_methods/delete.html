@@ -1,0 +1,21 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Supprimer méthode de paiement | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Supprimer méthode de paiement</h1>
+    <p class="mt-2 text-sm text-gray-600">{{ method.nom }}</p>
+  </div>
+
+  <form method="post" class="mt-6 rounded-2xl border border-danger/20 bg-white shadow-sm p-6">
+    {% csrf_token %}
+    <div class="text-sm text-gray-700">Confirmer la suppression ?</div>
+
+    <div class="mt-6 flex gap-3">
+      <button type="submit" class="rounded-md bg-danger/90 px-4 py-2 font-bold text-white">Supprimer</button>
+      <a class="rounded-md border border-navy/20 px-4 py-2 font-bold text-navy" href="{% url 'dashboard_admin:payment_methods' %}">Annuler</a>
+    </div>
+  </form>
+{% endblock %}
+

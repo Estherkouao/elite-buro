@@ -1,0 +1,21 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block title %}Supprimer une formation{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-4">Supprimer la formation</h1>
+  <div class="bg-white shadow rounded p-6">
+    <p>Vous êtes sur le point de supprimer : <strong>{{ formation.titre }}</strong></p>
+
+    <form method="post" class="mt-6">
+      {% csrf_token %}
+      <div class="flex gap-3">
+        <button class="btn btn-danger" type="submit">Confirmer la suppression</button>
+        <a class="btn btn-secondary" href="{% url 'dashboard_admin:formations_list' %}">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

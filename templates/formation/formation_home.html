@@ -1,0 +1,435 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}Formation — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ═══════════════════════════════════════════
+     RESET & VARIABLES
+     ═══════════════════════════════════════════ */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #17325C; --navy-light: #23416F; --gold: #B99646; --gold-light: #d4b36a;
+    --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
+    --white: #FFFFFF; --border: #D8D0C2;
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-body: 'Source Sans 3', system-ui, sans-serif;
+    --radius: 8px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
+  a { text-decoration: none; color: var(--gold); font-weight: 500; transition: color 0.2s; }
+  a:hover { color: var(--navy); }
+  img { max-width: 100%; height: auto; display: block; }
+  .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .container-narrow { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .gold-divider { width: 60px; height: 2px; background: var(--gold); }
+
+  /* ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ */
+  .hero { min-height: 55vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 72px; background: var(--navy); position: relative; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 30, 60, 0.88), rgba(23, 50, 92, 0.78)); z-index: 1; }
+ 
+  .hero-content { position: relative; z-index: 2; text-align: center; padding: 72px 24px; }
+  .hero-content .gold-divider { margin: 0 auto 28px; }
+  .hero-content .label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 16px; }
+  .hero-content h1 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+  .hero-content p { font-size: 17px; color: rgba(255,255,255,0.7); font-weight: 300; line-height: 1.7; max-width: 560px; margin: 0 auto; }
+  .hero-content .gold-divider-bottom { margin: 28px auto 0; }
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(
+            rgba(11, 40, 85, 0.05),
+            rgba(11, 40, 85, 0.05)
+        ),
+        url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&q=80');
+
+    background-size: cover;
+    background-position: center;
+}
+
+  /* ═══════════════════════════════════════════
+     INTRO SECTION
+     ═══════════════════════════════════════════ */
+  .intro { padding: 80px 0; background: var(--white); }
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .intro-image { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .intro-image img { width: 100%; height: 380px; object-fit: cover; }
+  .intro-text .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+  .intro-text h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 36px); font-weight: 600; color: var(--navy); line-height: 1.2; margin-bottom: 20px; }
+  .intro-text .gold-divider { margin-bottom: 24px; }
+  .intro-text p { color: var(--text-muted); margin-bottom: 16px; font-size: 15.5px; }
+
+  /* ═══════════════════════════════════════════
+     SERVICES SECTION
+     ═══════════════════════════════════════════ */
+  .services { padding: 80px 0; background: var(--ivory); }
+  .services .section-header { text-align: center; margin-bottom: 56px; }
+  .services .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+  .services .section-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 36px); font-weight: 600; color: var(--navy); margin-bottom: 16px; }
+  .services .gold-divider { margin: 0 auto; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .service-card { background: var(--white); border: 1px solid rgba(0,0,0,0.04); border-top: 3px solid var(--gold); border-radius: var(--radius); padding: 36px 28px; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .service-icon { width: 52px; height: 52px; border-radius: 50%; background: rgba(23, 50, 92, 0.06); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .service-icon svg { width: 24px; height: 24px; stroke: var(--navy); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .service-card h3 { font-family: var(--font-display); font-size: 19px; font-weight: 600; color: var(--navy); margin-bottom: 12px; }
+  .service-card p { font-size: 14.5px; color: var(--text-muted); line-height: 1.7; }
+  .service-card ul { list-style: none; margin-top: 16px; }
+  .service-card ul li { font-size: 14px; color: var(--text-muted); padding: 6px 0 6px 20px; position: relative; }
+  .service-card ul li::before { content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  /* ═══════════════════════════════════════════
+     DOMAINES DE FORMATION
+     ═══════════════════════════════════════════ */
+  .domaines { padding: 80px 0; background: var(--white); }
+  .domaines .section-header { text-align: center; margin-bottom: 56px; }
+  .domaines .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+  .domaines .section-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 36px); font-weight: 600; color: var(--navy); margin-bottom: 16px; }
+  .domaines .gold-divider { margin: 0 auto; }
+  .domaines-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+  .domaine-item { display: flex; align-items: flex-start; gap: 16px; padding: 24px; background: var(--ivory); border-radius: var(--radius); border: 1px solid var(--border); transition: border-color 0.3s, box-shadow 0.3s; }
+  .domaine-item:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+  .domaine-number { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; flex-shrink: 0; }
+  .domaine-item h4 { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .domaine-item p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ═══════════════════════════════════════════
+     FORMATEURS
+     ═══════════════════════════════════════════ */
+  .formateurs { padding: 80px 0; background: var(--navy); position: relative; overflow: hidden; }
+  .formateurs::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(185, 150, 70, 0.08) 0%, transparent 60%); }
+  .formateurs .section-header { text-align: center; margin-bottom: 48px; position: relative; z-index: 1; }
+  .formateurs .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+  .formateurs .section-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 36px); font-weight: 600; color: var(--white); margin-bottom: 16px; }
+  .formateurs .gold-divider { margin: 0 auto; }
+  .formateurs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+  .formateur-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 32px 24px; text-align: center; transition: background 0.3s; }
+  .formateur-card:hover { background: rgba(255,255,255,0.1); }
+  .formateur-avatar { width: 64px; height: 64px; border-radius: 50%; background: rgba(185, 150, 70, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-family: var(--font-display); font-size: 22px; color: var(--gold); font-weight: 700; }
+  .formateur-card h4 { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .formateur-card .role { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+  .formateur-card p { font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* ═══════════════════════════════════════════
+     AVANTAGES
+     ═══════════════════════════════════════════ */
+  .avantages { padding: 80px 0; background: var(--ivory); }
+  .avantages .section-header { text-align: center; margin-bottom: 56px; }
+  .avantages .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+  .avantages .section-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 36px); font-weight: 600; color: var(--navy); margin-bottom: 16px; }
+  .avantages .gold-divider { margin: 0 auto; }
+  .avantages-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .avantage-item { text-align: center; padding: 32px 20px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04); transition: transform 0.3s, box-shadow 0.3s; }
+  .avantage-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .avantage-item .number { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 12px; }
+  .avantage-item h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 8px; letter-spacing: 0.02em; }
+  .avantage-item p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ═══════════════════════════════════════════
+     CTA SECTION
+     ═══════════════════════════════════════════ */
+  .cta-section { padding: 72px 0; background: var(--white); }
+  .cta-content { text-align: center; max-width: 640px; margin: 0 auto; }
+  .cta-content .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
+  .cta-content h2 { font-family: var(--font-display); font-size: clamp(24px, 3.5vw, 34px); font-weight: 600; color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
+  .cta-content .gold-divider { margin: 0 auto 20px; }
+  .cta-content p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; border-radius: 6px; cursor: pointer; border: none; transition: background 0.2s, transform 0.15s; }
+  .btn:active { transform: scale(0.97); }
+  .btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .btn-primary { background: var(--navy); color: var(--white); }
+  .btn-primary:hover { background: var(--navy-light); }
+  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+  .btn-outline:hover { background: var(--navy); color: var(--white); }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .avantages-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav { display: none; }
+    .nav-toggle { display: flex; }
+    .hero { min-height: 40vh; }
+    .hero-content { padding: 48px 24px; }
+    .intro-grid { grid-template-columns: 1fr; gap: 32px; }
+    .intro-image img { height: 260px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .domaines-grid { grid-template-columns: 1fr; }
+    .formateurs-grid { grid-template-columns: 1fr; }
+    .avantages-grid { grid-template-columns: 1fr 1fr; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .footer-top { flex-direction: column; text-align: center; }
+    .footer-info { text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .avantages-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ═══════════════════════════════════════════
+     ANIMATIONS AU SCROLL
+     ═══════════════════════════════════════════ */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="label">Pôle 2</p>
+    <div class="gold-divider"></div>
+    <h1>Centre de Formation</h1>
+    <p>Un espace dédié à la montée en compétences, avec des salles équipées, des programmes clés en main et un accompagnement personnalisé des formateurs.</p>
+    <div class="gold-divider gold-divider-bottom"></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-image reveal">
+        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80" alt="Salle de formation Elite Bureau" />
+      </div>
+      <div class="intro-text reveal">
+        <p class="section-label">Notre offre</p>
+        <h2>Former les talents de demain</h2>
+        <div class="gold-divider"></div>
+        <p>Le Centre de Formation d'Elite Bureau est conçu pour offrir un environnement professionnel et stimulant aux formateurs et aux apprenants. Que vous soyez un organisme de formation, un consultant indépendant ou une entreprise souhaitant former ses collaborateurs, nous mettons à votre disposition des espaces premium et des services complets.</p>
+        <p>Notre mission : faciliter l'accès à la formation professionnelle de qualité en Afrique de l'Ouest, en combinant infrastructures modernes, technologies adaptées et accompagnement humain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Nos services</p>
+      <h2>Ce que nous proposons</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3>Location de salles</h3>
+        <p>Salle de formation entièrement équipée, disponible à la demi-journée ou à la journée, pour des sessions de 5 à 50 participants.</p>
+        <ul>
+          <li>Vidéoprojecteur et écran de projection</li>
+          <li>Sonorisation et micro sans fil</li>
+          <li>Tableau blanc et paperboard</li>
+          <li>Wi-Fi haut débit et prises électriques</li>
+          <li>Climatisation et rafraîchissements</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3>Programmes clés en main</h3>
+        <p>Nous concevons et mettons en œuvre des programmes de formation complets dans divers domaines professionnels, adaptés à vos besoins.</p>
+        <ul>
+          <li>Management et leadership</li>
+          <li>Compétences numériques</li>
+          <li>Entrepreneuriat et business</li>
+          <li>Soft skills et développement personnel</li>
+          <li>Formations sur mesure pour entreprises</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Accompagnement formateurs</h3>
+        <p>Un soutien complet pour les formateurs partenaires : de la préparation de leur dossier à l'animation de leurs sessions.</p>
+        <ul>
+          <li>Aide à la constitution du dossier</li>
+          <li>Mise à disposition de supports pédagogiques</li>
+          <li>Assistance technique le jour J</li>
+          <li>Suivi post-formation et évaluation</li>
+          <li>Référencement sur notre plateforme</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DOMAINES -->
+<section class="domaines">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Thématiques</p>
+      <h2>Domaines de formation</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="domaines-grid">
+      <div class="domaine-item reveal">
+        <span class="domaine-number">01</span>
+        <div>
+          <h4>Management & Leadership</h4>
+          <p>Techniques de management, gestion d'équipe, prise de décision stratégique.</p>
+        </div>
+      </div>
+      <div class="domaine-item reveal">
+        <span class="domaine-number">02</span>
+        <div>
+          <h4>Digital & Numérique</h4>
+          <p>Outils bureautiques, marketing digital, développement web, cybersécurité.</p>
+        </div>
+      </div>
+      <div class="domaine-item reveal">
+        <span class="domaine-number">03</span>
+        <div>
+          <h4>Entrepreneuriat</h4>
+          <p>Création d'entreprise, business plan, financement, stratégies de croissance.</p>
+        </div>
+      </div>
+      <div class="domaine-item reveal">
+        <span class="domaine-number">04</span>
+        <div>
+          <h4>Soft Skills</h4>
+          <p>Communication, présentation, négociation, intelligence émotionnelle.</p>
+        </div>
+      </div>
+      <div class="domaine-item reveal">
+        <span class="domaine-number">05</span>
+        <div>
+          <h4>Comptabilité & Finance</h4>
+          <p>Comptabilité générale, fiscalité, analyse financière, contrôle de gestion.</p>
+        </div>
+      </div>
+      <div class="domaine-item reveal">
+        <span class="domaine-number">06</span>
+        <div>
+          <h4>Ressources Humaines</h4>
+          <p>Recrutement, droit du travail, gestion des carrières, formation continue.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATEURS -->
+<section class="formateurs">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Notre équipe pédagogique</p>
+      <h2>Des formateurs d'exception</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="formateurs-grid">
+      <div class="formateur-card reveal">
+        <div class="formateur-avatar">EB</div>
+        <h4>Formateurs certifiés</h4>
+        <p class="role">Sélection rigoureuse</p>
+        <p>Tous nos formateurs sont sélectionnés selon un processus strict et disposent d'une expérience avérée dans leur domaine d'expertise.</p>
+      </div>
+      <div class="formateur-card reveal">
+        <div class="formateur-avatar">12</div>
+        <h4>Partenaires actifs</h4>
+        <p class="role">Réseau grandissant</p>
+        <p>Un réseau de formateurs indépendants et d'organismes de formation partenaires, couvrant l'ensemble des domaines professionnels.</p>
+      </div>
+      <div class="formateur-card reveal">
+        <div class="formateur-avatar">98%</div>
+        <h4>Satisfaction</h4>
+        <p class="role">Évaluation continue</p>
+        <p>Des évaluations à chaud et à froid après chaque session pour garantir la qualité et améliorer en continu nos programmes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVANTAGES -->
+<section class="avantages">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Pourquoi Elite Bureau</p>
+      <h2>Nos atouts formation</h2>
+      <div class="gold-divider"></div>
+    </div>
+    <div class="avantages-grid">
+      <div class="avantage-item reveal">
+        <div class="number">50</div>
+        <h4>Places max.</h4>
+        <p>Capacité modulable de 5 à 50 participants selon la configuration de la salle.</p>
+      </div>
+      <div class="avantage-item reveal">
+        <div class="number">24/7</div>
+        <h4>Réservation</h4>
+        <p>Plateforme de réservation en ligne accessible à tout moment, 7 jours sur 7.</p>
+      </div>
+      <div class="avantage-item reveal">
+        <div class="number">100%</div>
+        <h4>Équipée</h4>
+        <p>Salles entièrement équipées : audio, vidéo, Wi-Fi, climatisation et mobilier ergonomique.</p>
+      </div>
+      <div class="avantage-item reveal">
+        <div class="number">01</div>
+        <h4>Guichet unique</h4>
+        <p>Un seul interlocuteur pour la location, la logistique et le suivi de vos sessions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content reveal">
+      <p class="section-label">Prêt à se former ?</p>
+      <h2>Réservez votre salle ou devenez formateur partenaire</h2>
+      <div class="gold-divider"></div>
+      <p>
+        Que vous soyez un organisme de formation, un consultant ou une entreprise,
+        Elite Bureau vous accompagne pour des sessions de formation réussies.
+      </p>
+      <div class="cta-buttons">
+        <a href="{% url 'formation:catalogue_page' %}" class="btn btn-primary">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Voir le catalogue
+        </a>
+        <a href="{% url 'formation:trainers' %}" class="btn btn-outline">
+          <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Nos formateurs
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Intersection Observer — animations au scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+{% endblock %}
+

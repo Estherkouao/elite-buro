@@ -1,0 +1,121 @@
+{% extends 'dashboard/base_member.html' %}
+{% load static %}
+
+{% block title %}Nos Formules | EliteBuro{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/domiciliation.css' %}">
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+<style>
+.plans-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+.plan-card{
+    text-align:center;
+    border:1px solid var(--border);
+    transition:.3s;
+    padding:35px;
+}
+
+.plan-card:hover{
+    border-color:var(--secondary);
+    transform:translateY(-6px);
+}
+
+.plan-price{
+    font-size:2.3rem;
+    font-weight:800;
+    color:var(--primary);
+    margin:25px 0;
+}
+
+.popular{
+    border:2px solid var(--secondary);
+    position:relative;
+}
+
+.popular-badge{
+    position:absolute;
+    top:-12px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--secondary);
+    color:#fff;
+    padding:4px 18px;
+    border-radius:20px;
+    font-size:.75rem;
+    font-weight:700;
+}
+</style>
+
+<div class="container">
+
+    <nav class="breadcrumb">
+        <a href="{% url 'domiciliation:index' %}">Accueil</a> /
+        Nos Formules
+    </nav>
+
+    <header style="text-align:center;margin-bottom:50px;">
+        <h1 style="color:var(--primary);">
+            Choisissez votre formule
+        </h1>
+
+        <p style="color:var(--gray);">
+            Sélectionnez l'offre de domiciliation adaptée à votre entreprise.
+        </p>
+    </header>
+
+    <div class="plans-grid">
+
+        {% for plan in plans %}
+
+        <div class="card plan-card {% if plan.slug == 'professionnelle' %}popular{% endif %}">
+
+            {% if plan.slug == 'professionnelle' %}
+                <div class="popular-badge">
+                    RECOMMANDÉ
+                </div>
+            {% endif %}
+
+            <h3>{{ plan.nom }}</h3>
+
+            <div class="plan-price">
+                {{ plan.prix|floatformat:0 }} FCFA
+                <br>
+                <span style="font-size:.8rem;color:var(--gray);">
+                    / mois
+                </span>
+            </div>
+
+            <p style="margin-bottom:25px;color:var(--gray);">
+                {{ plan.description|truncatechars:80 }}
+            </p>
+
+            <a href="{% url 'domiciliation:plan_detail' slug=plan.slug %}"
+               class="btn btn-primary"
+               style="width:100%;">
+                Voir les détails
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <div class="card">
+            <p style="text-align:center;">
+                Aucune formule disponible.
+            </p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

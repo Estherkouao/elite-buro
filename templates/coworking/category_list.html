@@ -1,0 +1,78 @@
+{% extends "dashboard/base_member.html" %}
+
+{% load static %}
+
+{% block title %}Catégories | Coworking | EliteBuro{% endblock %}
+
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="bg-cream/70">
+  <div class="mx-auto max-w-7xl px-6 py-10">
+
+    <nav class="flex items-center gap-2 text-sm text-navy/70" aria-label="breadcrumb">
+      <a href="{% url 'coworking:index' %}" class="hover:text-gold transition">Coworking</a>
+      <span aria-hidden="true">/</span>
+      <span class="font-semibold text-navy">Catégories</span>
+    </nav>
+
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h1 class="font-display text-2xl sm:text-3xl font-bold text-navy">Catégories</h1>
+        <p class="mt-2 text-sm text-navy/70">Choisissez une catégorie pour filtrer instantanément le catalogue.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="{% url 'coworking:workspace_list' %}" class="rounded-xl border border-navy/10 bg-white px-4 py-2 text-sm font-semibold text-navy shadow-sm transition hover:bg-navy/5 focus:outline-none focus:ring-2 focus:ring-gold">
+          Voir le catalogue
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {% for cat in categories %}
+        {% include 'coworking/partials/category_card.html' with category=cat %}
+      {% empty %}
+        <div class="col-span-full rounded-2xl border border-navy/10 bg-white p-10 text-center text-navy/60">
+          Aucune catégorie disponible.
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-10 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 class="font-display text-xl font-bold text-navy">Besoin d’aide ?</h2>
+          <p class="mt-1 text-sm text-navy/70">Lance une recherche rapide et trouve l’espace parfait en 30 secondes.</p>
+        </div>
+        <a href="{% url 'coworking:search' %}" class="inline-flex items-center justify-center rounded-2xl bg-navy px-6 py-3 text-sm font-bold text-white shadow-lg shadow-navy/20 transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2">
+          Recherche avancée
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% block extra_js %}
+<script type="module">
+  const cards = document.querySelectorAll('[data-category-card]');
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(10px)';
+    card.style.transition = 'opacity 320ms ease, transform 420ms ease';
+    card.style.transitionDelay = `${Math.min(i, 18) * 35}ms`;
+    requestAnimationFrame(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    });
+  });
+</script>
+{% endblock %}
+
+{% endblock %}
+

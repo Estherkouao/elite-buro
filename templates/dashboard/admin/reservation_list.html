@@ -1,0 +1,48 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Réservations | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Réservations</h1>
+    <p class="mt-2 text-sm text-gray-600">Voir / modifier / annuler / confirmer / refuser</p>
+
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a href="{% url 'dashboard_admin:reservations' %}" class="rounded-md border border-navy/20 px-4 py-2 font-bold text-navy">Liste</a>
+    </div>
+  </div>
+
+  <div class="mt-6 overflow-x-auto rounded-3xl border border-navy/10 bg-white shadow-sm">
+    <table class="min-w-full text-sm">
+      <thead class="text-gray-500">
+        <tr class="text-left">
+          <th class="py-3 px-4">Numéro</th>
+          <th class="py-3 px-4">Membre</th>
+          <th class="py-3 px-4">Espace</th>
+          <th class="py-3 px-4">Type</th>
+          <th class="py-3 px-4">Statut</th>
+          <th class="py-3 px-4">Montant</th>
+          <th class="py-3 px-4">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-navy/10">
+        {% for r in reservations %}
+          <tr class="hover:bg-cream/40">
+            <td class="py-3 px-4 font-semibold text-navy">{{ r.reservation_number }}</td>
+            <td class="py-3 px-4 text-gray-700">{{ r.utilisateur.full_name|default:r.utilisateur.email }}</td>
+            <td class="py-3 px-4 text-gray-700">{{ r.espace.nom }}</td>
+            <td class="py-3 px-4 text-gray-700">{{ r.type_reservation }}</td>
+            <td class="py-3 px-4 font-semibold">{{ r.statut }}</td>
+            <td class="py-3 px-4 text-gray-700">{{ r.total|default:r.montant }}</td>
+            <td class="py-3 px-4">
+              <a href="{% url 'dashboard_admin:reservation_detail' r.id %}" class="rounded-md bg-navy px-4 py-2 font-bold text-white">Voir</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="py-6 text-center text-gray-500">Aucune réservation.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+

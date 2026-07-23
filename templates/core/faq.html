@@ -1,0 +1,1126 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}FAQ — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #17325C;
+      --navy-light: #23416F;
+      --gold: #B99646;
+      --gold-light: #d4b36a;
+      --ivory: #F7F4EE;
+      --cream: #F0ECE3;
+      --dark: #1C1C1C;
+      --text-muted: #5C5C5C;
+      --white: #FFFFFF;
+      --border: #D8D0C2;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--ivory);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .gold-divider {
+      width: 60px;
+      height: 2px;
+      background-color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      height: 72px;
+      display: flex;
+      align-items: center;
+    }
+
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--navy);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text .name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 0.22em;
+      color: var(--navy);
+    }
+
+    .logo-text .tagline {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      font-style: italic;
+      color: var(--gold);
+      margin-top: -2px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .nav a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      transition: opacity 0.2s;
+    }
+
+    .nav a:hover {
+      opacity: 0.6;
+    }
+
+    .nav a.active {
+      color: var(--gold);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      transition: transform 0.3s;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 72px;
+      background: var(--navy);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 30, 60, 0.90), rgba(23, 50, 92, 0.80));
+      z-index: 1;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&q=80') center/cover no-repeat;
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 64px 24px;
+    }
+
+    .hero-content .gold-divider {
+      margin: 0 auto 28px;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .hero-content p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.72);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .hero-content .gold-divider-bottom {
+      margin: 28px auto 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       CATEGORIES
+       ═══════════════════════════════════════════ */
+    .categories {
+      padding: 56px 0 0;
+      background: var(--ivory);
+    }
+
+    .cat-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .cat-tab {
+      padding: 12px 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--navy);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .cat-tab:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .cat-tab.active {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    /* ═══════════════════════════════════════════
+       FAQ SECTION
+       ═══════════════════════════════════════════ */
+    .faq-section {
+      padding: 48px 0 88px;
+      background: var(--ivory);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px 64px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .faq-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ═══════════════════════════════════════════
+       ACCORDÉON
+       ═══════════════════════════════════════════ */
+    .faq-item {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-left: 3px solid transparent;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .faq-item.open {
+      border-left-color: var(--gold);
+      box-shadow: var(--shadow-md);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+
+    .faq-question:hover {
+      color: var(--gold);
+    }
+
+    .faq-question .faq-category-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .faq-question-text {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(23, 50, 92, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: rgba(185, 150, 70, 0.12);
+    }
+
+    .faq-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--navy);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 24px 22px;
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .faq-answer-inner p {
+      margin-bottom: 10px;
+    }
+
+    .faq-answer-inner p:last-child {
+      margin-bottom: 0;
+    }
+
+    .faq-answer-inner a {
+      color: var(--gold);
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .faq-answer-inner a:hover {
+      color: var(--navy);
+    }
+
+    /* ═══════════════════════════════════════════
+       CTA SECTION
+       ═══════════════════════════════════════════ */
+    .cta-section {
+      padding: 80px 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(185, 150, 70, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 70%, rgba(255,255,255,0.03) 0%, transparent 50%);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-content .label {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .cta-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 18px;
+      line-height: 1.2;
+    }
+
+    .cta-content .gold-divider {
+      margin: 0 auto 20px;
+    }
+
+    .cta-content p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-cta:active {
+      transform: scale(0.97);
+    }
+
+    .btn-cta svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn-cta-primary {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    .btn-cta-primary:hover {
+      background: var(--gold-light);
+    }
+
+    .btn-cta-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .btn-cta-outline:hover {
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 640px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero {
+        min-height: 40vh;
+      }
+
+      .hero-content {
+        padding: 48px 24px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATIONS AU SCROLL
+       ═══════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ -->
+  <section class="py-20 bg-white">
+
+    <div class="max-w-4xl mx-auto px-6 text-center">
+
+        <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+            FAQ
+        </span>
+
+        <h1 class="mt-6 text-5xl font-black text-[#0D2B55]">
+            Questions fréquentes
+        </h1>
+
+        <p class="mt-6 text-lg leading-8 text-slate-600 max-w-2xl mx-auto">
+            Retrouvez les réponses aux questions les plus fréquentes concernant
+            nos espaces de travail, la domiciliation, les formations et nos
+            différents services.
+        </p>
+
+    </div>
+
+</section>
+
+  <!-- ═══════════════════════════════════════════
+       CATEGORIES
+       ═══════════════════════════════════════════ -->
+  <section class="categories">
+    <div class="container">
+      <div class="cat-tabs" id="catTabs">
+        <button class="cat-tab active" data-category="all">Toutes les questions</button>
+        <button class="cat-tab" data-category="coworking">Coworking</button>
+        <button class="cat-tab" data-category="formation">Formation</button>
+        <button class="cat-tab" data-category="domiciliation">Domiciliation</button>
+        <button class="cat-tab" data-category="paiement">Paiement & facturation</button>
+        <button class="cat-tab" data-category="general">Général</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FAQ ACCORDÉON
+       ═══════════════════════════════════════════ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="faq-grid">
+
+        <!-- COLONNE GAUCHE -->
+        <div class="faq-column" id="faqLeft">
+
+          <!-- COWORKING -->
+          <div class="faq-item reveal" data-category="coworking">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Coworking</span>
+                Quels types de bureaux sont disponibles ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Elite Bureau propose <strong>11 bureaux privatifs</strong> entièrement équipés, ainsi que des <strong>hot desks</strong> (postes individuels en espace partagé) et des <strong>salles de réunion</strong> modulables. Tous les espaces sont climatisés, avec Wi-Fi haut débit, eau minérale, parking et réception d'appels.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="coworking">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Coworking</span>
+                Comment réserver un bureau ou une salle ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>La réservation se fait directement en ligne via notre plateforme <a href="#">eliteburo.com</a>. Vous pouvez filtrer par type d'espace, date, capacité et budget. Le processus prend moins de 3 clics. Après paiement, vous recevez une confirmation instantanée par SMS, e-mail et WhatsApp.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="coworking">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Coworking</span>
+                Les espaces sont-ils ouverts le week-end ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Notre service de réservation est accessible <strong>24h/24, 7j/7</strong>. Les espaces sont disponibles selon les horaires d'ouverture : lundi au vendredi de 7h00 à 21h00, et le samedi de 9h00 à 18h00. Des formules étendues sont en cours de développement.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="coworking">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Coworking</span>
+                Y a-t-il un espace membre personnel ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Chaque membre dispose d'un <strong>portail personnel</strong> sécurisé où il peut consulter son profil, son historique de réservations, ses factures et ses réclamations. L'accès se fait via une connexion sécurisée sur eliteburo.com.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="coworking">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Coworking</span>
+                Quels équipements sont inclus dans un bureau privatif ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Chaque bureau privatif comprend : climatisation, bureau et fauteuil ergonomique, caisson de rangement, éclairage dédié, prises électriques, Wi-Fi haut débit, et un journalier ou hebdomadaire selon la formule. Le tarif inclut également le ménage et les consommables de base.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMATION -->
+          <div class="faq-item reveal" data-category="formation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Formation</span>
+                Comment louer une salle de formation ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Nos salles de formation sont disponibles à la location à la demi-journée ou à la journée. Vous pouvez les réserver directement via notre plateforme en ligne, ou nous contacter par e-mail à <a href="#">reservations@eliteburo.com</a> pour une demande sur mesure.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="formation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Formation</span>
+                Proposez-vous des programmes de formation clés en main ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Nous proposons des <strong>programmes de formation clés en main</strong> dans divers domaines professionnels. Nos formateurs partenaires bénéficient également d'un accompagnement personnalisé pour la préparation et le déroulement de leurs sessions.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOMICILIATION -->
+          <div class="faq-item reveal" data-category="domiciliation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Domiciliation</span>
+                Qu'est-ce que la domiciliation d'entreprise ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>La domiciliation permet à une entreprise d'utiliser l'adresse d'Elite Bureau comme siège social ou adresse administrative, sans y avoir physiquement un bureau. C'est une solution idéale pour les auto-entrepreneurs, les startups ou les sociétés étrangères souhaitant opérer en Côte d'Ivoire.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="domiciliation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Domiciliation</span>
+                Combien de formules de domiciliation proposez-vous ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Nous proposons <strong>3 formules de domiciliation</strong> adaptées à différents besoins : une formule de base pour la simple adresse administrative, une formule intermédiaire incluant la gestion du courrier, et une formule premium avec services de conciergerie et transfert de colis.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAIEMENT -->
+          <div class="faq-item reveal" data-category="paiement">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Paiement</span>
+                Quels moyens de paiement acceptez-vous ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Nous acceptons les paiements via <strong>CinetPay</strong> (agrégateur ivoirien), <strong>Orange Money</strong>, <strong>Wave</strong>, les cartes bancaires <strong>Visa / Mastercard</strong>, <strong>PayPal</strong>, ainsi que les <strong>virements bancaires</strong>. Tous les paiements en ligne sont sécurisés et confirmés instantanément.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="paiement">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Paiement</span>
+                Comment obtenir ma facture ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Vos factures sont disponibles en téléchargement PDF directement depuis votre <strong>espace membre personnel</strong> sur eliteburo.com. Vous pouvez également les recevoir automatiquement par e-mail après chaque paiement.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- GÉNÉRAL -->
+          <div class="faq-item reveal" data-category="general">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Général</span>
+                Où se trouve Elite Bureau ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Elite Bureau est situé à <strong>Riviera Palmeraie, Cocody, Abidjan</strong>, en Côte d'Ivoire. L'accès est facile depuis le boulevard de Marseille et la zone d'Angré. Retrouvez-nous sur <a href="#">Google Maps</a> pour l'itinéraire détaillé.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="general">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Général</span>
+                Comment contacter l'équipe ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Vous pouvez nous joindre par e-mail à <a href="#">contact@eliteburo.com</a>, par téléphone au <strong>+225 27 22 47 00 00</strong>, ou directement via le <a href="#">formulaire de contact</a> sur notre site. Notre équipe vous répond sous 24 heures ouvrées.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COLONNE DROITE -->
+        <div class="faq-column" id="faqRight">
+
+          <!-- COWORKING (suite) -->
+          <div class="faq-item reveal" data-category="coworking">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Coworking</span>
+                Peut-on annuler ou modifier une réservation ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Vous pouvez modifier ou annuler votre réservation directement depuis votre espace membre, au moins <strong>24 heures avant</strong> le début de la location. Au-delà, un remboursement partiel peut s'appliquer selon nos conditions générales de vente.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMATION (suite) -->
+          <div class="faq-item reveal" data-category="formation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Formation</span>
+                Comment devenir formateur partenaire ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Notre plateforme propose un <strong>portail formateur</strong> dédié. Inscrivez-vous via le formulaire en ligne, soumettez votre CV et vos programmes de formation. Notre équipe évalue votre dossier et vous recontacte sous 48 heures ouvrées pour un entretien.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="formation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Formation</span>
+                Les salles sont-elles équipées de matériel audiovisuel ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Nos salles de formation sont équipées de vidéoprojecteur, écran de projection, tableau blanc, sonorisation et connexion Wi-Fi. Des options supplémentaires (caméra, micro HF, streaming) sont disponibles sur demande.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOMICILIATION (suite) -->
+          <div class="faq-item reveal" data-category="domiciliation">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Domiciliation</span>
+                Comment souscrire à un contrat de domiciliation ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>La souscription se fait <strong>100% en ligne</strong>. Choisissez votre formule, uploadez vos documents justificatifs et signez le contrat de manière dématérialisée. Le processus est rapide et sécurisé.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAIEMENT (suite) -->
+          <div class="faq-item reveal" data-category="paiement">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Paiement</span>
+                Le paiement mobile money est-il fiable ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Absolument. En Côte d'Ivoire, <strong>85% des transactions digitales</strong> passent par le mobile money. Nous utilisons <strong>CinetPay</strong>, un agrégateur certifié et sécurisé, compatible avec Orange Money, Wave, MTN MoMo et Moov Money. Toutes les transactions sont chiffrées et traçables.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="paiement">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Paiement</span>
+                Les tarifs incluent-ils la TVA ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Tous nos tarifs affichés sont <strong>TTC</strong> (Toutes Taxes Comprises). Les factures émises sont conformes à la réglementation fiscale ivoirienne et indiquent le détail des taxes appliquées.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- GÉNÉRAL (suite) -->
+          <div class="faq-item reveal" data-category="general">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Général</span>
+                Quelles sont les conditions d'accès à l'espace ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>L'accès à l'espace est réservé aux membres inscrits et aux visiteurs sur rendez-vous. Un <strong>QR code de check-in</strong> est généré après chaque réservation et permet un accès rapide et sans friction. Le personnel de conciergerie est présent pour accueillir et orienter.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal" data-category="general">
+            <button class="faq-question" aria-expanded="false">
+              <div class="faq-question-text">
+                <span class="faq-category-tag">Général</span>
+                Y a-t-il un parking disponible ?
+              </div>
+              <div class="faq-icon">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Oui. Un <strong>parking sécurisé</strong> est disponible sur place pour les membres et les visiteurs. L'accès au parking est inclus dans toutes nos formules de coworking et de domiciliation.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CTA — QUESTION NON TROUVÉE
+       ═══════════════════════════════════════════ -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content reveal">
+        <p class="label">Question non trouvée ?</p>
+        <h2>Notre équipe est à votre écoute</h2>
+        <div class="gold-divider"></div>
+        <p>
+          Si votre question n'est pas couverte par cette FAQ, n'hésitez pas à nous contacter
+          directement. Notre équipe vous répondra sous 24 heures ouvrées.
+        </p>
+        <div class="cta-buttons">
+          <a href="mailto:contact@eliteburo.com" class="btn-cta btn-cta-primary">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+            Écrivez-nous
+          </a>
+          <a href="tel:+2252722470000" class="btn-cta btn-cta-outline">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Appelez-nous
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    // ─── Intersection Observer pour animations au scroll ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ─── Accordéon FAQ ───
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const item = this.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+
+        // Fermer tous les autres
+        document.querySelectorAll('.faq-item.open').forEach(openItem => {
+          if (openItem !== item) {
+            openItem.classList.remove('open');
+            openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            openItem.querySelector('.faq-answer').style.maxHeight = '0';
+          }
+        });
+
+        // Toggle l'item courant
+        if (isOpen) {
+          item.classList.remove('open');
+          this.setAttribute('aria-expanded', 'false');
+          answer.style.maxHeight = '0';
+        } else {
+          item.classList.add('open');
+          this.setAttribute('aria-expanded', 'true');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ─── Filtrage par catégorie ───
+    document.querySelectorAll('.cat-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Mettre à jour les onglets actifs
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.dataset.category;
+        document.querySelectorAll('.faq-item').forEach(item => {
+          if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+            // Re-observer pour animation
+            item.classList.remove('visible');
+            setTimeout(() => {
+              item.classList.add('visible');
+            }, 50);
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ─── Menu mobile toggle ───
+    document.querySelector('.nav-toggle').addEventListener('click', function() {
+      const nav = document.querySelector('.nav');
+      if (nav.style.display === 'flex') {
+        nav.style.display = 'none';
+      } else {
+        nav.style.display = 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.position = 'absolute';
+        nav.style.top = '72px';
+        nav.style.right = '24px';
+        nav.style.background = 'white';
+        nav.style.padding = '24px';
+        nav.style.borderRadius = '8px';
+        nav.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)';
+        nav.style.gap = '20px';
+      }
+    });
+  </script>
+{% endblock %}

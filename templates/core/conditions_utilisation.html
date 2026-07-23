@@ -1,0 +1,227 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}Conditions d'utilisation — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #17325C; --navy-light: #23416F; --gold: #B99646; --gold-light: #d4b36a;
+      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
+      --white: #FFFFFF; --border: #D8D0C2;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px; --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    .legal-page { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
+    .legal-page a { text-decoration: none; color: var(--gold); font-weight: 500; transition: color 0.2s; }
+    .legal-page a:hover { color: var(--navy); }
+    .legal-page img { max-width: 100%; height: auto; display: block; }
+    .legal-page .container { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .legal-page .gold-divider { width: 60px; height: 2px; background: var(--gold); }
+
+    /* HERO */
+    .legal-page .hero { min-height: 40vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 0; background: var(--navy); position: relative; }
+    .legal-page .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 30, 60, 0.92), rgba(23, 50, 92, 0.82)); z-index: 1; }
+    .legal-page .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80') center/cover no-repeat; opacity: 0.2; }
+    .legal-page .hero-content { position: relative; z-index: 2; text-align: center; padding: 64px 24px; }
+    .legal-page .hero-content .gold-divider { margin: 0 auto 28px; }
+    .legal-page .hero-content h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 18px; }
+    .legal-page .hero-content p { font-size: 16px; color: rgba(255,255,255,0.65); font-weight: 300; line-height: 1.7; max-width: 520px; margin: 0 auto; }
+    .legal-page .hero-content .gold-divider-bottom { margin: 28px auto 0; }
+
+    /* LEGAL CONTENT */
+    .legal-page .legal-content { padding: 64px 0 96px; background: var(--ivory); }
+    .legal-page .legal-content h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--navy); margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 2px solid var(--gold); display: inline-block; }
+    .legal-page .legal-content h2:first-child { margin-top: 0; }
+    .legal-page .legal-content h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin: 32px 0 12px; }
+    .legal-page .legal-content p { margin-bottom: 16px; color: var(--text-muted); }
+    .legal-page .legal-content ul { margin: 12px 0 20px 24px; color: var(--text-muted); }
+    .legal-page .legal-content ul li { margin-bottom: 8px; }
+    .legal-page .legal-content strong { color: var(--navy); font-weight: 600; }
+
+    /* ALERT BOX */
+    .legal-page .alert-box { background: rgba(23, 50, 92, 0.04); border: 1px solid rgba(23, 50, 92, 0.12); padding: 24px 28px; border-radius: var(--radius); margin: 24px 0; }
+    .legal-page .alert-box p { color: var(--dark); margin-bottom: 8px; }
+    .legal-page .alert-box p:last-child { margin-bottom: 0; }
+
+    /* TABLE */
+    .legal-page .legal-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; }
+    .legal-page .legal-table th { background: var(--navy); color: var(--white); font-weight: 500; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 20px; text-align: left; }
+    .legal-page .legal-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 15px; color: var(--text-muted); }
+    .legal-page .legal-table tr:nth-child(even) td { background: rgba(23, 50, 92, 0.02); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .legal-page .hero { min-height: 32vh; }
+      .legal-page .hero-content { padding: 40px 24px; }
+      .legal-page .legal-content h2 { font-size: 20px; }
+      .legal-page .legal-table { font-size: 13px; }
+      .legal-page .legal-table th, .legal-page .legal-table td { padding: 10px 12px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-b from-[#F8F9FC] to-white border-b border-slate-200">
+
+      <div class="max-w-7xl mx-auto px-6 py-20">
+
+          <div class="max-w-4xl mx-auto text-center">
+
+              <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+                  ✦ Conditions générales
+              </span>
+
+              <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#0D2B55] leading-tight">
+                  Conditions d'utilisation
+              </h1>
+
+              <p class="mt-6 mx-auto max-w-3xl text-lg leading-8 text-slate-600">
+                  Retrouvez les règles d’utilisation du site ELITEBURO ainsi que
+                  les conditions applicables aux services proposés par SAS Elite
+                  Buro Coworking.
+              </p>
+
+          </div>
+
+      </div>
+
+  </section>
+
+  <div class="container">
+    <section class="legal-content">
+
+      <h2>1. Objet</h2>
+      <p>Les présentes conditions d'utilisation (ci-après « CGU ») régissent l'accès et l'utilisation du site internet <strong>eliteburo.com</strong> (ci-après « le Site ») ainsi que l'utilisation des services proposés par <strong>SAS Elite Buro Coworking</strong> (ci-après « la Société »). En accédant au Site ou en utilisant ses services, l'utilisateur (ci-après « l'Utilisateur ») accepte sans réserve les présentes CGU.</p>
+
+      <div class="alert-box">
+        <p><strong>Important :</strong> Si vous n'acceptez pas ces conditions, vous ne devez pas utiliser le Site ni ses services.</p>
+      </div>
+
+      <h2>2. Description des services</h2>
+      <p>Le Site eliteburo.com propose les services suivants :</p>
+      <ul>
+        <li><strong>Coworking & Conciergerie</strong> — Location de bureaux privatifs, hot desks, salles de réunion et services de conciergerie professionnelle.</li>
+        <li><strong>Centre de Formation</strong> — Location de salles de formation, programmes clés en main et accompagnement de formateurs partenaires.</li>
+        <li><strong>Domiciliation d'entreprise</strong> — Mise à disposition d'une adresse professionnelle avec ou sans gestion du courrier.</li>
+        <li><strong>Plateforme de réservation</strong> — Réservation en ligne, paiement sécurisé, espace membre personnel.</li>
+      </ul>
+
+      <h2>3. Inscription et compte membre</h2>
+      <h3>3.1 Création de compte</h3>
+      <p>Pour accéder aux services de réservation, l'Utilisateur doit créer un compte membre en fournissant des informations exactes et à jour. La création de compte est gratuite.</p>
+
+      <h3>3.2 Responsabilité du compte</h3>
+      <p>L'Utilisateur est seul responsable de la confidentialité de ses identifiants de connexion (e-mail et mot de passe). Toute activité effectuée depuis son compte est réputée réalisée par lui. L'Utilisateur s'engage à signaler immédiatement toute utilisation non autorisée de son compte.</p>
+
+      <h3>3.3 Vérification de l'identité</h3>
+      <p>La Société se réserve le droit de vérifier l'identité de tout Utilisateur et de suspendre ou supprimer un compte en cas de suspicion de fraude ou de non-respect des présentes CGU.</p>
+
+      <h2>4. Réservations</h2>
+      <h3>4.1 Processus de réservation</h3>
+      <p>Les réservations s'effectuent directement en ligne via la plateforme eliteburo.com. L'Utilisateur sélectionne le type d'espace, la date, la durée et procède au paiement. Une confirmation est envoyée par e-mail et SMS après validation du paiement.</p>
+
+      <h3>4.2 Confirmation et annulation</h3>
+      <ul>
+        <li>Toute réservation confirmée est ferme et définitive.</li>
+        <li>L'annulation est possible <strong>au moins 24 heures avant</strong> le début de la location, avec remboursement intégral.</li>
+        <li>Au-delà de ce délai, un remboursement partiel peut s'appliquer selon les conditions spécifiques de chaque formule.</li>
+        <li>En cas de non-présentation sans annulation préalable, le montant de la réservation ne sera pas remboursé.</li>
+      </ul>
+
+      <h3>4.3 Tarifs</h3>
+      <p>Les tarifs sont affichés en <strong>Franc CFA (XOF)</strong>, toutes taxes comprises (TTC). La Société se réserve le droit de modifier ses tarifs à tout moment. Les prix applicables sont ceux en vigueur au moment de la réservation.</p>
+
+      <h2>5. Paiement</h2>
+      <h3>5.1 Moyens de paiement acceptés</h3>
+      <p>La Société accepte les moyens de paiement suivants :</p>
+      <ul>
+        <li>CinetPay (agrégateur de paiement ivoirien)</li>
+        <li>Orange Money</li>
+        <li>Wave</li>
+        <li>MTN MoMo</li>
+        <li>Moov Money</li>
+        <li>Cartes bancaires Visa et Mastercard</li>
+        <li>PayPal</li>
+        <li>Virement bancaire</li>
+      </ul>
+
+      <h3>5.2 Sécurité des paiements</h3>
+      <p>Tous les paiements en ligne sont traités par des prestataires certifiés et sécurisés (CinetPay, etc.). La Société ne stocke aucune donnée bancaire sur ses propres serveurs.</p>
+
+      <h3>5.3 Facturation</h3>
+      <p>Une facture conforme à la réglementation fiscale ivoirienne est émise pour chaque transaction. Les factures sont disponibles en téléchargement PDF depuis l'espace membre.</p>
+
+      <h2>6. Utilisation des espaces</h2>
+      <h3>6.1 Règles de bonne conduite</h3>
+      <p>L'Utilisateur s'engage à :</p>
+      <ul>
+        <li>Respecter le règlement intérieur affiché dans les espaces.</li>
+        <li>Ne pas fumer dans les locaux (espaces fumeurs désignés uniquement).</li>
+        <li>Respecter la tranquillité des autres membres.</li>
+        <li>Utiliser le matériel mis à disposition avec soin et en bon père de famille.</li>
+        <li>Signaler tout dysfonctionnement ou dommage au personnel de conciergerie.</li>
+      </ul>
+
+      <h3>6.2 Accès</h3>
+      <p>L'accès aux espaces est réservé aux membres inscrits et aux visiteurs sur rendez-vous. Un QR code de check-in est généré après chaque réservation. L'accès au parking est inclus dans toutes les formules.</p>
+
+      <h3>6.3 Horaires</h3>
+      <table class="legal-table">
+        <tr><th>Jours</th><th>Horaires d'ouverture</th></tr>
+        <tr><td>Lundi — Vendredi</td><td>7h00 — 21h00</td></tr>
+        <tr><td>Samedi</td><td>9h00 — 18h00</td></tr>
+        <tr><td>Dimanche et jours fériés</td><td>Fermé (sur demande spéciale possible)</td></tr>
+      </table>
+
+      <h2>7. Propriété intellectuelle du Site</h2>
+      <p>L'ensemble du contenu du Site (textes, images, logos, graphismes, logiciels, bases de données) est protégé par les lois ivoiriennes et internationales sur la propriété intellectuelle. Toute reproduction, représentation ou exploitation non autorisée est strictement interdite et pourra donner lieu à des poursuites judiciaires.</p>
+
+      <h2>8. Responsabilités</h2>
+      <h3>8.1 Responsabilité de la Société</h3>
+      <p>La Société s'efforce de maintenir le Site accessible et fonctionnel. Toutefois, elle ne saurait être tenue responsable des interruptions, dysfonctionnements ou erreurs techniques inhérents à l'utilisation d'Internet ou de services tiers.</p>
+
+      <h3>8.2 Responsabilité de l'Utilisateur</h3>
+      <p>L'Utilisateur est seul responsable des conséquences de l'utilisation qu'il fait du Site et de ses services. Il s'engage à ne pas utiliser le Site à des fins illicites, frauduleuses ou contraires aux bonnes mœurs.</p>
+
+      <h3>8.3 Force majeure</h3>
+      <p>La Société ne pourra être tenue responsable en cas d'inexécution de ses obligations due à un cas de force majeure (pandémie, catastrophe naturelle, troubles sociaux, etc.).</p>
+
+      <h2>9. Résiliation</h2>
+      <p>La Société se réserve le droit de suspendre ou résilier l'accès d'un Utilisateur au Site et à ses services en cas de :</p>
+      <ul>
+        <li>Non-respect des présentes CGU.</li>
+        <li>Comportement frauduleux ou abusif.</li>
+        <li>Tentative de piratage ou d'intrusion dans les systèmes.</li>
+        <li>Harcèlement ou comportement inapproprié envers le personnel ou les autres membres.</li>
+      </ul>
+
+      <h2>10. Modification des CGU</h2>
+      <p>La Société se réserve le droit de modifier les présentes CGU à tout moment. Les modifications entreront en vigueur à compter de leur publication sur le Site. L'utilisation continue du Site après modification vaut acceptation des nouvelles CGU.</p>
+
+      <h2>11. Droit applicable et litiges</h2>
+      <p>Les présentes CGU sont soumises au <strong>droit ivoirien</strong>. En cas de litige, les parties s'efforceront de trouver une solution amiable. À défaut, le litige sera porté devant les tribunaux compétents d'<strong>Abidjan, Côte d'Ivoire</strong>.</p>
+
+      <h2>12. Contact</h2>
+      <p>Pour toute question relative aux présentes CGU, veuillez contacter la Société :</p>
+      <ul>
+        <li>E-mail : <a href="mailto:contact@eliteburo.com">contact@eliteburo.com</a></li>
+        <li>Téléphone : +225 27 22 47 00 00</li>
+        <li>Adresse : Riviera Palmeraie, Cocody, Abidjan, Côte d'Ivoire</li>
+      </ul>
+
+      <p style="margin-top: 48px; font-size: 13px; color: rgba(0,0,0,0.35); text-align: center;">
+        Dernière mise à jour : 21 juillet 2026
+      </p>
+
+    </section>
+  </div>
+
+</div>
+{% endblock %}

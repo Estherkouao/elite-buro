@@ -1,0 +1,215 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Profil | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+
+    <!-- HEADER -->
+
+
+    <div class="section-header">
+
+
+        <div>
+
+
+            <h2>
+                Profil utilisateur
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+
+                Utilisateur :
+                {{ profile_user.full_name|default:profile_user.email }}
+
+            </p>
+
+
+        </div>
+
+
+
+        <a href="{% url 'dashboard_admin:profile_edit' profile_user.id %}"
+           class="btn-primary">
+
+
+            Modifier le profil
+
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <!-- PROFIL CARD -->
+
+
+    <div class="settings-card">
+
+
+        <h3>
+            Informations du compte
+        </h3>
+
+
+
+        <div class="settings-form">
+
+
+
+            <div class="form-group">
+
+
+                <label>
+                    Nom complet
+                </label>
+
+
+                <input type="text"
+                       value="{{ profile_user.full_name|default:'-' }}"
+                       disabled>
+
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+
+                <label>
+                    Email
+                </label>
+
+
+                <input type="text"
+                       value="{{ profile_user.email }}"
+                       disabled>
+
+
+            </div>
+
+
+
+
+
+
+            <div class="form-group">
+
+
+                <label>
+                    Téléphone
+                </label>
+
+
+                <input type="text"
+                       value="{{ profile_user.phone|default:'-' }}"
+                       disabled>
+
+
+            </div>
+
+
+
+
+
+
+            <div class="form-group">
+
+
+                <label>
+                    Rôle
+                </label>
+
+
+                <input type="text"
+                       value="{{ profile_user.role }}"
+                       disabled>
+
+
+            </div>
+
+
+
+
+
+
+            <div class="form-group">
+
+
+                <label>
+                    Statut
+                </label>
+
+
+                <div>
+
+
+                    {% if profile_user.is_active %}
+
+
+                        <span class="status-badge confirmed">
+
+                            Actif
+
+                        </span>
+
+
+
+                    {% else %}
+
+
+                        <span class="status-badge cancelled">
+
+                            Inactif
+
+                        </span>
+
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

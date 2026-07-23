@@ -1,0 +1,212 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer une formule | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Créer une formule
+            </h2>
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Ajouter une nouvelle formule de domiciliation.
+            </p>
+
+        </div>
+
+        <a href="{% url 'dashboard_admin:domiciliation_plans' %}"
+           class="btn-action">
+
+            ← Retour
+
+        </a>
+
+    </div>
+
+
+
+    <!-- FORMULAIRE -->
+
+    <div class="form-card">
+
+        <form method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Nom
+                </label>
+
+                {{ form.nom }}
+
+                {% if form.nom.errors %}
+                    <div class="error">
+                        {{ form.nom.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Prix
+                </label>
+
+                {{ form.prix }}
+
+                {% if form.prix.errors %}
+                    <div class="error">
+                        {{ form.prix.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Durée (mois)
+                </label>
+
+                {{ form.durée }}
+
+                {% if form.durée.errors %}
+                    <div class="error">
+                        {{ form.durée.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                    <div class="error">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Avantages
+                </label>
+
+                {{ form.avantages }}
+
+                {% if form.avantages.errors %}
+                    <div class="error">
+                        {{ form.avantages.errors }}
+                    </div>
+                {% endif %}
+
+                <small style="color:var(--text-light);">
+                    Un avantage par ligne.
+                </small>
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Actif
+                </label>
+
+                {{ form.actif }}
+
+                {% if form.actif.errors %}
+                    <div class="error">
+                        {{ form.actif.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Ordre d'affichage
+                </label>
+
+                {{ form.ordre }}
+
+                {% if form.ordre.errors %}
+                    <div class="error">
+                        {{ form.ordre.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+
+
+
+            <div style="margin-top:25px;display:flex;gap:12px;">
+
+                <button type="submit"
+                        class="btn-primary">
+
+                    Créer
+
+                </button>
+
+                <a href="{% url 'dashboard_admin:domiciliation_plans' %}"
+                   class="btn-action">
+
+                    Annuler
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

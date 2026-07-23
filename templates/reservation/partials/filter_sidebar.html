@@ -1,0 +1,50 @@
+<div class="rounded-2xl border border-navy/10 bg-white shadow-sm p-4">
+  <h3 class="font-display text-lg font-bold text-gold">Filtres</h3>
+
+  <form method="get" class="mt-4 space-y-4">
+    {% if filter %}
+      <div>
+        <label class="block text-sm font-semibold text-gold mb-1">Espace</label>
+        {{ filter.form.espace }}
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gold mb-1">Entreprise</label>
+        {{ filter.form.entreprise }}
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gold mb-1">Membre</label>
+        {{ filter.form.membre }}
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gold mb-1">Statut</label>
+        {{ filter.form.statut }}
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gold mb-1">Type</label>
+        {{ filter.form.type_reservation }}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-semibold text-gold mb-1">Date début</label>
+          {{ filter.form.date_debut }}
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gold mb-1">Date fin</label>
+          {{ filter.form.date_fin }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gold mb-1">Montant min</label>
+        {{ filter.form.montant_min }}
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button type="submit" class="inline-flex items-center rounded-xl bg-gold px-4 py-2 font-semibold text-white hover:bg-gold/90 transition">Filtrer</button>
+        <a href="{% url 'reservation:list' %}" class="text-sm font-semibold text-gold hover:underline">Reset</a>
+      </div>
+    {% endif %}
+  </form>
+</div>
+

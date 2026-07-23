@@ -1,0 +1,37 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% block title %}Recherche réservations | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <div class="flex items-start justify-between gap-4 flex-wrap">
+    <div>
+      <h1 class="font-display text-3xl font-bold">Recherche</h1>
+      <p class="mt-2 text-sm text-gray-600">Recherchez et filtrez vos réservations.</p>
+    </div>
+    <a href="{% url 'reservation:list' %}" class="inline-flex items-center rounded-xl border border-navy/20 px-4 py-2 font-semibold text-navy hover:bg-navy/5 transition">Retour</a>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <aside class="lg:col-span-1">
+      {% include 'reservation/partials/filter_sidebar.html' %}
+    </aside>
+
+    <section class="lg:col-span-2">
+      <div class="rounded-2xl border border-navy/10 bg-white shadow-sm overflow-hidden">
+        <div class="px-4 py-3 bg-navy text-white text-xs uppercase tracking-wider">Résultats</div>
+        <div class="p-4">
+          <div class="flex flex-col gap-3">
+            {% for r in reservations %}
+              {% include 'reservation/partials/reservation_card.html' %}
+            {% empty %}
+              {% include 'reservation/partials/empty_state.html' with message="Aucun résultat." %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+

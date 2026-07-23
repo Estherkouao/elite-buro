@@ -1,0 +1,278 @@
+{% extends 'dashboard/base_member.html' %}
+{% load static %}
+
+{% block title %}
+Suivi Demande | EliteBuro
+{% endblock %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/domiciliation.css' %}">
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+
+<style>
+
+.timeline {
+    list-style: none;
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+
+.timeline-dot {
+    position: absolute;
+    left: -32px;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 3px solid white;
+}
+
+
+.timeline-item.completed .timeline-dot {
+    background: var(--success);
+}
+
+
+.timeline-item.active .timeline-dot {
+    background: var(--secondary);
+    box-shadow: 0 0 0 4px rgba(197,160,89,.2);
+}
+
+</style>
+
+
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+    <a href="javascript:history.back()"
+       class="inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#0D2B55] hover:bg-gray-300 transition">
+
+        ← Retour
+
+    </a>
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="mb-8 text-sm text-gray-500">
+
+        <a href="{% url 'accounts:dashboard' %}"
+           class="text-[#0D2B55] hover:underline">
+
+            Tableau de bord
+
+        </a>
+
+        /
+
+        <a href="{% url 'domiciliation:history_list' %}"
+           class="text-[#0D2B55] hover:underline">
+
+            Mes demandes
+
+        </a>
+
+        /
+
+        Suivi dossier #{{ demande.numero_demande }}
+
+    </div>
+
+
+
+
+
+    <div class="grid lg:grid-cols-3 gap-8">
+
+
+
+        <!-- STATUT -->
+
+        <div class="bg-white rounded-3xl shadow-xl p-8">
+
+
+            <h3 class="text-xl font-bold text-[#0D2B55] mb-6">
+                Statut actuel
+            </h3>
+
+
+
+            <span class="inline-block rounded-full 
+                         bg-yellow-100 
+                         text-yellow-700 
+                         px-5 py-2 
+                         font-bold">
+
+                {{ demande.statut }}
+
+            </span>
+
+
+
+
+            <p class="mt-6 text-gray-500 text-sm leading-7">
+
+                Votre dossier est suivi par notre équipe.
+
+                <br>
+
+                Dernière mise à jour :
+
+                <strong>
+                    {{ demande.derniere_modification|date:'d/m/Y H:i' }}
+                </strong>
+
+            </p>
+
+
+
+            <hr class="my-6">
+
+
+
+            <a href="{% url 'domiciliation:contract' uuid=demande.id %}"
+
+               class="block text-center rounded-xl 
+                      bg-[#C9A02C]
+                      text-[#0D2B55]
+                      py-4
+                      font-bold
+                      hover:scale-105
+                      transition">
+
+
+                Étape suivante : Signature
+
+
+            </a>
+
+
+        </div>
+
+
+
+
+
+
+        <!-- TIMELINE -->
+
+
+        <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl p-10">
+
+
+            <h3 class="text-2xl font-black text-[#0D2B55] mb-10">
+
+                Progression du dossier
+
+            </h3>
+
+
+
+
+            <ul class="timeline">
+
+
+                {% for log in demande.logs.all %}
+
+
+                <li class="timeline-item 
+                    {% if forloop.last %}active{% endif %}">
+
+
+                    <div class="timeline-dot"></div>
+
+
+
+                    <strong class="text-[#0D2B55] text-lg">
+
+                        {{ log.action }}
+
+                    </strong>
+
+
+
+                    <p class="mt-2 text-sm text-gray-500">
+
+                        {{ log.created_at|date:'d/m/Y H:i' }}
+
+                        -
+
+                        {{ log.details }}
+
+                    </p>
+
+
+                </li>
+
+
+
+                {% empty %}
+
+
+
+                <li class="timeline-item active">
+
+
+                    <div class="timeline-dot"></div>
+
+
+                    <strong class="text-[#0D2B55] text-lg">
+
+                        Demande enregistrée
+
+                    </strong>
+
+
+
+                    <p class="mt-2 text-sm text-gray-500">
+
+                        En attente de traitement par l'équipe EliteBuro.
+
+                    </p>
+
+
+                </li>
+
+
+
+                {% endfor %}
+
+
+
+            </ul>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

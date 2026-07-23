@@ -1,0 +1,206 @@
+<div class="space-y-4">
+
+
+    <!-- Informations -->
+
+    <div class="rounded-xl border border-navy/10 bg-cream/30 p-4">
+
+        <div class="text-sm font-semibold text-navy">
+            Informations
+        </div>
+
+
+        <div class="mt-3 space-y-2 text-sm text-gray-700">
+
+            <div>
+                <span class="font-semibold">Espace :</span>
+                {{ reservation.espace.nom }}
+            </div>
+
+
+            <div>
+                <span class="font-semibold">Entreprise :</span>
+                {% if reservation.entreprise %}
+                    {{ reservation.entreprise.company_name }}
+                {% else %}
+                    —
+                {% endif %}
+            </div>
+
+
+            <div>
+                <span class="font-semibold">Membre :</span>
+                {{ reservation.utilisateur.first_name }}
+                {{ reservation.utilisateur.last_name }}
+            </div>
+
+
+            <div>
+                <span class="font-semibold">Type :</span>
+                {{ reservation.get_type_reservation_display }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <!-- Période -->
+
+    <div class="rounded-xl border border-navy/10 bg-cream/30 p-4">
+
+
+        <div class="text-sm font-semibold text-navy">
+            Période
+        </div>
+
+
+        <div class="mt-3 space-y-2 text-sm text-gray-700">
+
+
+            <div>
+                <span class="font-semibold">Début :</span>
+                {{ reservation.date_debut|date:"Y-m-d" }}
+            </div>
+
+
+
+            <div>
+                <span class="font-semibold">Fin :</span>
+                {{ reservation.date_fin|date:"Y-m-d" }}
+            </div>
+
+
+
+            {% if reservation.heure_debut and reservation.heure_fin %}
+
+            <div>
+                <span class="font-semibold">Heures :</span>
+                {{ reservation.heure_debut }} → {{ reservation.heure_fin }}
+            </div>
+
+            {% endif %}
+
+
+
+            <div>
+                <span class="font-semibold">Personnes :</span>
+                {{ reservation.nombre_participants }}
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Tarifs -->
+
+    <div class="rounded-xl border border-navy/10 bg-cream/30 p-4">
+
+
+        <div class="text-sm font-semibold text-navy">
+            Tarifs
+        </div>
+
+
+
+        <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3 text-sm">
+
+
+
+            <div class="p-3 rounded-xl bg-white border border-navy/10">
+
+                <div class="text-gray-500">
+                    Montant
+                </div>
+
+                <div class="font-semibold text-navy">
+                    {{ reservation.prix_unitaire }} FCFA
+                </div>
+
+            </div>
+
+
+
+
+            <div class="p-3 rounded-xl bg-white border border-navy/10">
+
+                <div class="text-gray-500">
+                    Remise
+                </div>
+
+                <div class="font-semibold text-navy">
+                    {{ reservation.remise }} FCFA
+                </div>
+
+            </div>
+
+
+
+
+
+            <div class="p-3 rounded-xl bg-white border border-navy/10">
+
+                <div class="text-gray-500">
+                    Taxe
+                </div>
+
+                <div class="font-semibold text-navy">
+                    {{ reservation.taxes }} FCFA
+                </div>
+
+            </div>
+
+
+
+
+
+            <div class="p-3 rounded-xl bg-gold/20 border border-gold">
+
+                <div class="text-gray-500">
+                    Total
+                </div>
+
+                <div class="font-bold text-navy">
+                    {{ reservation.montant_total }} FCFA
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+        {% if reservation.commentaire %}
+
+        <div class="mt-4 text-sm text-gray-700">
+
+            <span class="font-semibold">
+                Commentaire :
+            </span>
+
+            {{ reservation.commentaire }}
+
+        </div>
+
+        {% endif %}
+
+
+
+    </div>
+
+
+</div>

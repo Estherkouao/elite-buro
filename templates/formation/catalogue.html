@@ -1,0 +1,95 @@
+{% extends "dashboard/base_member.html" %}
+{% block title %}Catalogue Formations | ELITEBURO{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Catalogue</h1>
+      {% if q %}
+        <p class="text-slate-600">Résultats pour : <span class="font-medium">{{ q }}</span></p>
+      {% else %}
+        <p class="text-slate-600">Découvrez nos formations.</p>
+      {% endif %}
+    </div>
+
+    <form class="flex w-full md:w-96" method="get" action="{% url 'formation:catalogue_page' %}">
+      <input class="w-full rounded-l border px-3 py-2" type="text" name="q" value="{{ q|default:'' }}" placeholder="Rechercher..." />
+      <button class="rounded-r bg-slate-900 px-4 py-2 text-white" type="submit">Rechercher</button>
+    </form>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-12">
+    <aside class="md:col-span-3">
+      {% if filter %}
+        <form method="get" action="{% url 'formation:filters' %}" class="rounded border p-4">
+          {% for field in filter_form %}{% endfor %}
+          {# fallback: on affiche manuellement les filtres si présents #}
+
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm font-medium">Catégorie</label>
+              <select name="category" class="mt-1 w-full rounded border px-3 py-2">
+                <option value="">Toutes</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-sm font-medium">Niveau</label>
+              <input name="niveau" class="mt-1 w-full rounded border px-3 py-2" value="{{ request.GET.niveau|default:'' }}" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-sm font-medium">Prix min</label>
+                <input type="number" name="prix_min" class="mt-1 w-full rounded border px-3 py-2" value="{{ request.GET.prix_min|default:'' }}" />
+              </div>
+              <div>
+                <label class="text-sm font-medium">Prix max</label>
+                <input type="number" name="prix_max" class="mt-1 w-full rounded border px-3 py-2" value="{{ request.GET.prix_max|default:'' }}" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-sm font-medium">Durée min (h)</label>
+                <input type="number" name="duree_min" class="mt-1 w-full rounded border px-3 py-2" value="{{ request.GET.duree_min|default:'' }}" />
+              </div>
+              <div>
+                <label class="text-sm font-medium">Durée max (h)</label>
+                <input type="number" name="duree_max" class="mt-1 w-full rounded border px-3 py-2" value="{{ request.GET.duree_max|default:'' }}" />
+              </div>
+            </div>
+
+            <div>
+              <label class="flex items-center gap-2 text-sm font-medium">
+                <input type="checkbox" name="disponibilite" value="True" {% if request.GET.disponibilite == 'True' %}checked{% endif %} />
+                Uniquement avec places
+              </label>
+            </div>
+
+            <div>
+              <button class="w-full rounded bg-slate-900 px-3 py-2 text-white" type="submit">Appliquer</button>
+            </div>
+          </div>
+        </form>
+      {% else %}
+        <div class="rounded border p-4 text-slate-600">Aucun filtre.</div>
+      {% endif %}
+    </aside>
+
+    <section class="md:col-span-9">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {% for formation in formations %}
+          {% include 'formation/partials/formation_card.html' with formation=formation %}
+        {% empty %}
+          <div class="md:col-span-2">
+            <div class="rounded border p-6 text-slate-600">Aucune formation trouvée.</div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+

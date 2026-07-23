@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap');
+
+:root {
+  --navy: #0D2B55;
+  --gold: #C9A02C;
+  --green: #0B6B39;
+  --red: #C0392B;
+  --orange: #E67E22;
+  --cream: #FAFAF7;
+
+  --border: rgba(13, 43, 85, 0.15);
+  --shadow: 0 10px 30px rgba(13, 43, 85, 0.10);
+  --shadow-hover: 0 20px 50px rgba(13, 43, 85, 0.18);
+}
+
+/* BASE */
+body {
+  font-family: Inter, sans-serif;
+  background: var(--cream);
+  color: var(--navy);
+}
+
+/* TITRES */
+h1, h2, h3 {
+  font-family: Sora, sans-serif;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+}
+
+/* NAVBAR PROPRE */
+header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+/* DESIGN TOKENS */
+html {
+  scroll-behavior: smooth;
+}
+
+/* LANDING - UTILS (custom classes utilisées dans core/home.html) */
+
+/* Navbar (partially used in other templates via .navbar) */
+.navbar {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border-bottom: 1px solid rgba(13, 43, 85, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.navbar a {
+  color: rgba(13, 43, 85, 0.78) !important;
+}
+
+.navbar a:hover {
+  color: var(--navy) !important;
+}
+
+.navbar .text-blue-600,
+.navbar a[href*="/login"],
+.navbar a[href*="/formations"],
+.navbar a[href*="/contact"],
+.navbar a[href*="/dashboard"] {
+  transition: 0.2s ease;
+}
+
+.navbar .text-green-600 {
+  color: var(--green) !important;
+}
+
+.shadow-glow {
+  box-shadow:
+    0 10px 30px rgba(13, 43, 85, 0.12),
+    0 0 0 1px rgba(201, 160, 44, 0.18);
+}
+
+.shadow-soft {
+  box-shadow: 0 10px 30px rgba(13, 43, 85, 0.08);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(13, 43, 85, 0.12) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* grille / motif pour blocs KPI (soft-grid / soft pattern) */
+.soft-grid {
+  background-image:
+    linear-gradient(rgba(13, 43, 85, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 43, 85, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: center;
+}
+
+/* CARTES CLEAN */
+.rounded-2xl,
+.rounded-\[1\.6rem\],
+.rounded-\[2rem\] {
+  border-radius: 14px !important;
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
+}
+
+/* Hover premium */
+.rounded-2xl:hover,
+.rounded-\[1\.6rem\]:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--gold);
+}
+
+/* BOUTON PRINCIPAL NAVY */
+a.bg-brand-600,
+a[class*="bg-brand"] {
+  background: var(--navy) !important;
+  color: white !important;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: 0.25s;
+}
+
+a.bg-brand-600:hover {
+  background: var(--gold) !important;
+  color: var(--navy) !important;
+}
+
+/* ACCENTS GOLD */
+.text-brand-700,
+.text-brand-600 {
+  color: var(--gold) !important;
+}
+
+/* ICONES */
+.bg-brand-50 {
+  background: rgba(201, 160, 44, 0.12) !important;
+  color: var(--navy) !important;
+}
+
+/* SUCCESS / STATUS */
+.text-green {
+  color: var(--green);
+}
+.text-red {
+  color: var(--red);
+}
+.text-orange {
+  color: var(--orange);
+}
+
+/* INPUTS */
+input {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(13, 43, 85, 0.15);
+}
+
+/* Hero CTA gradients plus premium */
+section .bg-gradient-to-br {
+  background: linear-gradient(135deg, var(--navy), #102f5c) !important;
+}
+
+/* focus accessibility */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(201, 160, 44, 0.35) !important;
+  border-color: rgba(201, 160, 44, 0.9) !important;
+}
+
+/* TEXTE HERO */
+main#accueil h1 {
+  color: var(--navy);
+}
+
+/* STATISTIQUES */
+.text-3xl.font-extrabold {
+  color: var(--navy);
+}
+
+/* BADGES PREMIUM */
+.badge-gold {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(13, 43, 85, 0.06);
+}
+
+/* Petites finitions nav links */
+nav a.transition {
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+nav a.transition:hover {
+  color: var(--navy);
+}
+

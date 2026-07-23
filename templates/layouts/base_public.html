@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    {% load static %}
+
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}EliteBuro{% endblock %}
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- CSS EliteBuro -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/coworking.css' %}">
+
+
+{% load static %}
+    <!-- Google Fonts (EliteBuro) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+    <!-- Configuration identité graphique EliteBuro -->
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+
+                    colors: {
+
+                        /* Couleur principale */
+                        navy: '#0D2B55',
+
+
+                        /* Couleur premium */
+                        gold: '#C9A02C',
+
+
+                        /* Statuts */
+                        success: '#0B6B39',
+
+                        danger: '#C0392B',
+
+                        warning: '#E67E22',
+
+
+                        /* Fond chaleureux */
+                        cream: '#FAFAF7',
+
+                    },
+
+
+                    fontFamily: {
+
+
+                        display: [
+                            'Georgia',
+                            'serif'
+                        ],
+
+
+                        body: [
+                            'Inter',
+                            'system-ui',
+                            'sans-serif'
+                        ],
+
+
+                        mono: [
+                            'ui-monospace',
+                            'monospace'
+                        ]
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+
+
+    {% block extra_css %}
+    {% endblock %}
+
+
+</head>
+
+
+
+<body class="bg-cream text-navy font-body">
+
+
+    <!-- Navigation -->
+    {% include 'partials/navbar.html' %}
+
+
+
+    <!-- Messages Django -->
+    {% include 'partials/messages.html' %}
+
+
+
+
+    <!-- Contenu des pages -->
+    <main class="min-h-screen">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+
+
+    <!-- Footer -->
+    {% include 'partials/footer.html' %}
+
+
+
+
+    {% block extra_js %}
+
+    {% endblock %}
+
+
+
+</body>
+
+</html>

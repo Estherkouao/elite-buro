@@ -1,0 +1,150 @@
+{% extends "dashboard/base_member.html" %}
+{% load static %}
+
+{% block title %}Paiement Formation | ELITEBURO{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold text-navy mb-2">Paiement de votre inscription</h1>
+  <p class="text-slate-500 mb-8">Finalisez votre inscription en effectuant le paiement.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="md:col-span-2">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+        <h2 class="text-lg font-semibold text-navy mb-4">Détails de l'inscription</h2>
+        <div class="space-y-3 text-sm">
+          {% if registration.session %}
+          <div class="flex justify-between"><span class="text-slate-500">Formation</span><span class="font-semibold">{{ registration.session.formation.titre }}</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Session</span><span>{{ registration.session.date_debut }} au {{ registration.session.date_fin }}</span></div>
+          {% else %}
+          <div class="flex justify-between"><span class="text-slate-500">Formation</span><span class="font-semibold">—</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Session</span><span>Non spécifiée</span></div>
+          {% endif %}
+          <div class="flex justify-between"><span class="text-slate-500">Référence</span><span class="font-mono font-semibold">{{ registration.numero }}</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Statut</span><span class="text-green-600 font-semibold">Approuvée ✓</span></div>
+          <hr class="my-2">
+          <div class="flex justify-between text-base"><span class="font-semibold">Montant total</span><span class="font-display font-bold text-xl text-navy">{{ montant_total }} FCFA</span></div>
+        </div>
+      </div>
+
+      {% if providers %}
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-navy mb-4">Choisissez votre moyen de paiement</h2>
+
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-800 mb-2">Modalité de paiement</label>
+          <div class="space-y-2">
+            <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-gold transition" data-type="total">
+              <input type="radio" name="type_paiement" value="total" checked class="accent-gold">
+              <div><span class="font-semibold">Paiement total</span><br><span class="text-sm text-slate-500">{{ montant_total }} FCFA</span></div>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-gold transition" data-type="partiel_50">
+              <input type="radio" name="type_paiement" value="partiel_50" class="accent-gold">
+              <div><span class="font-semibold">50% maintenant</span><br><span class="text-sm text-slate-500">{{ montant_partiel_50 }} FCFA aujourd'hui, {{ montant_partiel_50 }} FCFA plus tard</span></div>
+            </label>
+            <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-gold transition" data-type="partiel_30">
+              <input type="radio" name="type_paiement" value="partiel_30" class="accent-gold">
+              <div><span class="font-semibold">30% maintenant</span><br><span class="text-sm text-slate-500">{{ montant_partiel_30 }} FCFA aujourd'hui, {{ montant_partiel_70 }} FCFA plus tard</span></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-800 mb-2">Fournisseur de paiement</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {% for p in providers %}
+            <label class="flex items-center gap-2 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-gold transition" data-code="{{ p.code }}">
+              <input type="radio" name="provider_code" value="{{ p.code }}" class="accent-gold">
+              <span class="text-sm font-medium">{{ p.name }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="mb-5" id="phoneInputGroup">
+          <label class="block text-sm font-semibold text-gray-800 mb-1.5">Numéro de téléphone</label>
+          <input type="tel" id="phoneNumber" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold outline-none" placeholder="+225 07 00 00 00 00" />
+        </div>
+
+        <div id="paymentError" class="hidden p-4 mb-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700"></div>
+
+        <button onclick="processPayment('{{ registration.id }}')" class="w-full bg-gold text-white py-3 rounded-lg font-semibold hover:bg-gold/90 transition" id="payBtn">
+          Payer maintenant
+        </button>
+      </div>
+      {% else %}
+      <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+        <p class="text-yellow-700">Aucun moyen de paiement disponible pour le moment.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-24">
+        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Résumé</h3>
+        <div class="space-y-3 text-sm">
+          {% if registration.session %}
+          <div class="flex justify-between"><span>Formation</span><span class="font-semibold">{{ registration.session.formation.titre }}</span></div>
+          {% else %}
+          <div class="flex justify-between"><span>Formation</span><span class="font-semibold">—</span></div>
+          {% endif %}
+          <div class="flex justify-between"><span>Montant</span><span class="font-semibold" id="amountDisplay">{{ montant_total }} FCFA</span></div>
+          <hr>
+          <div class="flex justify-between text-base"><span>Total à payer</span><span class="font-bold text-gold" id="totalDisplay">{{ montant_total }} FCFA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('input[name="type_paiement"]').forEach(el => {
+  el.addEventListener('change', function() {
+    const type = this.value;
+    let montant = {{ montant_total }};
+    if (type === 'partiel_50') montant = {{ montant_partiel_50 }};
+    else if (type === 'partiel_30') montant = {{ montant_partiel_30 }};
+    document.getElementById('amountDisplay').textContent = montant.toLocaleString() + ' FCFA';
+    document.getElementById('totalDisplay').textContent = montant.toLocaleString() + ' FCFA';
+  });
+});
+
+function processPayment(inscriptionId) {
+  const providerCode = document.querySelector('input[name="provider_code"]:checked')?.value;
+  const typePaiement = document.querySelector('input[name="type_paiement"]:checked')?.value || 'total';
+  const phoneNumber = document.getElementById('phoneNumber')?.value || '';
+  const errorDiv = document.getElementById('paymentError');
+  const payBtn = document.getElementById('payBtn');
+
+  if (!providerCode) {
+    errorDiv.textContent = 'Veuillez sélectionner un moyen de paiement.';
+    errorDiv.classList.remove('hidden');
+    return;
+  }
+  errorDiv.classList.add('hidden');
+  payBtn.disabled = true;
+  payBtn.textContent = 'Traitement...';
+
+  fetch('/formation/paiement/' + inscriptionId + '/process/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+    body: JSON.stringify({ provider_code: providerCode, type_paiement: typePaiement, phone_number: phoneNumber }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) { window.location.href = "{% url 'formation:my_courses' %}?payment=success"; }
+    else {
+      errorDiv.textContent = data.error || 'Échec du paiement.';
+      errorDiv.classList.remove('hidden');
+      payBtn.disabled = false; payBtn.textContent = 'Payer maintenant';
+    }
+  })
+  .catch(() => {
+    errorDiv.textContent = 'Erreur de connexion.';
+    errorDiv.classList.remove('hidden');
+    payBtn.disabled = false; payBtn.textContent = 'Payer maintenant';
+  });
+}
+</script>
+{% endblock %}
+

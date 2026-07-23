@@ -1,0 +1,123 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Sessions | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+
+    <div class="section-header">
+
+
+        <div>
+
+
+            <h2>
+                Sessions de formation
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Créer, modifier et supprimer les sessions planifiées.
+            </p>
+
+
+        </div>
+
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+            <a href="{% url 'dashboard_admin:formations_list' %}" class="btn-secondary">
+                Formations
+            </a>
+
+            <a href="{% url 'dashboard_admin:sessions_create' %}" class="btn-primary">
+                + Créer une session
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table class="admin-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Formation</th>
+                    <th>Formateur</th>
+                    <th>Date</th>
+                    <th>Places</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for s in sessions %}
+                <tr>
+                    <td>
+                        <strong>{{ s.formation.titre }}</strong>
+                    </td>
+                    <td>{{ s.formateur }}</td>
+                    <td>
+                        {{ s.date_debut }} → {{ s.date_fin }}<br/>
+                        {{ s.heure_debut }} - {{ s.heure_fin }}
+                    </td>
+                    <td>
+                        {{ s.nombre_maximum }}
+                    </td>
+                    <td>
+                        {% if s.statut == 'published' %}
+                            <span class="status-badge confirmed">Publié</span>
+                        {% elif s.statut == 'open' %}
+                            <span class="status-badge confirmed">Ouverte</span>
+                        {% elif s.statut == 'closed' %}
+                            <span class="status-badge cancelled">Fermée</span>
+                        {% elif s.statut == 'canceled' %}
+                            <span class="status-badge cancelled">Annulée</span>
+                        {% else %}
+                            <span class="status-badge">Brouillon</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="table-actions">
+
+                            <a href="{% url 'dashboard_admin:sessions_edit' s.id %}" class="action-btn action-edit">
+                                Modifier
+                            </a>
+
+                            <a href="{% url 'dashboard_admin:sessions_delete' s.id %}" class="action-btn action-cancel">
+                                Supprimer
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center;padding:30px;">
+                        Aucune session disponible.
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

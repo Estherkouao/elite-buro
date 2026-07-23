@@ -1,0 +1,143 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer catégorie | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+
+    <div>
+        <h2>
+            Créer une catégorie d'espace
+        </h2>
+
+        <p style="color:#666;">
+            Catégories : Hot Desks, Salles de réunion, Formation, Conférence, etc.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="settings-card">
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+
+        <div class="settings-form">
+
+
+            <div class="form-group">
+
+                <label>
+                    Nom
+                </label>
+
+                {{ form.nom }}
+
+                {% if form.nom.errors %}
+                <div class="error-message">
+                    {{ form.nom.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Slug
+                </label>
+
+                {{ form.slug }}
+
+                {% if form.slug.errors %}
+                <div class="error-message">
+                    {{ form.slug.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                <div class="error-message">
+                    {{ form.description.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Icône (texte/emoji)
+                </label>
+
+                {{ form.icone }}
+
+                {% if form.icone.errors %}
+                <div class="error-message">
+                    {{ form.icone.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Image
+                </label>
+
+                {{ form.image }}
+
+                {% if form.image.errors %}
+                <div class="error-message">
+                    {{ form.image.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+
+
+            <div style="display:flex; gap:15px; margin-top:20px;">
+
+                <button type="submit" class="btn-primary">
+                    Créer
+                </button>
+
+
+                <a href="{% url 'dashboard_admin:coworking' %}" 
+                   class="btn-secondary">
+                    Annuler
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>
+
+
+{% endblock %}

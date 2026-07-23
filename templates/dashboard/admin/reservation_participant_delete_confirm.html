@@ -1,0 +1,20 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Supprimer participant | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Supprimer participant</h1>
+    <p class="mt-2 text-sm text-gray-600">Réservation #{{ reservation.reservation_number }}</p>
+  </div>
+
+  <div class="mt-6 rounded-3xl border border-red-500/30 bg-white shadow-sm p-6">
+    <p class="text-sm text-gray-700">Confirmer la suppression de <b>{{ participant.prenom }} {{ participant.nom }}</b></p>
+    <form method="post" class="mt-4 space-y-3">
+      {% csrf_token %}
+      <button type="submit" class="rounded-md bg-red-600 px-4 py-2 font-bold text-white">Supprimer</button>
+      <a href="{% url 'dashboard_admin:reservation_participant_list' reservation.id %}" class="ml-4 text-navy font-bold">Annuler</a>
+    </form>
+  </div>
+{% endblock %}
+

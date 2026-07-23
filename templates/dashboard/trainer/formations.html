@@ -1,0 +1,77 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+{% load humanize %}
+
+{% block title %}Mes formations — Elite Bureau{% endblock %}
+
+{% block page_title %}Mes formations{% endblock %}
+
+{% block content_area %}
+<div class="content">
+  <div class="section-header">
+    <h2 class="section-title">Mes formations ({{ formations|length }})</h2>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:20px;">
+    {% for f in formations %}
+    <div class="panel" style="transition: box-shadow 0.2s, transform 0.2s;">
+      <div class="panel-body padded">
+        <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:16px;">
+          {% if f.formation.image %}
+          <img src="{{ f.formation.image.url }}" alt="{{ f.formation.titre }}" style="width:64px; height:64px; border-radius:8px; object-fit:cover; flex-shrink:0;">
+          {% else %}
+          <div style="width:64px; height:64px; border-radius:8px; background:var(--gold-pale); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--gold); font-size:24px; font-weight:700;">{{ f.formation.titre|first }}</div>
+          {% endif %}
+          <div style="flex:1; min-width:0;">
+            <h4 style="font-family:var(--font-display); font-size:15px; font-weight:600; color:var(--navy); margin-bottom:4px;">{{ f.formation.titre }}</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px;">
+              <span class="badge badge-info">{{ f.formation.get_niveau_display }}</span>
+              <span class="badge badge-gray">{{ f.formation.duree }}h</span>
+              {% if f.formation.certificat %}<span class="badge badge-success">Certificat</span>{% endif %}
+            </div>
+            <div style="font-size:13px; color:var(--text-muted);">{{ f.formation.description_courte|truncatewords:20 }}</div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding:12px; background:var(--ivory); border-radius:8px; margin-bottom:16px;">
+          <div style="text-align:center;">
+            <div style="font-size:18px; font-weight:700; color:var(--navy); font-family:var(--font-display);">{{ f.sessions_count }}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Sessions</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:18px; font-weight:700; color:var(--navy); font-family:var(--font-display);">{{ f.total_regs }}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Inscrits</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:18px; font-weight:700; color:var(--gold); font-family:var(--font-display);">{{ f.formation.prix|floatformat:0 }} F</div>
+            <div style="font-size:11px; color:var(--text-muted);">Prix</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+          <a href="{% url 'dashboard_trainer:formation_detail' f.formation.id %}"
+              style="
+              flex:1;
+              text-align:center;
+              padding:8px;
+              border:1px solid var(--border);
+              border-radius:6px;
+              font-size:12px;
+              font-weight:600;
+              color:var(--navy);
+              ">
+              Voir la formation
+          </a>
+          <a href="#" style="flex:1; text-align:center; padding:8px; background:var(--gold); color:var(--navy-dark); border-radius:6px; font-size:12px; font-weight:600;">Modifier</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div style="grid-column:1/-1; text-align:center; padding:64px 22px; color:var(--text-muted);">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:16px; opacity:0.3;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <div style="font-size:16px;">Aucune formation assignée.</div>
+      <div style="font-size:13px; margin-top:4px;">Contactez l'administration pour être assigné à des formations.</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,225 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Réclamation | Admin{% endblock %}
+
+{% block content %}
+
+<div style="padding:30px;">
+
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 5px 20px rgba(0,0,0,.08);
+    ">
+
+
+        <h1 style="
+            font-size:28px;
+            font-weight:800;
+            color:#0f172a;
+            margin-bottom:10px;
+        ">
+            {{ reclamation.objet }}
+        </h1>
+
+
+        <p style="color:#64748b;">
+            Détail de la réclamation
+        </p>
+
+
+
+        <hr style="margin:25px 0;">
+
+
+
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:20px;
+        ">
+
+
+            <div style="
+                background:#f8fafc;
+                padding:15px;
+                border-radius:12px;
+            ">
+
+                <small>Auteur</small>
+
+                <h3>
+                    {{ reclamation.auteur.username }}
+                </h3>
+
+            </div>
+
+
+
+            <div style="
+                background:#f8fafc;
+                padding:15px;
+                border-radius:12px;
+            ">
+
+                <small>Date</small>
+
+                <h3>
+                    {{ reclamation.created_at|date:"d/m/Y H:i" }}
+                </h3>
+
+            </div>
+
+
+
+            <div style="
+                background:#f8fafc;
+                padding:15px;
+                border-radius:12px;
+            ">
+
+                <small>Statut</small>
+
+                {% if reclamation.statut == "cloturee" %}
+
+                <span style="
+                    background:#fee2e2;
+                    color:#b91c1c;
+                    padding:8px 15px;
+                    border-radius:20px;
+                    display:inline-block;
+                ">
+                    Clôturée
+                </span>
+
+                {% else %}
+
+                <span style="
+                    background:#dcfce7;
+                    color:#15803d;
+                    padding:8px 15px;
+                    border-radius:20px;
+                    display:inline-block;
+                ">
+                    Ouverte
+                </span>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div style="margin-top:30px;">
+
+            <h3 style="
+                font-size:20px;
+                font-weight:700;
+            ">
+                Description
+            </h3>
+
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:12px;
+                margin-top:15px;
+                line-height:1.8;
+            ">
+
+                {{ reclamation.description|linebreaks }}
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        {% if reclamation.reponse_admin %}
+
+        <div style="margin-top:30px;">
+
+            <h3 style="
+                font-size:20px;
+                font-weight:700;
+            ">
+                Réponse admin
+            </h3>
+
+
+            <div style="
+                background:#eff6ff;
+                padding:20px;
+                border-radius:12px;
+                margin-top:15px;
+            ">
+
+                {{ reclamation.reponse_admin|linebreaks }}
+
+            </div>
+
+
+        </div>
+
+        {% endif %}
+
+
+
+
+
+        <div style="
+            display:flex;
+            gap:15px;
+            margin-top:35px;
+        ">
+
+
+            <a href="{% url 'reclamation_admin:edit' reclamation.id %}"
+               style="
+               background:#c9a227;
+               color:white;
+               padding:12px 25px;
+               border-radius:8px;
+               text-decoration:none;
+               font-weight:bold;
+               ">
+                Modifier
+            </a>
+
+
+
+
+            <a href="{% url 'reclamation_admin:list' %}"
+               style="
+               border:1px solid #ddd;
+               padding:12px 25px;
+               border-radius:8px;
+               text-decoration:none;
+               color:#111827;
+               ">
+                Retour
+            </a>
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% if statut == 'confirmed' %}
+  <span class="inline-flex items-center rounded-full bg-green/15 text-green px-3 py-1 text-xs font-bold">Confirmée</span>
+{% elif statut == 'canceled' %}
+  <span class="inline-flex items-center rounded-full bg-red/15 text-red px-3 py-1 text-xs font-bold">Annulée</span>
+{% elif statut == 'in_progress' %}
+  <span class="inline-flex items-center rounded-full bg-blue/15 text-blue px-3 py-1 text-xs font-bold">En cours</span>
+{% elif statut == 'finished' %}
+  <span class="inline-flex items-center rounded-full bg-gray/15 text-gray px-3 py-1 text-xs font-bold">Terminée</span>
+{% elif statut == 'expired' %}
+  <span class="inline-flex items-center rounded-full bg-orange/15 text-orange px-3 py-1 text-xs font-bold">Expirée</span>
+{% elif statut == 'refused' %}
+  <span class="inline-flex items-center rounded-full bg-red/15 text-red px-3 py-1 text-xs font-bold">Refusée</span>
+{% else %}
+  <span class="inline-flex items-center rounded-full bg-orange/15 text-orange px-3 py-1 text-xs font-bold">En attente</span>
+{% endif %}
+

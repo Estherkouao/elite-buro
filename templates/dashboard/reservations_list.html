@@ -1,0 +1,45 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% block title %}Mes réservations | EliteBuro{% endblock %}
+
+{% block content %}
+{% include 'partials/member_navbar.html' %}
+  <h1 class="font-display text-3xl font-bold">Mes réservations</h1>
+  <p class="mt-2 text-sm text-gray-600">Liste de vos réservations.</p>
+
+  <div class="mt-6 rounded-2xl border border-navy/10 bg-white shadow-sm overflow-hidden">
+    <div class="grid grid-cols-6 gap-0 bg-navy text-white text-xs uppercase tracking-wider">
+      <div class="p-4 col-span-2">Espace</div>
+      <div class="p-4">Date</div>
+      <div class="p-4">Prix</div>
+      <div class="p-4">Statut</div>
+      <div class="p-4">Actions</div>
+    </div>
+
+    <div class="divide-y divide-navy/10">
+      {% for r in reservations %}
+        <div class="grid grid-cols-6">
+          <div class="p-4 col-span-2 font-semibold">{{ r.espace.nom }}</div>
+          <div class="p-4 text-sm text-gray-700">{{ r.date|date:"Y-m-d" }}</div>
+          <div class="p-4 text-sm text-gray-700">{{ r.prix }} FCFA</div>
+          <div class="p-4">
+            {% if r.statut == 'confirmed' %}
+              <span class="inline-flex items-center rounded-full bg-success/15 text-success px-3 py-1 text-xs font-bold">Confirmée</span>
+            {% elif r.statut == 'canceled' %}
+              <span class="inline-flex items-center rounded-full bg-red/15 text-red px-3 py-1 text-xs font-bold">Annulée</span>
+            {% else %}
+              <span class="inline-flex items-center rounded-full bg-orange/15 text-orange px-3 py-1 text-xs font-bold">En attente</span>
+            {% endif %}
+          </div>
+          <div class="p-4 text-sm">
+            <a href="{% url 'dashboard:reservation_detail' r.id %}" class="text-gold font-semibold hover:text-navy transition">Voir détails</a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="p-8 text-center text-gray-600">Aucune réservation.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}
+

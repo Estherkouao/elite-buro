@@ -1,0 +1,362 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% load static %}
+
+{% block title %}Mon Espace - EliteBuro{% endblock %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+  <main class="main-content">
+    <section id="dashboard" class="content-section active">
+      <!-- ===== HERO DASHBOARD ===== -->
+      <div class="dashboard-hero">
+          <div class="hero-content">
+              <span class="hero-badge">✨ Espace Membre EliteBuro</span>
+              <h1>Bonjour {{ request.user.first_name|default:request.user.username }} 👋</h1>
+              <p>
+                  Gérez facilement vos réservations, votre domiciliation,
+                  vos factures et profitez de tous les services Premium
+                  EliteBuro depuis votre espace personnel.
+              </p>
+              <div class="hero-buttons">
+                  <a href="{% url 'reservation:create' %}" class="btn-gold">réservation salle de formation/bureau</a>
+                  <a href="{% url 'reservation:list' %}" class="btn-gold">Mes réservations</a>
+                  <a href="{% url 'domiciliation:new_request' %}" class="btn-gold">Domiciliations</a>
+              </div>
+          </div>
+          <div class="hero-image">
+              <img src="/media/images1.jpeg" alt="EliteBuro">
+          </div>
+      </div>
+
+      <!-- ===== STATISTIQUES ===== -->
+      <section class="stats-section">
+          <div class="stat-card">
+              <div class="stat-icon blue">📅</div>
+              <div class="stat-content">
+                  <span class="stat-number">{{ reservations_count|default:"0" }}</span>
+                  <p>Réservations</p>
+                  <small>Toutes vos réservations</small>
+              </div>
+          </div>
+          <div class="stat-card">
+              <div class="stat-icon gold">💳</div>
+              <div class="stat-content">
+                  <span class="stat-number">{{ payments_count|default:"0" }}</span>
+                  <p>Paiements</p>
+                  <small>Paiements effectués</small>
+              </div>
+          </div>
+          <div class="stat-card">
+              <div class="stat-icon green">🏢</div>
+              <div class="stat-content">
+                  <span class="stat-number">{{ domiciliation_count|default:"0" }}</span>
+                  <p>Domiciliations</p>
+                  <small>Services actifs</small>
+              </div>
+          </div>
+          <div class="stat-card" onclick="window.location='{% url 'reclamation:member_list' %}'" style="cursor:pointer;">
+              <div class="stat-icon" style="background:#8B5CF6;">📋</div>
+              <div class="stat-content">
+                  <span class="stat-number">{{ reclamations_count|default:"0" }}</span>
+                  <p>Réclamations</p>
+                  <small>Suivi de vos demandes</small>
+              </div>
+          </div>
+          <div class="stat-card">
+              <div class="stat-icon red">🔔</div>
+              <div class="stat-content">
+                  <span class="stat-number">{{ notifications_count|default:"0" }}</span>
+                  <p>Notifications</p>
+                  <small>Non lues</small>
+              </div>
+          </div>
+      </section>
+
+      <!-- ===== MES DERNIÈRES RÉSERVATIONS ===== -->
+      <section class="member-section">
+          <div class="section-header">
+              <span class="section-subtitle">Historique</span>
+              <h2>Mes dernières réservations</h2>
+              <a href="{% url 'reservation:list' %}" class="view-all">Voir tout →</a>
+          </div>
+
+          <div class="reservation-table">
+              {% if reservations %}
+                  {% for reservation in reservations %}
+                  <div class="reservation-card">
+                      <div class="reservation-icon">📅</div>
+                      <div class="reservation-info">
+                          <h3>{{ reservation.espace.nom }}</h3>
+                          <p>
+                              {{ reservation.date_debut|date:"d/m/Y" }}
+                              {% if reservation.heure_debut %}
+                                  • {{ reservation.heure_debut|time:"H:i" }} - {{ reservation.heure_fin|time:"H:i" }}
+                              {% endif %}
+                          </p>
+                      </div>
+                      <div class="reservation-status 
+                          {% if reservation.statut == 'confirmed' or reservation.statut == 'finished' %}
+                              success
+                          {% elif reservation.statut == 'pending' or reservation.statut == 'in_progress' %}
+                              warning
+                          {% else %}
+                              danger
+                          {% endif %}">
+                          {{ reservation.get_statut_display }}
+                      </div>
+                  </div>
+                  {% endfor %}
+              {% else %}
+                  <div class="empty-state">
+                      <span>📭</span>
+                      <p>Vous n'avez aucune réservation récente.</p>
+                      <a href="{% url 'reservation:create' %}">Réserver un espace</a>
+                  </div>
+              {% endif %}
+          </div>
+      </section>
+
+      <!-- ===== MES SERVICES ACTIFS ===== -->
+      <section class="member-section">
+          <div class="section-header">
+              <span class="section-subtitle">Services EliteBuro</span>
+              <h2>Mes services actifs</h2>
+          </div>
+
+          <div class="services-grid">
+              <div class="service-card">
+                  <div class="service-icon">🎓</div>
+                  <div>
+                      <h3>Mes formations</h3>
+                      <p>Retrouvez vos formations réservées et vos certificats.</p>
+                  </div>
+                  <a href="{% url 'formation:catalogue' %}">Consulter →</a>
+              </div>
+              <div class="service-card">
+                  <div class="service-icon">📁</div>
+                  <div>
+                      <h3>Mes documents</h3>
+                      <p>Contrats, justificatifs et documents administratifs.</p>
+                  </div>
+                  <a href="">Accéder →</a>
+              </div>
+              <div class="service-card">
+                  <div class="service-icon">👤</div>
+                  <div>
+                      <h3>Mon profil</h3>
+                      <p>Modifier vos informations personnelles.</p>
+                  </div>
+                  <a href="{% url 'accounts:profile' %}">Modifier →</a>
+              </div>
+          </div>
+      </section>
+
+      <!-- ===== PROCHAINES RÉSERVATIONS ===== -->
+      <section class="member-section">
+          <div class="section-header">
+              <span class="section-subtitle">Planning</span>
+              <h2>Prochaines réservations</h2>
+          </div>
+
+          <div class="upcoming-list">
+              {% for u in upcoming_reservations %}
+              <div class="upcoming-item">
+                  <div class="upcoming-date">
+                      <span class="day">{{ u.date_debut|date:"d" }}</span>
+                      <span class="month">{{ u.date_debut|date:"M" }}</span>
+                  </div>
+                  <div class="upcoming-info">
+                      <p class="upcoming-space">{{ u.espace.nom|default:'Espace' }}</p>
+                      <p class="upcoming-duration">
+                        {% if u.date_debut != u.date_fin %}
+                          {{ u.date_debut|date:"d/m" }} - {{ u.date_fin|date:"d/m" }}
+                        {% else %}
+                          {{ u.date_debut|date:"d/m/Y" }}
+                        {% endif %}
+                      </p>
+                  </div>
+                  <a class="btn-small" href="{% url 'reservation:detail' u.id %}">Détails</a>
+              </div>
+              {% empty %}
+              <div class="upcoming-item">
+                  <div class="upcoming-info" style="text-align:center; width:100%;">
+                      <p class="upcoming-space">Aucune réservation à venir</p>
+                      <p class="upcoming-duration">-</p>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </section>
+
+      <!-- ===== NOTIFICATIONS ===== -->
+      <section class="member-section">
+          <div class="section-header">
+              <span class="section-subtitle">Informations</span>
+              <h2>Dernières notifications</h2>
+          </div>
+
+          <div class="notifications-list">
+              {% for notification in notifications %}
+              <div class="notification-item">
+                  <div class="notification-icon">🔔</div>
+                  <div>
+                      <h4>{{ notification.titre }}</h4>
+                      <p>{{ notification.message }}</p>
+                      <small>{{ notification.date_creation|date:"d/m/Y H:i" }}</small>
+                  </div>
+              </div>
+              {% empty %}
+              <div class="empty-state">
+                  <p>Aucune notification récente.</p>
+              </div>
+              {% endfor %}
+          </div>
+      </section>
+
+      <!-- ===== RECOMMANDATIONS ELITEBURO ===== -->
+      <section class="member-section recommendations">
+          <div class="section-header">
+              <div>
+                  <span class="section-subtitle">Suggestions personnalisées</span>
+                  <h2>Recommandations EliteBuro ⭐</h2>
+                  <p class="section-description">Nous pensons que ces espaces pourraient vous plaire</p>
+              </div>
+          </div>
+
+          <div class="recommendation-grid">
+              {% for space in recommended_spaces %}
+              <div class="recommendation-card">
+                  <div class="recommendation-image">
+                      {% if space.image_principale %}
+                          <img src="{{ space.image_principale.url }}" alt="{{ space.nom }}">
+                      {% else %}
+                          <img src="{% static 'images/default-space.jpg' %}" alt="Espace EliteBuro">
+                      {% endif %}
+                      <span class="space-category">{{ space.categorie.nom|default:"Coworking" }}</span>
+                  </div>
+                  <div class="recommendation-content">
+                      <h3>{{ space.nom }}</h3>
+                      <p>{{ space.description|truncatewords:15 }}</p>
+                      <div class="recommendation-footer">
+                          <div class="price">
+                              <strong>{{ space.prix_journee|floatformat:0 }} FCFA</strong> / jour
+                          </div>
+                          <a href="{% url 'reservation:create' %}?space={{ space.id }}" class="btn-reserve">Réserver</a>
+                      </div>
+                  </div>
+              </div>
+              {% empty %}
+              <p>Aucun espace recommandé pour le moment.</p>
+              {% endfor %}
+          </div>
+      </section>
+
+      <!-- ===== SERVICES DISPONIBLES ===== -->
+      <section class="member-section available-services">
+          <div class="section-header">
+              <div>
+                  <span class="section-subtitle">Nos avantages</span>
+                  <h2>Services disponibles</h2>
+                  <p class="section-description">Profitez de tous les services inclus dans votre expérience EliteBuro.</p>
+              </div>
+          </div>
+
+          <div class="services-cards-grid">
+              <div class="available-service-card">
+                  <div class="available-service-icon coffee">☕</div>
+                  <div>
+                      <h3>Café gratuit</h3>
+                      <p>Profitez d'un espace détente avec café à disposition.</p>
+                  </div>
+              </div>
+              <div class="available-service-card">
+                  <div class="available-service-icon parking">🚗</div>
+                  <div>
+                      <h3>Parking</h3>
+                      <p>Stationnez facilement pendant vos journées de travail.</p>
+                  </div>
+              </div>
+              <div class="available-service-card">
+                  <div class="available-service-icon package">📦</div>
+                  <div>
+                      <h3>Gestion colis</h3>
+                      <p>Réception et suivi de vos courriers et colis professionnels.</p>
+                  </div>
+              </div>
+              <div class="available-service-card">
+                  <div class="available-service-icon reception">☎</div>
+                  <div>
+                      <h3>Réception</h3>
+                      <p>Une équipe disponible pour accueillir vos visiteurs.</p>
+                  </div>
+              </div>
+              <div class="available-service-card">
+                  <div class="available-service-icon print">🖨</div>
+                  <div>
+                      <h3>Impression</h3>
+                      <p>Imprimez vos documents professionnels facilement.</p>
+                  </div>
+              </div>
+              <div class="available-service-card">
+                  <div class="available-service-icon wifi">🌐</div>
+                  <div>
+                      <h3>Wi-Fi Premium</h3>
+                      <p>Une connexion rapide et sécurisée pour votre activité.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- ===== SECTION AVIS CLIENT ===== -->
+      <section class="member-section">
+          <div class="section-header">
+              <span class="section-subtitle">Votre avis</span>
+              <h2>Donnez votre avis</h2>
+          </div>
+
+          <div style="background: white; border-radius: 1rem; padding: 1.5rem; border: 1px solid rgba(13,43,85,0.12);">
+              {% if existing_testimonial %}
+                  <div style="background: #E8F5EE; border-radius: 0.75rem; padding: 1rem; color: #0B6B39;">
+                      <p>✅ Merci ! Votre avis a été soumis ({{ existing_testimonial.note }}/5 ⭐). Il sera publié après modération.</p>
+                  </div>
+              {% else %}
+                  <form method="post" action="{% url 'accounts:dashboard' %}">
+                      {% csrf_token %}
+                      <div style="margin-bottom: 1rem;">
+                          <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: #0D2B55;">Votre note</label>
+                          <div class="star-rating" style="display: flex; gap: 0.25rem; font-size: 1.5rem; cursor: pointer;">
+                              {% for i in "12345" %}
+                                  <span class="star-select" data-value="{{ i }}" style="color: #D4DCE8; transition: color 0.2s;">★</span>
+                              {% endfor %}
+                          </div>
+                          <input type="hidden" name="note" id="note-input" value="5">
+                      </div>
+                      <div style="margin-bottom: 1rem;">
+                          <label for="commentaire" style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: #0D2B55;">Votre commentaire</label>
+                          <textarea name="commentaire" id="commentaire" rows="3" style="width: 100%; border-radius: 0.5rem; padding: 0.75rem; font-size: 0.875rem; border: 1px solid #D4DCE8; outline: none; font-family: inherit;" placeholder="Partagez votre expérience chez Elite Buro..." required></textarea>
+                      </div>
+                      <button type="submit" style="padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-size: 0.875rem; font-weight: 600; border: none; background-color: #0D2B55; color: white; cursor: pointer;">
+                          Envoyer mon avis
+                      </button>
+                  </form>
+              {% endif %}
+          </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('.star-select').forEach(star => {
+      star.addEventListener('click', function() {
+        const val = this.dataset.value;
+        document.getElementById('note-input').value = val;
+        document.querySelectorAll('.star-select').forEach(s => {
+          s.style.color = s.dataset.value <= val ? '#C9A02C' : '#D4DCE8';
+        });
+      });
+    });
+  </script>
+{% endblock %}
+

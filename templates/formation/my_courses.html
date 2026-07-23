@@ -1,0 +1,283 @@
+{% extends "dashboard/base_member.html" %}
+{% load static %}
+
+{% block title %}Formations | ELITEBURO{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto w-full max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
+
+  <!-- En-tête -->
+  <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">Formations disponibles</h1>
+      <p class="text-slate-600">Découvrez toutes nos formations et inscrivez-vous.</p>
+    </div>
+  </div>
+
+  <!-- Grille des formations -->
+  {% if formations %}
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {% for formation in formations %}
+        <div class="group rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
+          {% if formation.image %}
+            <img src="{{ formation.image.url }}" alt="{{ formation.titre }}" class="h-44 w-full rounded-t-xl object-cover" />
+          {% else %}
+            <div class="flex h-44 items-center justify-center rounded-t-xl bg-[#0D2B55] text-5xl text-white">🎓</div>
+          {% endif %}
+          <div class="p-5">
+            <span class="inline-block rounded-full bg-[#C9A02C]/10 px-3 py-1 text-xs font-semibold text-[#C9A02C]">
+              {{ formation.category.name|default:formation.category }}
+            </span>
+            <h3 class="mt-3 text-lg font-bold text-[#0D2B55]">{{ formation.titre }}</h3>
+            <p class="mt-2 text-sm text-slate-600 line-clamp-2">{{ formation.description_courte|truncatewords:20 }}</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-lg font-bold text-[#C9A02C]">{{ formation.prix }} FCFA</span>
+              <span class="text-sm text-slate-500">{{ formation.duree }} h</span>
+            </div>
+            <div class="mt-4 flex gap-2">
+              <a href="{% url 'formation:detail' slug=formation.slug %}"
+                 class="flex-1 rounded-lg border border-[#0D2B55] px-3 py-2 text-center text-sm font-semibold text-[#0D2B55] transition hover:bg-[#0D2B55] hover:text-white">
+                Détails
+              </a>
+              <a href="{% url 'formation:inscription' %}?formation={{ formation.id }}"
+                 class="flex-1 rounded-lg bg-[#C9A02C] px-3 py-2 text-center text-sm font-semibold text-[#0D2B55] transition hover:bg-[#C9A02C]/90">
+                S'inscrire
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="rounded-xl border border-dashed p-10 text-center text-slate-500">
+      <div class="text-4xl mb-3">🎓</div>
+      <p>Aucune formation disponible pour le moment.</p>
+    </div>
+  {% endif %}
+
+  <!-- Séparateur -->
+  <hr class="border-slate-200" />
+
+  <!-- Mes inscriptions -->
+  <div>
+    <h2 class="text-xl font-bold">Mes inscriptions</h2>
+    <p class="text-sm text-slate-500">
+      Suivez vos inscriptions et leurs détails.
+    </p>
+
+
+    <div class="mt-4 space-y-5">
+
+      {% for reg in registrations %}
+
+      <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+
+
+        <!-- En-tête -->
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+
+          <div>
+
+            {% if reg.session %}
+
+            <h3 class="text-xl font-bold text-[#0D2B55]">
+              {{ reg.session.formation.titre }}
+            </h3>
+
+
+            <div class="mt-2 space-y-1 text-sm text-slate-600">
+
+              <p>
+                🎓 Catégorie :
+                <span class="font-medium text-slate-800">
+                  {{ reg.session.formation.category.name }}
+                </span>
+              </p>
+
+
+              <p>
+                💰 Prix :
+                <span class="font-semibold text-[#C9A02C]">
+                  {{ reg.session.formation.prix }} FCFA
+                </span>
+              </p>
+
+
+              <p>
+                📅 Session :
+                <span class="font-medium">
+                  Du {{ reg.session.date_debut }}
+                  au {{ reg.session.date_fin }}
+                </span>
+              </p>
+
+
+              <p>
+                ⏱ Durée :
+                <span class="font-medium">
+                  {{ reg.session.formation.duree }} heures
+                </span>
+              </p>
+
+
+              {% if reg.moyen_paiement %}
+              <p>
+                💳 Paiement :
+                <span class="font-medium">
+                  {{ reg.get_moyen_paiement_display }}
+                </span>
+              </p>
+              {% endif %}
+
+
+              <p>
+                🕒 Inscrit le :
+                <span class="font-medium">
+                  {{ reg.created_at|date:"d/m/Y H:i" }}
+                </span>
+              </p>
+
+
+            </div>
+
+
+            {% elif reg.formation %}
+
+
+            <h3 class="text-xl font-bold text-[#0D2B55]">
+              {{ reg.formation.titre }}
+            </h3>
+
+
+            <p class="mt-2 text-sm text-slate-600">
+              💰 Prix :
+              <span class="font-semibold text-[#C9A02C]">
+                {{ reg.formation.prix }} FCFA
+              </span>
+            </p>
+
+
+            {% endif %}
+
+          </div>
+
+
+
+          <!-- Statut -->
+
+          <div>
+
+            <span class="
+            inline-flex px-4 py-2 rounded-full text-sm font-semibold
+
+            {% if reg.statut == 'confirmed' %}
+            bg-green-100 text-green-700
+
+            {% elif reg.statut == 'pending' %}
+            bg-yellow-100 text-yellow-700
+
+            {% elif reg.statut == 'canceled' %}
+            bg-red-100 text-red-700
+
+            {% else %}
+            bg-slate-100 text-slate-700
+
+            {% endif %}
+            ">
+
+            {{ reg.get_statut_display }}
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- Actions -->
+
+        <div class="mt-5 pt-4 border-t flex flex-wrap gap-3">
+
+
+          {% if reg.session %}
+
+          <a href="{% url 'formation:detail' slug=reg.session.formation.slug %}"
+          class="rounded-lg bg-[#0D2B55] px-5 py-2 text-sm text-white hover:bg-[#0D2B55]/90">
+
+            Voir la formation
+
+          </a>
+
+          {% elif reg.formation %}
+
+          <a href="{% url 'formation:detail' slug=reg.formation.slug %}"
+          class="rounded-lg bg-[#0D2B55] px-5 py-2 text-sm text-white">
+
+            Voir la formation
+
+          </a>
+
+          {% endif %}
+
+
+
+          {% if reg.statut == 'confirmed' %}
+
+            {% if reg.payment and reg.payment.statut == 'paid' %}
+
+              <!-- Paiement déjà effectué — Afficher le code d'accès -->
+              <span class="inline-flex items-center gap-2 rounded-lg bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
+                ✅ Paiement effectué
+              </span>
+
+              {% if reg.access_code and reg.access_code.actif %}
+              <div class="w-full mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <p class="text-xs text-green-700 font-semibold mb-1">🎓 Code d'accès à la formation :</p>
+                <p class="text-lg font-mono font-bold text-green-800 tracking-wider">{{ reg.access_code.code }}</p>
+                <p class="text-xs text-green-600 mt-1">Utilisez ce code pour accéder à vos cours en ligne.</p>
+              </div>
+              <a href="#"
+                 class="inline-flex items-center gap-2 rounded-lg bg-[#0D2B55] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#0D2B55]/90 transition mt-2">
+                🎬 Suivre la formation
+              </a>
+              {% endif %}
+
+            {% else %}
+
+              <!-- Paiement pas encore effectué -->
+              <a href="{% url 'paiement:index' %}?inscription_id={{ reg.id }}"
+                 class="rounded-lg bg-[#C9A02C] px-5 py-2 text-sm font-semibold text-[#0D2B55]">
+                Effectuer le paiement
+              </a>
+
+            {% endif %}
+
+          {% endif %}
+
+
+        </div>
+
+
+      </div>
+
+
+      {% empty %}
+
+      <div class="rounded-lg border border-dashed p-6 text-center text-slate-500">
+
+        Vous n'êtes inscrit à aucune formation pour le moment.
+
+      </div>
+
+      {% endfor %}
+
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+

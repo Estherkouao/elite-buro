@@ -1,0 +1,38 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Supprimer une formule | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+        <div>
+            <h2>Supprimer la formule</h2>
+            <p style="color:var(--text-light);font-size:14px;">Cette action est définitive.</p>
+        </div>
+        <a href="{% url 'dashboard_admin:domiciliation_plans' %}" class="btn-secondary">← Retour</a>
+    </div>
+
+    <div class="card" style="max-width:720px;margin:0 auto;">
+        <div style="padding:18px;">
+            <p style="margin:0 0 10px 0;">
+                Confirmer la suppression de :
+                <strong>{{ plan.nom }}</strong>
+            </p>
+
+            <div style="margin-top:16px;display:flex;gap:12px;">
+                <form method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger">Supprimer</button>
+                </form>
+
+                <a class="btn-secondary" href="{% url 'dashboard_admin:domiciliation_plans' %}">Annuler</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+

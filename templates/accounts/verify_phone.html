@@ -1,0 +1,12 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Vérification Téléphone</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input class="auth-input" type="text" name="code" placeholder="Code reçu">
+
+            <button class="auth-btn">Vérifier</button>
+        </form>
+    </div>
+</div>

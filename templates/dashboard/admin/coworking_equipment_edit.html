@@ -1,0 +1,35 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier équipement | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Modifier l'équipement</h1>
+    <p class="mt-2 text-sm text-gray-600">{{ target_equipment.nom }}</p>
+  </div>
+
+  <div class="mt-6 rounded-3xl border border-navy/10 bg-white shadow-sm p-6">
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-navy">Nom</label>
+          {{ form.nom }}
+          {% if form.nom.errors %}<div class="text-red-600 text-sm">{{ form.nom.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-navy">Slug</label>
+          {{ form.slug }}
+          {% if form.slug.errors %}<div class="text-red-600 text-sm">{{ form.slug.errors }}</div>{% endif %}
+        </div>
+      </div>
+
+      <div class="mt-6 flex gap-3">
+        <button type="submit" class="rounded-md bg-navy px-4 py-2 text-white font-semibold">Enregistrer</button>
+        <a href="{% url 'dashboard_admin:coworking' %}" class="rounded-md border border-navy/20 px-4 py-2 text-navy font-semibold">Annuler</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+

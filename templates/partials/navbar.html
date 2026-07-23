@@ -1,0 +1,151 @@
+<nav class="nav-blur fixed top-0 left-0 w-full z-50 
+            bg-white/80 backdrop-blur-xl 
+            border-b border-slate-200/60 
+            px-6 lg:px-12 py-4 
+            flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="{% url 'core:home' %}" 
+       class="text-2xl lg:text-3xl font-extrabold tracking-tight 
+              text-slate-900 uppercase font-display">
+        ELITE <span class="text-yellow-600">BURO</span>
+    </a>
+
+
+    <!-- Menu desktop -->
+    <div class="hidden xl:flex items-center gap-7 
+                text-sm font-semibold text-slate-700">
+
+            <a href="{% url 'reservation:landing' %}" 
+            class="nav-link">
+                Coworking
+            </a>
+
+            <div class="relative group">
+
+        <button class="nav-link flex items-center gap-2">
+            Domiciliation
+            <span class="text-sm">▼</span>
+        </button>
+
+
+        <!-- MENU DÉROULANT -->
+
+        <div class="absolute left-0 top-full mt-3 w-64 rounded-2xl bg-white shadow-xl 
+                    opacity-0 invisible group-hover:opacity-100 
+                    group-hover:visible transition-all duration-300 z-50">
+
+
+            <a href="{% url 'domiciliation:index' %}"
+            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20 rounded-t-2xl">
+                
+                Home
+
+            </a>
+
+
+            <a href="#"
+            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20">
+                
+                Création d'entreprise
+
+            </a>
+
+            <a href="#"
+            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20">
+                
+                Gestion d'entreprise
+
+            </a>
+
+
+            <a href="#"
+            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20">
+                
+                Accompagnement
+
+            </a>
+
+
+            <a href="#"
+            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20 rounded-b-2xl">
+                
+                Ressources
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+        <a href="{% url 'formation:home' %}" class="nav-link">
+            Formation
+        </a>
+        <a href="{% url 'blog:list' %}" class="nav-link">
+            Blog
+        </a>
+
+        <a href="{% url 'core:contact' %}" class="nav-link">
+            Contact
+        </a>
+
+
+        <a href="{% url 'core:a_propos' %}" class="nav-link">
+            À propos
+        </a>
+
+        <a href="{% url 'core:faq' %}" class="nav-link">
+            FAQ
+        </a>
+
+        <a href="{% url 'core:mentions_legales' %}" class="nav-link">
+            Mentions
+        </a>
+
+        <a href="{% url 'core:politique_confidentialite' %}" class="nav-link">
+            Confidentialité
+        </a>
+
+        <a href="{% url 'core:conditions_utilisation' %}" class="nav-link">
+            Conditions
+        </a>
+
+    </div>
+
+
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+
+        <button 
+        onclick="window.location.href='{% url 'accounts:login' %}'"
+        class="group flex items-center gap-2 
+               bg-slate-900 text-white 
+               px-5 py-3 rounded-full 
+               text-sm font-semibold
+               shadow-lg shadow-slate-900/20
+               hover:bg-yellow-600
+               transition duration-300">
+
+            <span class="text-lg group-hover:scale-110 transition">
+                👤
+            </span>
+
+            Espace membre
+        </button>
+
+
+        <!-- Mobile -->
+        <button class="menu-toggle xl:hidden
+                       w-11 h-11 rounded-full
+                       bg-slate-100
+                       text-slate-800
+                       text-xl
+                       hover:bg-yellow-500
+                       transition">
+            ☰
+        </button>
+
+    </div>
+
+</nav>

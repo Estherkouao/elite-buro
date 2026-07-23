@@ -1,0 +1,319 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+{% load humanize %}
+
+{% block title %}{{ page_title }} — Elite Bureau{% endblock %}
+
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content_area %}
+<div class="content">
+
+  <!-- Fil d'Ariane -->
+  <div style="display:flex; align-items:center; gap:8px; margin-bottom:24px; font-size:13px;">
+    <a href="{% url 'dashboard_trainer:students' %}" style="color:var(--gold);">Mes apprenants</a>
+    <span style="color:var(--text-light);">/</span>
+    <span style="color:var(--text-muted);">{{ member.full_name }}</span>
+  </div>
+
+  <div class="two-col">
+    <!-- Carte Profil apprenant -->
+    <div class="panel animate-in">
+      <div class="panel-header">
+        <h3>Profil de l'apprenant</h3>
+      </div>
+      <div class="panel-body padded">
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+          <div class="session-student-dot" 
+               style="width:56px;height:56px;font-size:20px;background:var(--gold);color:var(--navy-dark);">
+            {{ member.first_name|first|upper }}{{ member.last_name|first|upper }}
+          </div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:var(--navy);">{{ member.full_name }}</div>
+            <div style="font-size:13px;color:var(--text-muted);">
+              {% if member.is_trainer %}Formateur{% elif member.is_admin %}Administrateur{% elif member.is_manager %}Gestionnaire{% else %}Membre{% endif %}
+            </div>
+        </div>
+
+        <table style="width:100%; border-collapse:collapse;">
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px; width:140px;">Email</td>
+            <td style="padding:8px 0; font-size:14px;">{{ member.email }}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Téléphone</td>
+            <td style="padding:8px 0; font-size:14px;">{{ member.phone|default:"—" }}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Entreprise</td>
+            <td style="padding:8px 0; font-size:14px;">
+              {% if entreprise %}{{ entreprise.company_name }}{% else %}—{% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Membre depuis</td>
+            <td style="padding:8px 0; font-size:14px;">{{ member.date_joined|date:"d M Y" }}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Statistiques</td>
+            <td style="padding:8px 0; font-size:14px;">
+              <span class="badge badge-info">{{ total_regs }} inscription(s)</span>
+              <span class="badge badge-success">{{ confirmed_regs }} confirmée(s)</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Carte Inscription -->
+    <div class="panel animate-in delay-1">
+      <div class="panel-header">
+        <h3>Détails de l'inscription</h3>
+      </div>
+      <div class="panel-body padded">
+        <table style="width:100%; border-collapse:collapse;">
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px; width:140px;">N° inscription</td>
+            <td style="padding:8px 0; font-size:14px; font-weight:600;">{{ registration.numero }}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Formation</td>
+            <td style="padding:8px 0; font-size:14px;">
+              {% if registration.session %}
+                {{ registration.session.formation.titre }}
+              {% else %}
+                <em>Non spécifiée</em>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Session</td>
+            <td style="padding:8px 0; font-size:14px;">
+              {% if registration.session %}
+                {{ registration.session.date_debut|date:"d M Y" }} — {{ registration.session.date_fin|date:"d M Y" }}
+              {% else %}
+                <em>Non spécifiée</em>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Date inscription</td>
+            <td style="padding:8px 0; font-size:14px;">{{ registration.date|date:"d M Y à H:i" }}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Statut</td>
+            <td style="padding:8px 0; font-size:14px;">
+              {% if registration.statut == "confirmed" %}
+                <span class="badge badge-success">Confirmé</span>
+              {% elif registration.statut == "pending" %}
+                <span class="badge badge-warning">En attente</span>
+              {% elif registration.statut == "canceled" %}
+                <span class="badge badge-danger">Annulé</span>
+              {% elif registration.statut == "refused" %}
+                <span class="badge badge-danger">Refusé</span>
+              {% else %}
+                <span class="badge badge-gray">{{ registration.get_statut_display }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% if registration.commentaire %}
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Commentaire</td>
+            <td style="padding:8px 0; font-size:13px; font-style:italic;">{{ registration.commentaire }}</td>
+          </tr>
+          {% endif %}
+        </table>
+
+        {% if registration.statut == "pending" %}
+        <div style="display:flex; gap:10px; margin-top:20px; padding-top:16px; border-top:1px solid var(--border-light);">
+          <form method="post" action="{% url 'dashboard_trainer:student_validate' registration.id %}"
+                onsubmit="return confirm('Valider cette inscription ? Le membre sera notifié par email.')">
+            {% csrf_token %}
+            <button type="submit" 
+                    style="padding:10px 20px; background:var(--success); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer;">
+              ✓ Valider l'inscription
+            </button>
+          </form>
+          <form method="post" action="{% url 'dashboard_trainer:student_refuse' registration.id %}"
+                onsubmit="return confirm('Refuser cette inscription ?')">
+            {% csrf_token %}
+            <button type="submit" 
+                    style="padding:10px 20px; background:var(--danger); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer;">
+              ✕ Refuser l'inscription
+            </button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+  </div>
+
+  <!-- Paiement & Documents -->
+  <div class="two-col" style="margin-bottom:32px;">
+    <!-- Paiement -->
+    <div class="panel animate-in delay-2">
+      <div class="panel-header">
+        <h3>Paiement</h3>
+      </div>
+      <div class="panel-body padded">
+        {% if payment %}
+        <table style="width:100%; border-collapse:collapse;">
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px; width:140px;">Montant</td>
+            <td style="padding:8px 0; font-size:14px; font-weight:600;">{{ payment.montant|floatformat:0 }} FCFA</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Méthode</td>
+            <td style="padding:8px 0; font-size:14px;">{{ payment.get_méthode_display }}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Statut</td>
+            <td style="padding:8px 0; font-size:14px;">
+              {% if payment.statut == "paid" %}
+                <span class="badge badge-success">Payé</span>
+              {% elif payment.statut == "pending" %}
+                <span class="badge badge-warning">En attente</span>
+              {% else %}
+                <span class="badge badge-danger">{{ payment.get_statut_display }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0; color:var(--text-muted); font-size:13px;">Référence</td>
+            <td style="padding:8px 0; font-size:14px;">{{ payment.reference|default:"—" }}</td>
+          </tr>
+        </table>
+        {% else %}
+        <div style="text-align:center; padding:24px; color:var(--text-muted);">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3; margin-bottom:8px;">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <p>Aucun paiement enregistré</p>
+        </div>
+        {% endif %}
+      </div>
+
+    <!-- Devis & Contrat -->
+    <div class="panel animate-in delay-3">
+      <div class="panel-header">
+        <h3>Documents</h3>
+      </div>
+      <div class="panel-body padded">
+        <table style="width:100%; border-collapse:collapse;">
+          <tr>
+            <td style="padding:10px 0; color:var(--text-muted); font-size:13px; width:140px;">Devis</td>
+            <td style="padding:10px 0; font-size:14px;">
+              {% if quote %}
+                <span class="badge badge-success">Généré</span>
+                {% if quote.pdf %}
+                <a href="{{ quote.pdf.url }}" target="_blank" style="margin-left:8px; font-size:12px;">Télécharger</a>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-gray">Non généré</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0; color:var(--text-muted); font-size:13px;">Contrat</td>
+            <td style="padding:10px 0; font-size:14px;">
+              {% if contract %}
+                <span class="badge badge-success">Généré</span>
+                {% if contract.contrat_pdf %}
+                <a href="{{ contract.contrat_pdf.url }}" target="_blank" style="margin-left:8px; font-size:12px;">Télécharger</a>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-gray">Non généré</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0; color:var(--text-muted); font-size:13px;">Attestation</td>
+            <td style="padding:10px 0; font-size:14px;">
+              {% if certificate %}
+                <span class="badge badge-success">Générée</span>
+                {% if certificate.certificat_pdf %}
+                <a href="{{ certificate.certificat_pdf.url }}" target="_blank" style="margin-left:8px; font-size:12px;">Télécharger</a>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-gray">Non générée</span>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0; color:var(--text-muted); font-size:13px;">Code d'accès</td>
+            <td style="padding:10px 0; font-size:14px;">
+              {% if access_code %}
+                <span style="font-family:monospace; font-weight:700; color:var(--navy);">{{ access_code.code }}</span>
+                {% if access_code.actif %}
+                <span class="badge badge-success">Actif</span>
+                {% else %}
+                <span class="badge badge-danger">Inactif</span>
+                {% endif %}
+              {% else %}
+                <span class="badge badge-gray">Non attribué</span>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+  </div>
+
+  <!-- Autres inscriptions -->
+  {% if other_registrations %}
+  <div class="panel animate-in delay-3" style="margin-bottom:32px;">
+    <div class="panel-header">
+      <h3>Autres inscriptions de {{ member.first_name }}</h3>
+    </div>
+    <table class="session-table">
+      <thead>
+        <tr>
+          <th>Formation</th>
+          <th>Session</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reg in other_registrations %}
+        <tr>
+          <td>
+            <div class="session-name">{{ reg.session.formation.titre }}</div>
+          </td>
+          <td>
+            <div class="session-date">{{ reg.session.date_debut|date:"d M Y" }}</div>
+          </td>
+          <td>
+            <div class="session-date">{{ reg.date|date:"d M Y" }}</div>
+          </td>
+          <td>
+            {% if reg.statut == "confirmed" %}
+              <span class="badge badge-success">Confirmé</span>
+            {% elif reg.statut == "pending" %}
+              <span class="badge badge-warning">En attente</span>
+            {% elif reg.statut == "canceled" %}
+              <span class="badge badge-danger">Annulé</span>
+            {% elif reg.statut == "refused" %}
+              <span class="badge badge-danger">Refusé</span>
+            {% else %}
+              <span class="badge badge-gray">{{ reg.get_statut_display }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'dashboard_trainer:student_detail' reg.id %}" class="badge badge-info" style="text-decoration:none;">
+              Voir
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- Bouton retour -->
+  <div style="text-align:center; margin-top:16px;">
+    <a href="{% url 'dashboard_trainer:students' %}" 
+       style="display:inline-block; padding:10px 24px; background:var(--navy); color:white; border-radius:6px; font-weight:600; text-decoration:none;">
+      ← Retour à la liste des apprenants
+    </a>
+  </div>
+{% endblock %}

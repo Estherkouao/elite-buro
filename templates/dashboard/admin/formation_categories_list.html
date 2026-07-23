@@ -1,0 +1,175 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Catégories de formations | EliteBuro{% endblock %}
+
+{% block content %}
+
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+
+        <div>
+
+            <h2>
+                Catégories de formations
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des catégories utilisées pour les formations EliteBuro.
+            </p>
+
+
+        </div>
+
+
+
+        <div>
+            <a href="{% url 'dashboard_admin:formations_list' %}" class="btn-secondary">Formations</a>
+
+            <a href="{% url 'dashboard_admin:formations_category_create' %}"
+               class="btn-primary">
+
+                + Créer une catégorie
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- TABLE -->
+
+
+    <div class="table-container">
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Nom
+                    </th>
+
+
+                    <th>
+                        Slug
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody>
+
+
+            {% for category in categories %}
+
+
+                <tr>
+
+
+                    <td>
+
+                        <strong>
+                            {{ category.name }}
+                        </strong>
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ category.slug }}
+
+                    </td>
+
+
+
+
+                    <td>
+
+
+                        <div class="table-actions">
+
+
+                            <a href="{% url 'dashboard_admin:formations_category_edit' category.id %}"
+                               class="action-btn action-edit">
+
+                                Modifier
+
+                            </a>
+
+
+
+                            <a href="{% url 'dashboard_admin:formations_category_delete' category.id %}"
+                               class="action-btn action-cancel">
+
+                                Supprimer
+
+                            </a>
+
+
+                        </div>
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+            {% empty %}
+
+
+                <tr>
+
+                    <td colspan="3" style="text-align:center;padding:30px;">
+
+                        Aucune catégorie disponible.
+
+                    </td>
+
+                </tr>
+
+
+            {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

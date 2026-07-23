@@ -1,0 +1,53 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}{{ article.title }} | Blog EliteBuro{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-6 py-24">
+
+  <nav class="text-sm text-gray-400 mb-8">
+    <a href="{% url 'blog:list' %}" class="text-gold hover:underline">Blog</a>
+    <span class="mx-2">/</span>
+    <span class="text-gray-600">{{ article.title|truncatewords:6 }}</span>
+  </nav>
+
+  {% if article.category %}
+  <span class="inline-block bg-gold/10 text-gold text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
+    {{ article.category.name }}
+  </span>
+  {% endif %}
+
+  <h1 class="text-4xl lg:text-5xl font-bold text-navy font-display leading-tight mb-6">
+    {{ article.title }}
+  </h1>
+
+  <div class="flex items-center gap-4 text-sm text-gray-400 mb-10">
+    <span>{{ article.created_at|date:"d F Y" }}</span>
+    <span>·</span>
+    <span>{{ article.content|wordcount }} mots</span>
+  </div>
+
+  {% if article.image %}
+  <div class="rounded-2xl overflow-hidden shadow-xl mb-10">
+    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-[420px] object-cover">
+  </div>
+  {% endif %}
+
+  <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+    {{ article.content|linebreaks }}
+  </div>
+
+  <hr class="my-16 border-gray-200">
+
+  <div class="text-center">
+    <h3 class="text-2xl font-bold text-navy font-display mb-4">📖 Vous avez aimé cet article ?</h3>
+    <p class="text-gray-500 mb-8">Découvrez d'autres articles sur notre blog.</p>
+    <a href="{% url 'blog:list' %}" class="inline-block bg-navy text-white px-8 py-4 rounded-xl font-bold hover:bg-navy/80 transition">
+      ← Retour au blog
+    </a>
+  </div>
+
+</div>
+{% endblock %}
+

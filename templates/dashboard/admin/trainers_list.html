@@ -1,0 +1,303 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Formateurs | EliteBuro{% endblock %}
+
+{% block content %}
+
+
+<div class="content">
+
+
+<div class="section-header">
+
+    <div>
+        <h2>Formateurs</h2>
+
+        <p style="color:var(--text-light);font-size:14px;">
+            Gestion des formateurs EliteBuro.
+        </p>
+    </div>
+
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+        <a href="{% url 'dashboard_admin:formations_list' %}"
+           class="btn-secondary">
+
+            Formations
+
+        </a>
+
+
+        <a href="{% url 'dashboard_admin:formations_trainers_create' %}"
+           class="btn-primary">
+
+            + Ajouter un formateur
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+
+
+<div class="table-container">
+
+
+<table class="admin-table">
+
+
+<thead>
+
+<tr>
+
+    <th>Photo</th>
+
+    <th>Nom complet</th>
+
+    <th>Email</th>
+
+    <th>Spécialité</th>
+
+    <th>Expérience</th>
+
+    <th>Compétences</th>
+
+    <th>LinkedIn</th>
+
+    <th>Disponibilité</th>
+
+    <th>Actions</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+{% for t in trainers %}
+
+<tr>
+
+
+<td>
+
+    {% if t.photo %}
+
+        <img src="{{ t.photo.url }}"
+             alt="{{ t.user.full_name }}"
+             style="
+             width:45px;
+             height:45px;
+             border-radius:50%;
+             object-fit:cover;
+             ">
+
+    {% else %}
+
+        <div style="
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            background:#0D2B55;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bold;
+        ">
+
+            {{ t.user.first_name|first }}
+
+        </div>
+
+    {% endif %}
+
+</td>
+
+
+
+
+<td>
+
+<strong>
+{{ t.user.full_name }}
+</strong>
+
+</td>
+
+
+
+
+<td>
+
+{{ t.user.email }}
+
+</td>
+
+
+
+
+<td>
+
+{{ t.specialite|default:"—" }}
+
+</td>
+
+
+
+
+<td>
+
+{{ t.annees_experience|default:"0" }} ans
+
+</td>
+
+
+
+
+<td>
+
+{% if t.competences %}
+
+    {{ t.competences|truncatechars:50 }}
+
+{% else %}
+
+    —
+
+{% endif %}
+
+</td>
+
+
+
+
+<td>
+
+{% if t.linkedin %}
+
+<a href="{{ t.linkedin }}"
+   target="_blank"
+   style="color:#0D2B55;font-weight:600;">
+
+Voir profil
+
+</a>
+
+{% else %}
+
+—
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td>
+
+
+{% if t.disponible == 'available' %}
+
+<span class="status-badge confirmed">
+Disponible
+</span>
+
+
+{% elif t.disponible == 'busy' %}
+
+<span class="status-badge pending">
+Occupé
+</span>
+
+
+{% else %}
+
+<span class="status-badge cancelled">
+Indisponible
+</span>
+
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td>
+
+
+<div class="table-actions">
+
+
+<a href="{% url 'dashboard_admin:formations_trainers_edit' t.id %}"
+   class="action-btn action-edit">
+
+Modifier
+
+</a>
+
+
+
+<a href="{% url 'dashboard_admin:formations_trainers_delete' t.id %}"
+   class="action-btn action-cancel">
+
+Supprimer
+
+</a>
+
+
+</div>
+
+
+</td>
+
+
+
+</tr>
+
+
+
+{% empty %}
+
+
+<tr>
+
+<td colspan="9"
+    style="text-align:center;padding:30px;">
+
+Aucun formateur enregistré.
+
+</td>
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,596 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}{{ formation.titre }} | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+
+<!-- HEADER -->
+
+<div class="section-header">
+
+
+
+    <div style="display:flex;gap:10px">
+
+        <a href="{% url 'dashboard_admin:formations_edit' formation.id %}"
+           class="btn-primary">
+            ✏️ Modifier
+        </a>
+
+
+        <a href="{% url 'dashboard_admin:formations_list' %}"
+           class="btn-secondary">
+            Retour
+        </a>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- HERO FORMATION -->
+
+
+<div class="formation-cover">
+
+
+    <div class="cover-image">
+
+
+        {% if formation.image %}
+
+        <img src="{{ formation.image.url }}">
+
+
+        {% else %}
+
+        <div class="no-image">
+            🎓
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+
+
+    <div class="cover-info">
+
+
+        <h1>
+            {{ formation.titre }}
+        </h1>
+
+
+        <p>
+            {{ formation.description_courte }}
+        </p>
+
+
+
+        <div class="badges">
+
+
+            <span>
+                🎯 {{ formation.get_niveau_display }}
+            </span>
+
+
+            <span>
+                ⏱ {{ formation.duree }} heures
+            </span>
+
+
+            <span>
+                💰 {{ formation.prix }} FCFA
+            </span>
+
+
+            {% if formation.certificat %}
+
+            <span>
+                🏆 Certificat inclus
+            </span>
+
+            {% endif %}
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- DESCRIPTION -->
+
+
+<div class="card">
+
+<h3>
+📖 À propos de cette formation
+</h3>
+
+
+<p>
+{{ formation.description_complete|linebreaks }}
+</p>
+
+
+</div>
+
+
+
+
+
+
+<!-- OBJECTIFS / PREREQUIS -->
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<h3>
+🎯 Objectifs
+</h3>
+
+
+<div>
+{{ formation.objectifs|linebreaks }}
+</div>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+📌 Prérequis
+</h3>
+
+
+<div>
+{{ formation.prerequis|linebreaks }}
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- PROGRAMME -->
+
+
+<div class="card">
+
+
+<h3>
+📚 Programme de formation
+</h3>
+
+
+<div class="programme">
+
+{{ formation.programme|linebreaks }}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- SUPPORT PDF -->
+
+
+<div class="card">
+
+
+<h3>
+📂 Supports disponibles
+</h3>
+
+
+
+{% if formation.pdf %}
+
+
+<div class="resource">
+
+
+<div>
+
+<strong>
+Support PDF principal
+</strong>
+
+
+<p>
+{{ formation.pdf.name }}
+</p>
+
+
+</div>
+
+
+
+<a href="{{ formation.pdf.url }}"
+target="_blank"
+class="btn-secondary">
+
+📄 Ouvrir
+
+</a>
+
+
+</div>
+
+
+{% endif %}
+
+
+
+
+
+{% for doc in documents %}
+
+
+<div class="resource">
+
+
+<div>
+
+<strong>
+{{ doc.titre }}
+</strong>
+
+
+<p>
+{{ doc.description }}
+</p>
+
+
+</div>
+
+
+
+{% if doc.fichier %}
+
+<a href="{{ doc.fichier.url }}"
+target="_blank"
+class="btn-secondary">
+
+Voir
+
+</a>
+
+{% endif %}
+
+
+
+</div>
+
+
+
+{% empty %}
+
+{% if not formation.pdf %}
+
+<p>
+Aucun document disponible.
+</p>
+
+{% endif %}
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- SESSIONS -->
+
+
+<div class="card">
+
+
+<h3>
+📅 Sessions disponibles
+</h3>
+
+
+
+{% for session in sessions %}
+
+
+
+<div class="session-box">
+
+
+<div>
+
+<strong>
+{{ session.date_debut }}
+-
+{{ session.date_fin }}
+</strong>
+
+
+<p>
+👨‍🏫 {{ session.formateur }}
+</p>
+
+
+</div>
+
+
+
+
+<div>
+
+
+<p>
+Places disponibles
+</p>
+
+
+<div class="progress">
+
+
+<div style="
+width:{% widthratio session.places_restantes session.nombre_maximum 100 %}%;
+">
+</div>
+
+
+</div>
+
+
+<small>
+{{ session.places_restantes }}/{{ session.nombre_maximum }}
+places restantes
+</small>
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% empty %}
+
+<p>
+Aucune session programmée.
+</p>
+
+
+{% endfor %}
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<style>
+
+
+.formation-cover{
+
+background:white;
+border-radius:18px;
+padding:25px;
+display:grid;
+grid-template-columns:320px 1fr;
+gap:35px;
+box-shadow:0 10px 30px rgba(0,0,0,.06);
+margin-bottom:25px;
+
+}
+
+
+
+.cover-image img{
+
+width:100%;
+height:230px;
+object-fit:cover;
+border-radius:15px;
+
+}
+
+
+
+.no-image{
+
+height:230px;
+background:#f3f3f3;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:60px;
+border-radius:15px;
+
+}
+
+
+
+.cover-info h1{
+
+font-size:32px;
+margin-bottom:15px;
+
+}
+
+
+
+.badges{
+
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:20px;
+
+}
+
+
+.badges span{
+
+background:#f8f1df;
+padding:10px 15px;
+border-radius:20px;
+font-size:14px;
+
+}
+
+
+
+.card{
+
+background:white;
+padding:30px;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+margin-top:25px;
+
+}
+
+
+
+.card h3{
+
+margin-bottom:20px;
+color:var(--navy);
+
+}
+
+
+
+.grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+
+}
+
+
+
+.resource{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+border:1px solid #eee;
+border-radius:12px;
+margin-bottom:12px;
+
+}
+
+
+
+.session-box{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+border-radius:12px;
+background:#fafafa;
+margin-bottom:15px;
+
+}
+
+
+
+.progress{
+
+width:180px;
+height:8px;
+background:#eee;
+border-radius:10px;
+overflow:hidden;
+
+}
+
+
+.progress div{
+
+height:100%;
+background:var(--gold);
+
+}
+
+
+
+@media(max-width:900px){
+
+.formation-cover,
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+
+</style>
+
+
+{% endblock %}

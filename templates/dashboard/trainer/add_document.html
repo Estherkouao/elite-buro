@@ -1,0 +1,314 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+
+{% block title %}Ajouter un document — Elite Bureau{% endblock %}
+
+{% block page_title %}
+Ajouter un document pédagogique
+{% endblock %}
+
+
+{% block content_area %}
+
+<div class="content">
+
+    <div class="panel" style="
+        max-width:850px;
+        margin:auto;
+        border-radius:14px;
+        overflow:hidden;
+    ">
+
+
+        <!-- HEADER -->
+        <div style="
+            background:linear-gradient(135deg,var(--navy-dark),var(--navy));
+            padding:28px 35px;
+            color:white;
+        ">
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:15px;
+            ">
+
+                <div style="
+                    width:50px;
+                    height:50px;
+                    border-radius:12px;
+                    background:rgba(185,150,70,.18);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:var(--gold);
+                ">
+                    📚
+                </div>
+
+
+                <div>
+                    <h2 style="
+                        margin:0;
+                        font-size:22px;
+                        font-weight:700;
+                    ">
+                        Nouveau document pédagogique
+                    </h2>
+
+                    <p style="
+                        margin-top:5px;
+                        opacity:.75;
+                        font-size:14px;
+                    ">
+                        Ajoutez un support de cours pour vos apprenants.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- BODY -->
+        <div class="panel-body padded" style="
+            padding:35px;
+            background:white;
+        ">
+
+
+            <form method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+
+                <div style="
+                    display:grid;
+                    gap:24px;
+                ">
+
+
+
+                    <!-- FORMATION -->
+                    <div>
+
+                        <label class="form-label">
+                            Formation associée
+                        </label>
+
+                        {{ form.formation }}
+
+                        {% if form.formation.errors %}
+                        <div class="error-message">
+                            {{ form.formation.errors }}
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+
+
+
+                    <!-- TITRE -->
+                    <div>
+
+                        <label class="form-label">
+                            Titre du document
+                        </label>
+
+                        {{ form.titre }}
+
+                        {% if form.titre.errors %}
+                        <div class="error-message">
+                            {{ form.titre.errors }}
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+
+
+
+
+                    <!-- DESCRIPTION -->
+                    <div>
+
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        {{ form.description }}
+
+                    </div>
+
+
+
+
+
+                    <!-- UPLOAD -->
+                    <div>
+
+                        <label class="form-label">
+                            Fichier pédagogique
+                        </label>
+
+
+                        <div style="
+                            border:2px dashed #d8d0c2;
+                            border-radius:12px;
+                            padding:25px;
+                            text-align:center;
+                            background:#faf8f3;
+                        ">
+
+
+                            <div style="
+                                font-size:35px;
+                                margin-bottom:10px;
+                            ">
+                                📄
+                            </div>
+
+
+                            {{ form.fichier }}
+
+
+                            <p style="
+                                margin-top:10px;
+                                font-size:13px;
+                                color:var(--text-muted);
+                            ">
+                                PDF, Word, PowerPoint ou document pédagogique
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+                <!-- ACTIONS -->
+                <div style="
+                    margin-top:35px;
+                    padding-top:25px;
+                    border-top:1px solid #eee;
+                    display:flex;
+                    justify-content:flex-end;
+                    gap:15px;
+                ">
+
+
+                    <a href="{% url 'dashboard_trainer:documents' %}"
+                       style="
+                       padding:12px 25px;
+                       border-radius:8px;
+                       border:1px solid #ddd;
+                       color:#666;
+                       font-weight:600;
+                       text-decoration:none;
+                       ">
+                        Annuler
+                    </a>
+
+
+
+
+                    <button type="submit"
+                        style="
+                        padding:12px 30px;
+                        border:none;
+                        border-radius:8px;
+                        background:var(--gold);
+                        color:var(--navy-dark);
+                        font-weight:700;
+                        cursor:pointer;
+                        box-shadow:0 5px 15px rgba(185,150,70,.25);
+                        transition:.3s;
+                        ">
+                        Ajouter le document
+                    </button>
+
+
+                </div>
+
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<style>
+
+.form-label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:700;
+    color:var(--navy);
+}
+
+
+input,
+select,
+textarea{
+
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:14px;
+    outline:none;
+    transition:.3s;
+}
+
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(185,150,70,.12);
+
+}
+
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+
+.error-message{
+
+    margin-top:5px;
+    color:#c62828;
+    font-size:13px;
+
+}
+
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+</style>
+
+
+{% endblock %}

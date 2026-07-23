@@ -1,0 +1,190 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer formateur | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="admin-page-title">
+    <h1>Créer un formateur</h1>
+    <p>Ajouter un nouveau formateur à la plateforme EliteBuro.</p>
+</div>
+
+<div class="admin-form-card">
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+                <label for="{{ form.user_email.id_for_label }}">
+                    {{ form.user_email.label }}
+                </label>
+
+                {{ form.user_email }}
+
+                {% for error in form.user_email.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.user_password.id_for_label }}">
+                    {{ form.user_password.label }}
+                </label>
+
+                {{ form.user_password }}
+
+                {% if form.user_password.help_text %}
+                    <small>{{ form.user_password.help_text }}</small>
+                {% endif %}
+
+                {% for error in form.user_password.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.user_first_name.id_for_label }}">
+                    {{ form.user_first_name.label }}
+                </label>
+
+                {{ form.user_first_name }}
+
+                {% for error in form.user_first_name.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.user_last_name.id_for_label }}">
+                    {{ form.user_last_name.label }}
+                </label>
+
+                {{ form.user_last_name }}
+
+                {% for error in form.user_last_name.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.specialite.id_for_label }}">
+                    {{ form.specialite.label }}
+                </label>
+
+                {{ form.specialite }}
+
+                {% for error in form.specialite.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.annees_experience.id_for_label }}">
+                    {{ form.annees_experience.label }}
+                </label>
+
+                {{ form.annees_experience }}
+
+                {% for error in form.annees_experience.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.disponible.id_for_label }}">
+                    {{ form.disponible.label }}
+                </label>
+
+                {{ form.disponible }}
+
+                {% for error in form.disponible.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.photo.id_for_label }}">
+                    {{ form.photo.label }}
+                </label>
+
+                {{ form.photo }}
+
+                {% for error in form.photo.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group">
+                <label for="{{ form.cv.id_for_label }}">
+                    {{ form.cv.label }}
+                </label>
+
+                {{ form.cv }}
+
+                {% for error in form.cv.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group full">
+                <label for="{{ form.biographie.id_for_label }}">
+                    {{ form.biographie.label }}
+                </label>
+
+                {{ form.biographie }}
+
+                {% for error in form.biographie.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group full">
+                <label for="{{ form.competences.id_for_label }}">
+                    {{ form.competences.label }}
+                </label>
+
+                {{ form.competences }}
+
+                {% for error in form.competences.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="admin-form-group full">
+                <label for="{{ form.linkedin.id_for_label }}">
+                    {{ form.linkedin.label }}
+                </label>
+
+                {{ form.linkedin }}
+
+                {% for error in form.linkedin.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="admin-form-actions">
+
+            <a href="{% url 'dashboard_admin:formations_trainers_list' %}"
+               class="btn-admin-secondary">
+                Retour
+            </a>
+
+            <button type="submit"
+                    class="btn-admin-primary">
+                Enregistrer
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

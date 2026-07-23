@@ -1,0 +1,154 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}Mentions légales — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #17325C; --navy-light: #23416F; --gold: #B99646; --gold-light: #d4b36a;
+      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
+      --white: #FFFFFF; --border: #D8D0C2;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px; --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    .legal-page { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
+    .legal-page a { text-decoration: none; color: var(--gold); font-weight: 500; transition: color 0.2s; }
+    .legal-page a:hover { color: var(--navy); }
+    .legal-page img { max-width: 100%; height: auto; display: block; }
+    .legal-page .container { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .legal-page .gold-divider { width: 60px; height: 2px; background: var(--gold); }
+
+    /* HERO */
+    .legal-page .hero { min-height: 40vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 0; background: var(--navy); position: relative; }
+    .legal-page .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 30, 60, 0.92), rgba(23, 50, 92, 0.82)); z-index: 1; }
+    .legal-page .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80') center/cover no-repeat; opacity: 0.2; }
+    .legal-page .hero-content { position: relative; z-index: 2; text-align: center; padding: 64px 24px; }
+    .legal-page .hero-content .gold-divider { margin: 0 auto 28px; }
+    .legal-page .hero-content h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 18px; }
+    .legal-page .hero-content p { font-size: 16px; color: rgba(255,255,255,0.65); font-weight: 300; line-height: 1.7; max-width: 520px; margin: 0 auto; }
+    .legal-page .hero-content .gold-divider-bottom { margin: 28px auto 0; }
+
+    /* LEGAL CONTENT */
+    .legal-page .legal-content { padding: 64px 0 96px; background: var(--ivory); }
+    .legal-page .legal-content h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--navy); margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 2px solid var(--gold); display: inline-block; }
+    .legal-page .legal-content h2:first-child { margin-top: 0; }
+    .legal-page .legal-content h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin: 32px 0 12px; }
+    .legal-page .legal-content p { margin-bottom: 16px; color: var(--text-muted); }
+    .legal-page .legal-content ul { margin: 12px 0 20px 24px; color: var(--text-muted); }
+    .legal-page .legal-content ul li { margin-bottom: 8px; }
+    .legal-page .legal-content strong { color: var(--navy); font-weight: 600; }
+    .legal-page .legal-content a { color: var(--gold); font-weight: 500; }
+
+    /* TABLE */
+    .legal-page .legal-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; }
+    .legal-page .legal-table th { background: var(--navy); color: var(--white); font-weight: 500; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 20px; text-align: left; }
+    .legal-page .legal-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 15px; color: var(--text-muted); }
+    .legal-page .legal-table tr:nth-child(even) td { background: rgba(23, 50, 92, 0.02); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .legal-page .hero { min-height: 32vh; }
+      .legal-page .hero-content { padding: 40px 24px; }
+      .legal-page .legal-content h2 { font-size: 20px; }
+      .legal-page .legal-table { font-size: 13px; }
+      .legal-page .legal-table th, .legal-page .legal-table td { padding: 10px 12px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+
+  <!-- HERO -->
+<section class="bg-gradient-to-b from-[#F8F9FC] to-white border-b border-slate-200">
+
+      <div class="max-w-7xl mx-auto px-6 py-20">
+
+          <div class="max-w-4xl mx-auto text-center">
+
+              <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+                  ✦ Informations légales
+              </span>
+
+              <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#0D2B55] leading-tight">
+                  Mentions légales
+              </h1>
+
+              <p class="mt-6 mx-auto max-w-3xl text-lg leading-8 text-slate-600">
+                  Retrouvez toutes les informations obligatoires concernant 
+                  l’éditeur du site, l’hébergement et les conditions générales 
+                  d’utilisation de la plateforme ELITEBURO.
+              </p>
+
+          </div>
+
+      </div>
+
+  </section>
+  <div class="container">
+    <section class="legal-content">
+
+      <h2>1. Éditeur du site</h2>
+      <table class="legal-table">
+        <tr><th>Informations</th><th>Détails</th></tr>
+        <tr><td>Raison sociale</td><td>SAS Elite Buro Coworking</td></tr>
+        <tr><td>Forme juridique</td><td>Société par Actions Simplifiée</td></tr>
+        <tr><td>Président</td><td>M. TCHERO Huidi</td></tr>
+        <tr><td>Siège social</td><td>Riviera Palmeraie, Cocody, Abidjan, Côte d'Ivoire</td></tr>
+        <tr><td>Capital social</td><td>Selon registre de commerce</td></tr>
+        <tr><td>Numéro RCCM</td><td>CI-ABJ-01-2026-B-14-01234</td></tr>
+        <tr><td>Numéro CNPS</td><td>À compléter</td></tr>
+        <tr><td>Numéro IFU</td><td>À compléter</td></tr>
+        <tr><td>E-mail</td><td><a href="mailto:contact@eliteburo.com">contact@eliteburo.com</a></td></tr>
+        <tr><td>Téléphone</td><td>+225 27 22 47 00 00</td></tr>
+        <tr><td>Site web</td><td><a href="#">www.eliteburo.com</a></td></tr>
+      </table>
+
+      <h2>2. Directeur de la publication</h2>
+      <p>Le directeur de la publication est <strong>M. TCHERO Huidi</strong>, président de la SAS Elite Buro Coworking.</p>
+
+      <h2>3. Hébergeur du site</h2>
+      <table class="legal-table">
+        <tr><th>Informations</th><th>Détails</th></tr>
+        <tr><td>Nom</td><td>À compléter selon l'hébergeur retenu</td></tr>
+        <tr><td>Adresse</td><td>À compléter</td></tr>
+        <tr><td>Téléphone</td><td>À compléter</td></tr>
+      </table>
+
+      <h2>4. Propriété intellectuelle</h2>
+      <p>L'ensemble du contenu de ce site (textes, images, photographies, logos, vidéos, icônes, sons, logiciels, créations graphiques) est la propriété exclusive de <strong>SAS Elite Buro Coworking</strong> ou de ses partenaires. Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de SAS Elite Buro Coworking.</p>
+      <p>Toute exploitation non autorisée du site ou de l'un quelconque des éléments qu'il contient sera considérée comme constitutive d'une contrefaçon et poursuivie conformément aux dispositions légales en vigueur en Côte d'Ivoire.</p>
+
+      <h2>5. Données personnelles</h2>
+      <p>Conformément à la <strong>loi n° 2013-450 du 19 juin 2013 relative à la protection des données à caractère personnel</strong> en Côte d'Ivoire, les utilisateurs disposent d'un droit d'accès, de modification, de rectification et de suppression des données les concernant. Pour exercer ce droit, veuillez envoyer un e-mail à <a href="mailto:contact@eliteburo.com">contact@eliteburo.com</a>.</p>
+      <p>Les données collectées via le site eliteburo.com sont traitées dans le cadre exclusif de la gestion des relations membres et prospects de SAS Elite Buro Coworking. Elles ne sont en aucun cas cédées ou revendues à des tiers.</p>
+
+      <h2>6. Cookies</h2>
+      <p>Le site eliteburo.com est susceptible d'utiliser des cookies. Les cookies sont de petits fichiers textes enregistrés sur votre appareil afin de faciliter la navigation et de proposer des services adaptés à vos préférences. Vous pouvez configurer votre navigateur pour refuser les cookies ou vous avertir lorsqu'un cookie est envoyé.</p>
+
+      <h2>7. Responsabilité</h2>
+      <p>SAS Elite Buro Coworking s'efforce d'assurer au mieux l'exactitude et la mise à jour des informations diffusées sur le site. Toutefois, la société ne saurait garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition sur le site. En conséquence, SAS Elite Buro Coworking décline toute responsabilité pour toute imprécision, inexactitude ou omission portant sur des informations disponibles sur le site.</p>
+
+      <h2>8. Liens hypertextes</h2>
+      <p>Le site peut contenir des liens hypertextes vers d'autres sites. SAS Elite Buro Coworking ne saurait être tenue responsable du contenu de ces sites tiers ni des dommages susceptibles de résulter de leur utilisation.</p>
+
+      <h2>9. Droit applicable</h2>
+      <p>Les présentes mentions légales sont soumises au <strong>droit ivoirien</strong>. Tout litige relatif à l'utilisation du site eliteburo.com sera soumis à la juridiction exclusive des tribunaux compétents d'Abidjan, Côte d'Ivoire.</p>
+
+      <h2>10. Modification des mentions légales</h2>
+      <p>SAS Elite Buro Coworking se réserve le droit de modifier les présentes mentions légales à tout moment, sans préavis. Les utilisateurs sont invités à consulter régulièrement cette page afin d'en prendre connaissance. La date de dernière mise à jour figure en bas de cette page.</p>
+
+      <p style="margin-top: 48px; font-size: 13px; color: rgba(0,0,0,0.35); text-align: center;">
+        Dernière mise à jour : 21 juillet 2026
+      </p>
+
+    </section>
+  </div>
+
+</div>
+{% endblock %}

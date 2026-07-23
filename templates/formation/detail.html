@@ -1,0 +1,283 @@
+{% extends "layouts/base_public.html" %}
+
+{% block title %}{{ formation.titre }} | ELITEBURO{% endblock %}
+
+{% block content %}
+
+<section class="bg-slate-100 py-20">
+  <a href="javascript:history.back()"
+   class="inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#0D2B55] hover:bg-gray-300 transition">
+
+    ← Retour
+
+</a>
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="overflow-hidden rounded-[32px] bg-white shadow-2xl">
+
+            <div class="grid lg:grid-cols-2">
+
+                <!-- Texte -->
+                <div class="p-12 lg:p-16">
+
+                    <span class="inline-flex rounded-full bg-[#C9A02C]/10 px-5 py-2 font-semibold text-[#C9A02C]">
+                        {{ formation.category }}
+                    </span>
+
+                    <h1 class="mt-6 text-5xl font-black leading-tight text-[#0D2B55]">
+                        {{ formation.titre }}
+                    </h1>
+
+                    <p class="mt-6 text-lg leading-8 text-slate-600">
+                        {{ formation.description_complete|truncatewords:40 }}
+                    </p>
+
+                    <div class="mt-10 grid grid-cols-3 gap-5">
+
+                        <div class="rounded-2xl bg-slate-50 p-5 text-center">
+
+                            <div class="text-sm text-slate-500">
+                                Niveau
+                            </div>
+
+                            <div class="mt-2 text-xl font-bold text-[#0D2B55]">
+                                {{ formation.niveau }}
+                            </div>
+
+                        </div>
+
+                        <div class="rounded-2xl bg-slate-50 p-5 text-center">
+
+                            <div class="text-sm text-slate-500">
+                                Durée
+                            </div>
+
+                            <div class="mt-2 text-xl font-bold text-[#0D2B55]">
+                                {{ formation.duree }} h
+                            </div>
+
+                        </div>
+
+                        <div class="rounded-2xl bg-slate-50 p-5 text-center">
+
+                            <div class="text-sm text-slate-500">
+                                Prix
+                            </div>
+
+                            <div class="mt-2 text-xl font-bold text-[#C9A02C]">
+                                {{ formation.prix }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'formation:inscription' %}?formation={{ formation.id }}"
+                       class="mt-10 inline-flex rounded-xl bg-[#C9A02C] px-8 py-4 font-bold text-[#0D2B55] transition hover:scale-105">
+
+                        Je m'inscris
+
+                    </a>
+
+                </div>
+
+                <!-- Image -->
+                <div class="bg-slate-200">
+
+                    {% if formation.image %}
+                        <img src="{{ formation.image.url }}"
+                             class="h-full w-full object-cover"
+                             alt="{{ formation.titre }}">
+                    {% else %}
+                        <div class="flex h-full items-center justify-center bg-[#0D2B55] text-8xl text-white">
+                            🎓
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTENU -->
+<section class="bg-slate-100 py-20">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="grid gap-10 lg:grid-cols-3">
+
+<!-- GAUCHE -->
+<div class="lg:col-span-2 space-y-10">
+
+<div class="rounded-3xl bg-white p-10 shadow-xl">
+
+<h2 class="text-3xl font-bold text-[#0D2B55]">
+Présentation
+</h2>
+
+<div class="mt-6 h-1 w-20 bg-[#C9A02C] rounded-full"></div>
+
+<p class="mt-8 whitespace-pre-wrap leading-9 text-slate-700">
+{{ formation.description_complete }}
+</p>
+
+</div>
+
+<div class="rounded-3xl bg-white p-10 shadow-xl">
+
+<h2 class="text-3xl font-bold text-[#0D2B55]">
+Objectifs pédagogiques
+</h2>
+
+<div class="mt-6 h-1 w-20 bg-[#C9A02C] rounded-full"></div>
+
+<p class="mt-8 whitespace-pre-wrap leading-9 text-slate-700">
+{{ formation.objectifs }}
+</p>
+
+</div>
+
+<div class="rounded-3xl bg-white p-10 shadow-xl">
+
+<h2 class="text-3xl font-bold text-[#0D2B55]">
+Programme détaillé
+</h2>
+
+<div class="mt-6 h-1 w-20 bg-[#C9A02C] rounded-full"></div>
+
+<p class="mt-8 whitespace-pre-wrap leading-9 text-slate-700">
+{{ formation.programme }}
+</p>
+
+</div>
+
+<div class="rounded-3xl bg-white p-10 shadow-xl">
+
+<h2 class="text-3xl font-bold text-[#0D2B55]">
+Prérequis
+</h2>
+
+<div class="mt-6 h-1 w-20 bg-[#C9A02C] rounded-full"></div>
+
+<p class="mt-8 whitespace-pre-wrap leading-9 text-slate-700">
+{{ formation.prerequis }}
+</p>
+
+</div>
+
+</div>
+
+<!-- DROITE -->
+<div id="sessions">
+
+<div class="sticky top-28 space-y-8">
+
+<!-- Carte Résumé -->
+
+<div class="rounded-3xl bg-[#0D2B55] p-8 text-white shadow-2xl">
+
+<h2 class="text-2xl font-bold">
+Résumé
+</h2>
+
+<div class="mt-8 space-y-5">
+
+<div class="flex justify-between border-b border-white/10 pb-3">
+<span>Catégorie</span>
+<strong>{{ formation.category }}</strong>
+</div>
+
+<div class="flex justify-between border-b border-white/10 pb-3">
+<span>Niveau</span>
+<strong>{{ formation.niveau }}</strong>
+</div>
+
+<div class="flex justify-between border-b border-white/10 pb-3">
+<span>Durée</span>
+<strong>{{ formation.duree }} h</strong>
+</div>
+
+<div class="flex justify-between">
+<span>Prix</span>
+<strong class="text-[#C9A02C] text-xl">
+{{ formation.prix }}
+</strong>
+</div>
+
+</div>
+
+<a href="{% url 'formation:inscription' %}?formation={{ formation.id }}"
+class="mt-8 block rounded-xl bg-[#C9A02C] py-4 text-center font-bold text-[#0D2B55] hover:scale-105 transition">
+
+S'INSCRIRE À CETTE FORMATION
+
+</a>
+
+</div>
+
+<!-- Sessions -->
+
+<div class="rounded-3xl bg-white p-8 shadow-xl">
+
+<h2 class="text-2xl font-bold text-[#0D2B55]">
+Sessions disponibles
+</h2>
+
+<div class="mt-8 space-y-5">
+
+{% for session in sessions %}
+
+<div class="rounded-2xl border p-6 hover:border-[#C9A02C] transition">
+
+<h3 class="font-bold text-lg text-[#0D2B55]">
+{{ session.date_debut }}
+</h3>
+
+<p class="mt-2 text-slate-600">
+📍 {{ session.lieu }}
+</p>
+
+<p class="mt-1 text-slate-600">
+👥 {{ session.places_restantes }} places restantes
+</p>
+
+<a href="{% url 'formation:inscription' %}?formation={{ formation.id }}"
+class="mt-5 inline-block rounded-lg bg-[#C9A02C] px-5 py-3 font-semibold text-[#0D2B55]">
+
+Réserver
+
+</a>
+
+</div>
+
+{% empty %}
+
+<div class="rounded-2xl border border-dashed p-8 text-center text-slate-500">
+
+Aucune session programmée pour le moment.
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

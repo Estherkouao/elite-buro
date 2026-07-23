@@ -1,0 +1,230 @@
+{% if messages %}
+
+<style>
+
+.elite-messages {
+
+    position: fixed;
+    top: 90px;
+    right: 30px;
+    width: 380px;
+    z-index: 99999;
+
+}
+
+
+.elite-alert {
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    background:#ffffff;
+
+    padding:18px 20px;
+
+    margin-bottom:15px;
+
+    border-radius:16px;
+
+    box-shadow:0 15px 40px rgba(13,43,85,0.18);
+
+    border-left:6px solid #0D2B55;
+
+    animation:showAlert .35s ease;
+
+    font-family:Inter, Arial, sans-serif;
+
+}
+
+
+
+.elite-alert.error {
+
+    border-left-color:#C0392B;
+
+}
+
+
+.elite-alert.success {
+
+    border-left-color:#0B6B39;
+
+}
+
+
+.elite-alert.warning {
+
+    border-left-color:#E67E22;
+
+}
+
+
+
+.alert-icon {
+
+    width:40px;
+
+    height:40px;
+
+    min-width:40px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#FAFAF7;
+
+    color:#0D2B55;
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+
+
+.elite-alert.error .alert-icon {
+
+    color:#C0392B;
+
+}
+
+
+.elite-alert.success .alert-icon {
+
+    color:#0B6B39;
+
+}
+
+
+.elite-alert.warning .alert-icon {
+
+    color:#E67E22;
+
+}
+
+
+
+.alert-content {
+
+    flex:1;
+
+    color:#0D2B55;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+
+.alert-close {
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    color:#777;
+
+}
+
+
+
+.alert-close:hover {
+
+    color:#C0392B;
+
+}
+
+
+
+@keyframes showAlert {
+
+    from {
+
+        opacity:0;
+
+        transform:translateX(50px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+
+</style>
+
+
+
+<div class="elite-messages">
+
+    {% for message in messages %}
+
+
+        <div class="elite-alert {{ message.tags }}">
+
+
+            <div class="alert-icon">
+
+                {% if message.tags == "success" %}
+OK
+
+                {% elif message.tags == "error" %}
+                    !
+
+                {% elif message.tags == "warning" %}
+                    ⚠
+
+                {% else %}
+                    i
+
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="alert-content">
+
+                {{ message }}
+
+            </div>
+
+
+
+            <button class="alert-close"
+                    onclick="this.parentElement.remove()">
+
+                ×
+
+            </button>
+
+
+        </div>
+
+
+    {% endfor %}
+
+</div>
+
+
+{% endif %}i

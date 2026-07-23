@@ -1,0 +1,203 @@
+{% extends "dashboard/base_member.html" %}
+
+{% load static %}
+
+{% block title %}Espaces | Coworking | EliteBuro{% endblock %}
+
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="bg-cream/80">
+  <div class="mx-auto max-w-7xl px-6 py-10">
+
+    <nav class="flex items-center gap-2 text-sm text-navy/70" aria-label="breadcrumb">
+      <span class="font-semibold text-navy">Catalogue</span>
+    </nav>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
+
+      <!-- Sidebar filtres -->
+      <aside class="rounded-2xl border border-navy/10 bg-white p-4 shadow-sm lg:sticky lg:top-6 h-fit">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-xl font-bold text-navy">Filtres</h2>
+          <span class="inline-flex items-center rounded-full bg-navy/5 px-3 py-1 text-xs font-semibold text-navy/80">
+            {# Count approximatif par JS plus tard #}
+            Recherche
+          </span>
+        </div>
+
+        <form method="get" action="{% url 'coworking:workspace_list' %}" class="mt-4 space-y-5">
+
+          <div>
+            <label class="mb-2 block text-sm font-semibold text-navy" for="q">Mot-clé</label>
+            <input
+              id="q"
+              name="q"
+              value="{{ request.GET.q|default:'' }}"
+              type="text"
+              placeholder="Wi-Fi, salle de réunion, parking..."
+              class="w-full rounded-xl border border-navy/10 bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:ring-2 focus:ring-gold"
+            />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-semibold text-navy" for="ville">Ville</label>
+            <input
+              id="ville"
+              name="ville"
+              value="{{ request.GET.ville|default:'' }}"
+              type="text"
+              placeholder="ex: Abidjan, Cocody"
+              class="w-full rounded-xl border border-navy/10 bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:ring-2 focus:ring-gold"
+            />
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-semibold text-navy" for="categorie">Catégorie</label>
+            <select
+              id="categorie"
+              name="categorie"
+              class="w-full rounded-xl border border-navy/10 bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:ring-2 focus:ring-gold"
+            >
+              <option value="">Toutes</option>
+              {% for c in categories|default:None %}
+                <option value="{{ c.slug }}" {% if request.GET.categorie == c.slug %}selected{% endif %}>{{ c.nom }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label class="mb-2 block text-sm font-semibold text-navy" for="prix">Prix max</label>
+              <input
+                id="prix"
+                name="prix"
+                value="{{ request.GET.prix|default:'' }}"
+                type="number"
+                min="0"
+                step="100"
+                placeholder="ex: 15000"
+                class="w-full rounded-xl border border-navy/10 bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:ring-2 focus:ring-gold"
+              />
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-semibold text-navy" for="capacite">Capacité min</label>
+              <input
+                id="capacite"
+                name="capacite"
+                value="{{ request.GET.capacite|default:'' }}"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="ex: 10"
+                class="w-full rounded-xl border border-navy/10 bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:ring-2 focus:ring-gold"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="mb-2 block text-sm font-semibold text-navy" for="equipements">Équipements</label>
+            <input
+              id="equipements"
+              name="equipements"
+              type="text"
+              value="{{ request.GET.equipements|default:'' }}"
+              placeholder="Wi-Fi, Clim, Parking..."
+              class="w-full rounded-xl border border-navy/10 bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:ring-2 focus:ring-gold"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 gap-3">
+            <button
+              type="submit"
+              class="inline-flex w-full items-center justify-center rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white shadow-sm shadow-navy/30 transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+            >
+              Appliquer
+            </button>
+            <a
+              href="{% url 'coworking:workspace_list' %}"
+              class="inline-flex w-full items-center justify-center rounded-xl border border-navy/10 bg-white px-5 py-3 text-sm font-semibold text-navy shadow-sm transition hover:bg-navy/5 focus:outline-none focus:ring-2 focus:ring-gold"
+            >
+              Réinitialiser
+            </a>
+          </div>
+        </form>
+
+        <div class="mt-4 rounded-xl bg-navy/5 p-3 text-xs text-navy/70">
+          <div class="font-semibold text-navy">Astuce</div>
+          <p class="mt-1">Utilise “Mot-clé” pour un résultat rapide (Wi-Fi, réunion, parking, etc.).</p>
+        </div>
+      </aside>
+
+      <!-- Résultats -->
+      <div>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-navy">Catalogue d’espaces</h1>
+            <p class="mt-1 text-sm text-navy/70">Découvrez les disponibilités et réservez en ligne.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 rounded-xl border border-navy/10 bg-white px-4 py-2 shadow-sm">
+              <span class="text-xs font-semibold text-navy/70">Trier</span>
+              <select class="bg-transparent text-sm font-semibold text-navy outline-none">
+                <option>Plus récents</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3" id="workspace-grid">
+          {% for w in workspaces %}
+            {% include 'coworking/partials/workspace_card.html' with workspace=w %}
+          {% empty %}
+            <div class="col-span-full rounded-2xl border border-navy/10 bg-white p-8 text-center text-navy/70 shadow-sm">
+              <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-navy/5">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 006.15 13.65z" />
+                </svg>
+              </div>
+              <h3 class="mt-4 font-display text-xl font-bold">Aucun espace trouvé</h3>
+              <p class="mt-2 text-sm">Ajuste les filtres ou essaye un autre mot-clé.</p>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+          <div class="mt-8">
+            {% include 'coworking/partials/pagination.html' %}
+          </div>
+        {% endif %}
+
+        <div class="mt-8 text-xs text-navy/50">
+          Résultats affichés : {{ workspaces|length }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% block extra_js %}
+<script type="module">
+  // Animation discrète au chargement des cartes
+  const cards = document.querySelectorAll('#workspace-grid > *');
+  cards.forEach((el, idx) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    el.style.transition = 'opacity 300ms ease, transform 400ms ease';
+    el.style.transitionDelay = `${Math.min(idx, 12) * 40}ms`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  });
+</script>
+{% endblock %}
+
+{% endblock %}
+

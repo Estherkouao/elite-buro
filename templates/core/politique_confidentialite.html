@@ -1,0 +1,230 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}Politique de confidentialité — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #17325C; --navy-light: #23416F; --gold: #B99646; --gold-light: #d4b36a;
+      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
+      --white: #FFFFFF; --border: #D8D0C2;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px; --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    .legal-page { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
+    .legal-page a { text-decoration: none; color: var(--gold); font-weight: 500; transition: color 0.2s; }
+    .legal-page a:hover { color: var(--navy); }
+    .legal-page img { max-width: 100%; height: auto; display: block; }
+    .legal-page .container { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .legal-page .gold-divider { width: 60px; height: 2px; background: var(--gold); }
+
+    /* HERO */
+    .legal-page .hero { min-height: 40vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 0; background: var(--navy); position: relative; }
+    .legal-page .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 30, 60, 0.92), rgba(23, 50, 92, 0.82)); z-index: 1; }
+    .legal-page .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=1600&q=80') center/cover no-repeat; opacity: 0.2; }
+    .legal-page .hero-content { position: relative; z-index: 2; text-align: center; padding: 64px 24px; }
+    .legal-page .hero-content .gold-divider { margin: 0 auto 28px; }
+    .legal-page .hero-content h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 18px; }
+    .legal-page .hero-content p { font-size: 16px; color: rgba(255,255,255,0.65); font-weight: 300; line-height: 1.7; max-width: 520px; margin: 0 auto; }
+    .legal-page .hero-content .gold-divider-bottom { margin: 28px auto 0; }
+
+    /* LEGAL CONTENT */
+    .legal-page .legal-content { padding: 64px 0 96px; background: var(--ivory); }
+    .legal-page .legal-content h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--navy); margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 2px solid var(--gold); display: inline-block; }
+    .legal-page .legal-content h2:first-child { margin-top: 0; }
+    .legal-page .legal-content h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin: 32px 0 12px; }
+    .legal-page .legal-content p { margin-bottom: 16px; color: var(--text-muted); }
+    .legal-page .legal-content ul { margin: 12px 0 20px 24px; color: var(--text-muted); }
+    .legal-page .legal-content ul li { margin-bottom: 8px; }
+    .legal-page .legal-content strong { color: var(--navy); font-weight: 600; }
+
+    /* HIGHLIGHT BOX */
+    .legal-page .highlight-box { background: var(--white); border-left: 4px solid var(--gold); padding: 24px 28px; border-radius: 0 var(--radius) var(--radius) 0; margin: 24px 0; box-shadow: var(--shadow-sm); }
+    .legal-page .highlight-box p { color: var(--dark); margin-bottom: 8px; }
+    .legal-page .highlight-box p:last-child { margin-bottom: 0; }
+
+    /* TABLE */
+    .legal-page .legal-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; }
+    .legal-page .legal-table th { background: var(--navy); color: var(--white); font-weight: 500; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 20px; text-align: left; }
+    .legal-page .legal-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 15px; color: var(--text-muted); }
+    .legal-page .legal-table tr:nth-child(even) td { background: rgba(23, 50, 92, 0.02); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .legal-page .hero { min-height: 32vh; }
+      .legal-page .hero-content { padding: 40px 24px; }
+      .legal-page .legal-content h2 { font-size: 20px; }
+      .legal-page .legal-table { font-size: 13px; }
+      .legal-page .legal-table th, .legal-page .legal-table td { padding: 10px 12px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-b from-[#F8F9FC] to-white border-b border-slate-200">
+
+      <div class="max-w-7xl mx-auto px-6 py-20">
+
+          <div class="max-w-4xl mx-auto text-center">
+
+              <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+                  ✦ Protection des données
+              </span>
+
+              <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#0D2B55] leading-tight">
+                  Politique de confidentialité
+              </h1>
+
+              <p class="mt-6 mx-auto max-w-3xl text-lg leading-8 text-slate-600">
+                  Découvrez comment ELITEBURO collecte, utilise et protège vos
+                  données personnelles afin de garantir une expérience sécurisée
+                  et transparente sur notre plateforme.
+              </p>
+
+          </div>
+
+      </div>
+
+  </section>
+
+  <div class="container">
+    <section class="legal-content">
+
+      <h2>1. Engagement de SAS Elite Buro Coworking</h2>
+      <p>SAS Elite Buro Coworking attache une grande importance à la protection de la vie privée de ses utilisateurs et de ses membres. La présente politique de confidentialité a pour objet d'informer les utilisateurs du site eliteburo.com sur la manière dont leurs données à caractère personnel sont collectées, traitées et protégées, conformément à la <strong>loi n° 2013-450 du 19 juin 2013 relative à la protection des données à caractère personnel</strong> en Côte d'Ivoire.</p>
+
+      <div class="highlight-box">
+        <p><strong>En résumé :</strong> Vos données sont collectées uniquement pour vous fournir nos services, ne sont jamais vendues à des tiers, et vous pouvez à tout moment demander leur modification ou suppression.</p>
+      </div>
+
+      <h2>2. Responsable du traitement</h2>
+      <p>Le responsable du traitement des données à caractère personnel est :</p>
+      <table class="legal-table">
+        <tr><th>Informations</th><th>Détails</th></tr>
+        <tr><td>Organisme</td><td>SAS Elite Buro Coworking</td></tr>
+        <tr><td>Adresse</td><td>Riviera Palmeraie, Cocody, Abidjan, Côte d'Ivoire</td></tr>
+        <tr><td>Représentant</td><td>M. TCHERO Huidi, président</td></tr>
+        <tr><td>E-mail</td><td><a href="mailto:contact@eliteburo.com">contact@eliteburo.com</a></td></tr>
+        <tr><td>Téléphone</td><td>+225 27 22 47 00 00</td></tr>
+      </table>
+
+      <h2>3. Données collectées</h2>
+      <p>Nous collectons les données suivantes lors de votre inscription et de l'utilisation de nos services :</p>
+
+      <h3>3.1 Données d'identification</h3>
+      <ul>
+        <li>Nom et prénom</li>
+        <li>Adresse e-mail</li>
+        <li>Numéro de téléphone</li>
+        <li>Nom de l'entreprise (pour les professionnels)</li>
+        <li>Adresse postale</li>
+      </ul>
+
+      <h3>3.2 Données de paiement</h3>
+      <ul>
+        <li>Informations relatives aux transactions (montant, date, référence)</li>
+        <li>Numéro de compte mobile money (traité de manière chiffrée par l'agrégateur de paiement)</li>
+        <li>Numéro de carte bancaire (jamais stocké sur nos serveurs — traité par l'agrégateur de paiement certifié)</li>
+      </ul>
+
+      <h3>3.3 Données de navigation</h3>
+      <ul>
+        <li>Adresse IP</li>
+        <li>Type de navigateur et système d'exploitation</li>
+        <li>Pages consultées, durée de visite</li>
+        <li>Cookies et identifiants de session</li>
+      </ul>
+
+      <h2>4. Finalités du traitement</h2>
+      <p>Vos données sont collectées pour les finalités suivantes :</p>
+      <ul>
+        <li><strong>Gestion des réservations</strong> — Création et suivi des réservations de bureaux, salles et formules de domiciliation.</li>
+        <li><strong>Gestion de la relation client</strong> — Réponse à vos demandes, envoi de confirmations, gestion des réclamations.</li>
+        <li><strong>Facturation</strong> — Émission et envoi des factures conformes à la réglementation fiscale ivoirienne.</li>
+        <li><strong>Communication</strong> — Envoi de newsletters (uniquement avec votre consentement) et d'informations sur nos services.</li>
+        <li><strong>Amélioration du service</strong> — Analyse des usages pour optimiser l'expérience utilisateur.</li>
+        <li><strong>Sécurité</strong> — Prévention de la fraude et protection de nos systèmes.</li>
+      </ul>
+
+      <h2>5. Base légale du traitement</h2>
+      <p>Le traitement de vos données est fondé sur les bases légales suivantes :</p>
+      <ul>
+        <li><strong>Exécution contractuelle</strong> — lorsque le traitement est nécessaire à l'exécution de nos services (réservation, facturation).</li>
+        <li><strong>Consentement</strong> — lorsque vous acceptez explicitement de recevoir des communications commerciales.</li>
+        <li><strong>Intérêt légitime</strong> — pour la sécurité de nos systèmes et l'amélioration de nos services.</li>
+        <li><strong>Obligation légale</strong> — pour la facturation et la conservation des données comptables.</li>
+      </ul>
+
+      <h2>6. Durée de conservation</h2>
+      <table class="legal-table">
+        <tr><th>Type de données</th><th>Durée de conservation</th></tr>
+        <tr><td>Données de compte membre</td><td>Durée de la relation contractuelle + 3 ans</td></tr>
+        <tr><td>Données de facturation</td><td>5 ans (obligation comptable)</td></tr>
+        <tr><td>Données de navigation</td><td>13 mois maximum</td></tr>
+        <tr><td>Données de prospection</td><td>3 ans après le dernier contact</td></tr>
+        <tr><td>Cookies de session</td><td>Supprimés à la fermeture du navigateur</td></tr>
+      </table>
+
+      <h2>7. Destinataires des données</h2>
+      <p>Vos données peuvent être partagées avec :</p>
+      <ul>
+        <li><strong>SAS Elite Buro Coworking</strong> — en interne, pour les besoins du service.</li>
+        <li><strong>Prestataires de paiement</strong> (CinetPay, Orange Money, Wave) — uniquement les données nécessaires au traitement des transactions.</li>
+        <li><strong>Hébergeur du site</strong> — pour le stockage sécurisé des données.</li>
+        <li><strong>Autorités compétentes</strong> — sur demande légale ou réglementaire.</li>
+      </ul>
+      <p>Vos données <strong>ne sont jamais vendues</strong> à des tiers à des fins commerciales.</p>
+
+      <h2>8. Vos droits</h2>
+      <p>Conformément à la loi ivoirienne, vous disposez des droits suivants :</p>
+      <ul>
+        <li><strong>Droit d'accès</strong> — obtenir une copie de vos données personnelles.</li>
+        <li><strong>Droit de rectification</strong> — faire corriger des données inexactes ou incomplètes.</li>
+        <li><strong>Droit de suppression</strong> — demander l'effacement de vos données.</li>
+        <li><strong>Droit d'opposition</strong> — vous opposer au traitement de vos données pour motif légitime.</li>
+        <li><strong>Droit de limitation</strong> — demander la limitation du traitement dans certains cas.</li>
+        <li><strong>Droit de portabilité</strong> — recevoir vos données dans un format structuré.</li>
+      </ul>
+      <div class="highlight-box">
+        <p>Pour exercer vos droits, envoyez un e-mail à <a href="mailto:contact@eliteburo.com">contact@eliteburo.com</a> ou écrivez-nous par courrier postal. Nous vous répondrons dans un délai maximum de 30 jours.</p>
+      </div>
+
+      <h2>9. Sécurité des données</h2>
+      <p>SAS Elite Buro Coworking met en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, toute altération, divulgation ou destruction. Ces mesures incluent :</p>
+      <ul>
+        <li>Chiffrement des communications (HTTPS/TLS)</li>
+        <li>Stockage sécurisé des données sur des serveurs protégés</li>
+        <li>Contrôle d'accès strict aux données personnelles</li>
+        <li>Formation du personnel aux bonnes pratiques de sécurité</li>
+        <li>Audit régulier des systèmes d'information</li>
+      </ul>
+
+      <h2>10. Cookies</h2>
+      <p>Le site utilise les types de cookies suivants :</p>
+      <table class="legal-table">
+        <tr><th>Type</th><th>Finalité</th><th>Durée</th></tr>
+        <tr><td>Cookies essentiels</td><td>Navigation et fonctionnement du site</td><td>Session</td></tr>
+        <tr><td>Cookies de performance</td><td>Analyse du trafic et amélioration</td><td>13 mois</td></tr>
+        <tr><td>Cookies fonctionnels</td><td>Mémorisation de vos préférences</td><td>12 mois</td></tr>
+      </table>
+      <p>Vous pouvez gérer vos préférences de cookies directement dans votre navigateur.</p>
+
+      <h2>11. Modification de la politique</h2>
+      <p>SAS Elite Buro Coworking se réserve le droit de modifier la présente politique de confidentialité à tout moment. Les utilisateurs seront informés de toute modification substantielle via une notification sur le site ou par e-mail.</p>
+
+      <p style="margin-top: 48px; font-size: 13px; color: rgba(0,0,0,0.35); text-align: center;">
+        Dernière mise à jour : 21 juillet 2026
+      </p>
+
+    </section>
+  </div>
+
+</div>
+{% endblock %}

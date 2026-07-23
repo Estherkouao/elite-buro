@@ -1,0 +1,467 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Domicilier mon entreprise | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<section class="min-h-screen bg-gray-100 py-20">
+    <a href="javascript:history.back()"
+   class="inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#0D2B55] hover:bg-gray-300 transition">
+
+    ← Retour
+
+</a>
+
+<div class="max-w-3xl mx-auto px-6">
+    
+
+
+    <div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+        <!-- TITRE -->
+
+        <div class="text-center mb-10">
+
+            <h1 class="text-4xl font-black text-[#0D2B55]">
+                Domiciliez votre entreprise
+            </h1>
+
+            <p class="mt-3 text-gray-500">
+                Remplissez les informations en 7 étapes
+            </p>
+
+        </div>
+
+
+
+        <!-- PROGRESSION -->
+
+        <div class="mb-10">
+
+            <div class="flex justify-between text-sm font-bold text-[#0D2B55]">
+
+                <span>
+                    Étape 
+                    <span id="stepNumber">1</span>/7
+                </span>
+
+                <span>
+                    EliteBuro
+                </span>
+
+            </div>
+
+
+            <div class="w-full bg-gray-200 rounded-full h-3 mt-3 overflow-hidden">
+
+                    <div id="progress"
+                        class="bg-green-500 h-3 rounded-full transition-all duration-500 ease-in-out"
+                        style="width:14%">
+                    </div>
+
+                
+            </div>
+
+        </div>
+
+
+
+
+<form method="POST" action="{% url 'domiciliation:domiciliation_from' %}">
+
+{% csrf_token %}
+
+
+
+<!-- ETAPE 1 -->
+
+<div class="step">
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+1. Votre nom
+</h2>
+
+
+<input type="text"
+name="nom"
+placeholder="Entrez votre nom"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+
+<!-- ETAPE 2 -->
+
+<div class="step hidden">
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+2. Votre prénom
+</h2>
+
+
+<input type="text"
+name="prenom"
+placeholder="Entrez votre prénom"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+
+
+<!-- ETAPE 3 -->
+
+<div class="step hidden">
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+3. Votre adresse email
+</h2>
+
+
+<input type="email"
+name="email"
+placeholder="exemple@email.com"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+
+
+
+<!-- ETAPE 4 -->
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+4. Votre numéro de téléphone
+</h2>
+
+
+<input type="tel"
+name="telephone"
+placeholder="+225 07 00 00 00 00"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ETAPE 5 -->
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+5. Votre entreprise
+</h2>
+
+
+
+<input type="text"
+name="entreprise"
+placeholder="Nom de votre entreprise"
+required
+class="w-full border rounded-xl px-5 py-4 mb-5">
+
+
+
+<input type="text"
+name="activite"
+placeholder="Secteur d'activité"
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ETAPE 6 -->
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+6. Choisissez votre formule
+</h2>
+
+
+
+<div class="space-y-4">
+
+{% for plan in plans %}
+<label class="block border rounded-xl p-5 cursor-pointer hover:border-[#C9A02C] transition">
+
+<input type="radio"
+name="formule"
+value="{{ plan.nom }}"
+required>
+
+<span class="font-bold ml-3">
+{{ plan.nom }}
+</span>
+
+<span class="block text-sm text-gray-500 ml-7 mt-1">
+{{ plan.prix|floatformat:0 }} FCFA / mois
+</span>
+
+</label>
+{% empty %}
+<p class="text-gray-500 italic">Aucune formule disponible pour le moment.</p>
+{% endfor %}
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 7 -->
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#0D2B55] mb-6">
+7. Besoin d'assistance
+</h2>
+
+
+
+<textarea
+name="message"
+rows="5"
+placeholder="Décrivez votre besoin..."
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- BOUTONS -->
+
+
+<div class="flex justify-between mt-10">
+
+
+<button type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+<button type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#C9A02C] text-[#0D2B55] font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+<button type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-[#0D2B55] text-white font-bold">
+
+Envoyer ma demande
+
+</button>
+
+
+</div>
+
+
+
+</form>
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block extra_js %}
+
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+const nextBtn = document.getElementById("next");
+
+const prevBtn = document.getElementById("previous");
+
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+
+const number = document.getElementById("stepNumber");
+
+
+
+
+
+function displayStep(){
+
+
+steps.forEach((step,index)=>{
+
+
+step.classList.toggle(
+"hidden",
+index !== current
+);
+
+
+});
+
+
+
+number.innerHTML = current + 1;
+
+
+
+let percentage = ((current + 1) / steps.length) * 100;
+
+progress.style.width = percentage + "%";
+
+
+
+prevBtn.classList.toggle(
+"hidden",
+current === 0
+);
+
+
+
+nextBtn.classList.toggle(
+"hidden",
+current === steps.length-1
+);
+
+
+
+submitBtn.classList.toggle(
+"hidden",
+current !== steps.length-1
+);
+
+
+
+}
+
+
+
+
+
+nextBtn.addEventListener("click",()=>{
+
+
+if(current < steps.length-1){
+
+current++;
+
+displayStep();
+
+}
+
+
+});
+
+
+
+
+
+prevBtn.addEventListener("click",()=>{
+
+
+if(current > 0){
+
+current--;
+
+displayStep();
+
+}
+
+
+});
+
+
+
+
+displayStep();
+
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Confirmer réservation | EliteBuro{% endblock %}
+
+{% block content %}
+  <div>
+    <h1 class="text-3xl font-bold text-navy">Confirmer réservation</h1>
+    <p class="mt-2 text-sm text-gray-600">{{ reservation.reservation_number }}</p>
+  </div>
+
+  <div class="mt-6 rounded-3xl border border-success/20 bg-white shadow-sm p-6">
+    <p class="text-sm text-gray-700">Confirmer la réservation et mettre à jour le statut.</p>
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" class="rounded-md bg-success px-4 py-2 font-bold text-white">Confirmer</button>
+      <a href="{% url 'dashboard_admin:reservation_detail' reservation.id %}" class="ml-4 text-navy font-bold">Annuler</a>
+    </form>
+  </div>
+{% endblock %}
+

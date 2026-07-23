@@ -1,0 +1,330 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block page_title %}
+Réservations
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+    <!-- HEADER -->
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                
+            </h2>
+
+            <p style="color:#666;font-size:14px;">
+                Historique et gestion des réservations clients.
+            </p>
+
+        </div>
+
+
+        <a href="{% url 'reservation:create' %}" class="btn-primary">
+
+            + Nouvelle réservation
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- FILTRES -->
+    <div class="filters-bar">
+
+
+        <select class="filter-select">
+
+            <option>
+                Tous les statuts
+            </option>
+
+            <option>
+                Confirmée
+            </option>
+
+            <option>
+                En attente
+            </option>
+
+            <option>
+                Annulée
+            </option>
+
+        </select>
+
+
+
+        <input 
+            type="text"
+            class="filter-input"
+            placeholder="Rechercher une réservation..."
+        >
+
+
+    </div>
+
+
+
+
+    <!-- TABLE -->
+
+    <div class="table-container">
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Numéro
+                    </th>
+
+
+                    <th>
+                        Membre
+                    </th>
+
+
+                    <th>
+                        Espace
+                    </th>
+
+
+                    <th>
+                        Type
+                    </th>
+
+
+                    <th>
+                        Statut
+                    </th>
+
+
+                    <th>
+                        Montant
+                    </th>
+
+
+                    <th>
+                        Date
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+            <tbody>
+
+
+            {% for r in reservations %}
+
+
+                <tr>
+
+
+                    <td>
+                        <strong>
+                            {{ r.reservation_number }}
+                        </strong>
+                    </td>
+
+
+
+                    <td>
+                        {{ r.utilisateur.get_full_name|default:r.utilisateur.email }}
+                    </td>
+
+
+
+                    <td>
+                        {{ r.espace.nom }}
+                    </td>
+
+
+
+                    <td>
+                        {{ r.type_reservation }}
+                    </td>
+
+
+
+
+                    <td>
+
+                        {% if r.statut == "PENDING" %}
+
+                            <span class="status-badge pending">
+                                En attente
+                            </span>
+
+
+                        {% elif r.statut == "CONFIRMED" %}
+
+                            <span class="status-badge confirmed">
+                                Confirmée
+                            </span>
+
+
+                        {% elif r.statut == "CANCELED" %}
+
+                            <span class="status-badge cancelled">
+                                Annulée
+                            </span>
+
+
+                        {% elif r.statut == "FINISHED" %}
+
+                            <span class="status-badge">
+                                Terminée
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="status-badge">
+                                {{ r.statut }}
+                            </span>
+
+
+                        {% endif %}
+
+                    </td>
+
+
+
+
+                    <td>
+
+                        {{ r.montant_total|floatformat:0 }}
+                        FCFA
+
+                    </td>
+
+
+
+
+                    <td>
+
+                        {{ r.created_at|date:"d/m/Y" }}
+
+                    </td>
+
+
+
+
+                    <td>
+
+
+                        <a href="{% url 'dashboard_admin:reservation_detail' r.id %}" class="btn-action">
+
+                            Voir
+
+                        </a>
+
+                        <a href="{% url 'dashboard_admin:reservation_edit' r.id %}" class="btn-action">
+
+                            Modifier
+
+                        </a>
+
+
+
+
+                        <a href="{% url 'dashboard_admin:reservation_cancel' r.id %}"
+                           class="btn-action"
+                           style="background:var(--danger-color);">
+
+                            Annuler
+
+                        </a>
+
+
+
+                        <a href="{% url 'dashboard_admin:reservation_confirm' r.id %}"
+                           class="btn-action"
+                           style="background:var(--success-color);">
+
+                            Confirmer
+
+                        </a>
+
+
+
+                        <a href="{% url 'dashboard_admin:reservation_refuse' r.id %}"
+                           class="btn-action"
+                           style="background:var(--warning-color);">
+
+                            Refuser
+
+                        </a>
+
+
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+            {% empty %}
+
+
+
+                <tr>
+
+                    <td colspan="8" style="text-align:center;padding:30px;">
+
+                        Aucune réservation trouvée.
+
+                    </td>
+
+                </tr>
+
+
+
+            {% endfor %}
+
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

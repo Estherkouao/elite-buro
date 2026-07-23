@@ -1,0 +1,67 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% load static %}
+
+{% block title %}Soumettre une réclamation | EliteBuro{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+<main class="main-content">
+  <section id="reclamation-create" class="content-section active">
+    <div class="section-header">
+      <div>
+        <span class="section-subtitle">Service client</span>
+        <h2>Soumettre une réclamation</h2>
+        <p style="color:#64748B; margin-top:8px;">
+          Vous avez un problème ou une suggestion ? Remplissez le formulaire ci-dessous, 
+          notre équipe vous répondra dans les plus brefs délais.
+        </p>
+      </div>
+      <a href="{% url 'reclamation:member_list' %}" class="view-all">← Mes réclamations</a>
+    </div>
+
+    <div style="background:white; border-radius:1rem; padding:2rem; box-shadow:0 10px 30px rgba(13,43,85,.08); max-width:800px;">
+      <form method="post">
+        {% csrf_token %}
+
+        <div style="margin-bottom:1.5rem;">
+          <label for="id_objet" style="display:block; font-weight:600; font-size:14px; color:#0D2B55; margin-bottom:8px;">
+            Objet de la réclamation <span style="color:#C0392B;">*</span>
+          </label>
+          <input type="text" name="objet" id="id_objet" maxlength="255" required
+                 placeholder="Ex: Problème avec ma réservation du 15/03"
+                 style="width:100%; padding:14px 16px; border:1px solid #E5E7EB; border-radius:12px; font-size:15px;
+                        outline:none; transition:border-color .3s; box-sizing:border-box;"
+                 onfocus="this.style.borderColor='#C9A02C'" onblur="this.style.borderColor='#E5E7EB'">
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label for="id_description" style="display:block; font-weight:600; font-size:14px; color:#0D2B55; margin-bottom:8px;">
+            Description détaillée <span style="color:#C0392B;">*</span>
+          </label>
+          <textarea name="description" id="id_description" rows="8" required
+                    placeholder="Décrivez votre problème en détail : date, lieu, personnes concernées, ce qui s'est passé..."
+                    style="width:100%; padding:14px 16px; border:1px solid #E5E7EB; border-radius:12px; font-size:15px;
+                           outline:none; transition:border-color .3s; resize:vertical; font-family:inherit; box-sizing:border-box;"
+                    onfocus="this.style.borderColor='#C9A02C'" onblur="this.style.borderColor='#E5E7EB'"></textarea>
+        </div>
+
+        <div style="display:flex; gap:15px; align-items:center; flex-wrap:wrap;">
+          <button type="submit"
+                  style="padding:14px 32px; background:#0D2B55; color:white; border:none; border-radius:12px;
+                         font-weight:700; font-size:15px; cursor:pointer; transition:background .3s;">
+            Envoyer ma réclamation
+          </button>
+          <a href="{% url 'reclamation:member_list' %}"
+             style="padding:14px 32px; background:#F1F5F9; color:#0D2B55; border:none; border-radius:12px;
+                    font-weight:600; font-size:15px; text-decoration:none; transition:background .3s;">
+            Annuler
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
+

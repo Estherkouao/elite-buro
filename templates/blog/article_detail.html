@@ -1,0 +1,271 @@
+{% extends "layouts/base_admin.html" %}
+
+
+{% block title %}
+{{ article.title }} | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="article-page">
+
+
+    <!-- HEADER ARTICLE -->
+
+    <div class="article-header">
+
+        <h1>
+            {{ article.title }}
+        </h1>
+
+
+        <div class="article-meta">
+
+            {% if article.category %}
+                <span>
+                    {{ article.category.name }}
+                </span>
+            {% endif %}
+
+
+            <span>
+                {{ article.created_at|date:"d M Y" }}
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- IMAGE -->
+
+    {% if article.image %}
+
+    <div class="article-image">
+
+        <img src="{{ article.image.url }}"
+             alt="{{ article.title }}">
+
+    </div>
+
+    {% endif %}
+
+
+
+
+
+    <!-- CONTENU -->
+
+    <div class="article-content">
+
+
+        {{ article.content|linebreaks }}
+
+
+    </div>
+
+
+
+
+
+    <!-- ARTICLES SIMILAIRES -->
+
+
+    {% if articles_similaires %}
+
+
+    <div class="similar">
+
+
+        <h2>
+            Articles similaires
+        </h2>
+
+
+
+        <div class="cards">
+
+
+        {% for item in articles_similaires %}
+
+
+            <div class="card">
+
+
+                {% if item.image %}
+
+                <img src="{{ item.image.url }}">
+
+                {% endif %}
+
+
+
+                <h3>
+                    {{ item.title }}
+                </h3>
+
+
+                <a href="{% url 'blog:article_detail' item.slug %}">
+                    Lire
+                </a>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+
+    {% endif %}
+
+
+
+</div>
+
+
+
+
+<style>
+
+
+.article-page{
+
+    max-width:1000px;
+    margin:auto;
+    padding:40px 20px;
+
+}
+
+
+
+.article-header h1{
+
+    font-size:42px;
+    font-weight:800;
+    color:#111827;
+
+}
+
+
+
+.article-meta{
+
+    display:flex;
+    gap:15px;
+    margin-top:15px;
+    color:#6b7280;
+
+}
+
+
+
+.article-image img{
+
+    width:100%;
+    max-height:500px;
+    object-fit:cover;
+    border-radius:18px;
+    margin:35px 0;
+
+}
+
+
+
+
+.article-content{
+
+    font-size:18px;
+    line-height:1.9;
+    color:#374151;
+
+}
+
+
+
+.similar{
+
+    margin-top:60px;
+
+}
+
+
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+
+}
+
+
+
+.card{
+
+    background:white;
+    border-radius:15px;
+    padding:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+
+.card img{
+
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    border-radius:12px;
+
+}
+
+
+
+.card h3{
+
+    margin:15px 0;
+
+}
+
+
+
+.card a{
+
+    color:#2563eb;
+    font-weight:600;
+
+}
+
+
+
+@media(max-width:768px){
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.article-header h1{
+font-size:30px;
+}
+
+}
+
+
+</style>
+
+
+{% endblock %}

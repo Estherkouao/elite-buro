@@ -1,0 +1,306 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Supprimer la catégorie | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Supprimer une catégorie
+            </h2>
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Cette action est définitive. Vérifiez avant de continuer.
+            </p>
+
+        </div>
+
+
+        <a href="{% url 'dashboard_admin:formations_category_list' %}"
+           class="btn-secondary">
+
+            ← Retour
+
+        </a>
+
+
+    </div>
+
+
+
+
+    <!-- CARD SUPPRESSION -->
+
+
+    <div class="panel delete-card">
+
+
+        <div class="panel-header">
+
+            <h3>
+                Confirmation de suppression
+            </h3>
+
+        </div>
+
+
+
+        <div class="panel-body padded">
+
+
+            <div class="warning-box">
+
+
+                <div class="warning-icon">
+                    ⚠️
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Attention !
+                    </h4>
+
+
+                    <p>
+                        Vous êtes sur le point de supprimer la catégorie :
+                    </p>
+
+
+                    <strong class="category-name">
+                        {{ category.name }}
+                    </strong>
+
+
+                    <p style="margin-top:15px;color:#666;">
+                        Toutes les formations liées à cette catégorie
+                        pourraient être affectées.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <form method="post">
+
+
+                {% csrf_token %}
+
+
+
+                <div class="actions">
+
+
+                    <a href="{% url 'dashboard_admin:formations_category_list' %}"
+                       class="btn-secondary">
+
+                        Annuler
+
+                    </a>
+
+
+
+                    <button type="submit"
+                            class="btn-danger">
+
+                        🗑 Confirmer la suppression
+
+                    </button>
+
+
+
+                </div>
+
+
+            </form>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<style>
+
+
+.panel{
+
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.06);
+
+}
+
+
+
+.panel-header{
+
+    padding:20px 25px;
+    border-bottom:1px solid #eee;
+
+}
+
+
+
+.panel-body{
+
+    padding:30px;
+
+}
+
+
+
+.warning-box{
+
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+
+    padding:25px;
+
+    background:#fff7ed;
+
+    border:1px solid #fed7aa;
+
+    border-radius:12px;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.warning-icon{
+
+    font-size:35px;
+
+}
+
+
+
+.warning-box h4{
+
+    margin:0 0 8px;
+
+    color:#c2410c;
+
+    font-size:18px;
+
+}
+
+
+
+.category-name{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:10px 18px;
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+}
+
+
+
+.actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+
+
+.btn-secondary{
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    border:1px solid #ddd;
+
+    background:#fff;
+
+    color:var(--navy);
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+
+
+.btn-danger{
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    border:none;
+
+    background:#dc2626;
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+
+.btn-danger:hover{
+
+    background:#b91c1c;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+</style>
+
+
+{% endblock %}

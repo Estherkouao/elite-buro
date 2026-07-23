@@ -1,0 +1,791 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #17325C;
+      --navy-light: #23416F;
+      --gold: #B99646;
+      --gold-light: #d4b36a;
+      --ivory: #F7F4EE;
+      --cream: #F0ECE3;
+      --dark: #1C1C1C;
+      --text-muted: #5C5C5C;
+      --white: #FFFFFF;
+      --border: #D8D0C2;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--ivory);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .gold-divider {
+      width: 60px;
+      height: 2px;
+      background-color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 65vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 72px;
+      background: var(--navy);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 30, 60, 0.88), rgba(23, 50, 92, 0.75));
+      z-index: 1;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    .hero-content .gold-divider {
+      margin: 0 auto 28px;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .hero-content .gold-divider-bottom {
+      margin: 28px auto 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       SECTIONS GÉNÉRIQUES
+       ═══════════════════════════════════════════ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header .label {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .section-header .gold-divider {
+      margin: 0 auto;
+    }
+
+    .section-left .label {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .section-left h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+
+    .section-left .gold-divider {
+      margin-bottom: 20px;
+    }
+
+    /* ═══════════════════════════════════════════
+       QUI SOMMES-NOUS
+       ═══════════════════════════════════════════ */
+    .about-section {
+      padding: 80px 0 88px;
+      background: var(--ivory);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+    }
+
+    .about-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to top, rgba(23, 50, 92, 0.15), transparent);
+    }
+
+    .about-text p {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .about-text p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .about-text .highlight {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════
+       MISSION / VISION / VALEURS
+       ═══════════════════════════════════════════ */
+    .values-section {
+      padding: 80px 0 88px;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .values-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 10% 20%, rgba(185, 150, 70, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 80%, rgba(255,255,255,0.03) 0%, transparent 50%);
+    }
+
+    .values-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .value-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 44px 32px;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .value-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .value-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(185, 150, 70, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+    }
+
+    .value-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .value-card h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .value-card p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.75;
+    }
+
+    /* ═══════════════════════════════════════════
+       NÉS PÔLES D'ACTIVITÉ
+       ═══════════════════════════════════════════ */
+    .poles-section {
+      padding: 80px 0 88px;
+      background: var(--ivory);
+    }
+
+    .poles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .pole-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-top: 3px solid var(--gold);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pole-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pole-card-img {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .pole-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .pole-card:hover .pole-card-img img {
+      transform: scale(1.05);
+    }
+
+    .pole-card-body {
+      padding: 32px;
+    }
+
+    .pole-card-body .pole-number {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .pole-card-body h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    .pole-card-body p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .pole-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pole-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .pole-features li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    /* ═══════════════════════════════════════════
+       CHIFFRES CLÉS
+       ═══════════════════════════════════════════ */
+    .stats-section {
+      padding: 72px 0;
+      background: var(--cream);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ */
+    .footer {
+      background: #111111;
+      padding: 56px 0 40px;
+    }
+
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand .logo-mark {
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+
+    .footer-brand .footer-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.22em;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .footer-brand .footer-tagline {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      font-style: italic;
+      color: rgba(255,255,255,0.35);
+      margin-top: -2px;
+    }
+
+    .footer-info {
+      text-align: right;
+    }
+
+    .footer-info p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .footer-bottom p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .poles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero {
+        min-height: 50vh;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .about-image img {
+        height: 320px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-info {
+        text-align: center;
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATIONS AU SCROLL
+       ═══════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+{% endblock %}
+
+{% block title %}À propos — Elite Bureau{% endblock %}
+
+{% block content %}
+
+ <!-- HERO -->
+<section class="bg-gradient-to-b from-[#F8F9FC] to-white border-b border-slate-200">
+
+    <div class="max-w-7xl mx-auto px-6 py-20">
+
+        <div class="max-w-4xl mx-auto text-center">
+
+            <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+                ✦ À propos d'ELITEBURO
+            </span>
+
+            <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#0D2B55] leading-tight">
+                Un partenaire au service de votre réussite
+            </h1>
+
+            <p class="mt-6 mx-auto max-w-3xl text-lg leading-8 text-slate-600">
+                ELITEBURO accompagne les entrepreneurs, les entreprises et les
+                institutions en proposant des espaces professionnels, des
+                services de domiciliation, des formations et des solutions
+                innovantes pour favoriser leur croissance.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+  <!-- ═══════════════════════════════════════════
+       QUI SOMMES-NOUS
+       ═══════════════════════════════════════════ -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image reveal">
+          <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80" alt="Espace de coworking Elite Bureau" />
+        </div>
+        <div class="about-text reveal">
+          <p class="label" style="font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 14px;">Notre histoire</p>
+          <h2 style="font-family: var(--font-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy); margin-bottom: 20px; line-height: 1.15;">Qui sommes-nous ?</h2>
+          <div class="gold-divider" style="margin-bottom: 20px;"></div>
+          <p>
+            <strong class="highlight">SAS Elite Buro Coworking</strong> est un groupe multi-pôles basé à Riviera Palmeraie, Cocody, Abidjan, en Côte d'Ivoire. Fondé sous l'impulsion de son président, <strong class="highlight">M. TCHERO Huidi</strong>, le groupe réunit autour d'une même vision trois pôles d'activité distincts et complémentaires.
+          </p>
+          <p>
+            Notre mission est de créer un <strong class="highlight">écosystème professionnel premium</strong> qui met à disposition des entrepreneurs, des équipes et des institutions l'ensemble des ressources nécessaires pour travailler, se former et se développer — le tout dans un cadre d'excellence.
+          </p>
+          <p>
+            Entre la <strong class="highlight">vitrine digitale</strong> et l'<strong class="highlight">outil opérationnel</strong>, notre plateforme eliteburo.com a été conçue pour refléter le positionnement haut de gamme de nos espaces et de nos services, tout en générant des leads qualifiés pour accompagner la croissance de nos membres.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MISSION / VISION / VALEURS
+       ═══════════════════════════════════════════ -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Ce qui nous anime</p>
+        <h2 style="color: var(--white);">Mission, vision et valeurs</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="values-grid">
+        <!-- Mission -->
+        <div class="value-card reveal">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>Notre mission</h3>
+          <p>Offrir aux professionnels et aux entrepreneurs d'Abidjan un environnement de travail et de formation d'excellence, alliant confort, technologie et accompagnement sur mesure.</p>
+        </div>
+
+        <!-- Vision -->
+        <div class="value-card reveal">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Notre vision</h3>
+          <p>Devenir la référence incontournable de l'immobilier d'entreprise et de la formation professionnelle premium en Afrique de l'Ouest, en créant des ponts entre les talents et les opportunités.</p>
+        </div>
+
+        <!-- Valeurs -->
+        <div class="value-card reveal">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3>Nos valeurs</h3>
+          <p>Excellence dans chaque détail, innovation au service de nos membres, et création de liens durables entre les acteurs du monde professionnel ivoirien et international.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PÔLES D'ACTIVITÉ
+       ═══════════════════════════════════════════ -->
+  <section class="poles-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Notre écosystème</p>
+        <h2>Nos pôles d'activité</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="poles-grid">
+        <!-- Pôle 1 -->
+        <div class="pole-card reveal">
+          <div class="pole-card-img">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80" alt="Espace de coworking" />
+          </div>
+          <div class="pole-card-body">
+            <p class="pole-number">Pôle 1</p>
+            <h3>Coworking & Conciergerie</h3>
+            <p>Un espace de travail premium avec 11 bureaux privatifs, des hot desks et des salles de réunion. Réservation en ligne 24h/24, 7j/7, avec paiement multi-canaux adapté au marché ivoirien.</p>
+            <ul class="pole-features">
+              <li>11 bureaux privatifs entièrement équipés</li>
+              <li>Hot desks et salles de réunion modulables</li>
+              <li>Réservation en temps réel et paiement mobile</li>
+              <li>Portail membre personnel (profil, factures, réclamations)</li>
+              <li>Domiciliation d'entreprise — 3 formules de souscription</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pôle 2 -->
+        <div class="pole-card reveal">
+          <div class="pole-card-img">
+            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80" alt="Centre de formation" />
+          </div>
+          <div class="pole-card-body">
+            <p class="pole-number">Pôle 2</p>
+            <h3>Centre de Formation</h3>
+            <p>Un espace dédié à la montée en compétences, avec location de salles de formation, programmes clés en main et accompagnement personnalisé des formateurs.</p>
+            <ul class="pole-features">
+              <li>Location de salles de formation équipées</li>
+              <li>Programmes de formation clés en main</li>
+              <li>Accompagnement des formateurs partenaires</li>
+              <li>Module réservation en ligne dédié</li>
+              <li>Suivi des participants et certifications</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CHIFFRES CLÉS
+       ═══════════════════════════════════════════ -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">En chiffres</p>
+        <h2>Nos chiffres clés</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <span class="stat-number">11</span>
+          <span class="stat-label">Bureaux privatifs</span>
+        </div>
+        <div class="stat-item reveal">
+          <span class="stat-number">3</span>
+          <span class="stat-label">Pôles d'activité</span>
+        </div>
+        <div class="stat-item reveal">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Réservation en ligne</span>
+        </div>
+        <div class="stat-item reveal">
+          <span class="stat-number">2026</span>
+          <span class="stat-label">Année de lancement</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    // ─── Intersection Observer pour animations au scroll ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+{% endblock %}

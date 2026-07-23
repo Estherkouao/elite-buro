@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Formation ELITEBURO{% endblock %}</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0D2B55',
+            gold: '#C9A02C',
+            cream: '#FAFAF7',
+            success: '#0B6B39',
+            danger: '#C0392B',
+            orange: '#E67E22',
+          },
+          fontFamily: {
+            display: ['Georgia', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/formation.css' %}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-cream text-navy font-body antialiased">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-navy text-white hidden lg:block">
+      <div class="p-6">
+        <div class="text-2xl font-bold tracking-tighter">ELITE BURO</div>
+        <div class="text-gold font-bold mt-1">Espace membre</div>
+      </div>
+      <nav class="px-4 pb-6">
+        <a href="{% url 'dashboard:dashboard' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">🏠 Tableau de bord</a>
+        <a href="{% url 'formation:catalogue' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">🎓 Formations</a>
+        <a href="{% url 'formation:my_courses' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">📚 Mes Inscriptions</a>
+        <a href="{% url 'formation:my_quotes' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">📄 Mes Devis</a>
+        <a href="{% url 'formation:my_contracts' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">✍️ Mes Contrats</a>
+        <a href="{% url 'formation:my_certificates' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">🏅 Mes Attestations</a>
+        <a href="{% url 'dashboard:profile' %}" class="block rounded-xl px-4 py-3 hover:bg-white/10">👤 Mon profil</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1">
+      {% include 'partials/header_member.html' %}
+
+      <main class="pt-24 px-6 max-w-7xl mx-auto pb-12">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+</body>
+</html>

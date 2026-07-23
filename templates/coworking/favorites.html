@@ -1,0 +1,80 @@
+{% extends "layouts/base_public.html" %}
+
+{% load static %}
+
+{% block title %}Mes favoris | Coworking | EliteBuro{% endblock %}
+
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="bg-cream/70">
+  <div class="mx-auto max-w-7xl px-6 py-10">
+
+    <nav class="flex items-center gap-2 text-sm text-navy/70" aria-label="breadcrumb">
+      <a href="{% url 'coworking:index' %}" class="hover:text-gold transition">Coworking</a>
+      <span aria-hidden="true">/</span>
+      <span class="font-semibold text-navy">Mes favoris</span>
+    </nav>
+
+    <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h1 class="font-display text-2xl sm:text-3xl font-bold text-navy">Mes favoris</h1>
+        <p class="mt-2 text-sm text-navy/70">Retrouve tes espaces enregistrés en un clic.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="{% url 'coworking:workspace_list' %}" class="inline-flex items-center justify-center rounded-2xl border border-navy/10 bg-white px-5 py-3 text-sm font-semibold text-navy shadow-sm transition hover:bg-navy/5 focus:outline-none focus:ring-2 focus:ring-gold">
+          Explorer le catalogue
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      {% for w in favorites %}
+        {% include 'coworking/partials/workspace_card.html' with workspace=w %}
+      {% empty %}
+        <div class="col-span-full rounded-3xl border border-navy/10 bg-white p-10 text-center text-navy/60 shadow-sm">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-navy/5">
+            <svg class="h-7 w-7 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12.1 6.6l-.1.1-.11-.11C10 4.5 6.7 4 5 6c-1.5 1.8-1 4.7.9 6.3l6.1 5.2 6.1-5.2c1.9-1.6 2.4-4.5.9-6.3-1.7-2-5-1.5-6.1.6z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 font-display text-xl font-bold text-navy">Aucun favori</h3>
+          <p class="mt-2 text-sm">Ajoute tes espaces préférés pour les retrouver rapidement.</p>
+          <a href="{% url 'coworking:workspace_list' %}" class="mt-5 inline-flex items-center justify-center rounded-2xl bg-gold px-6 py-3 text-sm font-bold text-navy shadow-sm shadow-gold/20 transition hover:opacity-95">
+            Trouver un espace
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% block extra_js %}
+<script type="module">
+  // Petit effet d’apparition
+  const grid = document.querySelector('div.mt-8');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('article, div');
+  cards.forEach((el, i) => {
+    if (!el.getAttribute) return;
+    const delay = Math.min(i, 15) * 35;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'opacity 280ms ease, transform 420ms ease';
+    el.style.transitionDelay = `${delay}ms`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  });
+</script>
+{% endblock %}
+
+{% endblock %}
+

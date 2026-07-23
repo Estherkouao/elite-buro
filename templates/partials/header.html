@@ -1,0 +1,89 @@
+<header class="top-bar">
+
+    <div class="top-bar-left">
+
+        <button class="menu-toggle">
+
+            ☰
+
+        </button>
+
+        <h1 class="page-title">
+
+            {% block page_title %}
+            Dashboard
+            {% endblock %}
+
+        </h1>
+
+    </div>
+
+    <div class="top-bar-right">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                class="search-input"
+                placeholder="Rechercher...">
+
+            <button class="search-btn">
+
+                🔍
+
+            </button>
+
+        </div>
+
+        <div class="notifications">
+
+            <button class="notification-btn">
+
+                🔔
+
+                <span class="notification-count">
+
+                    {{ recent_activity|length|default:0 }}
+
+                </span>
+
+            </button>
+
+        </div>
+
+        <div class="user-menu">
+
+            <div class="user-avatar">
+
+                {{ request.user.first_name|slice:":1"|default:"A" }}
+
+            </div>
+
+            <div class="user-dropdown">
+
+                <a href="{% url 'dashboard_admin:profile_view' %}">
+
+                    👤 Profil
+
+                </a>
+
+                <a href="#">
+
+                    🔐 Sécurité
+
+                </a>
+
+                <a href="{% url 'accounts:logout' %}">
+
+                    🚪 Déconnexion
+
+                </a>
+                
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

@@ -1,0 +1,373 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Domiciliation d'entreprise | EliteBuro{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="relative overflow-hidden bg-[#0D2B55] text-white">
+    <div class="absolute inset-0">
+        <img src="/media/domiciliation-entreprise.jpg"
+             class="w-full h-full object-cover opacity-30"
+             alt="EliteBuro">
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-36">
+        <div class="flex justify-center text-center">
+            <div class="max-w-4xl">
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#C9A02C] text-[#0D2B55] font-semibold">
+                    📍 Adresse professionnelle à Abidjan
+                </span>
+
+                <h1 class="mt-6 text-5xl lg:text-6xl font-black leading-tight text-white">
+    Domiciliez votre entreprise chez
+                    <span class="text-[#C9A02C]">EliteBuro</span>
+                </h1>
+
+                <p class="mt-8 text-xl text-gray-200 leading-9">
+                    Donnez à votre entreprise une adresse prestigieuse à
+                    Cocody Riviera Palmeraie tout en profitant de nombreux
+                    services professionnels.
+                </p>
+
+                <div class="mt-10 flex gap-5">
+
+                    <a href="{% url 'domiciliation:domiciliation_from' %}"
+                    class="bg-[#C9A02C] text-[#0D2B55] px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
+                        DOMICILIER MON ENTREPRISE
+                    </a>
+
+                    <a href=""
+                    class="bg-[#C9A02C] text-[#0D2B55] px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
+                        CREER ET DOMICILIER MON ENTREPRISE
+                    </a>
+
+                </div>
+
+                <div class="grid grid-cols-3 gap-6 mt-14">
+                    <div>
+                        <h3 class="text-3xl font-bold text-[#C9A02C]">500+</h3>
+                        <p class="text-gray-200">Entreprises domiciliées</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-[#C9A02C]">98%</h3>
+                        <p class="text-gray-200">Clients satisfaits</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-[#C9A02C]">24h</h3>
+                        <p class="text-gray-200">Validation rapide</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <img src=""
+                     class="rounded-3xl shadow-2xl w-full"
+                     alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= QU'EST-CE QUE LA DOMICILIATION ================= -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="text-[#C9A02C] font-bold uppercase text-sm tracking-widest">Définition</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-[#0D2B55] mt-4 leading-tight">
+                    Qu'est-ce que la domiciliation commerciale ?
+                </h2>
+                <p class="text-gray-600 mt-6 leading-relaxed text-lg">
+                    La domiciliation commerciale consiste à établir le siège social 
+                    officiel de votre entreprise auprès d'une adresse professionnelle.
+                    Cette adresse apparaît sur vos documents administratifs,
+                    factures, contrats et correspondances.
+                </p>
+                <p class="text-gray-600 mt-4 leading-relaxed text-lg">
+                    Chez <strong class="text-[#0D2B55]">EliteBuro</strong>,
+                    nous permettons aux entrepreneurs, startups et entreprises
+                    d'avoir une adresse professionnelle à Abidjan sans supporter
+                    les coûts élevés liés à la location d'un bureau permanent.
+                </p>
+                <p class="text-gray-600 mt-4 leading-relaxed text-lg">
+                    Plus qu'une simple adresse, votre domiciliation EliteBuro
+                    renforce votre crédibilité et offre à votre entreprise
+                    une image professionnelle auprès de vos clients et partenaires.
+                </p>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden shadow-xl">
+                <img src="/media/domiciliation.png"
+                     alt="Domiciliation EliteBuro"
+                     class="w-full h-[450px] object-cover">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= POURQUOI ELITEBURO ================= -->
+<section class="py-24 bg-[#FAFAF7]">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[#C9A02C] font-bold uppercase text-sm tracking-widest">Pourquoi EliteBuro ?</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-[#0D2B55] mt-4">
+                Une adresse qui valorise votre entreprise
+            </h2>
+            <p class="text-gray-600 mt-6 max-w-3xl mx-auto text-lg">
+                Plus qu'une simple adresse, EliteBuro vous offre un véritable
+                environnement professionnel pour développer votre activité.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-xl transition hover:-translate-y-2 duration-300">
+                <div class="w-16 h-16 rounded-2xl bg-[#0D2B55] flex items-center justify-center text-3xl mb-6">🏢</div>
+                <h3 class="text-2xl font-bold text-[#0D2B55]">Adresse Premium</h3>
+                <p class="text-gray-600 mt-4 leading-relaxed">
+                    Installez votre siège social dans un quartier prestigieux de Cocody Riviera Palmeraie.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-xl transition hover:-translate-y-2 duration-300">
+                <div class="w-16 h-16 rounded-2xl bg-[#0D2B55] flex items-center justify-center text-3xl mb-6">📬</div>
+                <h3 class="text-2xl font-bold text-[#0D2B55]">Gestion du courrier</h3>
+                <p class="text-gray-600 mt-4 leading-relaxed">
+                    Réception, notification et mise à disposition de tous vos courriers professionnels.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-xl transition hover:-translate-y-2 duration-300">
+                <div class="w-16 h-16 rounded-2xl bg-[#0D2B55] flex items-center justify-center text-3xl mb-6">🤝</div>
+                <h3 class="text-2xl font-bold text-[#0D2B55]">Accompagnement</h3>
+                <p class="text-gray-600 mt-4 leading-relaxed">
+                    Notre équipe vous accompagne dans toutes vos démarches administratives.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-xl transition hover:-translate-y-2 duration-300">
+                <div class="w-16 h-16 rounded-2xl bg-[#0D2B55] flex items-center justify-center text-3xl mb-6">💼</div>
+                <h3 class="text-2xl font-bold text-[#0D2B55]">Coworking inclus</h3>
+                <p class="text-gray-600 mt-4 leading-relaxed">
+                    Accès privilégié aux espaces de travail et salles de réunion EliteBuro.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= COMMENT ÇA FONCTIONNE ================= -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[#C9A02C] font-bold uppercase text-sm tracking-widest">Processus</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-[#0D2B55] mt-4">
+                Votre domiciliation en 4 étapes
+            </h2>
+            <p class="text-gray-600 mt-5 max-w-3xl mx-auto text-lg">
+                Une procédure simple, rapide et 100 % en ligne.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+            <div class="bg-[#FAFAF7] rounded-3xl p-8 text-center shadow hover:-translate-y-2 transition duration-300">
+                <div class="w-16 h-16 rounded-full bg-[#0D2B55] text-white flex items-center justify-center text-2xl font-bold mx-auto">1</div>
+                <h3 class="mt-6 text-2xl font-bold text-[#0D2B55]">Choisissez une formule</h3>
+                <p class="text-gray-600 mt-4">Sélectionnez l'offre adaptée à votre entreprise.</p>
+            </div>
+
+            <div class="bg-[#FAFAF7] rounded-3xl p-8 text-center shadow hover:-translate-y-2 transition duration-300">
+                <div class="w-16 h-16 rounded-full bg-[#0D2B55] text-white flex items-center justify-center text-2xl font-bold mx-auto">2</div>
+                <h3 class="mt-6 text-2xl font-bold text-[#0D2B55]">Envoyez vos documents</h3>
+                <p class="text-gray-600 mt-4">Déposez vos pièces justificatives directement en ligne.</p>
+            </div>
+
+            <div class="bg-[#FAFAF7] rounded-3xl p-8 text-center shadow hover:-translate-y-2 transition duration-300">
+                <div class="w-16 h-16 rounded-full bg-[#0D2B55] text-white flex items-center justify-center text-2xl font-bold mx-auto">3</div>
+                <h3 class="mt-6 text-2xl font-bold text-[#0D2B55]">Signature du contrat</h3>
+                <p class="text-gray-600 mt-4">Validation rapide et signature électronique.</p>
+            </div>
+
+            <div class="bg-[#FAFAF7] rounded-3xl p-8 text-center shadow hover:-translate-y-2 transition duration-300">
+                <div class="w-16 h-16 rounded-full bg-[#0D2B55] text-white flex items-center justify-center text-2xl font-bold mx-auto">4</div>
+                <h3 class="mt-6 text-2xl font-bold text-[#0D2B55]">Votre siège est actif</h3>
+                <p class="text-gray-600 mt-4">Utilisez immédiatement votre nouvelle adresse professionnelle.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= NOS OFFRES ================= -->
+<section id="offres" class="py-24 bg-[#FAFAF7]">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-[#C9A02C] font-bold uppercase text-sm tracking-widest">Nos offres</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-[#0D2B55] mt-4">
+                Choisissez la formule adaptée à votre entreprise
+            </h2>
+            <p class="text-gray-600 mt-6 max-w-3xl mx-auto text-lg">
+                Que vous soyez entrepreneur, startup ou PME, EliteBuro
+                propose une solution de domiciliation adaptée à votre activité.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-10">
+
+            {% for plan in plans %}
+
+            <div class="relative rounded-[32px] overflow-hidden bg-white border border-gray-100 shadow-xl hover:shadow-[0_30px_80px_rgba(13,43,85,.18)] hover:-translate-y-4 transition-all duration-500">
+
+                <!-- Fond décoratif -->
+                <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-br from-[#0D2B55] via-[#163d72] to-[#C9A02C] opacity-95"></div>
+
+                {% if forloop.counter == 2 %}
+                <div class="absolute top-5 right-5 bg-white text-[#0D2B55] px-4 py-2 rounded-full text-xs font-bold shadow-lg">
+                    ⭐ Le plus populaire
+                </div>
+                {% endif %}
+
+                <div class="relative p-10">
+
+                    <!-- Icône -->
+                    <div class="w-24 h-24 mx-auto rounded-full bg-white shadow-xl flex items-center justify-center text-5xl">
+
+                        {% if forloop.counter == 1 %}
+                            🚀
+                        {% elif forloop.counter == 2 %}
+                            🏢
+                        {% else %}
+                            👑
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Nom -->
+                    <h3 class="text-center text-3xl font-extrabold text-[#0D2B55] mt-8">
+                        {{ plan.nom }}
+                    </h3>
+
+                    <!-- Prix -->
+                    <div class="text-center mt-6">
+
+                        <span class="text-6xl font-black text-[#0D2B55]">
+                            {{ plan.prix|floatformat:0|intcomma }}
+                        </span>
+
+                        <p class="text-gray-500 mt-2 uppercase tracking-widest text-sm">
+                            FCFA / mois
+                        </p>
+
+                    </div>
+
+                    <p class="text-center text-gray-600 mt-6 leading-8">
+                        {{ plan.description }}
+                    </p>
+
+                    <!-- Avantages -->
+
+                    <div class="mt-10 space-y-5">
+
+                        {% for avantage in plan.avantages_list %}
+
+                        <div class="flex items-center gap-4">
+
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+
+                                <svg class="w-5 h-5 text-green-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    viewBox="0 0 24 24">
+
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M5 13l4 4L19 7"/>
+
+                                </svg>
+
+                            </div>
+
+                            <span class="text-gray-700">
+                                {{ avantage }}
+                            </span>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- Bouton -->
+
+                    <a href="{% url 'domiciliation:plans' %}"
+
+                    class="mt-10 flex justify-center items-center gap-3 py-5 rounded-2xl bg-[#0D2B55] text-white font-bold text-lg hover:bg-[#C9A02C] hover:text-[#0D2B55] transition-all duration-300">
+
+                        Choisir cette formule
+
+                        <span class="transition group-hover:translate-x-2">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= REJOIGNEZ ELITEBURO ================= -->
+<section class="relative py-28 overflow-hidden">
+
+    <!-- Image de fond -->
+    <img src="/media/images.jpeg"
+         alt=""
+         class="absolute inset-0 w-full h-full object-cover">
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-[#0D2B55]/75"></div>
+
+    <!-- Contenu -->
+    <div class="relative max-w-5xl mx-auto px-6 text-center text-white">
+
+        <span class="inline-block bg-[#C9A02C] text-[#0D2B55] px-5 py-2 rounded-full font-bold uppercase tracking-wider">
+            EliteBuro
+        </span>
+
+        <h2 class="mt-8 text-4xl lg:text-6xl font-black leading-tight">
+            Besoin d'un accompagnement
+            <span class="text-[#C9A02C]">pour développer votre entreprise ?</span>
+        </h2>
+
+        <p class="mt-8 text-xl text-gray-200 max-w-3xl mx-auto leading-9">
+            Rejoignez EliteBuro et profitez d'un espace professionnel,
+            d'une adresse de prestige, d'un accompagnement personnalisé
+            et d'une communauté d'entrepreneurs ambitieux.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-5 mt-12">
+
+            <a href="{% url 'core:contact' %}"
+               class="bg-[#C9A02C] text-[#0D2B55] px-10 py-5 rounded-xl font-bold text-lg hover:scale-105 transition">
+                Nous contacter
+            </a>
+
+            <a href="{% url 'domiciliation:domiciliation_from' %}"
+               class="border-2 border-white px-10 py-5 rounded-xl font-bold text-lg hover:bg-white hover:text-[#0D2B55] transition">
+                Créer un compte
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
+

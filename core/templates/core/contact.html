@@ -1,0 +1,986 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}Contact — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #17325C;
+      --navy-light: #23416F;
+      --gold: #B99646;
+      --gold-light: #d4b36a;
+      --ivory: #F7F4EE;
+      --cream: #F0ECE3;
+      --dark: #1C1C1C;
+      --text-muted: #5C5C5C;
+      --white: #FFFFFF;
+      --border: #D8D0C2;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--ivory);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .gold-divider {
+      width: 60px;
+      height: 2px;
+      background-color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      height: 72px;
+      display: flex;
+      align-items: center;
+    }
+
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--navy);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text .name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 0.22em;
+      color: var(--navy);
+    }
+
+    .logo-text .tagline {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      font-style: italic;
+      color: var(--gold);
+      margin-top: -2px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .nav a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      transition: opacity 0.2s;
+    }
+
+    .nav a:hover {
+      opacity: 0.6;
+    }
+
+    .nav a.active {
+      color: var(--gold);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      transition: transform 0.3s;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 65vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 72px;
+      background: var(--navy);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 30, 60, 0.88), rgba(23, 50, 92, 0.75));
+      z-index: 1;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    .hero-content .gold-divider {
+      margin: 0 auto 28px;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .hero-content .gold-divider-bottom {
+      margin: 28px auto 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       COORDONNÉES
+       ═══════════════════════════════════════════ */
+    .coords {
+      padding: 80px 0 88px;
+      background: var(--ivory);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header .label {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .section-header .gold-divider {
+      margin: 0 auto;
+    }
+
+    .coords-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .coord-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-top: 3px solid var(--gold);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .coord-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .coord-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(23, 50, 92, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .coord-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--navy);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .coord-card h3 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    .coord-card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════
+       FORMULAIRE
+       ═══════════════════════════════════════════ */
+    .form-section {
+      padding: 80px 0 88px;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(185, 150, 70, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,255,255,0.03) 0%, transparent 50%);
+    }
+
+    .form-wrapper {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .form-info .label {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .form-info h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .form-info .gold-divider {
+      margin-bottom: 20px;
+    }
+
+    .form-info p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .form-info .contact-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-info .contact-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .form-info .contact-line svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .form-info .contact-line span {
+      font-size: 15px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .contact-form {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 44px 40px;
+      box-shadow: var(--shadow-lg);
+      border-top: 4px solid var(--gold);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--ivory);
+      color: var(--dark);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #a09a8e;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(185, 150, 70, 0.12);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .form-submit {
+      margin-top: 8px;
+    }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      height: 52px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover {
+      background: var(--navy-light);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.97);
+    }
+
+    .btn-submit svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ═══════════════════════════════════════════
+       PLAN D'ACCÈS
+       ═══════════════════════════════════════════ */
+    .map-section {
+      padding: 80px 0 88px;
+      background: var(--ivory);
+    }
+
+    .map-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(0,0,0,0.05);
+      height: 400px;
+    }
+
+    .map-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 30, 60, 0.88) 0%, rgba(15, 30, 60, 0.3) 40%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 48px 48px;
+    }
+
+    .map-overlay .map-tag {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .map-overlay .map-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .map-overlay .map-tag span {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .map-overlay h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .map-overlay p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 24px;
+    }
+
+    .btn-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: var(--gold);
+      color: var(--dark);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+      width: fit-content;
+    }
+
+    .btn-map:hover {
+      background: var(--gold-light);
+    }
+
+    .btn-map:active {
+      transform: scale(0.97);
+    }
+
+    .btn-map svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .coords-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero {
+        min-height: 50vh;
+      }
+
+      .coords-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-form {
+        padding: 32px 24px;
+      }
+
+      .map-overlay {
+        padding: 32px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-info {
+        text-align: center;
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATIONS
+       ═══════════════════════════════════════════ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    .animate-in:nth-child(1) { animation-delay: 0s; }
+    .animate-in:nth-child(2) { animation-delay: 0.06s; }
+    .animate-in:nth-child(3) { animation-delay: 0.12s; }
+    .animate-in:nth-child(4) { animation-delay: 0.18s; }
+
+    /* ═══════════════════════════════════════════
+       SUCCESS STATE
+       ═══════════════════════════════════════════ */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 40px;
+      min-height: 480px;
+    }
+
+    .success-state svg {
+      width: 72px;
+      height: 72px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      margin-bottom: 24px;
+    }
+
+    .success-state h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .success-state p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 360px;
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════
+       INTERSECTION OBSERVER ANIMATIONS
+       ═══════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+ <!-- HERO -->
+<section class="border-b border-slate-200 bg-white">
+
+    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+
+        <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-5 py-2 text-sm font-semibold text-[#C9A02C]">
+            CONTACT
+        </span>
+
+        <h1 class="mt-6 text-5xl font-black text-[#0D2B55]">
+            Contactez-nous
+        </h1>
+
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+            Une question, un projet ou besoin d'un accompagnement ?
+            Notre équipe est à votre écoute et vous répond dans les meilleurs délais.
+        </p>
+
+    </div>
+
+</section>
+
+  <!-- ═══════════════════════════════════════════
+       COORDONNÉES
+       ═══════════════════════════════════════════ -->
+  <section class="coords">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Informations</p>
+        <h2>Nos coordonnées</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="coords-grid">
+        <!-- Adresse -->
+        <div class="coord-card reveal">
+          <div class="coord-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3>Adresse</h3>
+          <p>Riviera Palmeraie, Cocody<br>Abidjan, Côte d'Ivoire</p>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="coord-card reveal">
+          <div class="coord-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <h3>Téléphone</h3>
+          <p>+225 27 22 47 00 00<br>+225 07 07 07 07 07</p>
+        </div>
+
+        <!-- E-mail -->
+        <div class="coord-card reveal">
+          <div class="coord-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+          </div>
+          <h3>E-mail</h3>
+          <p>contact@eliteburo.com<br>reservations@eliteburo.com</p>
+        </div>
+
+        <!-- Horaires -->
+        <div class="coord-card reveal">
+          <div class="coord-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Horaires</h3>
+          <p>Lun – Ven : 7h00 – 21h00<br>Sam : 9h00 – 18h00</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FORMULAIRE DE CONTACT
+       ═══════════════════════════════════════════ -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-wrapper">
+        <!-- Informations latérales -->
+        <div class="form-info reveal">
+          <p class="label">Écrivez-nous</p>
+          <h2>Envoyez-nous un message</h2>
+          <div class="gold-divider"></div>
+          <p>
+            Une question sur nos espaces de coworking, nos programmes de formation ou notre
+            service de domiciliation ? Remplissez le formulaire et notre équipe vous répondra
+            dans les plus brefs délais.
+          </p>
+          <div class="contact-lines">
+            <div class="contact-line">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Riviera Palmeraie, Cocody, Abidjan</span>
+            </div>
+            <div class="contact-line">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>contact@eliteburo.com</span>
+            </div>
+            <div class="contact-line">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+225 27 22 47 00 00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="reveal">
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nom">Nom complet</label>
+                <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+              </div>
+              <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="votre@email.com" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="telephone">Téléphone</label>
+                <input type="tel" id="telephone" name="telephone" placeholder="+225 XX XX XX XX XX" />
+              </div>
+              <div class="form-group">
+                <label for="sujet">Sujet</label>
+                <input type="text" id="sujet" name="sujet" placeholder="Objet de votre demande" required />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 28px;">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Décrivez votre demande en détail..." required></textarea>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn-submit">
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer le message
+              </button>
+            </div>
+          </form>
+
+          <!-- État de succès -->
+          <div class="success-state" id="successState" style="background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); border-top: 4px solid var(--gold);">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <h3>Message envoyé</h3>
+            <p>Merci pour votre message. Notre équipe vous répondra sous 24 heures ouvrées.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PLAN D'ACCÈS
+       ═══════════════════════════════════════════ -->
+  <section class="map-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Plan d'accès</p>
+        <h2>Nous trouver</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <p class="reveal" style="text-align: center; max-width: 640px; margin: 0 auto 48px; color: var(--text-muted); font-size: 15px; line-height: 1.8;">
+        Situé au cœur de la Riviera Palmeraie, à Cocody, Abidjan. Facilement accessible
+        depuis le boulevard de Marseille et la zone d'Angré.
+      </p>
+
+      <div class="map-card reveal">
+        <img src="https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=1200&q=80" alt="Vue aérienne de Riviera Palmeraie, Abidjan" />
+        <div class="map-overlay">
+          <div class="map-tag">
+            <div class="map-dot"></div>
+            <span>Riviera Palmeraie</span>
+          </div>
+          <h3>Elite Bureau Coworking</h3>
+          <p>Riviera Palmeraie, Cocody, Abidjan, Côte d'Ivoire</p>
+          <a href="https://www.google.com/maps/search/Elite+Buro+Coworking+Riviera+Palmeraie+Abidjan" target="_blank" rel="noopener noreferrer" class="btn-map">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Voir sur Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    // ─── Intersection Observer pour animations au scroll ───
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ─── Soumission du formulaire ───
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.getElementById('successState').style.display = 'flex';
+      setTimeout(() => {
+        this.style.display = 'block';
+        document.getElementById('successState').style.display = 'none';
+        this.reset();
+      }, 5000);
+    });
+
+    // ─── Menu mobile toggle ───
+    document.querySelector('.nav-toggle').addEventListener('click', function() {
+      const nav = document.querySelector('.nav');
+      if (nav.style.display === 'flex') {
+        nav.style.display = 'none';
+      } else {
+        nav.style.display = 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.position = 'absolute';
+        nav.style.top = '72px';
+        nav.style.right = '24px';
+        nav.style.background = 'white';
+        nav.style.padding = '24px';
+        nav.style.borderRadius = '8px';
+        nav.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)';
+        nav.style.gap = '20px';
+      }
+    });
+  </script>
+{% endblock %}
+

@@ -1,0 +1,203 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Domiciliation | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+
+        <div>
+
+
+            <h2>
+                
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion des demandes de domiciliation et des contrats.
+            </p>
+
+
+        </div>
+
+
+        <div style="margin-top:10px;">
+            <a href="{% url 'dashboard_admin:domiciliation_plans' %}" class="btn-secondary">Voir les formules</a>
+            <a href="{% url 'domiciliation:history_list' %}" class="btn-secondary">Contrats</a>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- TABLE -->
+
+
+    <div class="table-container">
+
+
+
+        <table class="admin-table">
+
+
+            <thead>
+
+
+                <tr>
+
+
+                    <th>
+                        Numéro
+                    </th>
+
+
+                    <th>
+                        Entreprise
+                    </th>
+
+
+                    <th>
+                        Utilisateur
+                    </th>
+
+
+                    <th>
+                        Formule
+                    </th>
+
+
+                    <th>
+                        Statut
+                    </th>
+
+
+                    <th>
+                        Créé
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+
+
+            <tbody>
+
+
+
+
+            {% for req in requests %}
+
+                <tr>
+
+                    <td>
+                        <strong>{{ req.numero_demande }}</strong>
+                    </td>
+
+                    <td>
+                        {{ req.entreprise.company_name }}
+                    </td>
+
+                    <td>
+                        {{ req.utilisateur.full_name|default:req.utilisateur.email }}
+                    </td>
+
+                    <td>
+                        {{ req.formule.nom }}
+                    </td>
+
+                    <td>
+                        {% if req.statut == "APPROUVEE" %}
+                            <span class="status-badge confirmed">Approuvée</span>
+                        {% elif req.statut == "EN_ATTENTE" %}
+                            <span class="status-badge pending">En attente</span>
+                        {% elif req.statut == "REFUSEE" %}
+                            <span class="status-badge cancelled">Refusée</span>
+                        {% else %}
+                            <span class="status-badge">{{ req.statut }}</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ req.date_creation|date:"d/m/Y" }}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'domiciliation:contract_download' uuid=req.id %}" class="btn btn-small">Télécharger</a>
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+
+
+
+
+                <tr>
+
+
+                    <td colspan="6"
+                        style="text-align:center;padding:30px;">
+
+
+                        Aucune demande de domiciliation.
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+
+
+            {% endfor %}
+
+
+
+
+
+            </tbody>
+
+
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

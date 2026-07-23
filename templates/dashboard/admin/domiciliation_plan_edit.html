@@ -1,0 +1,81 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier une formule | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+        <div>
+            <h2>Modifier la formule</h2>
+            <p style="color:var(--text-light);font-size:14px;">Mettre à jour les informations de la formule.</p>
+        </div>
+        <a href="{% url 'dashboard_admin:domiciliation_plans' %}" class="btn-secondary">← Retour</a>
+    </div>
+
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="grid">
+                <div class="field">
+                    <label>Nom</label>
+                    {{ form.nom }}
+                    {% if form.nom.errors %}<div class="error">{{ form.nom.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Slug</label>
+                    {{ form.slug }}
+                    {% if form.slug.errors %}<div class="error">{{ form.slug.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Prix</label>
+                    {{ form.prix }}
+                    {% if form.prix.errors %}<div class="error">{{ form.prix.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Durée (mois)</label>
+                    {{ form.durée }}
+                    {% if form.durée.errors %}<div class="error">{{ form.durée.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field" style="grid-column:1/-1">
+                    <label>Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}<div class="error">{{ form.description.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field" style="grid-column:1/-1">
+                    <label>Avantages</label>
+                    {{ form.avantages }}
+                    {% if form.avantages.errors %}<div class="error">{{ form.avantages.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Actif</label>
+                    {{ form.actif }}
+                    {% if form.actif.errors %}<div class="error">{{ form.actif.errors }}</div>{% endif %}
+                </div>
+
+                <div class="field">
+                    <label>Ordre d’affichage</label>
+                    {{ form.ordre }}
+                    {% if form.ordre.errors %}<div class="error">{{ form.ordre.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:18px;">
+                <button type="submit" class="btn-primary">Enregistrer</button>
+                <a class="btn-danger" href="{% url 'dashboard_admin:domiciliation_plans_delete' plan_id=plan.id %}">Supprimer</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
+

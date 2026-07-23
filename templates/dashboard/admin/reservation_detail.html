@@ -1,0 +1,698 @@
+{% extends "layouts/base_admin.html" %}
+
+
+{% block title %}
+Détail réservation | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+<!-- HEADER -->
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Détail réservation
+        </h2>
+
+        <p style="color:var(--text-light)">
+            {{ reservation.reservation_number }}
+        </p>
+
+    </div>
+
+
+    <a href="{% url 'dashboard_admin:reservations' %}"
+       class="btn-secondary">
+
+        ← Retour
+
+    </a>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- TABLEAU RESUME -->
+
+<div class="table-container">
+
+
+<table class="admin-table">
+
+
+<thead>
+
+<tr>
+
+<th colspan="2">
+Informations générales
+</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+<tr>
+
+<td>
+Numéro réservation
+</td>
+
+
+<td>
+<strong>
+{{ reservation.reservation_number }}
+</strong>
+</td>
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+Statut
+</td>
+
+
+<td>
+
+
+{% if reservation.statut == "confirmed" %}
+
+<span class="status-badge confirmed">
+Confirmée
+</span>
+
+
+{% elif reservation.statut == "pending" %}
+
+<span class="status-badge pending">
+En attente
+</span>
+
+
+{% elif reservation.statut == "canceled" %}
+
+<span class="status-badge cancelled">
+Annulée
+</span>
+
+
+{% else %}
+
+<span class="status-badge">
+{{ reservation.statut }}
+</span>
+
+{% endif %}
+
+
+</td>
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+Client
+</td>
+
+
+<td>
+{{ reservation.utilisateur.email }}
+</td>
+
+
+</tr>
+
+
+
+
+
+
+<tr>
+
+<td>
+Entreprise
+</td>
+
+
+<td>
+{{ reservation.entreprise|default:"-" }}
+</td>
+
+
+</tr>
+
+
+
+
+
+
+
+<tr>
+
+<td>
+Espace réservé
+</td>
+
+
+<td>
+<strong>
+{{ reservation.espace.nom }}
+</strong>
+</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+<tr>
+
+<td>
+Type réservation
+</td>
+
+
+<td>
+{{ reservation.type_reservation }}
+</td>
+
+
+</tr>
+
+
+
+
+
+
+<tr>
+
+<td>
+Nombre participants
+</td>
+
+
+<td>
+{{ reservation.nombre_participants }}
+</td>
+
+
+</tr>
+
+
+
+
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- DATE -->
+
+<div class="table-container"
+style="margin-top:25px;">
+
+
+<table class="admin-table">
+
+
+<thead>
+
+<tr>
+
+<th colspan="2">
+
+Planning réservation
+
+</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+<tr>
+
+<td>
+Date début
+</td>
+
+
+<td>
+
+{{ reservation.date_debut|date:"d/m/Y" }}
+
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+Date fin
+</td>
+
+
+<td>
+
+{{ reservation.date_fin|date:"d/m/Y" }}
+
+</td>
+
+</tr>
+
+
+
+
+<tr>
+
+<td>
+Horaire
+
+</td>
+
+
+<td>
+
+
+{% if reservation.heure_debut %}
+
+{{ reservation.heure_debut }}
+-
+{{ reservation.heure_fin }}
+
+
+{% else %}
+
+Journée complète
+
+
+{% endif %}
+
+
+</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+<td>
+Commentaire
+</td>
+
+
+<td>
+
+{{ reservation.commentaire|default:"-" }}
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- FACTURATION -->
+
+
+<div class="table-container"
+style="margin-top:25px;">
+
+
+<table class="admin-table">
+
+
+<thead>
+
+<tr>
+
+<th colspan="2">
+
+Facturation
+
+</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+
+<tr>
+
+<td>
+Prix unitaire
+</td>
+
+
+<td>
+{{ reservation.prix_unitaire }}
+ FCFA
+</td>
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+Remise
+</td>
+
+
+<td>
+{{ reservation.remise }}
+ FCFA
+</td>
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+Taxes
+</td>
+
+
+<td>
+{{ reservation.taxes }}
+ FCFA
+</td>
+
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+<strong>
+Montant total
+</strong>
+</td>
+
+
+<td>
+
+<strong style="color:var(--primary-color);font-size:18px">
+
+{{ reservation.montant_total }}
+ FCFA
+
+</strong>
+
+
+</td>
+
+
+</tr>
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ACTIONS -->
+
+<div style="
+margin-top:25px;
+display:flex;
+gap:10px;
+">
+
+
+<a href="{% url 'dashboard_admin:reservation_confirm' reservation.id %}"
+class="btn-primary">
+
+✓ Confirmer
+
+</a>
+
+
+
+<a href="{% url 'dashboard_admin:reservation_cancel' reservation.id %}"
+class="btn-secondary"
+style="background:var(--danger-color);color:white;">
+
+✕ Annuler
+
+</a>
+
+
+
+
+<a href="{% url 'dashboard_admin:reservation_edit' reservation.id %}"
+class="btn-secondary">
+
+Modifier
+
+</a>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- HISTORIQUE -->
+
+
+<div class="table-container"
+style="margin-top:30px;">
+
+
+<table class="admin-table">
+
+
+<thead>
+
+
+<tr>
+
+<th>
+Action
+</th>
+
+
+<th>
+Détail
+</th>
+
+
+<th>
+Utilisateur
+</th>
+
+
+<th>
+Date
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+{% for log in logs %}
+
+
+<tr>
+
+
+<td>
+
+{{ log.action }}
+
+</td>
+
+
+
+<td>
+
+{{ log.detail }}
+
+</td>
+
+
+
+<td>
+
+{% if log.acteur %}
+
+{{ log.acteur.email }}
+
+{% else %}
+
+Système
+
+{% endif %}
+
+</td>
+
+
+
+<td>
+
+{{ log.date_creation|date:"d/m/Y H:i" }}
+
+</td>
+
+
+</tr>
+
+
+{% empty %}
+
+
+<tr>
+
+<td colspan="4"
+style="text-align:center;padding:30px">
+
+Aucun historique disponible
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

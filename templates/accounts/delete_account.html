@@ -1,0 +1,14 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Supprimer compte</h2>
+
+        <p>Cette action est irréversible.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button class="auth-btn" style="background:red;">
+                Supprimer mon compte
+            </button>
+        </form>
+    </div>
+</div>

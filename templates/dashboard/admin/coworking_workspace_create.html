@@ -1,0 +1,308 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer espace | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+
+<div class="admin-page-title">
+
+    <h1>Créer un espace</h1>
+
+    <p>
+        Sélectionnez la catégorie (Hot Desk, Réunion, Formation, Conférence, etc.).
+    </p>
+
+</div>
+
+
+
+<div class="admin-form-card">
+
+
+<form method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+
+
+<div class="admin-form-grid">
+
+
+    <!-- CATEGORIE -->
+    <div class="admin-form-group">
+
+        <label>Catégorie</label>
+
+        {{ form.categorie }}
+
+        {% if form.categorie.errors %}
+            <div class="form-error">
+                {{ form.categorie.errors }}
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+    <!-- NOM -->
+    <div class="admin-form-group">
+
+        <label>Nom</label>
+
+        {{ form.nom }}
+
+        {% if form.nom.errors %}
+            <div class="form-error">
+                {{ form.nom.errors }}
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+    <!-- DESCRIPTION -->
+    <div class="admin-form-group full">
+
+        <label>Description</label>
+
+        {{ form.description }}
+
+        {% if form.description.errors %}
+            <div class="form-error">
+                {{ form.description.errors }}
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+    <!-- CAPACITE -->
+    <div class="admin-form-group">
+
+        <label>Capacité</label>
+
+        {{ form.capacite }}
+
+        {% if form.capacite.errors %}
+            <div class="form-error">
+                {{ form.capacite.errors }}
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+    <!-- SUPERFICIE -->
+    <div class="admin-form-group">
+
+        <label>Superficie</label>
+
+        {{ form.superficie }}
+
+    </div>
+
+
+
+
+
+    <!-- ETAGE -->
+    <div class="admin-form-group">
+
+        <label>Étage</label>
+
+        {{ form.etage }}
+
+    </div>
+
+
+
+
+
+    <!-- NUMERO -->
+    <div class="admin-form-group">
+
+        <label>Numéro</label>
+
+        {{ form.numero }}
+
+    </div>
+
+
+
+
+
+    <!-- PRIX -->
+    <div class="admin-form-group">
+
+        <label>Prix heure</label>
+
+        {{ form.prix_heure }}
+
+    </div>
+
+
+
+
+    <div class="admin-form-group">
+
+        <label>Prix demi-journée</label>
+
+        {{ form.prix_demi_journee }}
+
+    </div>
+
+
+
+
+
+    <div class="admin-form-group">
+
+        <label>Prix journée</label>
+
+        {{ form.prix_journee }}
+
+    </div>
+
+
+
+
+
+    <div class="admin-form-group">
+
+        <label>Prix semaine</label>
+
+        {{ form.prix_semaine }}
+
+    </div>
+
+
+
+
+
+    <div class="admin-form-group">
+
+        <label>Prix mois</label>
+
+        {{ form.prix_mois }}
+
+    </div>
+
+
+
+
+
+    <!-- CAUTION -->
+    <div class="admin-form-group">
+
+        <label>Caution</label>
+
+        {{ form.caution }}
+
+    </div>
+
+
+
+
+
+    <!-- DISPONIBILITE -->
+    <div class="admin-form-group">
+
+        <label>Disponible</label>
+
+        {{ form.disponible }}
+
+    </div>
+
+
+
+
+
+    <!-- VEDETTE -->
+    <div class="admin-form-group">
+
+        <label>Vedette</label>
+
+        {{ form.vedette }}
+
+    </div>
+
+
+
+
+
+
+    <!-- IMAGE -->
+    <div class="admin-form-group full">
+
+        <label>Image principale</label>
+
+        {{ form.image_principale }}
+
+
+        {% if form.image_principale.errors %}
+
+            <div class="form-error">
+                {{ form.image_principale.errors }}
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="admin-form-actions">
+
+
+    <button type="submit" class="btn-admin-primary">
+
+        Créer
+
+    </button>
+
+
+
+    <a href="{% url 'dashboard_admin:coworking' %}" 
+       class="btn-admin-secondary">
+
+        Annuler
+
+    </a>
+
+
+</div>
+
+
+
+
+</form>
+
+
+</div>
+
+
+
+{% endblock %}

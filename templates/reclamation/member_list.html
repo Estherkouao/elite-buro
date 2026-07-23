@@ -1,0 +1,91 @@
+{% extends 'dashboard/base_member.html' %}
+
+{% load static %}
+
+{% block title %}Mes réclamations | EliteBuro{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/member.css' %}">
+
+<main class="main-content">
+  <section id="reclamation-list" class="content-section active">
+    <div class="section-header">
+      <div>
+        <span class="section-subtitle">Service client</span>
+        <h2>Mes réclamations</h2>
+        <p style="color:#64748B; margin-top:8px;">
+          Suivez l'état de vos réclamations et consultez les réponses de notre équipe.
+        </p>
+      </div>
+      <a href="{% url 'reclamation:member_create' %}" class="btn-gold" style="display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:12px; text-decoration:none;">
+        + Nouvelle réclamation
+      </a>
+    </div>
+
+    {% if reclamations %}
+      <div class="reservation-table">
+        {% for r in reclamations %}
+          <a href="{% url 'reclamation:member_detail' r.id %}" style="text-decoration:none; color:inherit;">
+            <div class="reservation-card" style="transition:.3s; cursor:pointer;">
+              <div class="reservation-icon" style="background:{% if r.statut == 'cloturee' %}#E8F7EF{% else %}#FFF7DF{% endif %};">
+                {% if r.statut == 'cloturee' %}
+                  ✅
+                {% else %}
+                  ⏳
+                {% endif %}
+              </div>
+              <div class="reservation-info" style="flex:1;">
+                <h3 style="margin:0; color:#0D2B55;">{{ r.objet }}</h3>
+                <p style="margin-top:6px; color:#64748B;">
+                  Créée le {{ r.created_at|date:"d/m/Y à H:i" }}
+                  {% if r.reponse_admin %}
+                    • <span style="color:#0B6B39;">✅ Réponse reçue</span>
+                  {% endif %}
+                </p>
+              </div>
+              <div class="reservation-status 
+                {% if r.statut == 'cloturee' %}success{% else %}warning{% endif %}" 
+                style="white-space:nowrap;">
+                {% if r.statut == 'cloturee' %}
+                  Clôturée
+                {% else %}
+                  En cours
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+      {% if is_paginated %}
+      <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-top:30px;">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" 
+             style="padding:10px 20px; background:white; border:1px solid #E5E7EB; border-radius:10px; text-decoration:none; color:#0D2B55; font-weight:600;">
+            ← Précédent
+          </a>
+        {% endif %}
+        <span style="font-weight:600; color:#64748B;">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}"
+             style="padding:10px 20px; background:white; border:1px solid #E5E7EB; border-radius:10px; text-decoration:none; color:#0D2B55; font-weight:600;">
+            Suivant →
+          </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+    {% else %}
+      <div class="empty-state" style="text-align:center; padding:60px; background:white; border-radius:18px; box-shadow:0 10px 30px rgba(13,43,85,.08);">
+        <span style="font-size:60px;">📭</span>
+        <h3 style="color:#0D2B55; margin:15px 0 10px;">Aucune réclamation</h3>
+        <p style="color:#64748B; margin-bottom:25px;">Vous n'avez soumis aucune réclamation pour le moment.</p>
+        <a href="{% url 'reclamation:member_create' %}" class="btn-gold" style="display:inline-block; padding:14px 30px; border-radius:12px; text-decoration:none; font-weight:700;">
+          Soumettre une réclamation
+        </a>
+      </div>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}
+

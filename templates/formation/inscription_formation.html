@@ -1,0 +1,574 @@
+{% extends "dashboard/base_member.html" %}
+{% load static %}
+
+{% block title %}Inscription Formation — Elite Bureau{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --navy: #17325C; --navy-light: #23416F; --navy-dark: #0F1E3C;
+    --gold: #B99646; --gold-light: #d4b36a; --gold-pale: rgba(185,150,70,0.10);
+    --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C;
+    --text-muted: #5C5C5C; --text-light: #8A8A8A;
+    --white: #FFFFFF; --border: #D8D0C2; --border-light: rgba(0,0,0,0.06);
+    --success: #2E7D32; --success-bg: rgba(46,125,50,0.08);
+    --error: #C62828; --error-bg: rgba(198,40,40,0.08);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Sans 3', system-ui, sans-serif;
+    --radius: 8px; --radius-lg: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  }
+  .stepper { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 40px; padding: 0 20px; }
+  .stepper-step { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
+  .stepper-circle { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--text-muted); transition: all 0.3s; position: relative; z-index: 2; }
+  .stepper-step.active .stepper-circle { border-color: var(--gold); background: var(--gold); color: var(--white); }
+  .stepper-step.done .stepper-circle { border-color: var(--success); background: var(--success); color: var(--white); }
+  .stepper-label { font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.02em; }
+  .stepper-step.active .stepper-label { color: var(--gold); }
+  .stepper-step.done .stepper-label { color: var(--success); }
+  .stepper-line { width: 80px; height: 2px; background: var(--border); margin: 0 8px; margin-bottom: 24px; transition: background 0.3s; }
+  .stepper-line.done { background: var(--success); }
+  .stepper-line.active { background: var(--gold); }
+  .form-step { display: none; }
+  .form-step.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 768px) { .stepper-line { width: 40px; } .stepper-label { font-size: 10px; } }
+  @media (max-width: 480px) { .stepper-circle { width: 32px; height: 32px; font-size: 12px; } .stepper-line { width: 24px; margin-bottom: 16px; } }
+
+  /* ═══════════════════════════════════════════ */
+  /* CHECKBOX / RADIO ITEMS — styles de sélection */
+  /* ═══════════════════════════════════════════ */
+  .checkbox-item {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .checkbox-item.selected {
+    border-color: var(--gold) !important;
+    background: var(--gold-pale);
+  }
+  .checkbox-item.selected .checkbox-visual {
+    border-color: var(--gold) !important;
+  }
+  /* Checkbox : carré avec coche */
+  .checkbox-item input[type="checkbox"]:checked ~ .checkbox-visual {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+  .checkbox-item input[type="checkbox"]:checked ~ .checkbox-visual .selected-icon {
+    display: inline-block !important;
+  }
+  /* Radio : cercle avec point */
+  .checkbox-item input[type="radio"]:checked ~ .checkbox-visual .selected-dot {
+    display: block !important;
+    background: var(--gold);
+  }
+  .checkbox-item input[type="radio"]:checked ~ .checkbox-visual {
+    border-color: var(--gold) !important;
+  }
+  /* Fallback pour l'état .selected géré par JS */
+  .checkbox-item.selected .checkbox-visual {
+    border-color: var(--gold) !important;
+  }
+  .checkbox-item.selected .selected-check {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+  .checkbox-item.selected .selected-icon {
+    display: inline-block !important;
+  }
+  .checkbox-item.selected .selected-dot {
+    display: block !important;
+    background: var(--gold);
+  }
+</style>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-navy">Inscription Formation</h1>
+    <p class="text-slate-500 mt-1">Rejoignez nos programmes de formation certifiés.</p>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper" id="stepper">
+    <div class="stepper-step active" data-step="1">
+      <div class="stepper-circle">1</div>
+      <div class="stepper-label">Formation</div>
+    </div>
+    <div class="stepper-line"></div>
+    <div class="stepper-step" data-step="2">
+      <div class="stepper-circle">2</div>
+      <div class="stepper-label">Informations</div>
+    </div>
+    <div class="stepper-line"></div>
+    <div class="stepper-step" data-step="3">
+      <div class="stepper-circle">3</div>
+      <div class="stepper-label">Préférences</div>
+    </div>
+    <div class="stepper-line"></div>
+    <div class="stepper-step" data-step="4">
+      <div class="stepper-circle">4</div>
+      <div class="stepper-label">Confirmation</div>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'formation:inscription' %}" id="inscriptionForm">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+          <div class="p-6 border-b border-gray-100">
+            <h2 class="text-xl font-display font-semibold text-navy" id="stepTitle">Choisir votre formation</h2>
+            <p class="text-sm text-slate-500 mt-1" id="stepSubtitle">Sélectionnez la formation et la session qui vous conviennent.</p>
+          </div>
+          <div class="p-6">
+
+            <!-- STEP 1 -->
+            <div class="form-step active" id="step1">
+              <div class="mb-5">
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Formation souhaitée <span class="text-red-600">*</span></label>
+                <select name="formation" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" id="formationSelect" required>
+                  <option value="">— Sélectionnez une formation —</option>
+                  {% for f in formations %}
+                    <option value="{{ f.id }}" data-prix="{{ f.prix }}" {% if form.formation.value|stringformat:"s" == f.id|stringformat:"s" %}selected{% endif %}>{{ f.titre }} — {{ f.category.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mb-5">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Session</label>
+                  <select name="session" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" id="sessionSelect">
+                    <option value="">— Sélectionnez d'abord une formation —</option>
+                  </select>
+                </div>
+                <div class="mb-5">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Code promo</label>
+                  <div class="flex gap-2">
+                    <input type="text" name="code_promo" class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" placeholder="Code promo (optionnel)" />
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-4 border-t border-gray-100 mt-2">
+                <button type="button" class="bg-navy text-white px-8 py-2.5 rounded-lg font-semibold text-sm hover:bg-navy/90 transition" onclick="goToStep(2)">
+                  Continuer →
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="form-step" id="step2">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mb-4">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Prénom <span class="text-red-600">*</span></label>
+                  <input type="text" name="prenom" value="{{ form.prenom.value|default:'' }}" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" placeholder="Votre prénom" required />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nom <span class="text-red-600">*</span></label>
+                  <input type="text" name="nom" value="{{ form.nom.value|default:'' }}" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" placeholder="Votre nom" required />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Email <span class="text-red-600">*</span></label>
+                  <input type="email" name="email" value="{{ form.email.value|default:'' }}" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" placeholder="votre@email.com" required />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Téléphone <span class="text-red-600">*</span></label>
+                  <input type="tel" name="telephone" value="{{ form.telephone.value|default:'' }}" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" placeholder="+225 07 00 00 00 00" required />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Date de naissance</label>
+                  <input type="date" name="date_naissance" value="{{ form.date_naissance.value|default:'' }}" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Genre</label>
+                  <select name="genre" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none">
+                    <option value="">— Sélectionnez —</option>
+                    <option value="M" {% if form.genre.value == 'M' %}selected{% endif %}>Masculin</option>
+                    <option value="F" {% if form.genre.value == 'F' %}selected{% endif %}>Féminin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Niveau de qualification <span class="text-red-600">*</span></label>
+                <select name="niveau_qualification" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" required>
+                  <option value="">— Sélectionnez votre niveau —</option>
+                  <option value="bac" {% if form.niveau_qualification.value == 'bac' %}selected{% endif %}>BAC</option>
+                  <option value="bac2" {% if form.niveau_qualification.value == 'bac2' %}selected{% endif %}>BAC+2 (DUT, BTS, DEUG)</option>
+                  <option value="bac3" {% if form.niveau_qualification.value == 'bac3' %}selected{% endif %}>BAC+3 (Licence, LMD)</option>
+                  <option value="bac5" {% if form.niveau_qualification.value == 'bac5' %}selected{% endif %}>BAC+5 (Master, MBA)</option>
+                  <option value="doc" {% if form.niveau_qualification.value == 'doc' %}selected{% endif %}>Doctorat</option>
+                  <option value="autre" {% if form.niveau_qualification.value == 'autre' %}selected{% endif %}>Autre</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Organisation / Entreprise</label>
+                <input type="text" name="organisation" value="{{ form.organisation.value|default:'' }}" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" placeholder="Nom de votre entreprise (si applicable)" />
+              </div>
+              <div class="flex justify-between pt-4 border-t border-gray-100 mt-2">
+                <button type="button" class="border border-gray-300 text-gray-600 px-6 py-2.5 rounded-lg font-semibold text-sm hover:border-navy hover:text-navy transition" onclick="goToStep(1)">← Retour</button>
+                <button type="button" class="bg-navy text-white px-8 py-2.5 rounded-lg font-semibold text-sm hover:bg-navy/90 transition" onclick="goToStep(3)">Continuer →</button>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="form-step" id="step3">
+              <div class="mb-5">
+                <label class="block text-sm font-semibold text-gray-800 mb-2">Modules supplémentaires souhaités</label>
+                <div class="flex flex-wrap gap-3">
+                  {% for value, label in form.modules.field.choices %}
+                  <label class="checkbox-item flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg cursor-pointer hover:border-gold text-sm font-medium transition {% if value in form.modules.value %}selected{% endif %}">
+                    <input type="checkbox" name="modules" value="{{ value }}" {% if value in form.modules.value %}checked{% endif %} class="sr-only" />
+                    <span class="checkbox-visual w-4 h-4 border-2 border-gray-300 rounded flex items-center justify-center flex-shrink-0 transition">
+                      <svg class="w-3 h-3 hidden text-white selected-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    {{ label }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mb-5">
+                <label class="block text-sm font-semibold text-gray-800 mb-2">Moyen de paiement préféré <span class="text-red-600">*</span></label>
+                <div class="flex flex-wrap gap-3">
+                  {% for value, label in form.moyen_paiement.field.choices %}
+                  <label class="checkbox-item flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg cursor-pointer hover:border-gold text-sm font-medium transition {% if form.moyen_paiement.value == value %}selected{% endif %}">
+                    <input type="radio" name="moyen_paiement" value="{{ value }}" {% if form.moyen_paiement.value == value %}checked{% endif %} class="sr-only" />
+                    <span class="checkbox-visual w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center flex-shrink-0 transition">
+                      <span class="w-2 h-2 rounded-full hidden selected-dot"></span>
+                    </span>
+                    {{ label }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mb-5">
+                <label class="block text-sm font-semibold text-gray-800 mb-2">Modalité de paiement <span class="text-red-600">*</span></label>
+                <div class="flex flex-wrap gap-3">
+                  {% for value, label in form.type_paiement.field.choices %}
+                  <label class="checkbox-item flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg cursor-pointer hover:border-gold text-sm font-medium transition {% if form.type_paiement.value == value %}selected{% endif %}">
+                    <input type="radio" name="type_paiement" value="{{ value }}" {% if form.type_paiement.value == value %}checked{% endif %} class="sr-only" />
+                    <span class="checkbox-visual w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center flex-shrink-0 transition">
+                      <span class="w-2 h-2 rounded-full hidden selected-dot"></span>
+                    </span>
+                    {{ label }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mb-5">
+                <label class="block text-sm font-semibold text-gray-800 mb-2">Comment avez-vous entendu parler de nous ?</label>
+                <div class="flex flex-wrap gap-3">
+                  {% for value, label in form.provenance.field.choices %}
+                  <label class="checkbox-item flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg cursor-pointer hover:border-gold text-sm font-medium transition {% if form.provenance.value == value %}selected{% endif %}">
+                    <input type="radio" name="provenance" value="{{ value }}" {% if form.provenance.value == value %}checked{% endif %} class="sr-only" />
+                    <span class="checkbox-visual w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center flex-shrink-0 transition">
+                      <span class="w-2 h-2 rounded-full hidden selected-dot"></span>
+                    </span>
+                    {{ label }}
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Objectifs de formation</label>
+                <textarea name="objectifs" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none" rows="3" placeholder="Décrivez brièvement vos objectifs...">{{ form.objectifs.value|default:'' }}</textarea>
+              </div>
+              <div class="flex justify-between pt-4 border-t border-gray-100 mt-2">
+                <button type="button" class="border border-gray-300 text-gray-600 px-6 py-2.5 rounded-lg font-semibold text-sm hover:border-navy hover:text-navy transition" onclick="goToStep(2)">← Retour</button>
+                <button type="button" class="bg-navy text-white px-8 py-2.5 rounded-lg font-semibold text-sm hover:bg-navy/90 transition" onclick="goToStep(4)">Continuer →</button>
+              </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="form-step" id="step4">
+              <div class="bg-ivory rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-display font-semibold text-navy mb-4">Récapitulatif de votre inscription</h3>
+                <div id="recapContent" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <div><span class="text-slate-500">Formation :</span><br><span id="recapFormation" class="font-semibold">—</span></div>
+                  <div><span class="text-slate-500">Session :</span><br><span id="recapSession" class="font-semibold">—</span></div>
+                  <div><span class="text-slate-500">Paiement :</span><br><span id="recapPaiement" class="font-semibold">—</span></div>
+                  <div><span class="text-slate-500">Nom :</span><br><span id="recapNom" class="font-semibold">—</span></div>
+                  <div><span class="text-slate-500">Email :</span><br><span id="recapEmail" class="font-semibold">—</span></div>
+                  <div><span class="text-slate-500">Montant :</span><br><span id="recapMontant" class="font-semibold text-gold">—</span></div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 mb-6 p-4 bg-gold/5 rounded-lg border border-gold/20">
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p class="text-sm text-gray-700">En validant votre inscription, vous acceptez nos conditions générales. Vous recevrez un email de confirmation après validation par l'administration.</p>
+              </div>
+
+              <div class="flex justify-between pt-4 border-t border-gray-100">
+                <button type="button" class="border border-gray-300 text-gray-600 px-6 py-2.5 rounded-lg font-semibold text-sm hover:border-navy hover:text-navy transition" onclick="goToStep(3)">← Retour</button>
+                <button type="submit" class="bg-gold text-white px-10 py-2.5 rounded-lg font-semibold text-sm hover:bg-gold/90 transition">
+                  Confirmer mon inscription ✓
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden sticky top-24">
+          <div class="h-40 bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
+            <svg class="w-16 h-16 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="p-5">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gold/10 text-gold mb-3">Formation certifiée</span>
+            <h3 class="text-lg font-display font-semibold text-navy mb-2" id="sidebarTitle">Elite Bureau Formation</h3>
+            <p class="text-sm text-slate-500 mb-4" id="sidebarDesc">Sélectionnez une formation pour voir les détails.</p>
+            <div class="space-y-3 text-sm" id="sidebarMeta">
+              <div class="flex items-center gap-2.5 text-gray-700">
+                <svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Formation professionnelle</span>
+              </div>
+              <div class="flex items-center gap-2.5 text-gray-700">
+                <svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Formateurs experts</span>
+              </div>
+              <div class="flex items-center gap-2.5 text-gray-700">
+                <svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Certification incluse</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-100">
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-display font-bold text-navy" id="sidebarPrix">— FCFA</span>
+                <span class="text-xs text-slate-400">/ session</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// STEPPER NAVIGATION
+// ═══════════════════════════════════════════
+let currentStep = 1;
+const stepTitles = {
+  1: { title: 'Choisir votre formation', sub: 'Sélectionnez la formation et la session qui vous conviennent.' },
+  2: { title: 'Vos informations', sub: 'Renseignez vos coordonnées et informations personnelles.' },
+  3: { title: 'Préférences & options', sub: 'Personnalisez votre parcours de formation.' },
+  4: { title: 'Confirmation', sub: 'Vérifiez vos informations et confirmez votre inscription.' }
+};
+
+function goToStep(step) {
+  if (step < 1 || step > 4) return;
+
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+
+  document.querySelectorAll('.stepper-step').forEach(s => {
+    const sStep = parseInt(s.dataset.step);
+    s.classList.remove('active', 'done');
+    if (sStep === step) s.classList.add('active');
+    else if (sStep < step) s.classList.add('done');
+  });
+
+  document.querySelectorAll('.stepper-line').forEach((line, i) => {
+    line.classList.remove('done', 'active');
+    if (i < step - 1) line.classList.add('done');
+    else if (i === step - 1) line.classList.add('active');
+  });
+
+  document.getElementById('stepTitle').textContent = stepTitles[step].title;
+  document.getElementById('stepSubtitle').textContent = stepTitles[step].sub;
+
+  if (step === 4) updateRecap();
+  
+  currentStep = step;
+  window.scrollTo({ top: 200, behavior: 'smooth' });
+}
+
+function updateRecap() {
+  const formationSelect = document.getElementById('formationSelect');
+  const sessionSelect = document.getElementById('sessionSelect');
+  const moyenPaiement = document.querySelector('input[name="moyen_paiement"]:checked');
+  const prenom = document.querySelector('input[name="prenom"]');
+  const nom = document.querySelector('input[name="nom"]');
+  const email = document.querySelector('input[name="email"]');
+
+  const formationText = formationSelect.options[formationSelect.selectedIndex]?.text || '—';
+  const sessionText = sessionSelect.options[sessionSelect.selectedIndex]?.text || '—';
+  
+  document.getElementById('recapFormation').textContent = formationText.split(' — ')[0];
+  document.getElementById('recapSession').textContent = sessionText.split(' — ')[0];
+  // Get payment label from the parent label element's text content (skip the .checkbox-visual span)
+  if (moyenPaiement) {
+    const parentLabel = moyenPaiement.closest('label');
+    const labelText = parentLabel?.textContent?.trim() || 'Mobile Money';
+    document.getElementById('recapPaiement').textContent = labelText;
+  } else {
+    document.getElementById('recapPaiement').textContent = 'Mobile Money';
+  }
+  document.getElementById('recapNom').textContent = (prenom?.value || '') + ' ' + (nom?.value || '');
+  document.getElementById('recapEmail').textContent = email?.value || '';
+  document.getElementById('recapMontant').textContent = formationSelect.options[formationSelect.selectedIndex]?.dataset?.prix 
+    ? parseInt(formationSelect.options[formationSelect.selectedIndex].dataset.prix).toLocaleString() + ' FCFA' : '— FCFA';
+}
+
+/// ═══════════════════════════════════════════
+// LOAD SESSIONS VIA AJAX
+// ═══════════════════════════════════════════
+
+function loadSessions(formationId, selectedSession=null) {
+
+    const sessionSelect = document.getElementById('sessionSelect');
+
+    sessionSelect.innerHTML = '<option value="">Chargement...</option>';
+
+    if (!formationId) {
+        sessionSelect.innerHTML =
+        '<option value="">— Sélectionnez d\'abord une formation —</option>';
+        return;
+    }
+
+
+    fetch("{% url 'formation:load_sessions' %}?formation_id=" + formationId)
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        sessionSelect.innerHTML =
+        '<option value="">— Sélectionnez une session —</option>';
+
+
+        if(data.sessions.length === 0){
+
+            sessionSelect.innerHTML =
+            '<option value="">Aucune session disponible</option>';
+
+            return;
+        }
+
+
+        data.sessions.forEach(session => {
+
+            const option = document.createElement('option');
+
+            option.value = session.id;
+            option.textContent = session.label;
+
+
+            if(selectedSession && selectedSession == session.id){
+                option.selected = true;
+            }
+
+
+            sessionSelect.appendChild(option);
+
+        });
+
+    })
+
+    .catch(error => {
+
+        console.log(error);
+
+        sessionSelect.innerHTML =
+        '<option value="">Erreur de chargement</option>';
+
+    });
+
+}
+
+
+
+// Changement manuel de formation
+
+document.getElementById('formationSelect')
+?.addEventListener('change', function(){
+
+
+    const formationId = this.value;
+
+
+    // sidebar
+
+    const selectedOption =
+    this.options[this.selectedIndex];
+
+
+    const prix = selectedOption.dataset.prix;
+
+
+    document.getElementById('sidebarPrix').textContent =
+    prix ?
+    parseInt(prix).toLocaleString() + ' FCFA'
+    :
+    '— FCFA';
+
+
+    document.getElementById('sidebarTitle').textContent =
+    selectedOption.text.split(' — ')[0];
+
+
+    loadSessions(formationId);
+
+
+});
+
+
+
+// Chargement automatique au démarrage
+
+document.addEventListener("DOMContentLoaded", function(){
+
+
+    const formationSelect =
+    document.getElementById('formationSelect');
+
+
+    const sessionSelect =
+    document.getElementById('sessionSelect');
+
+
+
+    if(formationSelect.value){
+
+
+        const sessionActuelle =
+        "{{ form.session.value|default:'' }}";
+
+
+        loadSessions(
+            formationSelect.value,
+            sessionActuelle
+        );
+
+
+    }
+
+
+});
+// ═══════════════════════════════════════════
+// CHECKBOX / RADIO TOGGLE
+// ═══════════════════════════════════════════
+// Use "change" event on the hidden inputs (native browser behavior handles toggling)
+document.querySelectorAll('.checkbox-item input').forEach(input => {
+  input.addEventListener('change', function() {
+    const parent = this.closest('.checkbox-item');
+    if (this.type === 'checkbox') {
+      parent.classList.toggle('selected', this.checked);
+    } else if (this.type === 'radio') {
+      if (this.checked) {
+        // Unselect all siblings with same name
+        document.querySelectorAll(`.checkbox-item input[name="${this.name}"]`).forEach(r => {
+          r.closest('.checkbox-item').classList.remove('selected');
+        });
+        parent.classList.add('selected');
+      }
+    }
+  });
+});
+</script>
+{% endblock %}
+

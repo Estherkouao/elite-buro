@@ -1,0 +1,553 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Réclamations | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Réclamations clients
+            </h2>
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Gestion et suivi des demandes, problèmes et retours utilisateurs.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- FILTRES -->
+
+    <div class="panel filter-panel">
+
+
+        <div class="panel-body">
+
+
+            <form method="get" class="filters-form">
+
+
+                <div class="input-group">
+
+                    <label>
+                        Recherche
+                    </label>
+
+                    <input 
+                        type="text"
+                        name="q"
+                        placeholder="Rechercher une réclamation..."
+                        value="{{ request.GET.q|default:'' }}"
+                    >
+
+                </div>
+
+
+
+                <div class="input-group">
+
+                    <label>
+                        Statut
+                    </label>
+
+
+                    <select name="statut">
+
+                        <option value="">
+                            Tous les statuts
+                        </option>
+
+
+                        {% for s in reclamations.model.Status.choices %}
+
+                            <option value="{{ s.0 }}"
+                            {% if request.GET.statut == s.0 %}
+                                selected
+                            {% endif %}
+                            >
+
+                                {{ s.1 }}
+
+                            </option>
+
+                        {% endfor %}
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <button type="submit"
+                        class="btn-primary">
+
+                    🔎 Filtrer
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- TABLE -->
+
+
+    <div class="panel table-panel">
+
+
+        <div class="table-container">
+
+
+            <table class="admin-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Objet
+                        </th>
+
+
+                        <th>
+                            Auteur
+                        </th>
+
+
+                        <th>
+                            Statut
+                        </th>
+
+
+                        <th>
+                            Date
+                        </th>
+
+
+                        <th>
+                            Actions
+                        </th>
+
+
+                    </tr>
+
+                </thead>
+
+
+
+
+                <tbody>
+
+
+                {% for r in reclamations %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            <strong>
+                                {{ r.objet }}
+                            </strong>
+
+                        </td>
+
+
+
+                        <td>
+
+                            {{ r.auteur.username }}
+
+                        </td>
+
+
+
+
+                        <td>
+
+
+                            {% if r.statut == 'cloturee' %}
+
+                                <span class="status-badge cancelled">
+
+                                    Clôturée
+
+                                </span>
+
+
+                            {% else %}
+
+                                <span class="status-badge confirmed">
+
+                                    Ouverte
+
+                                </span>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+
+
+                        <td>
+
+                            {{ r.created_at|date:"d/m/Y H:i" }}
+
+                        </td>
+
+
+
+
+                        <td>
+
+
+                            <div class="table-actions">
+
+
+                                <a href="{% url 'reclamation_admin:detail' r.id %}"
+                                   class="action-btn action-view">
+
+                                    👁 Voir
+
+                                </a>
+
+
+
+                                <a href="{% url 'reclamation_admin:edit' r.id %}"
+                                   class="action-btn action-edit">
+
+                                    ✏ Modifier
+
+                                </a>
+
+
+
+                            </div>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                {% empty %}
+
+
+                    <tr>
+
+                        <td colspan="5"
+                            style="text-align:center;padding:35px;color:#777;">
+
+                            📭 Aucune réclamation trouvée.
+
+                        </td>
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- PAGINATION -->
+
+
+    {% if is_paginated %}
+
+    <div class="pagination">
+
+
+        {% if page_obj.has_previous %}
+
+        <a href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}&statut={{ request.GET.statut }}"
+           class="page-btn">
+
+            ← Précédent
+
+        </a>
+
+        {% endif %}
+
+
+
+        <span class="page-info">
+
+            Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+
+        </span>
+
+
+
+
+        {% if page_obj.has_next %}
+
+        <a href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}&statut={{ request.GET.statut }}"
+           class="page-btn">
+
+            Suivant →
+
+        </a>
+
+        {% endif %}
+
+
+    </div>
+
+
+    {% endif %}
+
+
+
+</div>
+
+
+
+
+
+
+<style>
+
+
+.panel{
+
+    background:white;
+
+    border-radius:14px;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.05);
+
+    margin-bottom:25px;
+
+}
+
+
+
+.panel-body{
+
+    padding:25px;
+
+}
+
+
+
+
+.filters-form{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:flex-end;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+
+
+.input-group label{
+
+    font-size:13px;
+
+    font-weight:600;
+
+    color:var(--navy);
+
+}
+
+
+
+.input-group input,
+.input-group select{
+
+    padding:11px 14px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    min-width:230px;
+
+}
+
+
+
+.btn-primary{
+
+    padding:11px 22px;
+
+    border-radius:8px;
+
+    background:var(--gold);
+
+    color:var(--navy-dark);
+
+    border:none;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+
+
+.table-actions{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+
+
+.action-btn{
+
+    padding:8px 14px;
+
+    border-radius:7px;
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+
+.action-view{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+.action-edit{
+
+    background:#f59e0b;
+
+    color:white;
+
+}
+
+
+
+
+.pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-top:25px;
+
+}
+
+
+
+.page-btn{
+
+    padding:10px 18px;
+
+    border-radius:8px;
+
+    background:white;
+
+    border:1px solid #ddd;
+
+    text-decoration:none;
+
+    color:var(--navy);
+
+    font-weight:600;
+
+}
+
+
+
+.page-info{
+
+    font-weight:600;
+
+    color:#555;
+
+}
+
+
+
+</style>
+
+
+{% endblock %}

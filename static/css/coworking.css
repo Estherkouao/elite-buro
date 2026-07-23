@@ -1,0 +1,40 @@
+/* Coworking UI enhancements (Tailwind-first). */
+
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gallery-track {
+  will-change: transform;
+}
+
+.gallery-slide {
+  min-width: 100%;
+}
+
+/* Premium hover glow */
+.card-glow {
+  box-shadow: 0 0 0 rgba(201, 160, 44, 0);
+  transition: box-shadow 250ms ease, transform 250ms ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 18px 45px rgba(13, 43, 85, 0.16), 0 0 0 1px rgba(201, 160, 44, 0.2), 0 0 22px rgba(201, 160, 44, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card-glow, .gallery-track, * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+

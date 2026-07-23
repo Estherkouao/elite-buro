@@ -1,0 +1,75 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Formules domiciliation | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+        <div>
+            <h2>Formules</h2>
+            <p style="color:var(--text-light);font-size:14px;">Gestion des formules de domiciliation.</p>
+        </div>
+        
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:domiciliation_plans_create' %}" class="btn-primary">
+                + Créer une formule
+            </a>
+            
+            <a href="{% url 'dashboard_admin:domiciliation' %}" class="btn-secondary">domiciliation</a>
+
+        </div>    
+       
+    </div>
+
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Slug</th>
+                    <th>Prix</th>
+                    <th>Durée</th>
+                    <th>Actif</th>
+                    <th>Ordre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for plan in plans %}
+                <tr>
+                    <td><strong>{{ plan.nom }}</strong></td>
+                    <td>{{ plan.slug }}</td>
+                    <td>{{ plan.prix }} </td>
+                    <td>{{ plan.durée }} mois</td>
+                    <td>
+                        {% if plan.actif %}
+                            <span class="status-badge confirmed">Actif</span>
+                        {% else %}
+                            <span class="status-badge cancelled">Inactif</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ plan.ordre }}</td>
+                    <td>
+                        <div class="actions">
+                            <a class="btn-secondary" href="{% url 'dashboard_admin:domiciliation_plans_edit' plan_id=plan.id %}">Modifier</a>
+                            <a class="btn-danger" href="{% url 'dashboard_admin:domiciliation_plans_delete' plan_id=plan.id %}">Supprimer</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align:center;padding:30px;">
+                        Aucune formule.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+

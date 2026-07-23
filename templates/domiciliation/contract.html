@@ -1,0 +1,171 @@
+{% extends "dashboard/base_member.html" %}
+{% load static %}
+
+{% block title %}
+Signature Contrat | EliteBuro
+{% endblock %}
+
+
+{% block content %}
+
+<section class="bg-[#FAFAF7] min-h-screen py-12">
+
+    <div class="max-w-5xl mx-auto px-6">
+
+
+        <!-- BREADCRUMB -->
+        <div class="mb-8 text-sm text-slate-500">
+
+
+            <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
+               class="text-[#0D2B55] font-semibold hover:text-[#C9A02C]">
+                Suivi dossier
+            </a>
+
+            / Signature
+
+        </div>
+
+
+
+        <!-- CARD -->
+
+        <div class="bg-white rounded-3xl shadow-xl p-8">
+
+
+            <h1 class="text-3xl md:text-4xl font-black text-center text-[#0D2B55]">
+
+                Signature de votre contrat
+
+            </h1>
+
+
+            <p class="text-center text-slate-500 mt-3 mb-10">
+
+                Validez votre contrat de domiciliation pour finaliser votre demande.
+
+            </p>
+
+
+
+            <!-- ZONE SIGNATURE -->
+
+            <div class="relative h-[500px] rounded-3xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden">
+
+
+                <div class="text-center">
+
+                    <div class="text-6xl mb-5">
+                        ✍️
+                    </div>
+
+
+                    <p class="text-slate-500 font-medium">
+
+                        Interface de signature électronique
+
+                    </p>
+
+
+                    <p class="text-sm text-slate-400 mt-2">
+
+                        Docuseal sera intégré ici
+
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- MESSAGE BAS -->
+
+                <div class="absolute bottom-5 left-1/2 -translate-x-1/2 w-[85%] bg-white rounded-2xl shadow-lg p-5 text-center">
+
+
+                    <p class="text-sm text-slate-600">
+
+                        En signant ce document, vous acceptez les conditions générales
+                        de domiciliation d'EliteBuro.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="mt-10 flex flex-wrap justify-between gap-5">
+
+
+                <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
+
+                   class="px-8 py-3 rounded-xl border border-[#0D2B55] text-[#0D2B55] font-bold hover:bg-[#0D2B55] hover:text-white transition">
+
+                    ← Retour au suivi
+
+                </a>
+
+
+
+                <div class="flex flex-wrap gap-4">
+
+
+                    {% if contract and contract.fichier_pdf %}
+
+                    <a href="{% url 'domiciliation:contract_download' uuid=demande.id %}"
+
+                       class="px-8 py-3 rounded-xl bg-slate-200 text-[#0D2B55] font-bold hover:bg-slate-300 transition">
+
+                        📄 Télécharger le contrat
+
+                    </a>
+
+
+                    {% else %}
+
+
+                    <span class="px-8 py-3 rounded-xl bg-slate-200 text-slate-400 font-bold">
+
+                        Contrat indisponible
+
+                    </span>
+
+
+                    {% endif %}
+
+
+
+
+                    <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
+
+                       class="px-8 py-3 rounded-xl bg-[#C9A02C] text-[#0D2B55] font-bold hover:scale-105 transition">
+
+                        J'ai signé ✓
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+{% endblock %}

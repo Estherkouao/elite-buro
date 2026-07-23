@@ -1,0 +1,467 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}Blog | EliteBuro{% endblock %}
+
+{% block content %}
+<style>
+  /* --- Blog-specific premium styles --- */
+
+  .blog-grid-pattern {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center center;
+  }
+
+  .blog-hex-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A02C' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4l-2-1.5-2 1.5v4l2 1.5 2-1.5zm0-7l-2-1.5-2 1.5v4l2 1.5 2-1.5v-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .article-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .article-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #C9A02C;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s ease;
+    z-index: 2;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .article-card:hover::before {
+    transform: scaleY(1);
+  }
+
+  .article-card:hover .card-img-wrapper img {
+    transform: scale(1.08);
+  }
+
+  .card-img-wrapper {
+    overflow: hidden;
+  }
+
+  .card-img-wrapper img {
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .featured-card {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .featured-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px -12px rgba(13, 43, 85, 0.25), 0 0 0 1px rgba(201, 160, 44, 0.25);
+  }
+
+  .filter-btn {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+  }
+
+  .filter-btn::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  .filter-btn.active-filter::after {
+    border-color: #C9A02C;
+  }
+
+  .filter-btn.active-filter {
+    background: #C9A02C !important;
+    color: #0D2B55 !important;
+    border-color: #C9A02C !important;
+  }
+
+  .search-wrapper {
+    position: relative;
+  }
+
+  .search-wrapper .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+    pointer-events: none;
+    font-size: 14px;
+  }
+
+  .search-wrapper input {
+    padding-left: 40px !important;
+  }
+
+  .result-counter {
+    font-size: 0.875rem;
+    color: #6B7280;
+    transition: opacity 0.3s ease;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .article-card {
+    animation: fadeInUp 0.4s ease both;
+  }
+
+  .article-card:nth-child(1) { animation-delay: 0.02s; }
+  .article-card:nth-child(2) { animation-delay: 0.06s; }
+  .article-card:nth-child(3) { animation-delay: 0.10s; }
+  .article-card:nth-child(4) { animation-delay: 0.14s; }
+  .article-card:nth-child(5) { animation-delay: 0.18s; }
+  .article-card:nth-child(6) { animation-delay: 0.22s; }
+  .article-card:nth-child(7) { animation-delay: 0.26s; }
+  .article-card:nth-child(8) { animation-delay: 0.30s; }
+  .article-card:nth-child(9) { animation-delay: 0.34s; }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<!-- En-tête du blog -->
+<div class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+
+    <div class="max-w-4xl">
+
+        <span class="inline-flex items-center gap-2 rounded-full border border-[#C9A02C]/30 bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+            ✦ Blog ELITEBURO
+        </span>
+
+        <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#0D2B55] leading-tight">
+            Conseils, actualités
+            <span class="text-[#C9A02C]">& ressources</span>
+        </h1>
+
+        <p class="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+            Des articles rédigés par nos experts pour accompagner les entrepreneurs,
+            dirigeants et professionnels dans la création, la domiciliation,
+            la gestion et le développement de leur entreprise.
+        </p>
+
+
+    </div>
+
+</div>
+
+
+<div class="max-w-7xl mx-auto px-6 py-12">
+
+  <!-- ========== ARTICLE À LA UNE ========== -->
+  {% if featured %}
+  <section class="max-w-6xl mx-auto px-6 py-10">
+
+      <div class="flex items-center justify-between mb-6">
+
+          <h2 class="text-2xl font-black text-[#0D2B55]">
+              ⭐ À la une
+          </h2>
+
+      </div>
+
+      <div class="swiper featuredSwiper rounded-3xl overflow-hidden shadow-xl">
+
+          <div class="swiper-wrapper">
+
+              <!-- Article principal -->
+              <div class="swiper-slide">
+
+                  <a href="{% url 'blog:detail' slug=featured.slug %}"
+                    class="grid md:grid-cols-2 bg-white">
+
+                      <div class="h-72 overflow-hidden">
+
+                          {% if featured.image %}
+                              <img src="{{ featured.image.url }}"
+                                  class="w-full h-full object-cover"
+                                  alt="{{ featured.title }}">
+                          {% endif %}
+
+                      </div>
+
+                      <div class="p-8 flex flex-col justify-center">
+
+                          {% if featured.category %}
+                          <span class="inline-flex w-fit rounded-full bg-[#C9A02C]/10 px-3 py-1 text-xs font-bold uppercase text-[#C9A02C]">
+                              {{ featured.category.name }}
+                          </span>
+                          {% endif %}
+
+                          <h2 class="mt-5 text-3xl font-black text-[#0D2B55]">
+                              {{ featured.title }}
+                          </h2>
+
+                          <p class="mt-5 text-slate-600 leading-8">
+                              {{ featured.excerpt|default:featured.content|truncatewords:28 }}
+                          </p>
+
+                          <div class="mt-6 flex gap-5 text-sm text-slate-500">
+
+                              <span>
+                                  {{ featured.created_at|date:"d M Y" }}
+                              </span>
+
+                              <span>
+                                  •
+                              </span>
+
+                              <span>
+                                  Lecture 3 min
+                              </span>
+
+                          </div>
+
+                          <span class="mt-8 inline-flex items-center font-bold text-[#C9A02C]">
+                              Lire l'article →
+                          </span>
+
+                      </div>
+
+                  </a>
+
+              </div>
+
+              <!-- Autres articles -->
+              {% for article in articles %}
+              {% if article.id != featured.id %}
+
+              <div class="swiper-slide">
+
+                  <a href="{% url 'blog:detail' slug=article.slug %}"
+                    class="grid md:grid-cols-2 bg-white">
+
+                      <div class="h-72 overflow-hidden">
+
+                          {% if article.image %}
+                              <img src="{{ article.image.url }}"
+                                  class="w-full h-full object-cover"
+                                  alt="{{ article.title }}">
+                          {% endif %}
+
+                      </div>
+
+                      <div class="p-8 flex flex-col justify-center">
+
+                          {% if article.category %}
+                          <span class="inline-flex w-fit rounded-full bg-[#C9A02C]/10 px-3 py-1 text-xs font-bold uppercase text-[#C9A02C]">
+                              {{ article.category.name }}
+                          </span>
+                          {% endif %}
+
+                          <h2 class="mt-5 text-3xl font-black text-[#0D2B55]">
+                              {{ article.title }}
+                          </h2>
+
+                          <p class="mt-5 text-slate-600 leading-8">
+                              {{ article.excerpt|default:article.content|truncatewords:28 }}
+                          </p>
+
+                          <div class="mt-6 flex gap-5 text-sm text-slate-500">
+
+                              <span>
+                                  {{ article.created_at|date:"d M Y" }}
+                              </span>
+
+                              <span>•</span>
+
+                              <span>
+                                  Lecture 3 min
+                              </span>
+
+                          </div>
+
+                          <span class="mt-8 inline-flex items-center font-bold text-[#C9A02C]">
+                              Lire l'article →
+                          </span>
+
+                      </div>
+
+                  </a>
+
+              </div>
+
+              {% endif %}
+              {% endfor %}
+
+          </div>
+
+          <div class="swiper-pagination"></div>
+
+      </div>
+
+  </section>
+  {% endif %}
+
+  <!-- ========== FILTRES & RECHERCHE ========== -->
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 mb-10">
+    <div class="flex flex-wrap gap-2" id="filterTags">
+      <button class="filter-btn px-5 py-2.5 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-600 hover:bg-navy hover:text-white hover:border-navy transition active-filter" data-filter="all">
+        Tous
+      </button>
+      {% for cat in categories %}
+      <button class="filter-btn px-5 py-2.5 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-600 hover:bg-navy hover:text-white hover:border-navy transition" data-filter="{{ cat.name|lower }}">
+        {{ cat.name }}
+      </button>
+      {% endfor %}
+    </div>
+    <div class="flex items-center gap-3 w-full md:w-auto">
+      <div class="search-wrapper relative flex-1 md:w-64">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Rechercher un article..."
+               class="w-full px-4 py-2.5 pl-10 border border-gray-200 rounded-full text-sm bg-white focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition">
+      </div>
+      <span class="result-counter text-sm text-gray-400 whitespace-nowrap" id="resultCounter"></span>
+    </div>
+  </div>
+
+  <!-- ========== GRILLE ARTICLES ========== -->
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="articlesGrid">
+    {% for article in articles %}
+    <article class="article-card bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1.5 transition-all duration-400" data-category="{{ article.category.name|lower|default:'general' }}">
+      <a href="{% url 'blog:detail' slug=article.slug %}">
+        <div class="card-img-wrapper h-52 relative">
+          {% if article.image %}
+            <img src="{{ article.image.url }}" alt="{{ article.title }}" loading="lazy" class="w-full h-full object-cover">
+          {% else %}
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="{{ article.title }}" loading="lazy" class="w-full h-full object-cover">
+          {% endif %}
+          {% if article.category %}
+            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-navy text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-gold/20 shadow-sm">{{ article.category.name }}</span>
+          {% endif %}
+        </div>
+        <div class="p-6">
+          <h3 class="text-lg font-bold text-navy font-display mb-3 hover:text-gold transition-colors">{{ article.title }}</h3>
+          <p class="text-sm text-gray-500 leading-relaxed line-clamp-3">{{ article.excerpt|default:article.content|truncatewords:20 }}</p>
+        </div>
+        <div class="px-6 pb-5 flex justify-between items-center text-xs text-gray-400 border-t border-gray-100 pt-4">
+          <span>{{ article.created_at|date:"d/m/Y" }}</span>
+          <span>{{ article.content|wordcount|add:250|divisibleby:250|yesno:"1 min,2 min"|default:"2 min" }} de lecture</span>
+        </div>
+      </a>
+    </article>
+    {% empty %}
+    <div class="col-span-full text-center py-20">
+      <div class="text-6xl mb-6">📝</div>
+      <p class="text-gray-400 text-lg font-semibold">Aucun article publié pour le moment.</p>
+      <p class="text-gray-300 mt-2">Revenez bientôt pour découvrir nos actualités et conseils exclusifs !</p>
+    </div>
+    {% endfor %}
+  </div>
+
+
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function() {
+    const filterButtons = document.querySelectorAll('#filterTags button');
+    const searchInput = document.getElementById('searchInput');
+    const resultCounter = document.getElementById('resultCounter');
+
+    function updateResultCount() {
+      const visibleCards = document.querySelectorAll('.article-card[style*="display: block"], .article-card:not([style*="display: none"])');
+      const total = document.querySelectorAll('.article-card').length;
+      const visible = visibleCards.length;
+      resultCounter.textContent = visible === total ? `${total} article${total > 1 ? 's' : ''}` : `${visible}/${total} article${total > 1 ? 's' : ''}`;
+    }
+
+    function applyFilters() {
+      const activeFilter = document.querySelector('#filterTags button.active-filter');
+      const filter = activeFilter ? activeFilter.dataset.filter : 'all';
+      const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+      document.querySelectorAll('.article-card').forEach(card => {
+        const catMatch = filter === 'all' || card.dataset.category === filter;
+        const h3 = card.querySelector('h3').textContent.toLowerCase();
+        const p = card.querySelector('p').textContent.toLowerCase();
+        const searchMatch = !q || h3.includes(q) || p.includes(q);
+        card.style.display = (catMatch && searchMatch) ? 'block' : 'none';
+      });
+
+      updateResultCount();
+    }
+
+    // Filter buttons
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filterButtons.forEach(b => {
+          b.classList.remove('active-filter', 'bg-navy', 'text-white', 'border-navy');
+          b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+        });
+        this.classList.add('active-filter');
+        this.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+        applyFilters();
+      });
+    });
+
+    // Search
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
+
+    // Hero category badges — click triggers the matching filter button
+    document.querySelectorAll('.hero-cat-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var filterVal = this.getAttribute('data-filter-cat');
+        // Find and click the matching filter button
+        filterButtons.forEach(function(fb) {
+          if (fb.getAttribute('data-filter') === filterVal) {
+            fb.click();
+            // Scroll to articles section
+            document.getElementById('articlesGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    });
+
+    // Initialize counter
+    updateResultCount();
+  })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+new Swiper(".featuredSwiper", {
+
+    loop: true,
+
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+
+    speed: 900,
+
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+
+});
+</script>
+{% endblock %}
+

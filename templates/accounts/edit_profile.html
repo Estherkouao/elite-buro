@@ -1,0 +1,12 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Modifier Profil</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button class="auth-btn">Enregistrer</button>
+        </form>
+    </div>
+</div>

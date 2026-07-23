@@ -1,0 +1,345 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer une réservation | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="admin-page-title">
+
+    <h1>Nouvelle réservation</h1>
+
+    <p>
+        Complétez le formulaire : sélection, période, disponibilité, prix et validation.
+    </p>
+
+</div>
+
+
+
+
+
+<div class="admin-form-card">
+
+
+<form method="post" id="reservationForm">
+
+{% csrf_token %}
+
+
+
+<div class="admin-form-grid">
+
+
+{% for field in form %}
+
+<div class="admin-form-group 
+{% if field.name == 'commentaire' or field.name == 'remise_commentaire' %}
+full
+{% endif %}
+">
+
+
+<label for="{{ field.id_for_label }}">
+    {{ field.label }}
+</label>
+
+
+
+{{ field }}
+
+
+
+{% if field.errors %}
+
+<div class="form-error">
+
+    {{ field.errors }}
+
+</div>
+
+{% endif %}
+
+
+
+</div>
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+
+
+{% if form.non_field_errors %}
+
+<div class="form-error">
+
+{{ form.non_field_errors }}
+
+</div>
+
+{% endif %}
+
+
+
+
+
+
+<div class="admin-form-actions">
+
+
+<button type="submit" class="btn-admin-primary">
+
+Créer la réservation
+
+</button>
+
+
+
+<a href="{% url 'dashboard_admin:reservations' %}" 
+class="btn-admin-secondary">
+
+Annuler
+
+</a>
+
+
+</div>
+
+
+
+</form>
+
+
+</div>
+
+
+
+
+
+<!-- CALENDRIER -->
+
+<div class="admin-form-card mt-6">
+
+
+<div class="reservation-calendar">
+
+
+<div class="calendar-header">
+
+
+<button type="button" id="prevMonthBtn">
+←
+</button>
+
+
+<h3 id="calendarTitle"></h3>
+
+
+<button type="button" id="nextMonthBtn">
+→
+</button>
+
+
+</div>
+
+
+
+
+<div class="calendar-week">
+
+
+<div>Lun</div>
+<div>Mar</div>
+<div>Mer</div>
+<div>Jeu</div>
+<div>Ven</div>
+<div>Sam</div>
+<div>Dim</div>
+
+
+</div>
+
+
+
+
+<div id="calendarGrid" class="calendar-grid"></div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<script>
+
+const dateStartInput = document.getElementById("id_date_debut");
+const dateEndInput = document.getElementById("id_date_fin");
+
+const calendarGrid = document.getElementById("calendarGrid");
+const calendarTitle = document.getElementById("calendarTitle");
+
+const prevMonthBtn = document.getElementById("prevMonthBtn");
+const nextMonthBtn = document.getElementById("nextMonthBtn");
+
+
+let currentMonth = new Date();
+
+
+
+function renderCalendar(){
+
+    if(!calendarGrid) return;
+
+
+    const year = currentMonth.getFullYear();
+
+    const month = currentMonth.getMonth();
+
+
+
+    calendarTitle.innerHTML =
+        currentMonth.toLocaleDateString(
+            "fr-FR",
+            {
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+
+
+    calendarGrid.innerHTML = "";
+
+
+
+    const firstDay =
+        new Date(year, month, 1)
+        .getDay();
+
+
+
+    const days =
+        new Date(year, month + 1, 0)
+        .getDate();
+
+
+
+    for(let i=1;i<=days;i++){
+
+
+        const button =
+        document.createElement("button");
+
+
+        button.type="button";
+
+
+        button.classList.add(
+            "calendar-day"
+        );
+
+
+        button.textContent=i;
+
+
+
+        button.onclick=function(){
+
+
+            document
+            .querySelectorAll(".calendar-day")
+            .forEach(
+                d=>d.classList.remove("active")
+            );
+
+
+
+            button.classList.add("active");
+
+
+
+            let selected =
+            new Date(
+                year,
+                month,
+                i
+            );
+
+
+
+            if(dateStartInput)
+            dateStartInput.value =
+            selected.toISOString()
+            .split("T")[0];
+
+
+
+            if(dateEndInput)
+            dateEndInput.value =
+            selected.toISOString()
+            .split("T")[0];
+
+
+        };
+
+
+        calendarGrid.appendChild(button);
+
+    }
+
+}
+
+
+
+
+prevMonthBtn.onclick=function(){
+
+    currentMonth =
+    new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth()-1,
+        1
+    );
+
+
+    renderCalendar();
+
+};
+
+
+
+nextMonthBtn.onclick=function(){
+
+    currentMonth =
+    new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth()+1,
+        1
+    );
+
+
+    renderCalendar();
+
+};
+
+
+
+renderCalendar();
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,305 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Espaces & Entreprises | EliteBuro{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content">
+
+
+    <!-- HEADER -->
+
+    <div class="section-header">
+
+
+        <div>
+
+
+            <h2>
+                
+            </h2>
+
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Référentiel des entreprises clientes et espaces réservables.
+            </p>
+
+
+        </div>
+
+
+
+        <a href="{% url 'dashboard_admin:company_create' %}"
+           class="btn-primary">
+
+
+            + Créer une entreprise
+
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- TABLE -->
+
+
+    <div class="table-container">
+
+
+
+        <table class="admin-table">
+
+
+
+            <thead>
+
+
+                <tr>
+
+                    <th>
+                        Logo
+                    </th>
+
+                    <th>
+                        entreprise
+                    </th>
+
+
+                    <th>
+                        membre
+                    </th>
+
+
+                    <th>
+                        Contact
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+
+
+
+            <tbody>
+
+
+
+            {% for c in companies %}
+
+
+
+               <tr>
+
+
+                <td>
+
+
+                    {% if c.logo %}
+
+                        <img src="{{ c.logo.url }}"
+                            alt="Logo entreprise"
+                            style="
+                                width:55px;
+                                height:55px;
+                                object-fit:cover;
+                                border-radius:12px;
+                                border:1px solid #eee;
+                            ">
+
+
+                    {% else %}
+
+
+                        <div style="
+                            width:55px;
+                            height:55px;
+                            border-radius:12px;
+                            background:#f1f1f1;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:22px;
+                        ">
+
+                            🏢
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </td>
+
+                <td>
+
+
+                    <strong>
+                        {{ c.company_name }}
+                    </strong>
+
+                </td>
+
+                <td>
+
+
+                    {{ c.owner.full_name|default:c.owner.email }}
+
+
+                </td>
+
+
+
+
+
+
+                <td>
+
+
+                    {{ c.phone|default:"-" }}
+
+
+                    <br>
+
+
+                    <small style="color:var(--text-light);">
+
+                        {{ c.email|default:"-" }}
+
+                    </small>
+
+
+                    </td>
+
+
+
+
+
+
+
+                    <td>
+
+
+
+
+                        <a href="{% url 'dashboard_admin:company_edit' c.id %}"
+                           class="btn-action">
+
+
+                            Modifier
+
+
+                        </a>
+
+
+
+
+
+
+                        <form method="post"
+                              action="{% url 'dashboard_admin:company_delete' c.id %}"
+                              style="display:inline;"
+                              onsubmit="return confirm('Supprimer cette entreprise ?')">
+
+
+                            {% csrf_token %}
+
+
+
+                            <button type="submit"
+                                    class="btn-action"
+                                    style="background:var(--danger-color);">
+
+
+                                Supprimer
+
+
+                            </button>
+
+
+
+                        </form>
+
+
+
+
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+
+
+
+            {% empty %}
+
+
+
+                <tr>
+
+
+                    <td colspan="4"
+                        style="text-align:center;padding:30px;">
+
+
+                        Aucune entreprise trouvée.
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+
+            {% endfor %}
+
+
+
+
+            </tbody>
+
+
+
+
+        </table>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

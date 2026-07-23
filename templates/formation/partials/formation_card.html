@@ -1,0 +1,21 @@
+<article class="rounded border overflow-hidden bg-white shadow-sm">
+  <div class="aspect-[16/10] bg-slate-100">
+    {% if formation.image %}
+      <img src="{{ formation.image.url }}" alt="{{ formation.titre }}" class="h-full w-full object-cover" />
+    {% else %}
+      <div class="flex h-full items-center justify-center text-slate-500">Image</div>
+    {% endif %}
+  </div>
+
+  <div class="p-4 space-y-2">
+    <h3 class="text-lg font-bold">{{ formation.titre }}</h3>
+    <div class="text-sm text-slate-600">{{ formation.category }}</div>
+    <p class="text-sm text-slate-700 line-clamp-3">{{ formation.description_courte }}</p>
+
+    <div class="flex items-center justify-between">
+      <div class="text-sm font-semibold">{{ formation.prix }} </div>
+      <a class="rounded bg-slate-900 px-3 py-1 text-white text-sm" href="{% url 'formation:detail' slug=formation.slug %}">Voir</a>
+    </div>
+  </div>
+</article>
+
