@@ -240,23 +240,21 @@ Indisponible
 
 <div class="table-actions">
 
+    <a href="{% url 'dashboard_admin:formations_trainers_detail' t.id %}"
+       class="action-btn"
+       style="background:#2563eb;color:#fff;">
+        👁 Voir
+    </a>
 
-<a href="{% url 'dashboard_admin:formations_trainers_edit' t.id %}"
-   class="action-btn action-edit">
+    <a href="{% url 'dashboard_admin:formations_trainers_edit' t.id %}"
+       class="action-btn action-edit">
+        ✏️ Modifier
+    </a>
 
-Modifier
-
-</a>
-
-
-
-<a href="{% url 'dashboard_admin:formations_trainers_delete' t.id %}"
-   class="action-btn action-cancel">
-
-Supprimer
-
-</a>
-
+    <a href="{% url 'dashboard_admin:formations_trainers_delete' t.id %}"
+       class="action-btn action-cancel">
+        🗑️ Supprimer
+    </a>
 
 </div>
 

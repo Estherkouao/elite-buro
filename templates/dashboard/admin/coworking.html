@@ -20,6 +20,10 @@
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:coworking_space_create' %}" class="btn-primary">
+                + Agence
+            </a>
+
             <a href="{% url 'dashboard_admin:coworking_category_create' %}" class="btn-primary">
                 + Catégorie
             </a>
@@ -108,9 +112,9 @@
 
                 <div class="kpi-label">Disponibilités</div>
 
-                <div class="kpi-value">{{ availability_count }}</div>
+                <div class="kpi-value">{{ availability_count }} / {{ spaces|length }}</div>
 
-                <div class="kpi-change positive">Créneaux enregistrés</div>
+                <div class="kpi-change positive">Espaces disponibles</div>
 
             </div>
 
@@ -123,6 +127,49 @@
     <!-- LISTES COMPLETES (Back-office) -->
 
     <div class="section-block" style="margin-top:18px;">
+
+        <h3 class="font-display" style="margin:22px 0 10px;">Agences CoworkingSpace</h3>
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Nom</th>
+                        <th>Ville</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in coworking_spaces %}
+                        <tr>
+                            <td>
+                                {% if s.image_principale %}
+                                    <img src="{{ s.image_principale.url }}" alt="{{ s.nom }}" style="width:80px;height:60px;object-fit:cover;border-radius:10px;">
+                                {% else %}
+                                    <span style="color:var(--text-light);">Aucune image</span>
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ s.nom }}</strong></td>
+                            <td>{{ s.ville|default:"—" }}</td>
+                            <td>
+                                {% if s.statut == 'active' %}
+                                    <span class="status-badge confirmed">Actif</span>
+                                {% else %}
+                                    <span class="status-badge cancelled">Inactif</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'dashboard_admin:coworking_space_edit' s.id %}" class="btn-action">Modifier</a>
+                                <a href="{% url 'dashboard_admin:coworking_space_delete' s.id %}" class="btn-action" style="background:var(--danger-color);">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="5" style="text-align:center;padding:20px;">Aucune agence.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
     
 

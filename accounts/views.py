@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, TemplateView, UpdateView
@@ -17,6 +17,8 @@ from .forms import (
     ProfileForm,
     RegisterForm,
     UserProfileForm,
+    CustomPasswordChangeForm,
+    EmailChangeForm,
 )
 from .models import Company, User
 
@@ -25,6 +27,7 @@ from reservation.models import Reservation
 from coworking.models import Workspace as CoworkingWorkspace
 from domiciliation.models import DomiciliationRequest
 from reclamation.models import Reclamation
+from formation.models import FormationRegistration
 
 
 class CustomLoginView(LoginView):
@@ -100,10 +103,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context["payments_count"] = payments_count
 
         # ===== DOMICILIATIONS =====
-        domiciliation_count = DomiciliationRequest.objects.filter(
-            utilisateur=user, statut="Active"
-        ).count()
+        domiciliation_qs = DomiciliationRequest.objects.filter(
+            utilisateur=user
+        ).order_by("-date_creation")
+        domiciliation_count = domiciliation_qs.count()
         context["domiciliation_count"] = domiciliation_count
+        context["domiciliation_requests"] = domiciliation_qs
+
+        # ===== FORMATIONS =====
+        formation_qs = FormationRegistration.objects.filter(membre=user).order_by("-date")
+        formation_count = formation_qs.count()
+        context["formation_count"] = formation_count
+        context["formation_registrations"] = formation_qs
 
         # ===== NOTIFICATIONS =====
         notifications_qs = DashNotification.objects.filter(utilisateur=user).order_by("-date_creation")[:5]
@@ -239,4 +250,28 @@ class CompanyUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         messages.success(self.request, "Entreprise mise à jour.")
+        return super().form_valid(form)
+
+
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = "accounts/change_password.html"
+    success_url = reverse_lazy("accounts:profile")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Votre mot de passe a été modifié avec succès.")
+        return super().form_valid(form)
+
+
+class UpdateEmailView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = EmailChangeForm
+    template_name = "accounts/change_email.html"
+    success_url = reverse_lazy("accounts:profile")
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        messages.success(self.request, "Votre adresse email a été mise à jour avec succès.")
         return super().form_valid(form)

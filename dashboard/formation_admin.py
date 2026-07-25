@@ -54,8 +54,9 @@ class AdminFormationDashboardView(FormationAdminBaseView):
     def get(self, request: HttpRequest) -> HttpResponse:
         formations = Formation.objects.select_related("category").order_by("-created_at")
         categories = FormationCategory.objects.order_by("name")
-        sessions_count = FormationSession.objects.count()
+        sessions = FormationSession.objects.count()
         trainers_count = Trainer.objects.count()
+        inscriptions = FormationRegistration.objects.count()
         registrations = FormationRegistration.objects.select_related("session__formation", "session__formateur").order_by("-date")[:20]
         quotes_count = FormationQuote.objects.count()
         documents_count = FormationPedagogicalDocument.objects.count()
@@ -66,8 +67,9 @@ class AdminFormationDashboardView(FormationAdminBaseView):
             {
                 "formations": formations,
                 "categories": categories,
-                "sessions_count": sessions_count,
+                "sessions": sessions,
                 "trainers_count": trainers_count,
+                "inscriptions": inscriptions,
                 "registrations": registrations,
                 "quotes_count": quotes_count,
                 "documents_count": documents_count,
@@ -177,7 +179,13 @@ class AdminFormationsListView(FormationAdminBaseView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         formations = Formation.objects.select_related("category").order_by("-created_at")
-        return render(request, self.template_name, {"formations": formations})
+        sessions = FormationSession.objects.count()
+        inscriptions = FormationRegistration.objects.count()
+        return render(request, self.template_name, {
+            "formations": formations,
+            "sessions": sessions,
+            "inscriptions": inscriptions,
+        })
 
 
 class AdminFormationCreateView(FormationAdminBaseView):

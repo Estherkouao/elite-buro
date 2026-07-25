@@ -77,19 +77,30 @@
                 <span class="nav-icon">👤</span>
                 <span class="nav-label">Profil</span>
             </a>
-            <a href="#" class="nav-item" data-section="parametres">
-                <span class="nav-icon">⚙️</span>
-                <span class="nav-label">Paramètres</span>
+            {# Avis Clients #}
+            <a href="{% url 'dashboard_admin:testimonials_list' %}"
+            class="nav-item {% if active_section == 'testimonials' %}active{% endif %}">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-label">Avis Clients</span>
+            </a>
+            {# Messages de contact #}
+            <a href="{% url 'dashboard_admin:contact_messages' %}"
+            class="nav-item {% if active_section == 'contact_messages' %}active{% endif %}">
+                <span class="nav-icon">✉️</span>
+                <span class="nav-label">Messages</span>
+                {% if contact_unread_count > 0 %}
+                    <span class="nav-badge badge-warning">{{ contact_unread_count }}</span>
+                {% endif %}
             </a>
         </nav>
 
         <div class="sidebar-footer">
             <a href="{% url 'accounts:logout' %}" class="logout-btn">🚪 Déconnexion</a>
             <a href="{% url 'core:home' %}"
-           class="nav-item {% if active_section == 'dashboard' %}active{% endif %}">
-            <span class="nav-icon"></span>
-            <span class="nav-label">home</span>
-        </a>
+               class="nav-item {% if active_section == 'dashboard' %}active{% endif %}">
+                <span class="nav-icon"></span>
+                <span class="nav-label">home</span>
+            </a>
         </div>
     </aside>
 
@@ -278,6 +289,37 @@
                             <a class="btn-secondary" href="{% url 'dashboard_admin:users' %}">Gérer les membres</a>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- Derniers messages de contact -->
+            <section class="activity-section">
+                <div class="section-header">
+                    <h3>Derniers messages de contact</h3>
+                    <a href="{% url 'dashboard_admin:contact_messages' %}" class="btn-link">Voir tout →</a>
+                </div>
+                <div class="activity-list">
+                    {% for msg in contact_messages %}
+                        <div class="activity-item {% if not msg.lu %}unread{% endif %}">
+                            <div class="activity-icon">✉️</div>
+                            <div class="activity-content">
+                                <p class="activity-title">
+                                    <strong>{{ msg.nom }}</strong> — {{ msg.sujet|truncatechars:40 }}
+                                </p>
+                                <p class="activity-desc">{{ msg.message|truncatechars:80 }}</p>
+                                <p class="activity-time">{{ msg.created_at|date:"d/m/Y H:i" }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="activity-item">
+                            <div class="activity-icon">📭</div>
+                            <div class="activity-content">
+                                <p class="activity-title">Aucun message</p>
+                                <p class="activity-desc">—</p>
+                                <p class="activity-time">—</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </section>
         </div>

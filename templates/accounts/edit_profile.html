@@ -1,12 +1,52 @@
-<div class="auth-container">
-    <div class="auth-card">
-        <h2 class="auth-title">Modifier Profil</h2>
+{% extends "dashboard/base_member.html" %}
+{% load static %}
 
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
+{% block title %}Modifier mon profil | EliteBuro{% endblock %}
 
-            <button class="auth-btn">Enregistrer</button>
-        </form>
+{% block content %}
+<section class="bg-[#FAFAF7] min-h-screen py-12">
+    <div class="max-w-lg mx-auto px-6">
+
+        <div class="mb-8">
+            <a href="{% url 'accounts:profile' %}" class="text-[#C9A02C] font-semibold hover:underline">
+                ← Retour au profil
+            </a>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl p-10">
+            <h1 class="text-3xl font-black text-[#0D2B55] mb-2">
+                ✏️ Modifier mon profil
+            </h1>
+            <p class="text-slate-500 mb-8">
+                Mettez à jour vos informations personnelles.
+            </p>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-[#0D2B55] mb-2">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <p class="text-red-500 text-sm mt-2">{{ field.errors.0 }}</p>
+                    {% endif %}
+                    {% if field.help_text %}
+                    <p class="text-slate-400 text-xs mt-1">{{ field.help_text }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit"
+                        class="w-full px-8 py-3 rounded-xl bg-[#0D2B55] text-white font-bold hover:bg-[#C9A02C] hover:text-[#0D2B55] transition">
+                    💾 Enregistrer les modifications
+                </button>
+            </form>
+        </div>
+
     </div>
-</div>
+</section>
+{% endblock %}
+

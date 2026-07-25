@@ -16,6 +16,7 @@ from coworking.models import Workspace
 from reclamation.models import Reclamation
 
 from .models import Notification, Testimonial, Reservation, Payment
+from formation.models import FormationRegistration
 from .permissions import is_member
 
 
@@ -48,6 +49,7 @@ class MemberDashboardView(LoginRequiredMixin, View):
         payments_count = Payment.objects.filter(utilisateur=request.user).count()
         domiciliation_count = DomiciliationRequest.objects.filter(utilisateur=request.user).count()
         reclamations_count = Reclamation.objects.filter(auteur=request.user).count()
+        formation_count = FormationRegistration.objects.filter(membre=request.user).count()
 
         # Notifications réelles
         notifications = Notification.objects.filter(utilisateur=request.user).order_by("-date_creation")[:5]
@@ -93,6 +95,7 @@ class MemberDashboardView(LoginRequiredMixin, View):
                 "payments_count": payments_count,
                 "domiciliation_count": domiciliation_count,
                 "reclamations_count": reclamations_count,
+                "formation_count": formation_count,
                 "notifications_count": notifications_unread,
                 "notifications": notifications,
                 "reservations": reservations,

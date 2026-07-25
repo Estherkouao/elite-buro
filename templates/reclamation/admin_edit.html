@@ -1,46 +1,279 @@
 {% extends 'layouts/base_admin.html' %}
 
-{% block title %}Modifier Réclamation | Admin{% endblock %}
+{% block title %}Modifier la réclamation | EliteBuro{% endblock %}
 
 {% block content %}
-<div class="section">
-  <h1>Modifier la réclamation</h1>
 
-  <form method="post">
-    {% csrf_token %}
+<div class="content">
 
-    <div class="form-row">
-      <label>Objet</label>
-      <input type="text" name="objet" value="{{ reclamation.objet }}" required />
+    <!-- Header -->
+    <div class="section-header">
+
+        <div>
+
+            <h2>Modifier la réclamation</h2>
+
+            <p style="color:var(--text-light);font-size:14px;">
+                Mettez à jour les informations et le traitement de cette réclamation.
+            </p>
+
+        </div>
+
+        <a href="{% url 'reclamation_admin:detail' reclamation.id %}"
+           class="btn-secondary">
+
+            ← Retour
+
+        </a>
+
     </div>
 
-    <div class="form-row">
-      <label>Description</label>
-      <textarea name="description" rows="6" required>{{ reclamation.description }}</textarea>
+
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h3>{{ reclamation.objet }}</h3>
+
+        </div>
+
+        <div class="panel-body padded">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label>Objet</label>
+
+                    <input
+                        type="text"
+                        name="objet"
+                        value="{{ reclamation.objet }}"
+                        required>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>Description</label>
+
+                    <textarea
+                        name="description"
+                        rows="7"
+                        required>{{ reclamation.description }}</textarea>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>Réponse de l'administrateur</label>
+
+                    <textarea
+                        name="reponse_admin"
+                        rows="5"
+                        placeholder="Écrivez votre réponse...">{{ reclamation.reponse_admin|default_if_none:'' }}</textarea>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>Statut</label>
+
+                    <select name="statut">
+
+                        <option value="ouverte"
+                            {% if reclamation.statut == "ouverte" %}selected{% endif %}>
+                            🟢 Ouverte
+                        </option>
+
+                        <option value="cloturee"
+                            {% if reclamation.statut == "cloturee" %}selected{% endif %}>
+                            🔴 Clôturée
+                        </option>
+
+                    </select>
+
+                    <small class="help-text">
+                        Le changement de statut sera enregistré immédiatement.
+                    </small>
+
+                </div>
+
+
+
+                <div class="actions">
+
+                    <a href="{% url 'reclamation_admin:detail' reclamation.id %}"
+                       class="btn-secondary">
+
+                        Annuler
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        💾 Enregistrer les modifications
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <div class="form-row">
-      <label>Réponse admin (optionnel)</label>
-      <textarea name="reponse_admin" rows="4">{{ reclamation.reponse_admin|default_if_none:'' }}</textarea>
-    </div>
-
-    <div class="form-row">
-      <label>Statut</label>
-      <select name="statut">
-        {% for v,label in reclamation.statut.field.choices %}
-          {# Django field choices not available in template safely; fallback to hardcoded values #}
-        {% endfor %}
-        <option value="ouverte" {% if reclamation.statut == 'ouverte' %}selected{% endif %}>Ouverte</option>
-        <option value="cloturee" {% if reclamation.statut == 'cloturee' %}selected{% endif %}>Clôturée</option>
-      </select>
-      <small>Les actions Clôturer/Réouvrir sont disponibles sur la page détail.</small>
-    </div>
-
-    <div class="actions">
-      <button class="btn" type="submit">Enregistrer</button>
-      <a href="{% url 'reclamation_admin:detail' reclamation.id %}" class="btn btn-secondary">Annuler</a>
-    </div>
-  </form>
 </div>
-{% endblock %}
 
+
+
+<style>
+
+.panel{
+
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 35px rgba(0,0,0,.06);
+
+}
+
+.panel-header{
+
+    padding:22px 28px;
+    border-bottom:1px solid #ececec;
+
+}
+
+.panel-header h3{
+
+    margin:0;
+    color:var(--navy);
+
+}
+
+.panel-body{
+
+    padding:35px;
+
+}
+
+.form-group{
+
+    margin-bottom:24px;
+
+}
+
+.form-group label{
+
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:700;
+    color:var(--navy);
+
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+
+    width:100%;
+    padding:14px 16px;
+    border:1px solid #dcdcdc;
+    border-radius:10px;
+    font-size:14px;
+    transition:.3s;
+    background:#fff;
+    box-sizing:border-box;
+
+}
+
+.form-group textarea{
+
+    resize:vertical;
+    min-height:140px;
+
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 4px rgba(202,166,75,.15);
+
+}
+
+.help-text{
+
+    display:block;
+    margin-top:8px;
+    color:var(--text-light);
+    font-size:12px;
+
+}
+
+.actions{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:14px;
+    margin-top:35px;
+
+}
+
+.btn-primary{
+
+    padding:13px 24px;
+    border:none;
+    border-radius:10px;
+    background:var(--gold);
+    color:var(--navy-dark);
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+    text-decoration:none;
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn-secondary{
+
+    padding:13px 24px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:#fff;
+    color:var(--navy);
+    font-weight:700;
+    text-decoration:none;
+    transition:.25s;
+
+}
+
+.btn-secondary:hover{
+
+    background:#f7f7f7;
+
+}
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Modifier agence | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="section-header">
+        <div class="admin-page-title">
+            <h1>Modifier l'agence</h1>
+            <p>{{ target.nom }}</p>
+        </div>
+    </div>
+
+    <div class="admin-form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <label>Nom</label>
+                    {{ form.nom }}
+                    {% if form.nom.errors %}<div class="form-error">{{ form.nom.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}<div class="form-error">{{ form.description.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Adresse</label>
+                    {{ form.adresse }}
+                    {% if form.adresse.errors %}<div class="form-error">{{ form.adresse.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Ville</label>
+                    {{ form.ville }}
+                    {% if form.ville.errors %}<div class="form-error">{{ form.ville.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Pays</label>
+                    {{ form.pays }}
+                    {% if form.pays.errors %}<div class="form-error">{{ form.pays.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Téléphone</label>
+                    {{ form.telephone }}
+                    {% if form.telephone.errors %}<div class="form-error">{{ form.telephone.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}<div class="form-error">{{ form.email.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Horaires</label>
+                    {{ form.horaires }}
+                    {% if form.horaires.errors %}<div class="form-error">{{ form.horaires.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Statut</label>
+                    {{ form.statut }}
+                    {% if form.statut.errors %}<div class="form-error">{{ form.statut.errors }}</div>{% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Image principale</label>
+                    {{ form.image_principale }}
+                    {% if form.image_principale.errors %}<div class="form-error">{{ form.image_principale.errors }}</div>{% endif %}
+                    {% if target.image_principale %}
+                        <img src="{{ target.image_principale.url }}" style="width:120px;height:80px;object-fit:cover;border-radius:8px;margin-top:8px;">
+                    {% endif %}
+                </div>
+                <div class="admin-form-group">
+                    <label>Logo</label>
+                    {{ form.logo }}
+                    {% if form.logo.errors %}<div class="form-error">{{ form.logo.errors }}</div>{% endif %}
+                    {% if target.logo %}
+                        <img src="{{ target.logo.url }}" style="width:80px;height:80px;object-fit:contain;border-radius:8px;margin-top:8px;">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="btn-admin-primary">Enregistrer</button>
+                <a href="{% url 'dashboard_admin:coworking' %}" class="btn-admin-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

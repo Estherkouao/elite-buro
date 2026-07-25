@@ -228,3 +228,34 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                 "class":"w-full rounded-xl border px-4 py-3"
 
             })
+
+
+class EmailChangeForm(forms.ModelForm):
+
+    class Meta:
+
+        model = User
+
+        fields = ("email",)
+
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
+        self.fields["email"].widget.attrs.update({
+
+            "class": "w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-[#C9A02C] focus:border-[#C9A02C]",
+
+            "placeholder": "Nouvelle adresse email"
+
+        })
+
+    def clean_email(self):
+
+        email = self.cleaned_data.get("email")
+
+        if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+
+            raise forms.ValidationError("Cet email est déjà utilisé par un autre compte.")
+
+        return email

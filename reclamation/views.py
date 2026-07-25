@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView
@@ -126,19 +127,25 @@ class AdminReclamationEditView(View):
         reclamation = self.reclamation
         reclamation.objet = request.POST.get("objet", reclamation.objet)
         reclamation.description = request.POST.get("description", reclamation.description)
-        # le statut est géré via les endpoints dédiés (close/reopen) mais on le laisse éditable
-        statut = request.POST.get("statut")
-        if statut in Reclamation.Status.values:
-            reclamation.statut = statut
 
         reponse_admin = request.POST.get("reponse_admin")
         had_response_before = bool(reclamation.reponse_admin)
         reclamation.reponse_admin = reponse_admin if reponse_admin else None
 
-        if reclamation.statut == Reclamation.Status.CLOTUREE and reclamation.closed_at is None:
-            reclamation.closed_at = reclamation.updated_at
-        if reclamation.statut == Reclamation.Status.OUVERTE:
-            reclamation.closed_at = None
+        # Auto-clôture si l'admin fournit une réponse
+        if reponse_admin and reponse_admin.strip():
+            reclamation.statut = Reclamation.Status.CLOTUREE
+            reclamation.closed_at = timezone.now()
+        else:
+            # le statut est géré via les endpoints dédiés (close/reopen) mais on le laisse éditable
+            statut = request.POST.get("statut")
+            if statut in Reclamation.Status.values:
+                reclamation.statut = statut
+
+            if reclamation.statut == Reclamation.Status.CLOTUREE and reclamation.closed_at is None:
+                reclamation.closed_at = reclamation.updated_at
+            if reclamation.statut == Reclamation.Status.OUVERTE:
+                reclamation.closed_at = None
 
         reclamation.save()
 

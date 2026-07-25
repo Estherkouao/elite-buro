@@ -267,8 +267,8 @@ def contact(request):
     """Page de contact avec formulaire."""
     if request.method == "POST":
         nom = request.POST.get("nom", "").strip()
-        prenom = request.POST.get("prenom", "").strip()
         email = request.POST.get("email", "").strip()
+        telephone = request.POST.get("telephone", "").strip()
         sujet = request.POST.get("sujet", "").strip()
         message = request.POST.get("message", "").strip()
 
@@ -276,10 +276,19 @@ def contact(request):
             messages.error(request, "Veuillez remplir tous les champs obligatoires.")
             return redirect("core:contact")
 
-        # Ici vous pourriez envoyer un email ou sauvegarder en base
+        # Sauvegarde en base de données
+        from core.models import ContactMessage
+        ContactMessage.objects.create(
+            nom=nom,
+            email=email,
+            telephone=telephone,
+            sujet=sujet,
+            message=message,
+        )
+
         messages.success(
             request,
-            f"Merci {prenom} {nom} ! Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais."
+            f"Merci {nom} ! Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais."
         )
         return redirect("core:contact")
 

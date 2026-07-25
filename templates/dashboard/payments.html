@@ -1,41 +1,475 @@
 {% extends 'dashboard/base_member.html' %}
 
-{% block title %}Paiements | EliteBuro{% endblock %}
+{% load static %}
+
+{% block title %}Mes Factures | EliteBuro{% endblock %}
 
 {% block content %}
-  <div class="flex items-end justify-between gap-6">
-    <div>
-      <h1 class="font-display text-3xl font-bold">Paiements</h1>
-      <p class="mt-2 text-sm text-gray-600">Historique de vos paiements.</p>
-    </div>
-  </div>
 
-  <div class="mt-8 rounded-2xl border border-navy/10 bg-white shadow-sm overflow-hidden">
-    <div class="grid grid-cols-5 gap-0 bg-navy text-white text-xs uppercase tracking-wider">
-      <div class="p-4 col-span-2">Réservation</div>
-      <div class="p-4">Montant</div>
-      <div class="p-4">Statut</div>
-      <div class="p-4">Date</div>
+<style>
+
+.invoice-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+
+/* Header */
+
+.page-header h1 {
+
+    font-size:32px;
+    font-weight:800;
+    color:#0f172a;
+
+}
+
+
+.page-header p {
+
+    margin-top:8px;
+    color:#64748b;
+}
+
+
+
+/* Card */
+
+.invoice-card {
+
+    margin-top:35px;
+    background:white;
+    border-radius:24px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+    border:1px solid #e2e8f0;
+    overflow:hidden;
+
+}
+
+
+
+/* Table header */
+
+.invoice-header {
+
+    background:#0f172a;
+    color:white;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;
+
+}
+
+
+.invoice-header div {
+
+    padding:18px;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-weight:700;
+
+}
+
+
+
+/* Rows */
+
+.invoice-row {
+
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;
+    align-items:center;
+    border-bottom:1px solid #e2e8f0;
+    transition:.3s;
+
+}
+
+
+.invoice-row:hover {
+
+    background:#f8fafc;
+
+}
+
+
+.invoice-row div {
+
+    padding:18px;
+    font-size:14px;
+
+}
+
+
+
+/* Reservation */
+
+.reservation-name {
+
+    font-weight:700;
+    color:#0f172a;
+
+}
+
+
+.text-muted {
+
+    color:#64748b;
+
+}
+
+
+
+/* Status badges */
+
+
+.badge {
+
+    display:inline-flex;
+    align-items:center;
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+
+}
+
+
+.badge-paid {
+
+    background:#dcfce7;
+    color:#15803d;
+
+}
+
+
+.badge-issued {
+
+    background:#dbeafe;
+    color:#1d4ed8;
+
+}
+
+
+.badge-draft {
+
+    background:#f1f5f9;
+    color:#475569;
+
+}
+
+
+.badge-canceled {
+
+    background:#fee2e2;
+    color:#dc2626;
+
+}
+
+
+.badge-refunded {
+
+    background:#ffedd5;
+    color:#c2410c;
+
+}
+
+
+
+/* Button */
+
+
+.download-btn {
+
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:#0f172a;
+    color:white;
+    padding:9px 16px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:700;
+    text-decoration:none;
+    transition:.3s;
+
+}
+
+
+.download-btn:hover {
+
+    background:#1e293b;
+
+}
+
+
+
+/* Empty */
+
+.empty-box {
+
+    padding:60px 20px;
+    text-align:center;
+    color:#64748b;
+
+}
+
+
+.empty-box span {
+
+    font-size:45px;
+
+}
+
+
+
+@media(max-width:900px){
+
+
+.invoice-header {
+
+    display:none;
+
+}
+
+
+.invoice-row {
+
+    display:block;
+    padding:20px;
+
+}
+
+
+.invoice-row div {
+
+    padding:8px 0;
+
+}
+
+
+.invoice-row div::before {
+
+    font-weight:700;
+    color:#475569;
+
+}
+
+
+}
+
+</style>
+
+
+
+
+<div class="invoice-container">
+
+
+
+    <div class="page-header">
+
+        <h1>
+            Mes Factures
+        </h1>
+
+
+        <p>
+            Retrouvez toutes vos factures liées à vos réservations.
+        </p>
+
+
     </div>
 
-    <div class="divide-y divide-navy/10">
-      {% for p in payments %}
-        <div class="grid grid-cols-5">
-          <div class="p-4 col-span-2 font-semibold">#{{ p.reservation.id }} - {{ p.reservation.espace.nom }}</div>
-          <div class="p-4 text-sm text-gray-700">{{ p.montant }} FCFA</div>
-          <div class="p-4 text-sm">
-            {% if p.statut == 'paid' %}
-              <span class="inline-flex items-center rounded-full bg-success/15 text-success px-3 py-1 text-xs font-bold">Payé</span>
-            {% else %}
-              <span class="inline-flex items-center rounded-full bg-orange/15 text-orange px-3 py-1 text-xs font-bold">En attente</span>
-            {% endif %}
-          </div>
-          <div class="p-4 text-sm text-gray-700">{{ p.date|date:"Y-m-d H:i" }}</div>
+
+
+
+    <div class="invoice-card">
+
+
+
+        <div class="invoice-header">
+
+            <div>Réservation</div>
+            <div>N° Facture</div>
+            <div>Montant</div>
+            <div>Statut</div>
+            <div>Date</div>
+            <div>Actions</div>
+
         </div>
-      {% empty %}
-        <div class="p-8 text-center text-gray-600">Aucun paiement enregistré.</div>
-      {% endfor %}
-    </div>
-  </div>
-{% endblock %}
 
+
+
+
+
+        {% for invoice in invoices %}
+
+
+        <div class="invoice-row">
+
+
+            <div class="reservation-name">
+
+                #{{ invoice.reservation.reservation_number }}
+
+                <br>
+
+                <span class="text-muted">
+                    {{ invoice.reservation.espace.nom }}
+                </span>
+
+            </div>
+
+
+
+            <div class="text-muted">
+
+                {{ invoice.numero|default:"-" }}
+
+            </div>
+
+
+
+            <div class="text-muted">
+
+                {{ invoice.montant }} FCFA
+
+            </div>
+
+
+
+
+            <div>
+
+
+                {% if invoice.statut == "paid" %}
+
+                    <span class="badge badge-paid">
+                        Payée
+                    </span>
+
+
+                {% elif invoice.statut == "issued" %}
+
+                    <span class="badge badge-issued">
+                        Émise
+                    </span>
+
+
+                {% elif invoice.statut == "draft" %}
+
+                    <span class="badge badge-draft">
+                        Brouillon
+                    </span>
+
+
+                {% elif invoice.statut == "canceled" %}
+
+                    <span class="badge badge-canceled">
+                        Annulée
+                    </span>
+
+
+                {% elif invoice.statut == "refunded" %}
+
+                    <span class="badge badge-refunded">
+                        Remboursée
+                    </span>
+
+
+                {% else %}
+
+                    <span class="badge badge-draft">
+                        {{ invoice.statut|default:"-" }}
+                    </span>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+
+
+
+            <div class="text-muted">
+
+                {{ invoice.date|date:"d/m/Y" }}
+
+            </div>
+
+
+
+
+
+            <div>
+
+
+                {% if invoice.pdf %}
+
+
+                    <a href="{{ invoice.pdf.url }}"
+                       download
+                       class="download-btn">
+
+                        📄 Télécharger
+
+                    </a>
+
+
+                {% else %}
+
+                    <span class="text-muted">
+                        Aucun fichier
+                    </span>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+
+        </div>
+
+
+        {% empty %}
+
+
+
+        <div class="empty-box">
+
+            <span>
+                📄
+            </span>
+
+
+            <h3>
+                Aucune facture disponible
+            </h3>
+
+
+            <p>
+                Les factures apparaîtront après confirmation de vos réservations.
+            </p>
+
+
+        </div>
+
+
+
+        {% endfor %}
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

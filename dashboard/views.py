@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView
@@ -23,6 +23,10 @@ from domiciliation.models import DomiciliationRequest
 from .permissions import is_admin_or_manager
 from .services import get_admin_stats, get_space_availability_summary, get_recent_activity
 from .forms import UserAdminForm, CompanyAdminForm
+from .models import Testimonial
+from django.db.models.deletion import ProtectedError
+from django.contrib import messages
+from django.utils import timezone
 
 
 
@@ -50,7 +54,98 @@ class AdminBaseView(LoginRequiredMixin, TemplateView):
         context["availability_summary"] = get_space_availability_summary(limit=8)
         context["recent_activity"] = get_recent_activity(limit=8)
 
+# Nombre de messages de contact non lus
+        from core.models import ContactMessage
+        context["contact_unread_count"] = ContactMessage.objects.filter(lu=False).count()
+
+        # Derniers messages de contact (5 max) pour le panneau admin
+        context["contact_messages"] = ContactMessage.objects.all().order_by("-created_at")[:5]
+
         return context
+
+
+class AdminContactMessagesListView(AdminBaseView):
+    """Liste de tous les messages de contact avec pagination."""
+    template_name = "dashboard/admin/contact_messages_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from core.models import ContactMessage
+        context["active_section"] = "contact_messages"
+        messages_qs = ContactMessage.objects.all().order_by("-created_at")
+
+        # Filtre par statut
+        statut_filter = self.request.GET.get("statut", "")
+        if statut_filter == "non_lu":
+            messages_qs = messages_qs.filter(lu=False)
+        elif statut_filter == "lu":
+            messages_qs = messages_qs.filter(lu=True)
+
+        context["contact_messages"] = messages_qs
+        context["total_count"] = ContactMessage.objects.count()
+        context["unread_count"] = ContactMessage.objects.filter(lu=False).count()
+        context["current_filter"] = statut_filter
+        return context
+
+
+class AdminContactMessageDetailView(AdminBaseView):
+    """Détail d'un message de contact."""
+    template_name = "dashboard/admin/contact_message_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from core.models import ContactMessage
+        context["active_section"] = "contact_messages"
+        msg = get_object_or_404(ContactMessage, id=kwargs.get("message_id"))
+        context["message"] = msg
+        return context
+
+    def get(self, request, message_id, *args, **kwargs):
+        from core.models import ContactMessage
+        msg = get_object_or_404(ContactMessage, id=message_id)
+        # Marquer comme lu automatiquement
+        if not msg.lu:
+            msg.lu = True
+            msg.lu_le = timezone.now()
+            msg.save(update_fields=["lu", "lu_le"])
+        return render(request, self.template_name, {"message": msg})
+
+
+class AdminContactMessageMarkReadView(AdminBaseView):
+    """Marque un message comme lu."""
+
+    def post(self, request, message_id, *args, **kwargs):
+        from core.models import ContactMessage
+        msg = get_object_or_404(ContactMessage, id=message_id)
+        msg.lu = True
+        msg.lu_le = timezone.now()
+        msg.save(update_fields=["lu", "lu_le"])
+        messages.success(request, "Message marqué comme lu.")
+        return redirect("dashboard_admin:contact_messages")
+
+
+class AdminContactMessageMarkUnreadView(AdminBaseView):
+    """Marque un message comme non lu."""
+
+    def post(self, request, message_id, *args, **kwargs):
+        from core.models import ContactMessage
+        msg = get_object_or_404(ContactMessage, id=message_id)
+        msg.lu = False
+        msg.lu_le = None
+        msg.save(update_fields=["lu", "lu_le"])
+        messages.success(request, "Message marqué comme non lu.")
+        return redirect("dashboard_admin:contact_messages")
+
+
+class AdminContactMessageDeleteView(AdminBaseView):
+    """Supprime un message de contact."""
+
+    def post(self, request, message_id, *args, **kwargs):
+        from core.models import ContactMessage
+        msg = get_object_or_404(ContactMessage, id=message_id)
+        msg.delete()
+        messages.success(request, "Message supprimé avec succès.")
+        return redirect("dashboard_admin:contact_messages")
 
 
 class AdminIndexView(AdminBaseView):
@@ -279,8 +374,8 @@ class AdminCoworkingView(AdminBaseView):
             .order_by("nom")
         )
 
-        # Images & disponibilités
-        context["availability_count"] = WorkspaceAvailability.objects.count()
+        # Disponibilités : nombre de workspaces marqués comme disponibles
+        context["availability_count"] = Workspace.objects.filter(disponible=True).count()
 
         return context
 
@@ -603,19 +698,59 @@ class AdminCoworkingCategoryEditView(AdminBaseView):
 
 
 class AdminCoworkingCategoryDeleteView(AdminBaseView):
+
     template_name = "dashboard/admin/coworking_category_delete.html"
 
+
     def get_object(self, category_id):
-        return get_object_or_404(Category, id=category_id)
+        return get_object_or_404(
+            Category,
+            id=category_id
+        )
+
 
     def get(self, request: HttpRequest, category_id, *args, **kwargs):
+
         target_category = self.get_object(category_id)
-        return render(request, self.template_name, {"target_category": target_category})
+
+        return render(
+            request,
+            self.template_name,
+            {
+                "target_category": target_category
+            }
+        )
+
 
     def post(self, request: HttpRequest, category_id, *args, **kwargs):
+
         target_category = self.get_object(category_id)
-        target_category.delete()
-        return redirect("dashboard_admin:coworking")
+
+
+        try:
+
+            target_category.delete()
+
+            messages.success(
+                request,
+                "✅ La catégorie a été supprimée avec succès."
+            )
+
+
+        except ProtectedError as e:
+
+            objets_bloquants = len(e.protected_objects)
+
+            messages.error(
+                request,
+                f"⚠ Suppression impossible : cette catégorie est encore utilisée "
+                f"par {objets_bloquants} élément(s) (bureaux ou réservations)."
+            )
+
+
+        return redirect(
+            "dashboard_admin:coworking"
+        )
 
 
 class AdminCoworkingEquipmentCreateView(AdminBaseView):
@@ -744,20 +879,60 @@ class AdminCoworkingWorkspaceEditView(AdminBaseView):
 
 
 class AdminCoworkingWorkspaceDeleteView(AdminBaseView):
+
     template_name = "dashboard/admin/coworking_workspace_delete.html"
 
+
     def get_object(self, workspace_id):
-        return get_object_or_404(Workspace, id=workspace_id)
+        return get_object_or_404(
+            Workspace,
+            id=workspace_id
+        )
+
 
     def get(self, request: HttpRequest, workspace_id, *args, **kwargs):
+
         target_workspace = self.get_object(workspace_id)
-        return render(request, self.template_name, {"target_workspace": target_workspace})
+
+        return render(
+            request,
+            self.template_name,
+            {
+                "target_workspace": target_workspace
+            }
+        )
+
 
     def post(self, request: HttpRequest, workspace_id, *args, **kwargs):
-        target_workspace = self.get_object(workspace_id)
-        target_workspace.delete()
-        return redirect("dashboard_admin:coworking")
 
+        target_workspace = self.get_object(workspace_id)
+
+
+        try:
+
+            target_workspace.delete()
+
+            messages.success(
+                request,
+                "✅ Le bureau a été supprimé avec succès."
+            )
+
+
+        except ProtectedError as e:
+
+            objets_bloquants = len(e.protected_objects)
+
+            messages.error(
+                 request,
+                f"⚠ Suppression impossible : ce bureau est encore utilisé "
+                f"par {objets_bloquants} élément(s) "
+                f"(réservations associées)."
+            )
+
+
+        return redirect(
+            "dashboard_admin:coworking"
+        )
 
 class AdminCoworkingWorkspaceImageAddView(AdminBaseView):
     template_name = "dashboard/admin/coworking_workspaceimage_add.html"
@@ -791,58 +966,6 @@ class AdminCoworkingWorkspaceImageDeleteView(AdminBaseView):
 
 
 
-
-    def get(self, request: HttpRequest, *args, **kwargs):
-        profile_user = get_object_or_404(User, id=kwargs.get("user_id")) if "user_id" in kwargs else request.user
-        profile = get_object_or_404(Profile, user=profile_user)
-
-        class _ProfileForm(forms.ModelForm):
-            class Meta:
-                model = Profile
-                fields = [
-                    "gender",
-                    "nationality",
-                    "profession",
-                    "biography",
-                    "linkedin",
-                    "facebook",
-                    "instagram",
-                    "twitter",
-                    "emergency_contact_name",
-                    "emergency_contact_phone",
-                ]
-
-        form = _ProfileForm(instance=profile)
-        return render(request, self.template_name, {"form": form, "profile_user": profile_user})
-
-    def post(self, request: HttpRequest, *args, **kwargs):
-        profile_user = get_object_or_404(User, id=kwargs.get("user_id")) if "user_id" in kwargs else request.user
-        profile = get_object_or_404(Profile, user=profile_user)
-
-        class _ProfileForm(forms.ModelForm):
-            class Meta:
-                model = Profile
-                fields = [
-                    "gender",
-                    "nationality",
-                    "profession",
-                    "biography",
-                    "linkedin",
-                    "facebook",
-                    "instagram",
-                    "twitter",
-                    "emergency_contact_name",
-                    "emergency_contact_phone",
-                ]
-
-        form = _ProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard_admin:profile_view")
-        return render(request, self.template_name, {"form": form, "profile_user": profile_user})
-
-
-
 from django.views.generic import DetailView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
@@ -863,61 +986,7 @@ class AdminReservationDetailView(AdminBaseView, DetailView):
 
 
 
-from django.views.generic import DetailView, UpdateView
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib import messages
 
-from reservation.models import Reservation
-from reservation.services import (
-    admin_confirm_reservation,
-    admin_cancel_reservation,
-)
-
-
-from django.views.generic import DetailView
-from reservation.models import Reservation
-
-
-from django.views.generic import DetailView
-from reservation.models import Reservation
-
-
-class AdminReservationDetailView(DetailView):
-
-    model = Reservation
-
-    template_name = "dashboard/admin/reservation_detail.html"
-
-    context_object_name = "reservation"
-
-    pk_url_kwarg = "reservation_id"
-
-
-    def dispatch(self, request, *args, **kwargs):
-
-        if not request.user.is_authenticated:
-            return self.handle_no_permission()
-
-        if not (request.user.is_staff or request.user.is_superuser):
-            return self.handle_no_permission()
-
-        return super().dispatch(request, *args, **kwargs)
-
-
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-
-        reservation = self.object
-
-
-        context["logs"] = reservation.logs.all().order_by(
-            "-date_creation"
-        )
-
-
-        return context
 
 
 
@@ -1126,3 +1195,144 @@ class FormationDetailView(LoginRequiredMixin, DetailView):
         context["inscriptions"] = formation.registrations.all()
 
         return context        
+
+
+from django.views.generic import DetailView
+from formation.models import Trainer
+
+class TrainerDetailView(LoginRequiredMixin, DetailView):
+    model = Trainer
+    pk_url_kwarg = "id"
+    context_object_name = "trainer"
+    template_name = "dashboard/admin/trainers_detail.html"
+
+
+class AdminCoworkingSpaceCreateView(AdminBaseView):
+    template_name = "dashboard/admin/coworking_space_create.html"
+
+    def get(self, request, *args, **kwargs):
+        from coworking.forms import CoworkingSpaceForm
+        return render(request, self.template_name, {"form": CoworkingSpaceForm()})
+
+    def post(self, request, *args, **kwargs):
+        from coworking.forms import CoworkingSpaceForm
+        form = CoworkingSpaceForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Agence CoworkingSpace créée avec succès.")
+            return redirect("dashboard_admin:coworking")
+        return render(request, self.template_name, {"form": form})
+
+
+class AdminCoworkingSpaceEditView(AdminBaseView):
+    template_name = "dashboard/admin/coworking_space_edit.html"
+
+    def get_object(self, space_id):
+        return get_object_or_404(CoworkingSpace, id=space_id)
+
+    def get(self, request, space_id, *args, **kwargs):
+        from coworking.forms import CoworkingSpaceForm
+        target = self.get_object(space_id)
+        return render(request, self.template_name, {"form": CoworkingSpaceForm(instance=target), "target": target})
+
+    def post(self, request, space_id, *args, **kwargs):
+        from coworking.forms import CoworkingSpaceForm
+        target = self.get_object(space_id)
+        form = CoworkingSpaceForm(request.POST, request.FILES, instance=target)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Agence CoworkingSpace modifiée.")
+            return redirect("dashboard_admin:coworking")
+        return render(request, self.template_name, {"form": form, "target": target})
+
+
+
+
+
+# ===== AVIS CLIENTS (TESTIMONIALS) ADMIN =====
+
+class AdminTestimonialListView(AdminBaseView):
+    """Liste tous les avis clients avec statut de modération."""
+    template_name = "dashboard/admin/testimonials_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["testimonials"] = Testimonial.objects.select_related("utilisateur").order_by("-created_at")
+        context["pending_count"] = Testimonial.objects.filter(approuvé=False).count()
+        context["approved_count"] = Testimonial.objects.filter(approuvé=True).count()
+        return context
+
+
+class AdminTestimonialApproveView(AdminBaseView):
+    """Approuve un avis client pour publication sur la page d'accueil."""
+
+    def post(self, request, testimonial_id, *args, **kwargs):
+        testimonial = get_object_or_404(Testimonial, id=testimonial_id)
+        testimonial.approuvé = True
+        testimonial.approuvé_le = timezone.now()
+        testimonial.save(update_fields=["approuvé", "approuvé_le"])
+        messages.success(request, f"Avis de {testimonial.utilisateur.full_name} approuvé et publié sur la page d'accueil.")
+        return redirect("dashboard_admin:testimonials_list")
+
+
+class AdminTestimonialRejectView(AdminBaseView):
+    """Supprime un avis client (rejet)."""
+
+    def post(self, request, testimonial_id, *args, **kwargs):
+        testimonial = get_object_or_404(Testimonial, id=testimonial_id)
+        user_name = testimonial.utilisateur.full_name
+        testimonial.delete()
+        messages.warning(request, f"Avis de {user_name} supprimé (rejeté).")
+        return redirect("dashboard_admin:testimonials_list")
+
+
+class AdminCoworkingSpaceDeleteView(AdminBaseView):
+
+    template_name = "dashboard/admin/coworking_space_delete.html"
+
+
+    def get_object(self, space_id):
+        return get_object_or_404(
+            CoworkingSpace,
+            id=space_id
+        )
+
+
+    def get(self, request, space_id, *args, **kwargs):
+
+        target = self.get_object(space_id)
+
+        return render(
+            request,
+            self.template_name,
+            {
+                "target": target
+            }
+        )
+
+
+    def post(self, request, space_id, *args, **kwargs):
+
+        target = self.get_object(space_id)
+
+        try:
+            target.delete()
+
+            messages.success(
+                request,
+                "✅ L'espace coworking a été supprimé avec succès."
+            )
+
+
+        except ProtectedError as e:
+
+            messages.error(
+                request,
+                "⚠ Impossible de supprimer cet espace "
+                "car il possède encore des bureaux ou réservations."
+            )
+
+
+        return redirect(
+            "dashboard_admin:coworking"
+        )

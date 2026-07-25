@@ -183,9 +183,45 @@
 
 
                         <td>
+                            <div style="display:flex;align-items:center;gap:10px;">
 
-                            {{ r.auteur.username }}
+                                {% if r.auteur.avatar %}
+                                    <img src="{{ r.auteur.avatar.url }}"
+                                        style="
+                                        width:38px;
+                                        height:38px;
+                                        border-radius:50%;
+                                        object-fit:cover;
+                                        ">
+                                {% else %}
+                                    <div style="
+                                        width:38px;
+                                        height:38px;
+                                        border-radius:50%;
+                                        background:var(--gold);
+                                        color:white;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-weight:700;
+                                    ">
+                                        {{ r.auteur.first_name|first }}{{ r.auteur.last_name|first }}
+                                    </div>
+                                {% endif %}
 
+                                <div>
+                                    <strong>
+                                        {{ r.auteur.full_name }}
+                                    </strong>
+
+                                    <br>
+
+                                    <small style="color:var(--text-light);">
+                                        {{ r.auteur.email }}
+                                    </small>
+                                </div>
+
+                            </div>
                         </td>
 
 
@@ -196,18 +232,18 @@
 
                             {% if r.statut == 'cloturee' %}
 
-                                <span class="status-badge cancelled">
+                                <span class="status-badge confirmed" style="background:#dcfce7; color:#15803d;">
 
-                                    Clôturée
+                                    ✅ Clôturée
 
                                 </span>
 
 
                             {% else %}
 
-                                <span class="status-badge confirmed">
+                                <span class="status-badge confirmed" style="background:#fef3c7; color:#92400e;">
 
-                                    Ouverte
+                                    ⏳ Ouverte
 
                                 </span>
 

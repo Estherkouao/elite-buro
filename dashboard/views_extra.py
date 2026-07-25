@@ -8,6 +8,9 @@ from django.views.generic import TemplateView
 from .models import Favorite, Notification, Payment, Reservation, Workspace
 from .permissions import is_member
 
+from reservation.models import ReservationInvoice, Reservation
+from reservation.services import export_reservation_invoice_pdf
+
 
 def member_guard(user):
     if not is_member(user):
@@ -27,13 +30,26 @@ class MemberFavoritesView(TemplateView):
 
 @method_decorator(login_required, name="dispatch")
 class MemberPaymentsView(TemplateView):
+    """Affiche toutes les factures du membre connecté."""
+
     template_name = "dashboard/payments.html"
 
     def get(self, request, *args, **kwargs):
         if not is_member(request.user):
             return HttpResponseForbidden("Accès réservé aux membres.")
-        payments = Payment.objects.filter(utilisateur=request.user).select_related("reservation", "reservation__espace")
-        return render(request, self.template_name, {"payments": payments})
+
+        # Récupérer les réservations de l'utilisateur, avec leurs factures
+        reservations = Reservation.objects.filter(
+            utilisateur=request.user
+        ).select_related("invoice", "espace").order_by("-created_at")
+
+        # Récupérer les factures existantes
+        invoices = []
+        for r in reservations:
+            if hasattr(r, "invoice") and r.invoice is not None:
+                invoices.append(r.invoice)
+
+        return render(request, self.template_name, {"invoices": invoices})
 
 
 @method_decorator(login_required, name="dispatch")

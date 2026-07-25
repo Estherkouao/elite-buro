@@ -1,0 +1,398 @@
+{% extends "layouts/base_admin.html" %}
+{% load static %}
+
+{% block title %}Messages de contact - Administration{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="admin-header">
+        <h1>
+            <span class="admin-header-icon">✉️</span>
+            Messages de contact
+            {% if unread_count > 0 %}
+                <span class="badge badge-warning">{{ unread_count }} non lu(s)</span>
+            {% endif %}
+        </h1>
+        <div class="admin-actions">
+            <a href="{% url 'core:contact' %}" target="_blank" class="btn btn-outline">
+                🔗 Voir la page contact
+            </a>
+        </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="filter-bar">
+                <a href="{% url 'dashboard_admin:contact_messages' %}"
+                   class="filter-btn {% if current_filter == '' %}active{% endif %}">
+                    Tous <span class="badge">{{ total_count }}</span>
+                </a>
+                <a href="{% url 'dashboard_admin:contact_messages' %}?statut=non_lu"
+                   class="filter-btn {% if current_filter == 'non_lu' %}active{% endif %}">
+                    Non lus <span class="badge badge-warning">{{ unread_count }}</span>
+                </a>
+                <a href="{% url 'dashboard_admin:contact_messages' %}?statut=lu"
+                   class="filter-btn {% if current_filter == 'lu' %}active{% endif %}">
+                    Lus
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste des messages -->
+    <div class="card">
+        <div class="card-body p-0">
+            {% if contact_messages %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="th-status"></th>
+                                <th>Expéditeur</th>
+                                <th>Sujet</th>
+                                <th>Date</th>
+                                <th class="th-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for msg in contact_messages %}
+                                <tr class="{% if not msg.lu %}unread{% endif %}">
+                                    <td class="td-status">
+                                        {% if not msg.lu %}
+                                            <span class="status-dot" title="Non lu"></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="sender-info">
+                                            <strong>{{ msg.nom }}</strong>
+                                            <small class="text-muted">{{ msg.email }}</small>
+                                            {% if msg.telephone %}
+                                                <small class="text-muted">{{ msg.telephone }}</small>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'dashboard_admin:contact_message_detail' msg.id %}" class="message-subject">
+                                            {{ msg.sujet|truncatechars:60 }}
+                                        </a>
+                                        <br>
+                                        <small class="text-muted">{{ msg.message|truncatechars:80 }}</small>
+                                    </td>
+                                    <td class="td-date">
+                                        <small>{{ msg.created_at|date:"d/m/Y H:i" }}</small>
+                                    </td>
+                                    <td class="td-actions">
+                                        <div class="action-btns">
+                                            <a href="{% url 'dashboard_admin:contact_message_detail' msg.id %}"
+                                               class="btn btn-sm btn-outline"
+                                               title="Voir le détail">
+                                                👁️
+                                            </a>
+                                            {% if not msg.lu %}
+                                                <form method="POST" action="{% url 'dashboard_admin:contact_message_mark_read' msg.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Marquer comme lu">
+                                                        ✅
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <form method="POST" action="{% url 'dashboard_admin:contact_message_mark_unread' msg.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-outline" title="Marquer comme non lu">
+                                                        🔄
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                            <form method="POST" action="{% url 'dashboard_admin:contact_message_delete' msg.id %}"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?');">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger" title="Supprimer">
+                                                    🗑️
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <h3>Aucun message</h3>
+                    <p>Aucun message de contact pour le moment.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-content {
+        padding: 24px;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .admin-header h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--navy, #17325C);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        background: #e2e8f0;
+        color: #475569;
+    }
+
+    .badge-warning {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .filter-bar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        background: #f1f5f9;
+        color: #475569;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+
+    .filter-btn:hover {
+        background: #e2e8f0;
+    }
+
+    .filter-btn.active {
+        background: var(--navy, #17325C);
+        color: white;
+    }
+
+    .filter-btn.active .badge {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th {
+        text-align: left;
+        padding: 12px 16px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #64748b;
+        background: #f8fafc;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+
+    tr.unread {
+        background: #f0f7ff;
+    }
+
+    tr.unread td:first-child {
+        border-left: 3px solid #3b82f6;
+    }
+
+    .th-status {
+        width: 20px;
+    }
+
+    .td-status {
+        width: 20px;
+    }
+
+    .status-dot {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #3b82f6;
+    }
+
+    .sender-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .sender-info strong {
+        font-size: 14px;
+        color: #1e293b;
+    }
+
+    .sender-info small {
+        font-size: 12px;
+    }
+
+    .message-subject {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--navy, #17325C);
+        text-decoration: none;
+    }
+
+    .message-subject:hover {
+        text-decoration: underline;
+    }
+
+    .td-date {
+        white-space: nowrap;
+    }
+
+    .td-actions {
+        white-space: nowrap;
+    }
+
+    .action-btns {
+        display: flex;
+        gap: 6px;
+    }
+
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        height: 32px;
+        text-decoration: none;
+    }
+
+    .btn-outline {
+        border-color: #e2e8f0;
+        background: white;
+        color: #475569;
+    }
+
+    .btn-outline:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+    }
+
+    .btn-success {
+        background: #22c55e;
+        color: white;
+        border-color: #22c55e;
+    }
+
+    .btn-danger {
+        background: #ef4444;
+        color: white;
+        border-color: #ef4444;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 64px 24px;
+    }
+
+    .empty-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .d-inline {
+        display: inline;
+    }
+
+    .mb-4 {
+        margin-bottom: 16px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-body.p-0 {
+        padding: 0;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.2s;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-outline {
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #475569;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
+{% endblock %}
+

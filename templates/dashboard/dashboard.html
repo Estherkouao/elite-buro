@@ -21,7 +21,6 @@
               </p>
               <div class="hero-buttons">
                   <a href="{% url 'reservation:create' %}" class="btn-gold">réservation salle de formation/bureau</a>
-                  <a href="{% url 'reservation:list' %}" class="btn-gold">Mes réservations</a>
                   <a href="{% url 'domiciliation:new_request' %}" class="btn-gold">Domiciliations</a>
               </div>
           </div>
@@ -40,14 +39,7 @@
                   <small>Toutes vos réservations</small>
               </div>
           </div>
-          <div class="stat-card">
-              <div class="stat-icon gold">💳</div>
-              <div class="stat-content">
-                  <span class="stat-number">{{ payments_count|default:"0" }}</span>
-                  <p>Paiements</p>
-                  <small>Paiements effectués</small>
-              </div>
-          </div>
+          
           <div class="stat-card">
               <div class="stat-icon green">🏢</div>
               <div class="stat-content">
@@ -56,32 +48,38 @@
                   <small>Services actifs</small>
               </div>
           </div>
-          <div class="stat-card" onclick="window.location='{% url 'reclamation:member_list' %}'" style="cursor:pointer;">
+<div class="stat-card" onclick="window.location='{% url 'formation:my_courses' %}'" style="cursor:pointer;">
               <div class="stat-icon" style="background:#8B5CF6;">📋</div>
               <div class="stat-content">
-                  <span class="stat-number">{{ reclamations_count|default:"0" }}</span>
-                  <p>Réclamations</p>
+                  <span class="stat-number">{{ formation_count|default:"0" }}</span>
+                  <p>formation</p>
                   <small>Suivi de vos demandes</small>
               </div>
           </div>
           <div class="stat-card">
-              <div class="stat-icon red">🔔</div>
+              <div class="stat-icon gold">💳</div>
               <div class="stat-content">
-                  <span class="stat-number">{{ notifications_count|default:"0" }}</span>
-                  <p>Notifications</p>
-                  <small>Non lues</small>
+                  <span class="stat-number">{{ payments_count|default:"0" }}</span>
+                  <p>Paiements</p>
+                  <small>Paiements effectués</small>
               </div>
           </div>
+          
       </section>
 
-      <!-- ===== MES DERNIÈRES RÉSERVATIONS ===== -->
+      <!-- ===== HISTORIQUE GLOBAL ===== -->
       <section class="member-section">
           <div class="section-header">
               <span class="section-subtitle">Historique</span>
-              <h2>Mes dernières réservations</h2>
-              <a href="{% url 'reservation:list' %}" class="view-all">Voir tout →</a>
+              <h2></h2>
+              <div style="display:flex; gap:0.75rem;">
+                  
+              </div>
           </div>
 
+          <!-- Réservations -->
+          <h3 style="margin: 1rem 0 0.75rem; font-size:1rem; color:#0D2B55;">📅 Réservations</h3>
+          <a href="{% url 'reservation:list' %}" class="view-all">Voir toutes les réservations →</a>
           <div class="reservation-table">
               {% if reservations %}
                   {% for reservation in reservations %}
@@ -111,81 +109,89 @@
               {% else %}
                   <div class="empty-state">
                       <span>📭</span>
-                      <p>Vous n'avez aucune réservation récente.</p>
+                      <p>Aucune réservation récente.</p>
                       <a href="{% url 'reservation:create' %}">Réserver un espace</a>
+                  </div>
+              {% endif %}
+          </div>
+
+          <!-- Domiciliations -->
+          <h3 style="margin: 1.5rem 0 0.75rem; font-size:1rem; color:#0D2B55;">🏢 Domiciliations</h3>
+          <a href="{% url 'domiciliation:history_list' %}" class="view-all">Voir toutes les domiciliations →</a>
+          <div class="reservation-table">
+              {% if domiciliation_requests %}
+                  {% for req in domiciliation_requests %}
+                  <div class="reservation-card">
+                      <div class="reservation-icon">🏢</div>
+                      <div class="reservation-info">
+                          <h3>{{ req.entreprise.company_name|default:"Domiciliation" }}</h3>
+                          <p>{{ req.date_creation|date:"d/m/Y" }} • {{ req.formule.nom|default:"" }}</p>
+                      </div>
+                      <div class="reservation-status 
+                          {% if req.statut == 'Active' or req.statut == 'Documents reçus' or req.statut == 'Contrat généré' %}
+                              success
+                          {% elif req.statut == 'Brouillon' or req.statut == 'En attente' or req.statut == 'En vérification' or req.statut == 'Signature en attente' or req.statut == 'Paiement en attente' %}
+                              warning
+                          {% else %}
+                              danger
+                          {% endif %}">
+                          {{ req.statut }}
+                      </div>
+                  </div>
+                  {% endfor %}
+              {% else %}
+                  <div class="empty-state">
+                      <span>📭</span>
+                      <p>Aucune domiciliation récente.</p>
+                      <a href="{% url 'domiciliation:new_request' %}">Faire une demande</a>
+                  </div>
+              {% endif %}
+          </div>
+
+          <!-- Formations -->
+          <h3 style="margin: 1.5rem 0 0.75rem; font-size:1rem; color:#0D2B55;">📋 Formations</h3>
+          <a href="{% url 'formation:my_courses' %}" class="view-all">Voir toutes les formations →</a>
+          <div class="reservation-table">
+              {% if formation_registrations %}
+                  {% for reg in formation_registrations %}
+                  <div class="reservation-card">
+                      <div class="reservation-icon">📋</div>
+                      <div class="reservation-info">
+                          <h3>{{ reg.formation.titre|default:"Formation" }}</h3>
+                          <p>{{ reg.date|date:"d/m/Y" }} • {{ reg.session.date_debut|date:"d/m/Y"|default:"" }}</p>
+                      </div>
+                      <div class="reservation-status 
+                          {% if reg.statut == 'confirmed' %}
+                              success
+                          {% elif reg.statut == 'pending' %}
+                              warning
+                          {% else %}
+                              danger
+                          {% endif %}">
+                          {{ reg.get_statut_display }}
+                      </div>
+                  </div>
+                  {% endfor %}
+              {% else %}
+                  <div class="empty-state">
+                      <span>📭</span>
+                      <p>Aucune formation récente.</p>
+                      <a href="{% url 'formation:catalogue' %}">Voir les formations</a>
                   </div>
               {% endif %}
           </div>
       </section>
 
-      <!-- ===== MES SERVICES ACTIFS ===== -->
-      <section class="member-section">
-          <div class="section-header">
-              <span class="section-subtitle">Services EliteBuro</span>
-              <h2>Mes services actifs</h2>
-          </div>
 
-          <div class="services-grid">
-              <div class="service-card">
-                  <div class="service-icon">🎓</div>
-                  <div>
-                      <h3>Mes formations</h3>
-                      <p>Retrouvez vos formations réservées et vos certificats.</p>
-                  </div>
-                  <a href="{% url 'formation:catalogue' %}">Consulter →</a>
-              </div>
-              <div class="service-card">
-                  <div class="service-icon">📁</div>
-                  <div>
-                      <h3>Mes documents</h3>
-                      <p>Contrats, justificatifs et documents administratifs.</p>
-                  </div>
-                  <a href="">Accéder →</a>
-              </div>
-              <div class="service-card">
-                  <div class="service-icon">👤</div>
-                  <div>
-                      <h3>Mon profil</h3>
-                      <p>Modifier vos informations personnelles.</p>
-                  </div>
-                  <a href="{% url 'accounts:profile' %}">Modifier →</a>
-              </div>
-          </div>
-      </section>
-
-
-      <!-- ===== NOTIFICATIONS ===== -->
-      <section class="member-section">
-          <div class="section-header">
-              <span class="section-subtitle">Informations</span>
-              <h2>Dernières notifications</h2>
-          </div>
-
-          <div class="notifications-list">
-              {% for notification in notifications %}
-              <div class="notification-item">
-                  <div class="notification-icon">🔔</div>
-                  <div>
-                      <h4>{{ notification.titre }}</h4>
-                      <p>{{ notification.message }}</p>
-                      <small>{{ notification.date_creation|date:"d/m/Y H:i" }}</small>
-                  </div>
-              </div>
-              {% empty %}
-              <div class="empty-state">
-                  <p>Aucune notification récente.</p>
-              </div>
-              {% endfor %}
-          </div>
-      </section>
+     
 
       <!-- ===== RECOMMANDATIONS ELITEBURO ===== -->
       <section class="member-section recommendations">
           <div class="section-header">
               <div>
                   <span class="section-subtitle">Suggestions personnalisées</span>
-                  <h2>Recommandations EliteBuro ⭐</h2>
-                  <p class="section-description">Nous pensons que ces espaces pourraient vous plaire</p>
+                  <h2>⭐</h2>
+                  <p class="section-description"></p>
               </div>
           </div>
 
@@ -222,8 +228,8 @@
           <div class="section-header">
               <div>
                   <span class="section-subtitle">Nos avantages</span>
-                  <h2>Services disponibles</h2>
-                  <p class="section-description">Profitez de tous les services inclus dans votre expérience EliteBuro.</p>
+                  <h2></h2>
+                  <p class="section-description"></p>
               </div>
           </div>
 
@@ -277,7 +283,7 @@
       <section class="member-section">
           <div class="section-header">
               <span class="section-subtitle">Votre avis</span>
-              <h2>Donnez votre avis</h2>
+              <h2></h2>
           </div>
 
           <div style="background: white; border-radius: 1rem; padding: 1.5rem; border: 1px solid rgba(13,43,85,0.12);">

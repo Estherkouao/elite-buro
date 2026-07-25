@@ -4,13 +4,11 @@
             px-6 lg:px-12 py-4 
             flex items-center justify-between">
 
-    <!-- Logo -->
-    <a href="{% url 'core:home' %}" 
-       class="text-2xl lg:text-3xl font-extrabold tracking-tight 
-              text-slate-900 uppercase font-display">
-        ELITE <span class="text-yellow-600">BURO</span>
+    <a href="{% url 'core:home' %}">
+        <img src="/media/logo1.png" 
+             alt="EliteBuro"
+             class="h-24 lg:h-23 w-auto">
     </a>
-
 
     <!-- Menu desktop -->
     <div class="hidden xl:flex items-center gap-7 
@@ -37,7 +35,7 @@
 
 
             <a href="{% url 'domiciliation:index' %}"
-            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20 rounded-t-2xl">
+            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20 rounded-t-2xl">
                 
                 Home
 
@@ -45,14 +43,14 @@
 
 
             <a href="#"
-            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20">
+            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20">
                 
                 Création d'entreprise
 
             </a>
 
             <a href="#"
-            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20">
+            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20">
                 
                 Gestion d'entreprise
 
@@ -60,7 +58,7 @@
 
 
             <a href="#"
-            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20">
+            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20">
                 
                 Accompagnement
 
@@ -68,7 +66,7 @@
 
 
             <a href="#"
-            class="block px-6 py-4 text-[#0D2B55] font-semibold hover:bg-[#C9A02C]/20 rounded-b-2xl">
+            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20 rounded-b-2xl">
                 
                 Ressources
 
@@ -120,11 +118,11 @@
         <button 
         onclick="window.location.href='{% url 'accounts:login' %}'"
         class="group flex items-center gap-2 
-               bg-slate-900 text-white 
+               bg-[#000000] text-white 
                px-5 py-3 rounded-full 
                text-sm font-semibold
-               shadow-lg shadow-slate-900/20
-               hover:bg-yellow-600
+               shadow-lg shadow-gray-700/20
+               hover:bg-[#1A1A1A]
                transition duration-300">
 
             <span class="text-lg group-hover:scale-110 transition">

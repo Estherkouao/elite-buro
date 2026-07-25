@@ -16,6 +16,62 @@
 
 .gallery-slide {
   min-width: 100%;
+}/* Coworking UI enhancements (Tailwind-first). */
+
+@keyframes floatSoft {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gallery-track {
+    will-change: transform;
+}
+
+.gallery-slide {
+    min-width: 100%;
+}
+
+/* Premium hover glow */
+.card-glow {
+    box-shadow: 0 0 0 rgba(255, 128, 0, 0);
+    transition: all .3s ease;
+    border: 1px solid rgba(0, 0, 0, .08);
+    background: #FFFFFF;
+}
+
+.card-glow:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 128, 0, .4);
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, .18),
+        0 0 0 1px rgba(255, 128, 0, .25),
+        0 0 30px rgba(255, 128, 0, .18);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .card-glow,
+    .gallery-track,
+    * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 /* Premium hover glow */

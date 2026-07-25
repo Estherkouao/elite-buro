@@ -8,13 +8,13 @@
     --gold: #C9A02C;
     --green: #0B6B39;
     --red: #C0392B;
-    --orange: #E67E22;
+    --orange: #FF8000;
     --cream: #FAFAF7;
 
-    --brand: var(--navy);
+    --brand: #000000;
     --brand2: #102f5c;
     --bg1: rgba(13, 43, 85, 0.06);
-    --text: var(--navy);
+    --text: #000000;
 }
 
 

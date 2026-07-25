@@ -1,3 +1,4 @@
+{% load socialaccount %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
@@ -223,7 +224,8 @@
         }
 
         input[type=email],
-        input[type=password]{
+        input[type=password],
+        input[type=text]{
 
             width:100%;
             padding:15px 18px;
@@ -240,7 +242,8 @@
         }
 
         input[type=email]:focus,
-        input[type=password]:focus{
+        input[type=password]:focus,
+        input[type=text]:focus{
 
             border-color:var(--gold);
 
@@ -600,13 +603,24 @@
 
                 <div class="form-group">
                     <label for="password">Mot de Passe</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="••••••••"
-                        required
-                    >
+                    <div class="password-wrapper" style="position: relative;">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="••••••••"
+                            required
+                            style="padding-right: 50px;"
+                        >
+                        <button type="button" id="togglePassword"
+                            style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+                                   background: none; border: none; cursor: pointer; font-size: 20px;
+                                   color: #999; width: 44px; height: 44px;
+                                   display: flex; align-items: center; justify-content: center;
+                                   padding: 0; line-height: 1;">
+                            👁️
+                        </button>
+                    </div>
                     {% if form.password.errors %}
                         <div class="form-error">{{ form.password.errors }}</div>
                     {% endif %}
@@ -617,7 +631,7 @@
                         <input type="checkbox" id="remember" name="remember">
                         <label for="remember">Se souvenir de moi</label>
                     </div>
-                    <a href="" class="forgot-password">Mot de passe oublié ?</a>
+                    <a href="{% url 'accounts:password_reset' %}" class="forgot-password">Mot de passe oublié ?</a>
                 </div>
 
                 <button type="submit" class="btn-login">Connexion</button>
@@ -628,9 +642,10 @@
             </div>
 
             <div class="social-login">
-                <button type="button" class="social-btn" title="Connexion Google">🔵</button>
-                <button type="button" class="social-btn" title="Connexion Facebook">👤</button>
-                <button type="button" class="social-btn" title="Connexion Microsoft">⊞</button>
+                <a href="{% provider_login_url 'google' process='login' %}" class="social-btn">
+                    🌐 Continuer avec Google
+                </a>
+                
             </div>
 
             <div class="signup-link">
@@ -638,6 +653,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.textContent = type === 'password' ? '👁️' : '🙈';
+            });
+        }
+    </script>
 </body>
 </html>
 

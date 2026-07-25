@@ -3,33 +3,325 @@
 {% block title %}Modifier équipement | EliteBuro{% endblock %}
 
 {% block content %}
-  <div>
-    <h1 class="text-3xl font-bold text-navy">Modifier l'équipement</h1>
-    <p class="mt-2 text-sm text-gray-600">{{ target_equipment.nom }}</p>
-  </div>
 
-  <div class="mt-6 rounded-3xl border border-navy/10 bg-white shadow-sm p-6">
-    <form method="post">
-      {% csrf_token %}
+<style>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-semibold text-navy">Nom</label>
-          {{ form.nom }}
-          {% if form.nom.errors %}<div class="text-red-600 text-sm">{{ form.nom.errors }}</div>{% endif %}
+.edit-container {
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+
+.edit-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+
+.edit-subtitle {
+    margin-top:8px;
+    color:#64748b;
+}
+
+
+
+.edit-card {
+
+    margin-top:30px;
+    background:white;
+    border-radius:24px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+    border:1px solid #e2e8f0;
+    overflow:hidden;
+
+}
+
+
+
+.edit-header {
+
+    padding:30px;
+    background:linear-gradient(135deg,#f8fafc,#ffffff);
+    border-bottom:1px solid #e2e8f0;
+
+}
+
+
+
+.edit-header h2 {
+
+    font-size:22px;
+    font-weight:700;
+    color:#0f172a;
+    margin:0;
+
+}
+
+
+
+.edit-body {
+
+    padding:35px;
+
+}
+
+
+
+.form-grid {
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+
+}
+
+
+
+.form-group label {
+
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:700;
+    color:#334155;
+
+}
+
+
+
+.form-group input {
+
+    width:100%;
+    padding:13px 15px;
+    border-radius:14px;
+    border:1px solid #cbd5e1;
+    outline:none;
+    font-size:15px;
+    transition:.3s;
+
+}
+
+
+
+.form-group input:focus {
+
+    border-color:#0f172a;
+    box-shadow:0 0 0 3px rgba(15,23,42,0.1);
+
+}
+
+
+
+.error {
+
+    color:#dc2626;
+    font-size:13px;
+    margin-top:6px;
+
+}
+
+
+
+.actions {
+
+    margin-top:35px;
+    display:flex;
+    gap:15px;
+
+}
+
+
+
+.btn-save {
+
+    flex:1;
+    background:#0f172a;
+    color:white;
+    padding:14px 20px;
+    border-radius:14px;
+    font-weight:700;
+    border:none;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+
+.btn-save:hover {
+
+    background:#1e293b;
+
+}
+
+
+
+.btn-cancel {
+
+    flex:1;
+    text-align:center;
+    padding:14px 20px;
+    border-radius:14px;
+    border:1px solid #cbd5e1;
+    color:#334155;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+
+}
+
+
+
+.btn-cancel:hover {
+
+    background:#f8fafc;
+
+}
+
+
+
+@media(max-width:700px){
+
+    .form-grid {
+        grid-template-columns:1fr;
+    }
+
+
+    .actions {
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+
+
+<div class="edit-container">
+
+
+    <h1 class="edit-title">
+        Modifier l'équipement
+    </h1>
+
+
+    <p class="edit-subtitle">
+        Modification de : <strong>{{ target_equipment.nom }}</strong>
+    </p>
+
+
+
+    <div class="edit-card">
+
+
+        <div class="edit-header">
+
+            <h2>
+                Informations de l'équipement
+            </h2>
+
         </div>
-        <div>
-          <label class="block text-sm font-semibold text-navy">Slug</label>
-          {{ form.slug }}
-          {% if form.slug.errors %}<div class="text-red-600 text-sm">{{ form.slug.errors }}</div>{% endif %}
-        </div>
-      </div>
 
-      <div class="mt-6 flex gap-3">
-        <button type="submit" class="rounded-md bg-navy px-4 py-2 text-white font-semibold">Enregistrer</button>
-        <a href="{% url 'dashboard_admin:coworking' %}" class="rounded-md border border-navy/20 px-4 py-2 text-navy font-semibold">Annuler</a>
-      </div>
-    </form>
-  </div>
+
+
+
+        <div class="edit-body">
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+
+                        <label>
+                            Nom de l'équipement
+                        </label>
+
+
+                        {{ form.nom }}
+
+
+                        {% if form.nom.errors %}
+
+                            <div class="error">
+                                {{ form.nom.errors }}
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+
+
+                        <label>
+                            Slug
+                        </label>
+
+
+                        {{ form.slug }}
+
+
+                        {% if form.slug.errors %}
+
+                            <div class="error">
+                                {{ form.slug.errors }}
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div class="actions">
+
+
+                    <button type="submit" class="btn-save">
+
+                        💾 Enregistrer les modifications
+
+                    </button>
+
+
+
+                    <a href="{% url 'dashboard_admin:coworking' %}"
+                       class="btn-cancel">
+
+                        Annuler
+
+                    </a>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
 {% endblock %}
-

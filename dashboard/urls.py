@@ -1,6 +1,7 @@
 from django.urls import path
 from . import trainer_views
 from . import views
+from .views import TrainerDetailView
 
 from .views import (
     AdminIndexView,
@@ -26,6 +27,9 @@ from .views import (
     AdminCoworkingWorkspaceDeleteView,
     AdminCoworkingWorkspaceImageAddView,
     AdminCoworkingWorkspaceImageDeleteView,
+    AdminCoworkingSpaceCreateView,
+    AdminCoworkingSpaceEditView,
+    AdminCoworkingSpaceDeleteView,
     AdminReservationsView,
     AdminReservationDetailView,
     AdminReservationEditView,
@@ -44,10 +48,19 @@ from .views import (
     AdminDomiciliationPlanDeleteView,
     AdminProfileView,
     AdminProfileEditView,
-    
+    AdminTestimonialListView,
+    AdminTestimonialApproveView,
+    AdminTestimonialRejectView,
+    # Messages de contact
+    AdminContactMessagesListView,
+    AdminContactMessageDetailView,
+    AdminContactMessageMarkReadView,
+    AdminContactMessageMarkUnreadView,
+    AdminContactMessageDeleteView,
 )
 
 from .member_dashboard import MemberDashboardView
+from .views_extra import MemberPaymentsView
 
 
 
@@ -128,6 +141,7 @@ app_name = "dashboard_admin"
 
 urlpatterns = [
     path("member-dashboard/", MemberDashboardView.as_view(), name="member_dashboard"),
+    path("member-invoices/", MemberPaymentsView.as_view(), name="member_invoices"),
 
     path("", AdminIndexView.as_view(), name="index"),
 
@@ -198,7 +212,24 @@ urlpatterns = [
         name="coworking_equipment_delete",
     ),
 
-    # CRUD Coworking - Espaces (Workspaces)
+    # CRUD Coworking - Agences (CoworkingSpace)
+    path(
+        "coworking/spaces/create/",
+        AdminCoworkingSpaceCreateView.as_view(),
+        name="coworking_space_create",
+    ),
+    path(
+        "coworking/spaces/<int:space_id>/edit/",
+        AdminCoworkingSpaceEditView.as_view(),
+        name="coworking_space_edit",
+    ),
+    path(
+        "coworking/spaces/<int:space_id>/delete/",
+        AdminCoworkingSpaceDeleteView.as_view(),
+        name="coworking_space_delete",
+    ),
+
+    # CRUD Coworking - Workspaces
     path(
         "coworking/workspaces/create/",
         AdminCoworkingWorkspaceCreateView.as_view(),
@@ -281,6 +312,11 @@ urlpatterns = [
     path("formations/trainers/create/", AdminTrainersCreateView.as_view(), name="formations_trainers_create"),
     path("formations/trainers/<int:trainer_id>/edit/", AdminTrainersEditView.as_view(), name="formations_trainers_edit"),
     path("formations/trainers/<int:trainer_id>/delete/", AdminTrainersDeleteView.as_view(), name="formations_trainers_delete"),
+    path(
+        "formations/trainers/<int:id>/",
+        TrainerDetailView.as_view(),
+        name="formations_trainers_detail",
+    ),
 
     # Back-office Inscriptions (Devis/formation)
     path("formations/inscriptions/", AdminInscriptionsListView.as_view(), name="inscriptions_list"),
@@ -357,6 +393,42 @@ urlpatterns = [
         "profile/<uuid:user_id>/edit/",
         AdminProfileEditView.as_view(),
         name="profile_edit",
+    ),
+
+    # Avis Clients (Testimonials)
+    path("testimonials/", AdminTestimonialListView.as_view(), name="testimonials_list"),
+    path(
+        "testimonials/<int:testimonial_id>/approve/",
+        AdminTestimonialApproveView.as_view(),
+        name="testimonial_approve",
+    ),
+    path(
+        "testimonials/<int:testimonial_id>/reject/",
+        AdminTestimonialRejectView.as_view(),
+        name="testimonial_reject",
+    ),
+
+    # Messages de contact
+    path("contact-messages/", AdminContactMessagesListView.as_view(), name="contact_messages"),
+    path(
+        "contact-messages/<int:message_id>/",
+        AdminContactMessageDetailView.as_view(),
+        name="contact_message_detail",
+    ),
+    path(
+        "contact-messages/<int:message_id>/mark-read/",
+        AdminContactMessageMarkReadView.as_view(),
+        name="contact_message_mark_read",
+    ),
+    path(
+        "contact-messages/<int:message_id>/mark-unread/",
+        AdminContactMessageMarkUnreadView.as_view(),
+        name="contact_message_mark_unread",
+    ),
+    path(
+        "contact-messages/<int:message_id>/delete/",
+        AdminContactMessageDeleteView.as_view(),
+        name="contact_message_delete",
     ),
 
     # Paiements / Méthodes de paiement / Factures / Reçus (Admin back-office)

@@ -1,0 +1,121 @@
+{% extends 'layouts/base_admin.html' %}
+{% load static %}
+
+{% block title %}Avis Clients - Admin EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <!-- HEADER -->
+    <div class="section-header">
+        <div>
+            <h2>⭐ Avis Clients</h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                Gérez les avis laissés par les membres. Les avis approuvés apparaissent sur la page d'accueil.
+            </p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <span style="padding: 0.375rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: #E8F5EE; color: #0B6B39;">
+                ✅ {{ approved_count }} approuvés
+            </span>
+            <span style="padding: 0.375rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: #FEF3E2; color: #B35E00;">
+                ⏳ {{ pending_count }} en attente
+            </span>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Membre</th>
+                    <th>Note</th>
+                    <th>Commentaire</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for testimonial in testimonials %}
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #0D2B55; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.875rem;">
+                                {{ testimonial.utilisateur.full_name|first|upper }}
+                            </div>
+                            <div>
+                                <strong>{{ testimonial.utilisateur.full_name }}</strong>
+                                <div style="font-size: 0.75rem; color: var(--text-light);">{{ testimonial.utilisateur.email }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 0.125rem; color: #C9A02C; font-size: 1rem;">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= testimonial.note %}
+                                    ★
+                                {% else %}
+                                    <span style="color: #D4DCE8;">★</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-light);">{{ testimonial.note }}/5</div>
+                    </td>
+                    <td style="max-width: 300px;">
+                        <p style="color: #3D5070; line-height: 1.5; margin: 0;">{{ testimonial.commentaire|truncatewords:30 }}</p>
+                    </td>
+                    <td>
+                        <span style="font-size: 0.8125rem; color: var(--text-light);">
+                            {{ testimonial.created_at|date:"d/m/Y H:i" }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if testimonial.approuvé %}
+                            <span class="status-badge confirmed">✅ Publié</span>
+                        {% else %}
+                            <span class="status-badge pending">⏳ En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            {% if not testimonial.approuvé %}
+                                <form method="post" action="{% url 'dashboard_admin:testimonial_approve' testimonial.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-action" style="background: var(--success-color); color: white;">
+                                        ✅ Publier
+                                    </button>
+                                </form>
+                            {% endif %}
+                            <form method="post" action="{% url 'dashboard_admin:testimonial_reject' testimonial.id %}" style="display: inline;" onsubmit="return confirm('Supprimer cet avis ?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-action" style="background: var(--danger-color); color: white;">
+                                    🗑 Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center; padding: 3rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                        <p style="font-weight: 500;">Aucun avis client pour le moment.</p>
+                        <p style="font-size: 0.875rem; color: var(--text-light);">Les avis soumis par les membres apparaîtront ici.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- INFO -->
+    <div style="margin-top: 1rem; display: flex; gap: 0.75rem; align-items: center; padding: 1rem; background: var(--bg-secondary); border-radius: 0.75rem; font-size: 0.8125rem; color: var(--text-light);">
+        <span>💡</span>
+        <span>Les avis <strong>approuvés</strong> sont automatiquement publiés sur la page d'accueil du site.</span>
+    </div>
+</div>
+
+{% endblock %}
+

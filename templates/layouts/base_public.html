@@ -35,63 +35,42 @@
     <script>
 
         tailwind.config = {
-
             theme: {
-
                 extend: {
-
-
                     colors: {
 
-                        /* Couleur principale */
-                        navy: '#0D2B55',
+                        /* Couleurs principales */
+                        navy: '#000000',      // Noir
+                        gold: '#FF8000',      // Orange
+                        cream: '#F5F5F5',     // Gris très clair
 
+                        /* Gris */
+                        gray: {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                            900: '#111827',
+                        },
 
-                        /* Couleur premium */
-                        gold: '#C9A02C',
-
-
-                        /* Statuts */
-                        success: '#0B6B39',
-
-                        danger: '#C0392B',
-
-                        warning: '#E67E22',
-
-
-                        /* Fond chaleureux */
-                        cream: '#FAFAF7',
-
+                        /* Couleurs d'état */
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        warning: '#F59E0B',
                     },
 
-
                     fontFamily: {
-
-
-                        display: [
-                            'Georgia',
-                            'serif'
-                        ],
-
-
-                        body: [
-                            'Inter',
-                            'system-ui',
-                            'sans-serif'
-                        ],
-
-
-                        mono: [
-                            'ui-monospace',
-                            'monospace'
-                        ]
-
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
                     }
-
                 }
-
             }
-
         }
 
     </script>

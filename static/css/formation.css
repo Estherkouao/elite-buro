@@ -2,10 +2,11 @@
 
 /* Utilise le thème global ELITEBURO (navy/or/green) depuis static/css/style.css */
 :root{
-  --f-navy: #0D2B55;
+  --f-navy: #000000;
   --f-gold: #C9A02C;
   --f-green: #0B6B39;
   --f-cream: #FAFAF7;
+  --f-orange: #FF8000;
 }
 
 /* Card + bordure/ombres cohérentes avec le thème */

@@ -1,0 +1,106 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Créer une agence | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+    <div>
+        <h2>Créer une agence CoworkingSpace</h2>
+        <p style="color:#666;">Ajoutez une nouvelle agence ELITEBURO (coworking).</p>
+    </div>
+</div>
+
+<div class="settings-card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="settings-form">
+            <div class="form-group">
+                <label>Nom</label>
+                {{ form.nom }}
+                {% if form.nom.errors %}<div class="error-message">{{ form.nom.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div class="error-message">{{ form.description.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Adresse</label>
+                {{ form.adresse }}
+                {% if form.adresse.errors %}<div class="error-message">{{ form.adresse.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Ville</label>
+                {{ form.ville }}
+                {% if form.ville.errors %}<div class="error-message">{{ form.ville.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Pays</label>
+                {{ form.pays }}
+                {% if form.pays.errors %}<div class="error-message">{{ form.pays.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Téléphone</label>
+                {{ form.telephone }}
+                {% if form.telephone.errors %}<div class="error-message">{{ form.telephone.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div class="error-message">{{ form.email.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Horaires</label>
+                {{ form.horaires }}
+                {% if form.horaires.errors %}<div class="error-message">{{ form.horaires.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Latitude</label>
+                {{ form.latitude }}
+                {% if form.latitude.errors %}<div class="error-message">{{ form.latitude.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Longitude</label>
+                {{ form.longitude }}
+                {% if form.longitude.errors %}<div class="error-message">{{ form.longitude.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Statut</label>
+                {{ form.statut }}
+                {% if form.statut.errors %}<div class="error-message">{{ form.statut.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Image principale</label>
+                {{ form.image_principale }}
+                {% if form.image_principale.errors %}<div class="error-message">{{ form.image_principale.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Logo</label>
+                {{ form.logo }}
+                {% if form.logo.errors %}<div class="error-message">{{ form.logo.errors }}</div>{% endif %}
+            </div>
+
+            <div style="display:flex; gap:15px; margin-top:20px;">
+                <button type="submit" class="btn-primary">Créer l'agence</button>
+                <a href="{% url 'dashboard_admin:coworking' %}" class="btn-secondary">Annuler</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+

@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 from django.contrib import messages
@@ -10,6 +11,7 @@ from django.views import View
 from django.views.generic import DetailView, TemplateView
 
 from coworking.models import Workspace, Category
+from dashboard.models import Testimonial
 
 from .filters import ReservationFilter
 from .forms import ReservationCancelForm, ReservationForm, ReservationUpdateForm
@@ -48,26 +50,11 @@ class ReservationLandingView(TemplateView):
             {"icon": "🧹", "title": "Ménage inclus", "description": "Entretien quotidien de votre espace de travail par notre équipe."},
         ]
 
-        context["testimonials"] = [
-            {
-                "name": "Adjoua Koné",
-                "company": "AK Consulting",
-                "comment": "EliteBuro a transformé notre image professionnelle. Le bureau Executive nous offre tout le confort d'un siège social premium à un tarif incomparable.",
-                "photo_url": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&h=150&fit=crop&crop=face",
-            },
-            {
-                "name": "Kouamé Assi",
-                "company": "KA Training Group",
-                "comment": "Les salles de formation sont irréprochables. Le système de réservation en ligne m'a permis de planifier et payer en moins de 5 minutes.",
-                "photo_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-            },
-            {
-                "name": "Fatou Diallo",
-                "company": "FD Digital Agency",
-                "comment": "La domiciliation Business nous donne une adresse Riviera Palmeraie qui inspire confiance à nos clients. Service rapide et professionnel.",
-                "photo_url": "https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?w=150&h=150&fit=crop&crop=face",
-            },
-        ]
+        # Vrais témoignages approuvés depuis la base de données
+        approved_testimonials = Testimonial.objects.filter(
+            approuvé=True
+        ).select_related("utilisateur").order_by("-created_at")[:6]
+        context["testimonials"] = approved_testimonials
         return context
 
 

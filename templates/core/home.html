@@ -1,4 +1,3 @@
-
 {% extends "layouts/base_public_landing.html" %}
 {% load static %}
 {% load humanize %}
@@ -23,22 +22,24 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         :root {
-            --primary: #0D2B55;
-            --primary-light: #1a3a52;
+            --primary: #FF8000;
+            --primary-light: #FDE8D0;
             --accent: #C9A02C;
             --accent-light: rgba(201, 160, 44, 0.15);
             --text-light: #FAFAF7;
             --text-muted: #5A6A85;
-            --text-dark: #0D2B55;
+            --text-dark: #000000;
             --bg-light: #FAFAF7;
             --bg-secondary: #EEF1F7;
-            --bg-dark: #0D2B55;
-            --bg-darker: #060F1E;
-            --border-color: rgba(13, 43, 85, 0.12);
-            --border-light: rgba(201, 160, 44, 0.2);
+            --bg-dark: #000000;
+            --bg-darker: #000000;
+            --border-color: rgba(255, 128, 0, 0.12);
+            --border-light: rgba(255, 128, 0, 0.2);
             --green: #0B6B39;
             --red: #C0392B;
             --orange: #B35E00;
+            --gray-btn: #000000;
+            --gray-btn-hover: #1A1A1A;
         }
 
         body {
@@ -98,10 +99,7 @@ EliteBuro - Coworking & Formation à Abidjan
             cursor: pointer;
         }
 
-        .logo-icon {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 0.5rem;
+
             background-color: var(--accent);
             display: flex;
             align-items: center;
@@ -111,46 +109,7 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 1rem;
         }
 
-        .logo-text {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-weight: bold;
-            color: white;
-            font-size: 1rem;
-            letter-spacing: 0.03em;
-        }
 
-        .logo-accent {
-            color: var(--accent);
-        }
-
-        .logo-subtitle {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.5625rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            line-height: 1;
-            font-family: 'DM Mono', monospace;
-        }
-
-        nav {
-            display: none;
-            gap: 0.25rem;
-        }
-
-        @media (min-width: 1024px) {
-            nav {
-                display: flex;
-            }
-        }
-
-        nav button {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            border: none;
-            background-color: transparent;
-            color: rgba(255, 255, 255, 0.75);
             cursor: pointer;
             transition: all 0.15s ease;
         }
@@ -198,14 +157,14 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 0.875rem;
             font-weight: 600;
             border: none;
-            background-color: var(--accent);
-            color: var(--primary);
+            background-color: var(--gray-btn);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-reserve:hover {
-            opacity: 0.9;
+            background-color: var(--gray-btn-hover);
         }
 
         .menu-toggle {
@@ -232,37 +191,7 @@ EliteBuro - Coworking & Formation à Abidjan
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Hero Section */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr;
-            min-height: 100vh;
-            padding-top: 4rem;
-            background-color: var(--primary);
-            overflow: hidden;
-        }
-
-        @media (min-width: 1024px) {
-            .hero {
-                grid-template-columns: 1fr 1fr;
-                padding-top: 4.5rem;
-            }
-        }
-
-        .hero-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 5rem 2rem;
-            max-width: 55%;
-        }
-
-        @media (min-width: 1024px) {
-            .hero-left {
-                padding: 0 4rem;
-            }
-        }
-
+        /* Badge */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -291,7 +220,7 @@ EliteBuro - Coworking & Formation à Abidjan
         .hero h1 {
             font-size: 2rem;
             line-height: 1.1;
-            color: white;
+            color: #000000;
             margin-bottom: 1.5rem;
         }
 
@@ -313,7 +242,7 @@ EliteBuro - Coworking & Formation à Abidjan
 
         .hero-description {
             font-size: 1.125rem;
-            color: rgba(255, 255, 255, 0.65);
+            color: #000000;
             margin-bottom: 2.5rem;
             max-width: 28rem;
             line-height: 1.6;
@@ -342,14 +271,14 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 0.875rem;
             font-weight: 600;
             border: none;
-            background-color: var(--accent);
-            color: var(--primary);
+            background-color: var(--gray-btn);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            opacity: 0.9;
+            background-color: var(--gray-btn-hover);
             transform: scale(0.98);
         }
 
@@ -362,15 +291,15 @@ EliteBuro - Coworking & Formation à Abidjan
             border-radius: 0.75rem;
             font-size: 0.875rem;
             font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid #000000;
             background-color: transparent;
-            color: white;
+            color: #000000;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.08);
         }
 
         .hero-stats {
@@ -398,16 +327,16 @@ EliteBuro - Coworking & Formation à Abidjan
         .stat-hotdesk { color: var(--accent); }
         .stat-rooms { color: var(--accent); }
 
-        .stat-label {
+.stat-label {
             font-size: 0.6875rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: #333333;
             line-height: 1.2;
         }
 
         .live-indicator {
             margin-top: 0.75rem;
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.35);
+            color: #444444;
             display: flex;
             align-items: center;
             gap: 0.375rem;
@@ -428,37 +357,6 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         
-        .hero-right{
-            margin-top:50px;
-            width:100%;
-            display:flex;
-            justify-content:center;
-            position:relative;
-        }
-
-        @media (min-width: 1024px) {
-            .hero-right {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        .hero-image{
-            width:100%;
-            max-width:900px;
-            height:450px;
-            object-fit:cover;
-            border-radius:24px;
-            display:block;
-        }
-
-        .floating-card{
-    position:absolute;
-    bottom:25px;
-    right:40px;
-}
-
         .card-indicator {
             display: flex;
             align-items: center;
@@ -476,27 +374,27 @@ EliteBuro - Coworking & Formation à Abidjan
         .card-status {
             font-size: 0.75rem;
             font-weight: 500;
-            color: var(--green);
+            color: #000000;
         }
 
         .card-title {
             font-size: 0.875rem;
             font-weight: 600;
-            color: var(--primary);
+            color: #000000;
             margin-bottom: 0.25rem;
             font-family: 'Playfair Display', Georgia, serif;
         }
 
         .card-details {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: #444444;
             margin-bottom: 0.5rem;
         }
 
         .card-price {
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--primary);
+            color: #000000;
             font-family: 'DM Mono', monospace;
         }
 
@@ -824,20 +722,57 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 0.75rem;
             font-weight: 600;
             border: none;
-            background-color: var(--primary);
-            color: var(--text-light);
+            background-color: var(--gray-btn);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-small:hover {
-            opacity: 0.9;
+            background-color: var(--gray-btn-hover);
         }
 
         /* Domiciliation Section */
         #domiciliation {
-            background-color: var(--primary);
-            color: white;
+            background-color: var(--bg-secondary);
+            color: var(--text-dark);
+        }
+
+        #domiciliation .plan-label {
+            color: #555555;
+        }
+
+        #domiciliation .process-title {
+            color: var(--text-dark);
+        }
+
+        #domiciliation .process-label {
+            color: #333333;
+        }
+
+        #domiciliation .plan-card {
+            border: 2px solid #d0d5dd;
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        #domiciliation .plan-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        #domiciliation .plan-card:not(.selected):hover {
+            border-color: #b0b7c3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        #domiciliation .process-box {
+            border: 2px solid #d0d5dd;
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
         }
 
         .domiciliation-header {
@@ -846,11 +781,11 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .domiciliation-header h2 {
-            color: white;
+            color: #000000;
         }
 
         .domiciliation-header p {
-            color: rgba(255, 255, 255, 0.6);
+            color: #000000;
             font-size: 1.125rem;
             max-width: 32rem;
             margin: 0 auto;
@@ -908,7 +843,7 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .plan-card .plan-label {
-            color: rgba(201, 160, 44, 0.7);
+            color: #555555;
         }
 
         .plan-card.selected .plan-label {
@@ -923,7 +858,7 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .plan-card .plan-name {
-            color: white;
+            color: #000000;
         }
 
         .plan-card.selected .plan-name {
@@ -949,7 +884,7 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .plan-card .plan-currency {
-            color: rgba(255, 255, 255, 0.5);
+            color: #555555;
         }
 
         .plan-card.selected .plan-currency {
@@ -970,7 +905,7 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .plan-card .plan-feature {
-            color: rgba(255, 255, 255, 0.8);
+            color: #000000;
         }
 
         .plan-card.selected .plan-feature {
@@ -1029,7 +964,7 @@ EliteBuro - Coworking & Formation à Abidjan
         .process-title {
             font-size: 0.875rem;
             font-weight: 500;
-            color: white;
+            color: #000000;
             margin-bottom: 1.5rem;
             text-align: center;
         }
@@ -1072,7 +1007,7 @@ EliteBuro - Coworking & Formation à Abidjan
 
         .process-label {
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: #333333;
             line-height: 1.3;
         }
 
@@ -1156,14 +1091,14 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 0.875rem;
             font-weight: 600;
             border: none;
-            background-color: var(--primary);
-            color: var(--text-light);
+            background-color: var(--gray-btn);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-dark:hover {
-            opacity: 0.9;
+            background-color: var(--gray-btn-hover);
         }
 
         .btn-outline-dark {
@@ -1175,15 +1110,16 @@ EliteBuro - Coworking & Formation à Abidjan
             border-radius: 0.75rem;
             font-size: 0.875rem;
             font-weight: 600;
-            border: 1px solid var(--primary);
+            border: 1px solid var(--gray-btn);
             background-color: transparent;
-            color: var(--primary);
+            color: var(--gray-btn);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .btn-outline-dark:hover {
-            background-color: rgba(13, 43, 85, 0.05);
+            background-color: var(--gray-btn);
+            color: white;
         }
 
         .formation-image {
@@ -1450,7 +1386,7 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 0.875rem;
             font-weight: 500;
             background-color: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.75);
+            color: #000000;
             border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
@@ -1461,7 +1397,7 @@ EliteBuro - Coworking & Formation à Abidjan
             align-items: center;
             justify-content: center;
             gap: 0.375rem;
-            color: rgba(255, 255, 255, 0.35);
+            color: #444444;
         }
 
         /* Contact Section */
@@ -1615,14 +1551,38 @@ EliteBuro - Coworking & Formation à Abidjan
             font-size: 0.875rem;
             font-weight: 600;
             border: none;
-            background-color: var(--primary);
-            color: var(--text-light);
+            background-color: var(--gray-btn);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .form-submit:hover {
-            opacity: 0.9;
+            background-color: var(--gray-btn-hover);
+        }
+
+        .form-messages {
+            margin-bottom: 1rem;
+        }
+
+        .form-message {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.8125rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .form-message-success {
+            background-color: #E8F5EE;
+            border: 1px solid #A8D5BC;
+            color: #0B6B39;
+        }
+
+        .form-message-error {
+            background-color: #FDEDED;
+            border: 1px solid #F1A8A3;
+            color: #C0392B;
         }
 
         /* Footer */
@@ -1778,84 +1738,7 @@ EliteBuro - Coworking & Formation à Abidjan
         .whatsapp-float:hover {
             transform: scale(1.05);
         }
-        .hero{
-            text-align:center;
-            padding:90px 0 0;
-        }
-
-        .hero-content{
-            max-width:900px;
-            margin:auto;
-        }
-
-        .hero h1{
-            font-size:68px;
-            line-height:1.1;
-            margin:30px 0;
-        }
-
-        .hero-description{
-            max-width:750px;
-            margin:0 auto;
-            font-size:20px;
-        }
-
-        .hero-buttons{
-            display:flex;
-            justify-content:center;
-            gap:20px;
-            margin:45px 0;
-        }
-
-        .hero-stats{
-            display:flex;
-            justify-content:center;
-            gap:35px;
-            margin:45px 0;
-        }
-
-        .live-indicator{
-            margin-top:20px;
-        }
-
-        .hero-image-wrapper{
-            position:relative;
-            width:100%;
-            margin-top:80px;
-        }
-
-        .hero-image{
-            width:100%;
-            height:700px;
-            object-fit:cover;
-            display:block;
-
-            /* fondu */
-            -webkit-mask-image:linear-gradient(
-                to bottom,
-                black 70%,
-                transparent 100%
-            );
-
-            mask-image:linear-gradient(
-                to bottom,
-                black 70%,
-                transparent 100%
-            );
-        }
-
-        .floating-card{
-            position:absolute;
-            right:8%;
-            bottom:90px;
-
-            background:white;
-            border-radius:20px;
-            padding:25px;
-
-            box-shadow:0 30px 60px rgba(0,0,0,.2);
-        }
-        
+        /* Buttons tap highlight fix */
         .hero-buttons button {
             -webkit-tap-highlight-color: transparent;
             outline: none;
@@ -1869,6 +1752,218 @@ EliteBuro - Coworking & Formation à Abidjan
             color: #0D2B55 !important;
             border-color: #C9A02C !important;
         }
+
+        /* ==========================
+        HERO - IMAGE PLEIN ÉCRAN + TITRE DESSUS, CONTENU DESSOUS
+        ========================== */
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: var(--primary);
+        }
+
+        /* Image wrapper - prend toute la largeur */
+        .hero-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 90vh;
+            min-height: 500px;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Overlay très léger pour lisibilité du titre */
+        .hero-image-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.35) 0%,
+                rgba(0,0,0,0.10) 40%,
+                transparent 70%
+            );
+        }
+
+        /* Titre et badge positionnés sur l'image */
+        .hero-title-overlay {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            padding: 0 4rem;
+            max-width: 900px;
+        }
+
+        .hero-title-overlay .badge {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title-overlay h1 {
+            font-size: 3.75rem;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 0;
+        }
+
+        .hero-title-overlay h1 .accent {
+            color: var(--accent);
+        }
+
+        .floating-card {
+            position: absolute;
+            right: 70px;
+            bottom: 70px;
+            z-index: 3;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.3);
+        }
+
+        /* Section hero content : texte à gauche, image à droite */
+        .hero-content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .hero-content-section {
+                padding: 5rem 4rem;
+            }
+        }
+
+        .hero-content-below .hero-description {
+            font-size: 1.125rem;
+            color: #000000;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-content-below .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .hero-content-below .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content-below .stat-box {
+            background: rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero-content-below .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: 'DM Mono', monospace;
+        }
+
+        .hero-content-below .stat-available { color: var(--green); }
+        .hero-content-below .stat-hotdesk { color: var(--accent); }
+        .hero-content-below .stat-rooms { color: var(--accent); }
+
+        .hero-content-below .stat-label {
+            font-size: 0.75rem;
+            color: #333333;
+        }
+
+        .hero-content-below .live-indicator {
+            font-size: 0.75rem;
+            color: #444444;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* Image secondaire à droite - prend toute la hauteur */
+        .hero-secondary-image {
+            border-radius: 1rem;
+            overflow: hidden;
+            height: 100%;
+            min-height: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .hero-secondary-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-dot {
+            width: 0.375rem;
+            height: 0.375rem;
+            border-radius: 50%;
+            background-color: var(--green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .hero-image-wrapper {
+                height: 60vh;
+                min-height: 350px;
+            }
+
+            .hero-title-overlay {
+                bottom: 30px;
+                padding: 0 1.5rem;
+            }
+
+            .hero-title-overlay h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content-section {
+                grid-template-columns: 1fr;
+                padding: 3rem 1.25rem;
+                gap: 2rem;
+            }
+
+            .hero-content-below .hero-stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .hero-secondary-image {
+                height: 300px;
+                min-height: 300px;
+            }
+
+            .floating-card {
+                display: none;
+            }
+        }
+
+        
     </style>
 
 {% endblock extra_css %}
@@ -1879,107 +1974,137 @@ EliteBuro - Coworking & Formation à Abidjan
     <!-- Hero Section -->
     <section class="hero" id="accueil">
 
-    <div class="hero-content">
+        <!-- IMAGE PLEIN ÉCRAN AVEC TITRE PAR-DESSUS -->
+        <div class="hero-image-wrapper">
+            <img
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600"
+                class="hero-image"
+                alt="Elite Buro">
 
-        <div class="badge">
-            <div class="badge-dot"></div>
-            Riviera Palmeraie · Cocody · Abidjan
-        </div>
-
-        <h1>
-            L'excellence
-            <span class="accent">professionnelle</span>
-            au cœur d'Abidjan
-        </h1>
-
-        <p class="hero-description">
-            SAS Elite Buro Coworking est un groupe multi-pôles basé à Riviera Palmeraie, Cocody, Abidjan (Côte
-            d'Ivoire). Le Groupe opère sous l'autorité de son Président M. TCHERO Huidi et comprend trois pôles
-            d'activité distincts
-            <br>
-            <br>
-            11 bureaux privatifs, salles de réunion configurables,
-            domiciliation d'entreprise et centre de formation —
-            tout en un seul lieu d'exception.
-        </p>
-
-      <div class="hero-buttons">
-
-        <button class="btn-primary" 
-            onclick="window.location.href='{% url 'reservation:landing' %}'"
-            onmouseup="this.blur()">
-            Réserver une salle de formation
-        </button>
-
-        <button class="btn-primary" 
-            onclick="window.location.href='{% url 'reservation:landing' %}'"
-            onmouseup="this.blur()">
-            Réserver un espace →
-        </button>
-
-        <button class="btn-outline" 
-            onclick="window.location.href='{% url 'domiciliation:index' %}'"
-            onmouseup="this.blur()">
-            Nos formules
-        </button>
-
-        <button class="btn-outline" 
-            onclick="window.location.href=''"
-            onmouseup="this.blur()">
-            Conciergerie
-        </button>
-
-    </div>
-
-        <div class="hero-stats">
-
-            <div class="stat-box">
-                <div class="stat-value">{{ available_offices|default:"6" }}/{{ total_offices|default:"11" }}</div>
-                <div class="stat-label">Bureaux libres</div>
+            <div class="hero-title-overlay">
+                <div class="badge">
+                    <div class="badge-dot"></div>
+                    Riviera Palmeraie · Cocody · Abidjan
+                </div>
+                <h1>
+                    L'excellence
+                    <span class="accent">professionnelle</span>
+                    au cœur d'Abidjan
+                </h1>
             </div>
 
-            <div class="stat-box">
-                <div class="stat-value">{{ hot_desk_available|default:"1" }}/{{ hot_desk_total|default:"12" }}</div>
-                <div class="stat-label">Hot desks</div>
+            <div class="floating-card">
+                <div class="card-status">🟢 Disponible</div>
+                <h3>Bureau Panorama 05</h3>
+                <p>20 m² • 4 postes • Étage 2</p>
+                <strong>22 000 FCFA / jour</strong>
             </div>
-
-            <div class="stat-box">
-                <div class="stat-value">{{ meeting_room_count|default:"3" }}</div>
-                <div class="stat-label">Salles</div>
-            </div>
-
         </div>
 
-        <div class="live-indicator">
-            Disponibilités mises à jour en temps réel
-        </div>
+        <section class="hero-content-section">
 
-    </div>
+            <!-- COLONNE GAUCHE : TEXTE -->
+            <div class="hero-content-below">
 
-    <div class="hero-image-wrapper">
+                <p class="hero-description">
+                    SAS Elite Buro Coworking est un groupe multi-pôles basé à Riviera Palmeraie,
+                    Cocody, Abidjan (Côte d'Ivoire). Le Groupe opère sous l'autorité de son
+                    Président M. TCHERO Huidi et comprend trois pôles d'activité distincts.
 
-        <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600"
-            class="hero-image"
-            alt="Elite Buro">
+                    <br><br>
 
-        <div class="floating-card">
+                    11 bureaux privatifs, salles de réunion configurables,
+                    domiciliation d'entreprise et centre de formation —
+                    tout en un seul lieu d'exception.
+                </p>
 
-            <div class="card-status">
-                🟢 Disponible
+
+                <div class="hero-buttons">
+
+                    <button class="btn-primary"
+                    onclick="window.location.href='{% url 'reservation:landing' %}'">
+                        Réserver une salle de formation
+                    </button>
+
+
+                    <button class="btn-primary"
+                    onclick="window.location.href='{% url 'reservation:landing' %}'">
+                        Réserver un espace →
+                    </button>
+
+
+                    <button class="btn-outline"
+                    onclick="window.location.href='{% url 'domiciliation:index' %}'">
+                        Nos formules
+                    </button>
+
+
+                    <button class="btn-outline">
+                        Conciergerie
+                    </button>
+
+                </div>
+
+
+
+                <div class="hero-stats">
+
+                    <div class="stat-box">
+                        <div class="stat-value">
+                            {{ available_offices|default:"6" }}/{{ total_offices|default:"11" }}
+                        </div>
+                        <div class="stat-label">
+                            Bureaux libres
+                        </div>
+                    </div>
+
+
+                    <div class="stat-box">
+                        <div class="stat-value">
+                            {{ hot_desk_available|default:"1" }}/{{ hot_desk_total|default:"12" }}
+                        </div>
+                        <div class="stat-label">
+                            Hot desks
+                        </div>
+                    </div>
+
+
+                    <div class="stat-box">
+                        <div class="stat-value">
+                            {{ meeting_room_count|default:"3" }}
+                        </div>
+                        <div class="stat-label">
+                            Salles
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="live-indicator">
+                    <span class="live-dot"></span>
+                    Disponibilités mises à jour en temps réel
+                </div>
+
+
             </div>
 
-            <h3>Bureau Panorama 05</h3>
 
-            <p>20 m² • 4 postes • Étage 2</p>
 
-            <strong>22 000 FCFA / jour</strong>
+            <!-- COLONNE DROITE : NOUVELLE IMAGE -->
 
-        </div>
+            <div class="hero-secondary-image">
 
-    </div>
+                <img 
+                src="{% static 'images/espace-bureau.jpg' %}"
+                alt="Espace Elite Buro">
 
-</section>
+            </div>
+
+
+        </section>
+
+    </section>
 
     <!-- Coworking Section -->
     <section id="coworking">
@@ -2349,108 +2474,79 @@ EliteBuro - Coworking & Formation à Abidjan
             <div class="process-box">
                 <div class="process-title">Parcours de souscription 100% en ligne</div>
                 <div class="process-grid">
-                    <div class="process-step">
-                        <div class="process-icon">💳</div>
-                        <div class="process-number">01</div>
-                        <div class="process-label">Choisir votre formule & payer</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-icon">📄</div>
-                        <div class="process-number">02</div>
-                        <div class="process-label">Uploader vos pièces justificatives</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-icon">✓</div>
-                        <div class="process-number">03</div>
-                        <div class="process-label">Signer le contrat électroniquement</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-icon">🏆</div>
-                        <div class="process-number">04</div>
-                        <div class="process-label">Recevoir votre attestation CEPICI</div>
+                        <div class="process-step">
+                            <div class="process-icon">💳</div>
+                            <div class="process-number">01</div>
+                            <div class="process-label">Choisir votre formule & payer</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="process-icon">📄</div>
+                            <div class="process-number">02</div>
+                            <div class="process-label">Uploader vos pièces justificatives</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="process-icon">✓</div>
+                            <div class="process-number">03</div>
+                            <div class="process-label">Signer le contrat électroniquement</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="process-icon">🏆</div>
+                            <div class="process-number">04</div>
+                            <div class="process-label">Recevoir votre attestation CEPICI</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Formation Section -->
-    <section id="formation">
-        <div class="container">
-            <div class="formation-grid">
-                <div>
-                    <div class="section-label">03 — Centre de Formation Elite Buro Academy</div>
-                    <h2 class="section-title">Des espaces pensés pour la montée en compétences</h2>
-                    <p class="section-description">Salles modulables, équipements professionnels, programme clé en main. Formateurs indépendants et entreprises : un devis complet généré automatiquement en 60 secondes.</p>
+        <!-- Formation Section -->
+        <section id="formation">
+            <div class="container">
+                <div class="formation-grid">
+                    <div>
+                        <div class="section-label">03 — Centre de Formation Elite Buro Academy</div>
+                        <h2 class="section-title">Des espaces pensés pour la montée en compétences</h2>
+                        <p class="section-description">Salles modulables, équipements professionnels, programme clé en main. Formateurs indépendants et entreprises : un devis complet généré automatiquement en 60 secondes.</p>
+                        
                     
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-item-value">
-                                <span class="stat-item-icon">👥</span>
-                                <span class="stat-item-number">120+</span>
-                            </div>
-                            <div class="stat-item-label">Formateurs partenaires</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-item-value">
-                                <span class="stat-item-icon">🏆</span>
-                                <span class="stat-item-number">2 400</span>
-                            </div>
-                            <div class="stat-item-label">Stagiaires formés</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-item-value">
-                                <span class="stat-item-icon">🏢</span>
-                                <span class="stat-item-number">85+</span>
-                            </div>
-                            <div class="stat-item-label">Entreprises clientes</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-item-value">
-                                <span class="stat-item-icon">⭐</span>
-                                <span class="stat-item-number">4.9/5</span>
-                            </div>
-                            <div class="stat-item-label">Satisfaction client</div>
+
+                        <div class="formation-buttons">
+
+                            <button class="btn-dark" onclick="window.location.href='{% url 'reservation:landing' %}'">
+                                Réserver une salle →
+                            </button>
+
+                            <button class="btn-outline-dark" onclick="window.location.href='#contact'">
+                                📄 Obtenir un devis
+                            </button>
+
                         </div>
                     </div>
 
-                    <div class="formation-buttons">
-
-                        <button class="btn-dark" onclick="window.location.href='{% url 'reservation:landing' %}'">
-                            Réserver une salle →
-                        </button>
-
-                        <button class="btn-outline-dark" onclick="window.location.href='#contact'">
-                            📄 Obtenir un devis
-                        </button>
-
+                    <div class="formation-image">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&h=700&fit=crop&auto=format" alt="Salle de formation">
+                        <div class="formation-overlay"></div>
+                        <div class="formation-quote">
+                            <div class="quote-label">Devis automatique</div>
+                            <div class="quote-title">Formation Management — 2 jours, 18 stagiaires</div>
+                            <div class="quote-details">
+                                <span class="quote-location">Salle Ivoire · Pause café incluse</span>
+                                <span class="quote-price">285 000 F HT</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="formation-image">
-                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&h=700&fit=crop&auto=format" alt="Salle de formation">
-                    <div class="formation-overlay"></div>
-                    <div class="formation-quote">
-                        <div class="quote-label">Devis automatique</div>
-                        <div class="quote-title">Formation Management — 2 jours, 18 stagiaires</div>
-                        <div class="quote-details">
-                            <span class="quote-location">Salle Ivoire · Pause café incluse</span>
-                            <span class="quote-price">285 000 F HT</span>
+                <div class="configurations-box">
+                    <div class="configurations-title">Configurations de salle disponibles</div>
+                    <div class="config-grid">
+                        <div class="config-item">
+                            <div class="config-icon">▐▐▐▌</div>
+                            <div class="config-name">Théâtre</div>
+                            <div class="config-capacity">30 pers.</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="configurations-box">
-                <div class="configurations-title">Configurations de salle disponibles</div>
-                <div class="config-grid">
-                    <div class="config-item">
-                        <div class="config-icon">▐▐▐▌</div>
-                        <div class="config-name">Théâtre</div>
-                        <div class="config-capacity">30 pers.</div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-icon">⊓</div>
+                        <div class="config-item">
+                            <div class="config-icon">⊓</div>
                         <div class="config-name">En U</div>
                         <div class="config-capacity">20 pers.</div>
                     </div>
@@ -2483,74 +2579,39 @@ EliteBuro - Coworking & Formation à Abidjan
             </div>
 
             <div class="testimonials-grid">
+                {% for testimonial in testimonials %}
                 <div class="testimonial-card">
                     <div class="stars">
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.note %}
+                                <span class="star">⭐</span>
+                            {% else %}
+                                <span class="star" style="opacity: 0.2;">⭐</span>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <p class="testimonial-text">"Elite Buro a transformé notre image professionnelle. Le bureau Executive 03 nous offre tout le confort d'un siège social premium à un tarif incomparable. La réservation en ligne est un vrai gain de temps."</p>
+                    <p class="testimonial-text">"{{ testimonial.commentaire }}"</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">
-                            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&fit=crop&auto=format" alt="Mme Adjoua Koné">
+                            <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #0D2B55; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem;">
+                                {{ testimonial.utilisateur.full_name|first|upper }}
+                            </div>
                         </div>
                         <div class="author-info">
-                            <div class="author-name">Mme Adjoua Koné</div>
-                            <div class="author-role">Directrice Générale · AK Consulting</div>
+                            <div class="author-name">{{ testimonial.utilisateur.full_name }}</div>
+                            <div class="author-role">Membre EliteBuro</div>
                         </div>
                     </div>
                     <div class="testimonial-footer">
-                        <span class="testimonial-plan">Bureau privatif mensuel</span>
+                        <span class="testimonial-plan">{{ testimonial.note }}/5 ⭐</span>
                     </div>
                 </div>
-
-                <div class="testimonial-card">
-                    <div class="stars">
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                    </div>
-                    <p class="testimonial-text">"Les salles de formation sont irréprochables. Le système de devis automatique m'a permis de chiffrer et signer un contrat en moins de 24h. Un vrai accélérateur business pour les formateurs indépendants."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format" alt="M. Kouamé Assi">
-                        </div>
-                        <div class="author-info">
-                            <div class="author-name">M. Kouamé Assi</div>
-                            <div class="author-role">Formateur certifié · KA Training Group</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-plan">Salle de formation</span>
-                    </div>
+                {% empty %}
+                {# Fallback statique #}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #5A6A85;">
+                    <p style="font-size: 1.125rem;">Aucun avis pour le moment. Soyez le premier à donner votre avis !</p>
                 </div>
-
-                <div class="testimonial-card">
-                    <div class="stars">
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                        <span class="star">⭐</span>
-                    </div>
-                    <p class="testimonial-text">"La domiciliation Business nous donne une adresse Riviera Palmeraie qui inspire confiance à nos clients. L'espace membre est pratique, nos factures sont téléchargeables instantanément."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <img src="https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?w=80&h=80&fit=crop&auto=format" alt="Mme Fatou Diallo">
-                        </div>
-                        <div class="author-info">
-                            <div class="author-name">Mme Fatou Diallo</div>
-                            <div class="author-role">Co-fondatrice · FD Digital Agency</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-plan">Domiciliation Business</span>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -2620,39 +2681,55 @@ Sam : 8h–17h</div>
                         </div>
                     </div>
 
-                    <a href="#" class="whatsapp-btn">💬 Discuter sur WhatsApp Business</a>
+<a href="#" class="whatsapp-btn">💬 Discuter sur WhatsApp Business</a>
                 </div>
 
                 <div class="contact-form">
                     <h3 class="form-title">Envoyer un message</h3>
-                    <form>
+
+                    {% if messages %}
+                    <div class="form-messages">
+                        {% for message in messages %}
+                        <div class="form-message form-message-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'core:contact' %}">
+                        {% csrf_token %}
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Prénom</label>
-                                <input type="text" class="form-input" placeholder="Adjoa">
+                                <label class="form-label" for="id_nom">Nom complet *</label>
+                                <input type="text" id="id_nom" name="nom" class="form-input" placeholder="Votre nom" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Nom</label>
-                                <input type="text" class="form-input" placeholder="Koné">
+                                <label class="form-label" for="id_email">Email *</label>
+                                <input type="email" id="id_email" name="email" class="form-input" placeholder="votre@email.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="id_telephone">Téléphone</label>
+                                <input type="tel" id="id_telephone" name="telephone" class="form-input" placeholder="+225 XX XX XX XX XX">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="id_sujet">Sujet *</label>
+                                <select id="id_sujet" name="sujet" class="form-select" required>
+                                    <option value="" disabled selected>Choisissez un sujet</option>
+                                    <option value="Demande d'information">Demande d'information</option>
+                                    <option value="Réservation d'espace">Réservation d'espace</option>
+                                    <option value="Devis formation">Devis formation</option>
+                                    <option value="Domiciliation d'entreprise">Domiciliation d'entreprise</option>
+                                    <option value="Réclamation">Réclamation</option>
+                                    <option value="Autre renseignement">Autre renseignement</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-input" placeholder="adjoa@entreprise.ci">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Sujet</label>
-                            <select class="form-select">
-                                <option>Réservation bureau privatif</option>
-                                <option>Domiciliation d'entreprise</option>
-                                <option>Salle de formation</option>
-                                <option>Hot desk</option>
-                                <option>Autre renseignement</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Message</label>
-                            <textarea class="form-textarea" placeholder="Décrivez votre besoin…"></textarea>
+                            <label class="form-label" for="id_message">Message *</label>
+                            <textarea id="id_message" name="message" class="form-textarea" placeholder="Décrivez votre besoin…" required></textarea>
                         </div>
                         <button type="submit" class="form-submit">Envoyer le message →</button>
                     </form>

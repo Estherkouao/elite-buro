@@ -3,20 +3,268 @@
 {% block title %}Supprimer équipement | EliteBuro{% endblock %}
 
 {% block content %}
-  <div>
-    <h1 class="text-3xl font-bold text-navy">Supprimer l'équipement</h1>
-  </div>
 
-  <div class="mt-6 rounded-3xl border border-red-500/20 bg-white shadow-sm p-6">
-    <p class="font-semibold text-navy">{{ target_equipment.nom }}</p>
+<style>
 
-    <form method="post" class="mt-6">
-      {% csrf_token %}
-      <div class="flex gap-3">
-        <button type="submit" class="rounded-md bg-red-600 px-4 py-2 text-white font-semibold">Supprimer</button>
-        <a href="{% url 'dashboard_admin:coworking' %}" class="rounded-md border border-navy/20 px-4 py-2 text-navy font-semibold">Annuler</a>
-      </div>
-    </form>
-  </div>
+.delete-container {
+    max-width: 650px;
+    margin: 40px auto;
+}
+
+.delete-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.delete-subtitle {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+
+.delete-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #fee2e2;
+}
+
+
+.delete-header {
+    background: linear-gradient(135deg,#fff1f2,#ffffff);
+    padding: 30px;
+    border-bottom: 1px solid #fee2e2;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+
+.delete-icon {
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:#fee2e2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#dc2626;
+    font-size:32px;
+}
+
+
+.delete-header h2 {
+    margin:0;
+    font-size:22px;
+    color:#0f172a;
+}
+
+
+.delete-header p {
+    margin-top:5px;
+    color:#64748b;
+}
+
+
+.delete-body {
+    padding:35px;
+}
+
+
+.equipment-box {
+
+    background:#f8fafc;
+    border-radius:18px;
+    padding:22px;
+    border:1px solid #e2e8f0;
+}
+
+
+.label {
+    color:#64748b;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+
+.equipment-name {
+
+    font-size:24px;
+    font-weight:700;
+    color:#0f172a;
+
+}
+
+
+.actions {
+
+    margin-top:35px;
+    display:flex;
+    gap:15px;
+
+}
+
+
+.btn-delete {
+
+    flex:1;
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:14px 20px;
+    border-radius:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+
+.btn-delete:hover {
+
+    background:#b91c1c;
+
+}
+
+
+
+.btn-cancel {
+
+    flex:1;
+    text-align:center;
+    padding:14px 20px;
+    border-radius:14px;
+    border:1px solid #cbd5e1;
+    color:#334155;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+
+}
+
+
+.btn-cancel:hover {
+
+    background:#f8fafc;
+
+}
+
+
+
+@media(max-width:640px){
+
+    .actions{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+
+
+<div class="delete-container">
+
+
+    <h1 class="delete-title">
+        Supprimer l'équipement
+    </h1>
+
+
+    <p class="delete-subtitle">
+        Confirmez la suppression de cet équipement. Cette action est irréversible.
+    </p>
+
+
+
+    <div class="delete-card">
+
+
+        <div class="delete-header">
+
+
+            <div class="delete-icon">
+                ⚠
+            </div>
+
+
+            <div>
+
+                <h2>
+                    Confirmation de suppression
+                </h2>
+
+                <p>
+                    Vérifiez l'équipement avant de continuer.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <div class="delete-body">
+
+
+            <div class="equipment-box">
+
+                <div class="label">
+                    Équipement sélectionné
+                </div>
+
+
+                <div class="equipment-name">
+                    {{ target_equipment.nom }}
+                </div>
+
+
+            </div>
+
+
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                <div class="actions">
+
+
+                    <button class="btn-delete" type="submit">
+
+                        🗑 Supprimer définitivement
+
+                    </button>
+
+
+
+                    <a class="btn-cancel"
+                       href="{% url 'dashboard_admin:coworking' %}">
+
+                        Annuler
+
+                    </a>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
 {% endblock %}
-

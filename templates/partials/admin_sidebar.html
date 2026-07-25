@@ -83,11 +83,21 @@ lile t{% load static %}
             <span class="nav-label">Profil</span>
         </a>
 
+        {# Avis Clients #}
+        <a href="{% url 'dashboard_admin:testimonials_list' %}"
+           class="nav-item {% if active_section == 'testimonials' %}active{% endif %}">
+            <span class="nav-icon">⭐</span>
+            <span class="nav-label">Avis Clients</span>
+        </a>
 
-        <a href="#"
-           class="nav-item {% if active_section == 'parametres' %}active{% endif %}">
-            <span class="nav-icon">⚙️</span>
-            <span class="nav-label">Paramètres</span>
+        {# Messages de contact #}
+        <a href="{% url 'dashboard_admin:contact_messages' %}"
+           class="nav-item {% if active_section == 'contact_messages' %}active{% endif %}">
+            <span class="nav-icon">✉️</span>
+            <span class="nav-label">Messages</span>
+            {% if contact_unread_count > 0 %}
+                <span class="nav-badge badge-warning">{{ contact_unread_count }}</span>
+            {% endif %}
         </a>
 
     </nav>

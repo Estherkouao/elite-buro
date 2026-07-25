@@ -1,0 +1,388 @@
+{% extends "layouts/base_admin.html" %}
+
+{% block title %}Détail du formateur | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="section-header">
+
+        <div>
+            <h2>Détail du formateur</h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                Consultez toutes les informations du formateur.
+            </p>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+
+            <a href="{% url 'dashboard_admin:formations_trainers_edit' trainer.id %}"
+               class="btn-primary">
+                ✏️ Modifier
+            </a>
+
+            <a href="{% url 'dashboard_admin:formations_trainers_list' %}"
+               class="btn-secondary">
+                ← Retour
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:30px;">
+
+
+        <!-- Carte Profil -->
+
+        <div class="panel">
+
+            <div class="panel-body padded" style="text-align:center;">
+
+                {% if trainer.photo %}
+
+                    <img src="{{ trainer.photo.url }}"
+                         style="
+                         width:170px;
+                         height:170px;
+                         border-radius:50%;
+                         object-fit:cover;
+                         border:5px solid var(--gold);
+                         box-shadow:0 15px 35px rgba(0,0,0,.15);
+                         ">
+
+                {% else %}
+
+                    <div style="
+                    width:170px;
+                    height:170px;
+                    border-radius:50%;
+                    background:var(--gold);
+                    color:white;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin:auto;
+                    font-size:55px;
+                    font-weight:bold;
+                    ">
+
+                        {{ trainer.user.first_name|first }}{{ trainer.user.last_name|first }}
+
+                    </div>
+
+                {% endif %}
+
+                <h2 style="margin-top:20px;">
+                    {{ trainer.user.first_name }}
+                    {{ trainer.user.last_name }}
+                </h2>
+
+                <p style="color:var(--gold);font-weight:600;">
+                    {{ trainer.specialite }}
+                </p>
+
+                <br>
+
+                {% if trainer.disponible == "available" %}
+
+                    <span class="status-badge confirmed">
+                        Disponible
+                    </span>
+
+                {% elif trainer.disponible == "busy" %}
+
+                    <span class="status-badge pending">
+                        Occupé
+                    </span>
+
+                {% else %}
+
+                    <span class="status-badge cancelled">
+                        Indisponible
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+
+
+        <!-- Informations -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>Informations générales</h3>
+
+            </div>
+
+            <div class="panel-body padded">
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+                        <label>Email</label>
+                        <p>{{ trainer.user.email }}</p>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Téléphone</label>
+                        <p>{{ trainer.user.phone }}</p>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Spécialité</label>
+                        <p>{{ trainer.specialite }}</p>
+                    </div>
+
+                    <div class="info-item">
+                        <label>Expérience</label>
+                        <p>{{ trainer.annees_experience }} ans</p>
+                    </div>
+
+                    <div class="info-item">
+                        <label>LinkedIn</label>
+
+                        {% if trainer.linkedin %}
+
+                            <a href="{{ trainer.linkedin }}"
+                               target="_blank">
+
+                                Voir le profil
+
+                            </a>
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="info-item">
+                        <label>Disponibilité</label>
+
+                        {% if trainer.disponible == "available" %}
+
+                            Disponible
+
+                        {% elif trainer.disponible == "busy" %}
+
+                            Occupé
+
+                        {% else %}
+
+                            Indisponible
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- BIOGRAPHIE -->
+
+    <div class="panel" style="margin-top:25px;">
+
+        <div class="panel-header">
+
+            <h3>Biographie</h3>
+
+        </div>
+
+        <div class="panel-body padded">
+
+            {{ trainer.biographie|linebreaks }}
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- COMPETENCES -->
+
+    <div class="panel" style="margin-top:25px;">
+
+        <div class="panel-header">
+
+            <h3>Compétences</h3>
+
+        </div>
+
+        <div class="panel-body padded">
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+                {% for c in trainer.competences.split %}
+
+                    <span class="badge-skill">
+
+                        {{ c }}
+
+                    </span>
+
+                {% empty %}
+
+                    Aucune compétence renseignée.
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- CV -->
+
+    <div class="panel" style="margin-top:25px;">
+
+        <div class="panel-header">
+
+            <h3>Curriculum Vitae</h3>
+
+        </div>
+
+        <div class="panel-body padded">
+
+            {% if trainer.cv %}
+
+                <a href="{{ trainer.cv.url }}"
+                   target="_blank"
+                   class="btn-primary">
+
+                    📄 Télécharger le CV
+
+                </a>
+
+            {% else %}
+
+                Aucun CV disponible.
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<style>
+
+.info-grid{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:25px;
+
+}
+
+.info-item{
+
+padding:18px;
+border:1px solid #ececec;
+border-radius:12px;
+background:#fafafa;
+
+}
+
+.info-item label{
+
+display:block;
+font-size:13px;
+font-weight:700;
+color:#777;
+margin-bottom:6px;
+
+}
+
+.info-item p{
+
+margin:0;
+font-size:15px;
+font-weight:600;
+color:var(--navy);
+
+}
+
+.badge-skill{
+
+padding:10px 18px;
+background:#EEF5FF;
+color:#0D2B55;
+border-radius:30px;
+font-weight:600;
+
+}
+
+.panel{
+
+background:white;
+border-radius:16px;
+box-shadow:0 8px 25px rgba(0,0,0,.06);
+
+}
+
+.panel-header{
+
+padding:22px 25px;
+border-bottom:1px solid #eee;
+
+}
+
+.panel-body{
+
+padding:25px;
+
+}
+
+.btn-primary{
+
+padding:12px 22px;
+background:var(--gold);
+border-radius:8px;
+text-decoration:none;
+color:var(--navy-dark);
+font-weight:700;
+
+}
+
+.btn-secondary{
+
+padding:12px 22px;
+border-radius:8px;
+border:1px solid #ddd;
+background:white;
+text-decoration:none;
+color:var(--navy);
+font-weight:700;
+
+}
+
+</style>
+
+{% endblock %}

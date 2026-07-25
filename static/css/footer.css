@@ -9,34 +9,30 @@
    ============================================ */
 
 :root {
-    /* Couleurs Principales */
-    --navy-elite: #0D2B55;
-    --gold-elite: #C9A02C;
-    --success-green: #0B6B39;
-    --alert-red: #C0392B;
-    --warning-orange: #E67E22;
-    --cream-bg: #FAFAF7;
-    
-    /* Couleurs Secondaires */
-    --navy-dark: #051B35;
-    --navy-light: #1A3A6B;
-    --gold-light: #E8C547;
-    --gold-dark: #A67C1A;
-    
+
+    /* Noir Luxe */
+    --navy-elite: #000000;
+    --navy-dark: #050505;
+    --navy-light: #1A1A1A;
+
+    /* Or Premium */
+    --gold-elite: #D4AF37;
+    --gold-light: #F4D77A;
+    --gold-dark: #A67C00;
+
+    /* Orange Principal #FF8000 */
+    --orange-primary: #FF8000;
+
     /* Neutres */
     --white: #FFFFFF;
-    --gray-light: #F5F5F3;
-    --gray-medium: #D4D4D0;
-    --gray-dark: #4A4A47;
-    --black: #1A1A1A;
-    
-    /* Ombres */
-    --shadow-sm: 0 2px 4px rgba(13, 43, 85, 0.1);
-    --shadow-md: 0 4px 12px rgba(13, 43, 85, 0.15);
-    --shadow-lg: 0 8px 24px rgba(13, 43, 85, 0.2);
-    
-    /* Transitions */
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --gray-light: #F5F5F5;
+    --gray-medium: #BDBDBD;
+    --gray-dark: #555555;
+    --black: #000000;
+
+    --cream-bg:#FFFFFF;
+
+    --transition: all .3s ease;
 }
 
 /* ============================================
@@ -64,12 +60,14 @@ body {
    ============================================ */
 
 .footer {
-    background: linear-gradient(135deg, var(--navy-elite) 0%, var(--navy-dark) 100%);
-    color: rgba(255, 255, 255, 0.9);
-    padding-top: 60px;
-    margin-top: 80px;
+    background:
+    linear-gradient(
+        135deg,
+        #000000 0%,
+        #111111 60%,
+        #FF8000 100%
+    );
 }
-
 .footer-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -93,15 +91,19 @@ body {
 }
 
 .footer-logo h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    background: linear-gradient(135deg, var(--white) 0%, var(--gold-elite) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
+    font-family:'Playfair Display',serif;
+    font-size:32px;
+    font-weight:700;
+
+    background:
+    linear-gradient(
+        135deg,
+        #FFFFFF 20%,
+        #C9A02C 80%
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .footer-tagline {
@@ -116,7 +118,7 @@ body {
 .footer-description {
     font-size: 14px;
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.8);
+    color:rgba(255,255,255,.82);
     margin-bottom: 20px;
 }
 
@@ -137,16 +139,16 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(201, 160, 44, 0.15);
-    color: var(--gold-elite);
+    background:rgba(255,128,0,.12);
+    color:#FF8000;
+    border:2px solid rgba(255,128,0,.35);
     text-decoration: none;
     transition: var(--transition);
-    border: 2px solid rgba(201, 160, 44, 0.3);
 }
 
 .social-link:hover {
-    background: var(--gold-elite);
-    color: var(--navy-elite);
+    background:#FF8000;
+    color:#000000;
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(201, 160, 44, 0.3);
 }
@@ -170,7 +172,7 @@ body {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: var(--white);
+    color:#FFFFFF;
     position: relative;
     padding-bottom: 12px;
 }
@@ -197,7 +199,7 @@ body {
 }
 
 .footer-link {
-    color: rgba(255, 255, 255, 0.8);
+    color:#FFFFFF;
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
@@ -206,7 +208,7 @@ body {
 }
 
 .footer-link:hover {
-    color: var(--gold-elite);
+    color:#FF8000;
     transform: translateX(4px);
 }
 
@@ -236,7 +238,7 @@ body {
 
 .contact-label {
     font-size: 12px;
-    color: var(--gold-elite);
+    color:#FF8000;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -245,7 +247,7 @@ body {
 
 .contact-value {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.9);
+    color:#FFFFFF;
     line-height: 1.6;
 }
 
@@ -265,11 +267,11 @@ body {
    ============================================ */
 
 .footer-newsletter {
-    background: rgba(201, 160, 44, 0.15);
-    border-top: 2px solid rgba(201, 160, 44, 0.3);
-    border-bottom: 2px solid rgba(201, 160, 44, 0.3);
-    padding: 40px 20px;
-    margin: 40px 0;
+    background:rgba(255,128,0,.08);
+    border-top:2px solid rgba(201,160,44,0.3);
+    border-bottom:2px solid rgba(201,160,44,0.3);
+    padding:40px 20px;
+    margin:40px 0;
 }
 
 .newsletter-content {
@@ -283,12 +285,12 @@ body {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 12px;
-    color: var(--white);
+    color: #000000;
 }
 
 .newsletter-content p {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: #444444;
     margin-bottom: 20px;
 }
 
@@ -323,8 +325,8 @@ body {
 
 .newsletter-btn {
     padding: 12px 28px;
-    background: var(--gold-elite);
-    color: var(--navy-elite);
+    background: var(--orange-primary);
+    color: #ffffff;
     border: none;
     border-radius: 6px;
     font-family: 'Inter', Arial, sans-serif;
@@ -338,9 +340,9 @@ body {
 }
 
 .newsletter-btn:hover {
-    background: var(--gold-light);
+    background: #E67300;
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(201, 160, 44, 0.3);
+    box-shadow: 0 8px 16px rgba(255, 128, 0, 0.3);
 }
 
 .newsletter-btn:active {
@@ -352,9 +354,9 @@ body {
    ============================================ */
 
 .footer-bottom {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    border-top: 1px solid rgba(201, 160, 44, 0.2);
+    background:#000000;
+    padding:20px;
+    border-top:1px solid rgba(255,128,0,.3);
 }
 
 .footer-bottom-content {
@@ -369,7 +371,7 @@ body {
 
 .footer-copyright {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
+    color: #666666;
 }
 
 .footer-bottom-links {
@@ -381,7 +383,7 @@ body {
 
 .footer-bottom-link {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
+    color: #666666;
     text-decoration: none;
     transition: var(--transition);
 }
@@ -391,7 +393,7 @@ body {
 }
 
 .separator {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================
@@ -580,6 +582,6 @@ body {
 
 @media (prefers-color-scheme: dark) {
     .footer {
-        background: linear-gradient(135deg, #0A1F3A 0%, #051B35 100%);
+        background: linear-gradient(135deg, #F5F5F5 0%, #FAFAFA 50%, #FFFFFF 100%);
     }
 }
