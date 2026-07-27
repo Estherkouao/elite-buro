@@ -1,0 +1,562 @@
+{% extends 'layouts/base_public.html' %}
+{% load static %}
+
+{% block title %}Conciergerie — Elite Bureau{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ═══════════════════════════════════════════
+       RESET & VARIABLES — Charte Elite Bureau
+       ═══════════════════════════════════════════ */
+    :root {
+      --navy: #FF8000; --navy-light: #FF8000; --navy-dark: #FF8000;
+      --gold: #808080; --gold-light: #808080; --gold-pale: rgba(185,150,70,0.10);
+      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C;
+      --text-muted: #5C5C5C; --text-light: #8A8A8A;
+      --white: #FFFFFF; --border: #D8D0C2; --border-light: rgba(0,0,0,0.06);
+      --success: #2E7D32;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --radius: 8px; --radius-lg: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: var(--gold); font-weight: 500; }
+    a:hover { color: var(--navy); }
+
+    /* ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ */
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white); padding: 60px 40px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 260px; height: 260px; border-radius: 50%; background: rgba(185,150,70,0.10); }
+    .hero::after { content: ''; position: absolute; bottom: -70px; left: -30px; width: 180px; height: 180px; border-radius: 50%; background: rgba(185,150,70,0.06); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(185,150,70,0.15); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--gold); margin-bottom: 16px; position: relative; z-index: 1; letter-spacing: 0.04em; }
+    .hero h1 { font-family: var(--font-display); font-size: 36px; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; }
+    .hero p { font-size: 16px; color: rgba(255,255,255,0.7); position: relative; z-index: 1; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+    .hero-stats { display: flex; align-items: center; justify-content: center; gap: 32px; margin-top: 28px; position: relative; z-index: 1; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--gold); }
+    .hero-stat .label { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; letter-spacing: 0.04em; }
+
+    /* ═══════════════════════════════════════════
+       PAGE CONTENT
+       ═══════════════════════════════════════════ */
+    .page-content { padding: 50px 0 80px; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .section-title { font-family: var(--font-display); font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 12px; }
+    .section-desc { font-size: 15px; color: var(--text-muted); max-width: 640px; line-height: 1.7; }
+
+    /* ═══════════════════════════════════════════
+       SERVICES GRID
+       ═══════════════════════════════════════════ */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+    .service-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; transition: all 0.3s ease; position: relative; }
+    .service-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .service-card-accent { height: 4px; background: var(--gold); }
+    .service-card-body { padding: 28px; }
+    .service-card-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--gold-pale); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .service-card-icon svg { width: 24px; height: 24px; color: var(--gold); }
+    .service-card-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .service-card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+    .service-card-features { list-style: none; }
+    .service-card-features li { font-size: 13px; color: var(--dark); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .service-card-features li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .service-card-price { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light); display: flex; align-items: baseline; gap: 4px; }
+    .service-card-price .amount { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--navy); }
+    .service-card-price .unit { font-size: 13px; color: var(--text-light); }
+
+    /* ═══════════════════════════════════════════
+       FEATURES BANNER
+       ═══════════════════════════════════════════ */
+    .features-banner { background: var(--navy); border-radius: var(--radius-lg); padding: 40px 48px; margin-top: 48px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .feature-item { text-align: center; }
+    .feature-item svg { width: 28px; height: 28px; color: var(--gold); margin-bottom: 10px; }
+    .feature-item h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .feature-item p { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+    /* ═══════════════════════════════════════════
+       PLANS / FORMULES
+       ═══════════════════════════════════════════ */
+    .plans-section { margin-top: 56px; }
+    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+    .plan-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; transition: all 0.3s ease; position: relative; }
+    .plan-card:hover { box-shadow: var(--shadow-md); }
+    .plan-card.featured { border-color: var(--gold); box-shadow: var(--shadow-md); }
+    .plan-card.featured::before { content: 'Populaire'; position: absolute; top: 16px; right: -28px; background: var(--gold); color: var(--white); font-size: 11px; font-weight: 600; padding: 4px 32px; transform: rotate(45deg); letter-spacing: 0.04em; z-index: 1; }
+    .plan-header { padding: 28px 28px 0; }
+    .plan-name { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .plan-subtitle { font-size: 13px; color: var(--text-muted); }
+    .plan-price { padding: 16px 28px; }
+    .plan-amount { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--navy); }
+    .plan-period { font-size: 13px; color: var(--text-light); }
+    .plan-features { padding: 0 28px 28px; list-style: none; }
+    .plan-features li { font-size: 13px; color: var(--dark); padding: 8px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-light); }
+    .plan-features li:last-child { border-bottom: none; }
+    .plan-features li svg { width: 16px; height: 16px; color: var(--success); flex-shrink: 0; }
+    .plan-features li.disabled { color: var(--text-light); }
+    .plan-features li.disabled svg { color: var(--border); }
+    .plan-cta { padding: 0 28px 28px; }
+    .plan-cta .btn { width: 100%; justify-content: center; }
+
+    /* ═══════════════════════════════════════════
+       PROCESS SECTION
+       ═══════════════════════════════════════════ */
+    .process-section { margin-top: 56px; }
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 36px; }
+    .process-step { text-align: center; position: relative; }
+    .process-step:not(:last-child)::after { content: ''; position: absolute; top: 24px; right: -12px; width: 24px; height: 2px; background: var(--border); }
+    .process-step-num { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gold); margin: 0 auto 14px; background: var(--white); }
+    .process-step-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .process-step-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ═══════════════════════════════════════════
+       TESTIMONIAL
+       ═══════════════════════════════════════════ */
+    .testimonial-section { margin-top: 56px; }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 36px; }
+    .testimonial-card { background: var(--white); border-radius: var(--radius-lg); padding: 28px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); }
+    .testimonial-quote { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-style: italic; margin-bottom: 16px; position: relative; padding-left: 20px; }
+    .testimonial-quote::before { content: '\201C'; position: absolute; left: 0; top: -4px; font-family: var(--font-display); font-size: 32px; color: var(--gold); line-height: 1; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-display); font-weight: 700; font-size: 14px; }
+    .testimonial-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .testimonial-role { font-size: 12px; color: var(--text-light); }
+
+    /* ═══════════════════════════════════════════
+       CTA SECTION
+       ═══════════════════════════════════════════ */
+    .cta-section { margin-top: 56px; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); border-radius: var(--radius-lg); padding: 48px; text-align: center; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(185,150,70,0.08); }
+    .cta-section h2 { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--white); margin-bottom: 10px; position: relative; z-index: 1; }
+    .cta-section p { font-size: 14px; color: rgba(255,255,255,0.65); margin-bottom: 28px; position: relative; z-index: 1; }
+    .cta-buttons { display: flex; align-items: center; justify-content: center; gap: 16px; position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn { padding: 12px 28px; border-radius: 6px; font-family: var(--font-body); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; transition: all 0.2s; border: none; display: inline-flex; align-items: center; gap: 8px; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--navy); color: var(--white); }
+    .btn-primary:hover { background: var(--navy-light); }
+    .btn-gold { background: var(--gold); color: var(--white); }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-outline-light { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+    .btn-outline-light:hover { border-color: var(--white); }
+    .btn-lg { padding: 14px 36px; font-size: 15px; }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ */
+    .footer { background: #111111; padding: 48px 0 32px; }
+    .footer-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand .footer-mark { width: 36px; height: 36px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+    .footer-brand .footer-name { font-family: var(--font-display); font-size: 16px; letter-spacing: 0.22em; color: var(--white); font-weight: 600; }
+    .footer-brand .footer-tag { font-size: 9px; letter-spacing: 0.18em; font-style: italic; color: rgba(255,255,255,0.35); margin-top: -2px; }
+    .footer-info { text-align: right; }
+    .footer-info p { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .footer-info a { color: rgba(255,255,255,0.65); }
+    .footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .services-grid, .plans-grid { grid-template-columns: 1fr 1fr; }
+      .features-banner { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-step:not(:last-child)::after { display: none; }
+    }
+    @media (max-width: 768px) {
+      .header { padding: 0 20px; }
+      .nav { display: none; }
+      .nav-toggle { display: block; }
+      .hero { padding: 40px 20px; }
+      .hero h1 { font-size: 26px; }
+      .hero-stats { flex-wrap: wrap; gap: 20px; }
+      .page-content { padding: 32px 0 60px; }
+      .services-grid, .plans-grid, .testimonial-grid { grid-template-columns: 1fr; }
+      .features-banner { grid-template-columns: 1fr 1fr; padding: 28px; }
+      .process-steps { grid-template-columns: 1fr; }
+      .cta-section { padding: 32px 20px; }
+      .cta-buttons { flex-direction: column; }
+    }
+    /* Centrer le contenu de cette page uniquement */
+    .page-content .container{
+        width: 100%;
+        max-width: 1400px;   /* ajuste : 1200px, 1280px, 1400px... */
+        margin: 0 auto;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATIONS
+       ═══════════════════════════════════════════ */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero">
+   
+  </section>
+
+  <!-- ═══════ CONTENT ═══════ -->
+  <div class="page-content">
+    <div class="container">
+
+      <!-- Services -->
+      <div class="reveal">
+        <div class="section-label">Nos prestations</div>
+        <div class="section-title">Services de conciergerie</div>
+        <div class="section-desc">Elite Bureau met à votre disposition une gamme complète de services de conciergerie professionnelle pour accompagner votre activité au quotidien.</div>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card reveal">
+          <div class="service-card-accent"></div>
+          <div class="service-card-body">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <div class="service-card-title">Bureaux privatifs</div>
+            <div class="service-card-desc">11 bureaux entièrement équipés, disponibles à la journée, au mois ou à l'année avec connexion haut débit et mobilier premium.</div>
+            <ul class="service-card-features">
+              <li>Mobilier ergonomique & climatisation</li>
+              <li>Fibre optique dédiée</li>
+              <li>Accès 24h/24, 7j/7</li>
+              <li>Impression & scanner illimités</li>
+            </ul>
+            <div class="service-card-price">
+              <span class="amount">75 000 F</span>
+              <span class="unit">/ mois</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card reveal">
+          <div class="service-card-accent"></div>
+          <div class="service-card-body">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="service-card-title">Hot Desks</div>
+            <div class="service-card-desc">Postes de travail partagés dans un espace ouvert dynamique, idéal pour freelances et indépendants.</div>
+            <ul class="service-card-features">
+              <li>Accès flexible à la journée</li>
+              <li>Casiers personnels sécurisés</li>
+              <li>Café & snacks à volonté</li>
+              <li>Communauté d'entrepreneurs</li>
+            </ul>
+            <div class="service-card-price">
+              <span class="amount">5 000 F</span>
+              <span class="unit">/ jour</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card reveal">
+          <div class="service-card-accent"></div>
+          <div class="service-card-body">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="service-card-title">Salles de réunion</div>
+            <div class="service-card-desc">Salles de 4 à 20 places, équipées d'écrans, vidéoconférence et tableau blanc interactif.</div>
+            <ul class="service-card-features">
+              <li>Réservation en ligne</li>
+              <li>Écran LED & vidéoconférence</li>
+              <li>Service de traiteur sur demande</li>
+              <li>Assistance technique incluse</li>
+            </ul>
+            <div class="service-card-price">
+              <span class="amount">35 000 F</span>
+              <span class="unit">/ demi-journée</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card reveal">
+          <div class="service-card-accent"></div>
+          <div class="service-card-body">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="service-card-title">Domiciliation</div>
+            <div class="service-card-desc">Domicilez votre entreprise chez Elite Bureau et bénéficiez d'une adresse professionnelle prestigieuse à Cocody.</div>
+            <ul class="service-card-features">
+              <li>Adresse professionnelle Cocody</li>
+              <li>Réception & redirection du courrier</li>
+              <li>Gestion documentaire</li>
+              <li>3 formules au choix</li>
+            </ul>
+            <div class="service-card-price">
+              <span class="amount">25 000 F</span>
+              <span class="unit">/ mois</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="service-card reveal">
+          <div class="service-card-accent"></div>
+          <div class="service-card-body">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="service-card-title">Accueil & secrétariat</div>
+            <div class="service-card-desc">Un personnel dédié pour accueillir vos visiteurs, prendre vos messages et gérer vos appels téléphoniques.</div>
+            <ul class="service-card-features">
+              <li>Accueil personnalisé</li>
+              <li>Prise d'appels & messages</li>
+              <li>Gestion de l'agenda</li>
+              <li>Saisie de documents</li>
+            </ul>
+            <div class="service-card-price">
+              <span class="amount">45 000 F</span>
+              <span class="unit">/ mois</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="service-card reveal">
+          <div class="service-card-accent"></div>
+          <div class="service-card-body">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div class="service-card-title">Espace membre digital</div>
+            <div class="service-card-desc">Un portail en ligne pour gérer vos réservations, consulter vos factures, vos contrats et soumettre vos demandes.</div>
+            <ul class="service-card-features">
+              <li>Réservation en temps réel</li>
+              <li>Historique & facturation</li>
+              <li>Gestion documentaire</li>
+              <li>Support prioritaire</li>
+            </ul>
+            <div class="service-card-price">
+              <span class="amount">Inclus</span>
+              <span class="unit">dans toute formule</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features banner -->
+    
+
+      <!-- Formules / Plans -->
+      <div class="plans-section reveal">
+        <div class="section-label">Formules de domiciliation</div>
+        <div class="section-title">Choisissez votre formule</div>
+        <div class="section-desc">Trois formules adaptées à vos besoins, de la domiciliation simple à l'accompagnement complet de votre entreprise.</div>
+      </div>
+
+      <div class="plans-grid">
+        <!-- Plan 1 -->
+        <div class="plan-card reveal">
+          <div class="plan-header">
+            <div class="plan-name">Essentiel</div>
+            <div class="plan-subtitle">Pour les indépendants & auto-entrepreneurs</div>
+          </div>
+          <div class="plan-price">
+            <span class="plan-amount">25 000 F</span>
+            <span class="plan-period"> / mois</span>
+          </div>
+          <ul class="plan-features">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Adresse professionnelle
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Réception du courrier
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Notification par email
+            </li>
+            <li class="disabled">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Redirection du courrier
+            </li>
+            <li class="disabled">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Accueil de visiteurs
+            </li>
+            <li class="disabled">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Gestion documentaire
+            </li>
+          </ul>
+          <div class="plan-cta">
+            <button class="btn btn-outline btn-primary" style="border-color:var(--border);">Choisir Essentiel</button>
+          </div>
+        </div>
+
+        <!-- Plan 2 — Featured -->
+        <div class="plan-card featured reveal">
+          <div class="plan-header">
+            <div class="plan-name">Business</div>
+            <div class="plan-subtitle">Pour les PME & startups en croissance</div>
+          </div>
+          <div class="plan-price">
+            <span class="plan-amount">55 000 F</span>
+            <span class="plan-period"> / mois</span>
+          </div>
+          <ul class="plan-features">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Adresse professionnelle
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Réception du courrier
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Notification par email
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Redirection du courrier
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Accueil de 5 visiteurs/mois
+            </li>
+            <li class="disabled">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Gestion documentaire complète
+            </li>
+          </ul>
+          <div class="plan-cta">
+            <button class="btn btn-gold">Choisir Business</button>
+          </div>
+        </div>
+
+        <!-- Plan 3 -->
+        <div class="plan-card reveal">
+          <div class="plan-header">
+            <div class="plan-name">Premium</div>
+            <div class="plan-subtitle">Pour les entreprises exigeantes</div>
+          </div>
+          <div class="plan-price">
+            <span class="plan-amount">95 000 F</span>
+            <span class="plan-period"> / mois</span>
+          </div>
+          <ul class="plan-features">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Adresse professionnelle
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Réception du courrier
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Notification par email & SMS
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Redirection du courrier
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Accueil visiteurs illimité
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Gestion documentaire complète
+            </li>
+          </ul>
+          <div class="plan-cta">
+            <button class="btn btn-outline btn-primary" style="border-color:var(--border);">Choisir Premium</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process -->
+      <div class="process-section reveal">
+        <div class="section-label">Comment ça marche</div>
+        <div class="section-title">Rejoindre Elite Bureau en 4 étapes</div>
+        <div class="section-desc">Un processus simple et digitalisé pour commencer à travailler dans un environnement professionnel premium.</div>
+      </div>
+
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-step-num">1</div>
+          <div class="process-step-title">Visitez nos locaux</div>
+          <div class="process-step-desc">Découvrez nos espaces en personne ou réservez une visite virtuelle sur notre site.</div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-num">2</div>
+          <div class="process-step-title">Choisissez votre formule</div>
+          <div class="process-step-desc">Sélectionnez le bureau, le hot desk ou la formule de domiciliation qui vous convient.</div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-num">3</div>
+          <div class="process-step-title">Signez en ligne</div>
+          <div class="process-step-desc">Contrat digital, paiement Mobile Money ou carte. Votre espace est activé immédiatement.</div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-num">4</div>
+          <div class="process-step-title">Travaillez & prospérez</div>
+          <div class="process-step-desc">Accédez 24h/24, utilisez tous les services et faites partie de notre communauté d'entrepreneurs.</div>
+        </div>
+      </div>
+
+      
+
+      <!-- CTA -->
+      <div class="cta-section reveal">
+        <h2>Prêt à rejoindre Elite Bureau ?</h2>
+        <p>Réservez votre bureau, votre hot desk ou votre formule de domiciliation dès aujourd'hui.</p>
+        <div class="cta-buttons">
+          <button class="btn btn-gold btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Réserver un espace
+          </button>
+          <button class="btn btn-outline-light btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Nous appeler
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    /* ═══════════════════════════════════════════
+       INTERSECTION OBSERVER
+       ═══════════════════════════════════════════ */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ═══════════════════════════════════════════
+       MOBILE NAV TOGGLE
+       ═══════════════════════════════════════════ */
+  </script>
+{% endblock %}

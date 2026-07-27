@@ -10,7 +10,7 @@
      ═══════════════════════════════════════════ */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --navy: #17325C; --navy-light: #23416F; --gold: #B99646; --gold-light: #d4b36a;
+    --navy: #FF8000; --navy-light: #FF8000; --gold: #B99646; --gold-light: #d4b36a;
     --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
     --white: #FFFFFF; --border: #D8D0C2;
     --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -33,7 +33,13 @@
      HERO
      ═══════════════════════════════════════════ */
   .hero { min-height: 55vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 72px; background: var(--navy); position: relative; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 30, 60, 0.88), rgba(23, 50, 92, 0.78)); z-index: 1; }
+  .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,128,0,0.60);
+      z-index: 1;
+  }
  
   .hero-content { position: relative; z-index: 2; text-align: center; padding: 72px 24px; }
   .hero-content .gold-divider { margin: 0 auto 28px; }
@@ -42,19 +48,13 @@
   .hero-content p { font-size: 17px; color: rgba(255,255,255,0.7); font-weight: 300; line-height: 1.7; max-width: 560px; margin: 0 auto; }
   .hero-content .gold-divider-bottom { margin: 28px auto 0; }
 
-.hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(
-            rgba(11, 40, 85, 0.05),
-            rgba(11, 40, 85, 0.05)
-        ),
-        url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&q=80');
-
-    background-size: cover;
-    background-position: center;
-}
+  .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+  }
 
   /* ═══════════════════════════════════════════
      INTRO SECTION
@@ -183,6 +183,73 @@
      ═══════════════════════════════════════════ */
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Couleur grise pour la section formateurs */
+  .formateurs .section-header h2,
+  .formateur-card h4 {
+      color: #5C5C5C !important;
+  }
+
+  .formateur-card p {
+      color: #666666 !important;
+  }
+
+  .formateur-card .role {
+      color: #5C5C5C !important; /* garde le doré pour les titres secondaires */
+  }
+  /* ==========================
+   FORMATEURS - VERSION PLUS ÉPURÉE
+   ========================== */
+
+  .formateurs {
+      padding: 80px 0;
+      background: #F7F4EE; /* fond ivoire clair */
+      position: relative;
+      overflow: hidden;
+  }
+
+  .formateurs::before {
+      display: none;
+  }
+
+  .formateurs .section-header h2 {
+      color: #5C5C5C !important;
+  }
+
+  .formateurs .section-label {
+      color: #FF8000 !important;
+  }
+
+  .formateur-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E5E5;
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+
+  .formateur-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+
+  .formateur-avatar {
+      background: rgba(255,128,0,0.12);
+      color: #FF8000;
+  }
+
+  .formateur-card h4 {
+      color: #333333 !important;
+  }
+
+  .formateur-card .role {
+      color: #FF8000 !important;
+  }
+
+  .formateur-card p {
+      color: #666666 !important;
+  }
 </style>
 {% endblock %}
 
@@ -191,10 +258,10 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <p class="label">Pôle 2</p>
+    <p class="mt-2 text-5xl lg:text-6xl font-black leading-tight text-white">Pôle 2</p>
     <div class="gold-divider"></div>
     <h1>Centre de Formation</h1>
-    <p>Un espace dédié à la montée en compétences, avec des salles équipées, des programmes clés en main et un accompagnement personnalisé des formateurs.</p>
+    <p class="mt-6 text-5xl lg:text-6xl font-black leading-tight text-white">Un espace dédié à la montée en compétences, avec des salles équipées, des programmes clés en main et un accompagnement personnalisé des formateurs.</p>
     <div class="gold-divider gold-divider-bottom"></div>
   </div>
 </section>

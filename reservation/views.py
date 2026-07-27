@@ -83,7 +83,8 @@ class ReservationCreateView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = ReservationForm(request=request)
-        return render(request, self.get_template_name(request), {"form": form})
+        workspaces = Workspace.objects.filter(disponible=True).select_related("espace", "categorie")
+        return render(request, self.get_template_name(request), {"form": form, "workspaces": workspaces})
 
     def post(self, request):
         form = ReservationForm(request.POST, request=request)

@@ -1,0 +1,176 @@
+{% extends "dashboard/trainer/trainer_dasbord.html" %}
+{% load static %}
+
+{% block page_title %}{{ page_title|default:"Demandes de devis" }}{% endblock %}
+
+{% block content_area %}
+<div class="content">
+  <!-- Page header -->
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h2 style="font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--navy);">Demandes de devis formation</h2>
+      <p style="font-size:13px; color:var(--text-muted); margin-top:2px;">{{ total_count }} demande(s) — {{ unread_count }} non lue(s)</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <a href="{% url 'dashboard_trainer:devis_formation_list' %}" class="btn {% if not current_filter %}btn-gold{% else %}btn-outline{% endif %}" style="padding:8px 16px; font-size:12px;">Tous</a>
+      <a href="{% url 'dashboard_trainer:devis_formation_list' %}?statut=non_lu" class="btn {% if current_filter == 'non_lu' %}btn-gold{% else %}btn-outline{% endif %}" style="padding:8px 16px; font-size:12px;">Non lus</a>
+      <a href="{% url 'dashboard_trainer:devis_formation_list' %}?statut=lu" class="btn {% if current_filter == 'lu' %}btn-gold{% else %}btn-outline{% endif %}" style="padding:8px 16px; font-size:12px;">Lus</a>
+    </div>
+  </div>
+
+  <!-- Devis table -->
+  <div class="panel animate-in">
+    <div class="panel-header">
+      <h3>Liste des demandes</h3>
+      <span style="font-size:12px; color:var(--text-muted);">Cliquez sur une ligne pour voir les détails</span>
+    </div>
+    <table class="session-table">
+      <thead>
+        <tr>
+          <th>Entreprise</th>
+          <th>Contact</th>
+          <th>Participants</th>
+          <th>Budget</th>
+          <th>Date début</th>
+          <th>Statut</th>
+          <th>Reçue le</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for devis in devis_list %}
+        <tr onclick="showDevisDetail('{{ devis.id }}')" style="cursor:pointer; {% if not devis.lu %}font-weight:600;{% endif %}">
+          <td>
+            <div class="session-name">{{ devis.company_name }}</div>
+            <div class="session-date">{{ devis.secteur|default:"—" }}</div>
+          </td>
+          <td>
+            <div class="session-name">{{ devis.nom_complet }}</div>
+            <div class="session-date">{{ devis.email }}<br>{{ devis.telephone }}</div>
+          </td>
+          <td>
+            <div class="session-students" style="align-items:center;">
+              <div class="session-student-dot" style="background:var(--gold); color:var(--navy-dark);">{{ devis.nombre_participants }}</div>
+              <div class="session-student-more">pers.</div>
+            </div>
+          </td>
+          <td style="font-weight:600; color:var(--navy);">{{ devis.budget|floatformat:0 }} F</td>
+          <td>
+            <div class="session-date">{{ devis.date_debut_souhaitee|default:"—"|date:"d/m/Y" }}</div>
+          </td>
+          <td>
+            {% if not devis.lu %}
+              <span class="badge badge-warning">Non lu</span>
+            {% else %}
+              <span class="badge badge-success">Lu</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="session-date">{{ devis.created_at|date:"d/m/Y H:i" }}</div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" style="text-align:center; padding:48px 24px; color:var(--text-muted);">
+            <div style="font-size:40px; margin-bottom:12px;">📋</div>
+            <div style="font-size:15px; font-weight:500;">Aucune demande de devis pour le moment</div>
+            <div style="font-size:13px; margin-top:4px;">Les demandes soumises via le formulaire public apparaîtront ici.</div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Devis Detail Modal (placeholder) -->
+  <div id="devisDetailModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; align-items:center; justify-content:center;">
+    <div style="background:var(--white); border-radius:var(--radius-lg); max-width:600px; width:90%; max-height:80vh; overflow-y:auto;">
+      <div style="padding:20px 24px; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-family:var(--font-display); font-size:16px; font-weight:600;" id="modalTitle">Détails de la demande</h3>
+        <button onclick="closeDevisModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <div style="padding:24px;" id="modalBody">
+        <!-- Dynamic -->
+      </div>
+      <div style="padding:16px 24px; border-top:1px solid var(--border-light); text-align:right;">
+        <button onclick="closeDevisModal()" class="btn btn-outline">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const devisData = {};
+  {% for devis in devis_list %}
+  devisData['{{ devis.id }}'] = {
+    company: '{{ devis.company_name|escapejs }}',
+    secteur: '{{ devis.secteur|escapejs }}',
+    taille: '{{ devis.taille_entreprise|escapejs }}',
+    nom: '{{ devis.nom_complet|escapejs }}',
+    email: '{{ devis.email|escapejs }}',
+    telephone: '{{ devis.telephone|escapejs }}',
+    participants: '{{ devis.nombre_participants }}',
+    budget: '{{ devis.budget|floatformat:0 }}',
+    date_debut: '{{ devis.date_debut_souhaitee|date:"d/m/Y"|default:"Non précisée" }}',
+    duree: '{{ devis.duree_souhaitee|escapejs|default:"Non précisée" }}',
+    lieu: '{{ devis.lieu_formation|escapejs }}',
+    objectifs: '{{ devis.objectifs|escapejs|truncatewords:50 }}',
+    date_creation: '{{ devis.created_at|date:"d/m/Y H:i" }}',
+  };
+  {% endfor %}
+
+  function showDevisDetail(id) {
+    const d = devisData[id];
+    if (!d) return;
+    document.getElementById('modalTitle').textContent = 'Devis — ' + d.company;
+    document.getElementById('modalBody').innerHTML = `
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div>
+          <h4 style="font-size:13px; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Entreprise</h4>
+          <p style="font-size:14px; margin-bottom:4px;"><strong>${d.company}</strong></p>
+          <p style="font-size:13px; color:var(--text-muted);">${d.secteur} · ${d.taille}</p>
+        </div>
+        <div>
+          <h4 style="font-size:13px; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Contact</h4>
+          <p style="font-size:14px; margin-bottom:4px;"><strong>${d.nom}</strong></p>
+          <p style="font-size:13px; color:var(--text-muted);">${d.email}<br>${d.telephone}</p>
+        </div>
+      </div>
+      <hr style="margin:16px 0; border-color:var(--border-light);">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:16px;">
+        <div style="text-align:center; padding:12px; background:var(--ivory); border-radius:6px;">
+          <div style="font-size:20px; font-weight:700; color:var(--navy);">${d.participants}</div>
+          <div style="font-size:11px; color:var(--text-muted);">Participants</div>
+        </div>
+        <div style="text-align:center; padding:12px; background:var(--ivory); border-radius:6px;">
+          <div style="font-size:20px; font-weight:700; color:var(--navy);">${d.budget} F</div>
+          <div style="font-size:11px; color:var(--text-muted);">Budget</div>
+        </div>
+        <div style="text-align:center; padding:12px; background:var(--ivory); border-radius:6px;">
+          <div style="font-size:20px; font-weight:700; color:var(--navy);">${d.date_debut}</div>
+          <div style="font-size:11px; color:var(--text-muted);">Début</div>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <h4 style="font-size:13px; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px;">Objectifs</h4>
+        <p style="font-size:13px; color:var(--dark); line-height:1.6;">${d.objectifs}</p>
+      </div>
+      <div style="font-size:12px; color:var(--text-muted);">
+        Reçue le ${d.date_creation} · Durée: ${d.duree} · Lieu: ${d.lieu}
+      </div>
+    `;
+    document.getElementById('devisDetailModal').style.display = 'flex';
+  }
+
+  function closeDevisModal() {
+    document.getElementById('devisDetailModal').style.display = 'none';
+  }
+
+  // Close on outside click
+  document.getElementById('devisDetailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDevisModal();
+  });
+</script>
+{% endblock %}
+

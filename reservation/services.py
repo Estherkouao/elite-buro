@@ -341,10 +341,10 @@ def admin_confirm_reservation(
 
 
 def _send_payment_request_email(reservation):
-    """Envoie un email au membre pour l'inviter à effectuer le paiement."""
-    from django.core.mail import send_mail
+    """Envoie un email HTML élégant au membre pour l'inviter à effectuer le paiement."""
     from django.conf import settings
     from django.urls import reverse
+    from notification.services import send_html_email
 
     paiement_url = (
         f"{settings.SITE_URL}/paiement/"
@@ -353,32 +353,16 @@ def _send_payment_request_email(reservation):
         f"&description={reservation.reservation_number}"
     )
 
-    subject = f"Paiement requis - Réservation {reservation.reservation_number}"
-    message = f"""
-Bonjour {reservation.utilisateur.get_full_name() or reservation.utilisateur.email},
+    subject = f"💳 Paiement requis - Réservation {reservation.reservation_number}"
 
-Votre réservation {reservation.reservation_number} a été validée par notre équipe.
-
-Pour finaliser votre réservation et confirmer votre espace, veuillez effectuer le paiement dès que possible.
-
-Détails de la réservation :
-- Espace : {reservation.espace.nom}
-- Date : {reservation.date_debut} au {reservation.date_fin}
-- Montant total : {reservation.montant_total} FCFA
-
-Lien de paiement : {paiement_url}
-
-Ce lien expirera une fois le paiement effectué.
-
-Cordialement,
-L'équipe EliteBuro
-"""
-
-    send_mail(
+    send_html_email(
         subject=subject,
-        message=message,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[reservation.utilisateur.email],
+        recipient_email=reservation.utilisateur.email,
+        template_name="emails/reservation_payment_request.html",
+        context={
+            "reservation": reservation,
+            "paiement_url": paiement_url,
+        },
         fail_silently=True,
     )
 

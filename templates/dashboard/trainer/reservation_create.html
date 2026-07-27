@@ -1,0 +1,243 @@
+{% extends 'dashboard/trainer/trainer_dasbord.html' %}
+{% load static %}
+
+{% block page_title %}Nouvelle réservation{% endblock %}
+
+{% block content_area %}
+<div class="content">
+
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Nouvelle réservation d'espace</h2>
+      <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">
+        Réservez un espace de coworking directement depuis votre dashboard.
+      </p>
+    </div>
+    <a href="{% url 'dashboard_trainer:trainer_reservations' %}" class="section-link">← Retour à mes réservations</a>
+  </div>
+
+  {% if messages %}
+  <div style="margin-bottom:20px;">
+    {% for message in messages %}
+    <div class="panel" style="padding:12px 20px; border-left:4px solid 
+      {% if message.tags == 'success' %}var(--success){% elif message.tags == 'error' %}var(--danger){% elif message.tags == 'warning' %}var(--warning){% else %}var(--info){% endif %};
+      margin-bottom:8px;">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Grid: Espaces (left) | Calendrier + Formulaire (right) -->
+  <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:24px;">
+
+    <!-- ═══════ Left: Espaces disponibles ═══════ -->
+    <div class="panel animate-in delay-1">
+      <div class="panel-header">
+        <h3>Espaces disponibles</h3>
+      </div>
+      <div class="panel-body" style="max-height:500px; overflow-y:auto;">
+        {% for ws in workspaces %}
+        <div class="upcoming-card" style="cursor:pointer; border:2px solid transparent; transition:all 0.2s;"
+             onclick="selectWorkspace('{{ ws.id }}', '{{ ws.nom|escapejs }}')"
+             id="ws-card-{{ ws.id }}">
+          <div class="upcoming-date" style="width:auto; height:auto; padding:8px 12px; background:var(--gold-pale);">
+            <span style="font-size:18px; font-weight:700; color:var(--gold);">{{ ws.capacite }}</span>
+            <span style="font-size:9px; color:var(--text-muted);">places</span>
+          </div>
+          <div class="upcoming-info">
+            <div class="upcoming-title">{{ ws.nom }}</div>
+            <div class="upcoming-meta">{{ ws.espace.nom }} · {{ ws.categorie.nom }}</div>
+            <div class="upcoming-meta" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+              <span style="font-size:11px; background:var(--ivory); padding:2px 8px; border-radius:4px;">{{ ws.prix_heure }} F/h</span>
+              <span style="font-size:11px; background:var(--ivory); padding:2px 8px; border-radius:4px;">{{ ws.prix_journee }} F/jour</span>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div style="padding:24px; text-align:center; color:var(--text-muted);">Aucun espace disponible pour le moment.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- ═══════ Right: Calendrier + Formulaire ═══════ -->
+    <div style="display:flex; flex-direction:column; gap:24px;">
+
+      <!-- Calendar Card -->
+      <div class="panel animate-in delay-1">
+        <div class="panel-header">
+          <h3>Calendrier — Sélection rapide</h3>
+          <span style="font-size:12px;color:var(--text-muted);">Choisissez une date</span>
+        </div>
+        <div class="panel-body padded">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <button type="button" id="prevMonthBtn" class="stat-card" style="border:1px solid var(--border); background:var(--white); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:14px; font-weight:600; color:var(--navy);">←</button>
+            <div id="calendarTitle" style="font-weight:700; color:var(--navy); font-family:var(--font-display);"></div>
+            <button type="button" id="nextMonthBtn" class="stat-card" style="border:1px solid var(--border); background:var(--white); padding:6px 14px; border-radius:6px; cursor:pointer; font-size:14px; font-weight:600; color:var(--navy);">→</button>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-light); margin-bottom:6px;">
+            <div>Lu</div><div>Ma</div><div>Me</div><div>Je</div><div>Ve</div><div>Sa</div><div>Di</div>
+          </div>
+          <div id="calendarGrid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px;"></div>
+          <p style="margin-top:12px; font-size:12px; color:var(--text-muted);">La date sélectionnée remplit automatiquement les champs début et fin.</p>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="panel animate-in delay-2">
+        <div class="panel-header">
+          <h3>Formulaire de réservation</h3>
+        </div>
+        <div class="panel-body padded">
+          <form method="post" id="reservationForm">
+            {% csrf_token %}
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+              {% for field in form %}
+              <div style="{% if field.name == 'commentaire' %}grid-column:1/-1;{% endif %}">
+                <label style="display:block; font-size:13px; font-weight:600; color:var(--navy); margin-bottom:4px;">
+                  {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                <div style="color:var(--danger); font-size:12px; margin-top:2px;">{{ field.errors|striptags }}</div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+
+            {% if form.non_field_errors %}
+            <div style="color:var(--danger); font-size:13px; margin-bottom:12px;">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div style="display:flex; gap:12px; margin-top:20px;">
+              <button type="submit" class="stat-card" style="border:none; cursor:pointer; background:var(--navy); color:var(--white); padding:12px 24px; border-radius:var(--radius); font-weight:600; font-size:14px;">
+                Créer la réservation
+              </button>
+              <a href="{% url 'dashboard_trainer:trainer_reservations' %}" class="stat-card" style="border:1px solid var(--border); padding:12px 24px; border-radius:var(--radius); font-weight:500; font-size:14px; color:var(--text-muted); text-decoration:none; display:inline-flex; align-items:center;">
+                Annuler
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ═══════════ Sélection d'espace ═══════════
+  function selectWorkspace(id) {
+    const select = document.getElementById('id_espace');
+    if (select) {
+      for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].value == id) {
+          select.selectedIndex = i;
+          select.style.borderColor = 'var(--gold)';
+          break;
+        }
+      }
+    }
+    // Highlight card
+    document.querySelectorAll('[id^="ws-card-"]').forEach(c => c.style.borderColor = 'transparent');
+    const card = document.getElementById('ws-card-' + id);
+    if (card) card.style.borderColor = 'var(--gold)';
+  }
+
+  // ═══════════ Calendrier ═══════════
+  const dateStartInput = document.getElementById('id_date_debut');
+  const dateEndInput = document.getElementById('id_date_fin');
+  const calendarGrid = document.getElementById('calendarGrid');
+  const calendarTitle = document.getElementById('calendarTitle');
+  const prevMonthBtn = document.getElementById('prevMonthBtn');
+  const nextMonthBtn = document.getElementById('nextMonthBtn');
+
+  let currentMonth = new Date();
+  let selectedDate = dateStartInput?.value ? new Date(dateStartInput.value) : new Date();
+
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function renderCalendar() {
+    if (!calendarGrid || !calendarTitle) return;
+
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startDay = (firstDay.getDay() + 6) % 7;
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+
+    calendarTitle.textContent = currentMonth.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    calendarGrid.innerHTML = '';
+
+    // Previous month's trailing days
+    for (let i = startDay - 1; i >= 0; i -= 1) {
+      const day = prevMonthLastDay - i;
+      const cell = document.createElement('div');
+      cell.style.cssText = 'padding:6px 2px; border-radius:6px; text-align:center; font-size:13px; color:var(--text-light); background:transparent;';
+      cell.textContent = day;
+      calendarGrid.appendChild(cell);
+    }
+
+    // Current month days
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      const date = new Date(year, month, day);
+      const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
+      cell.style.cssText = isSelected
+        ? 'padding:6px 2px; border-radius:6px; text-align:center; font-size:13px; font-weight:700; border:2px solid var(--gold); background:var(--gold-pale); color:var(--gold); cursor:pointer;'
+        : 'padding:6px 2px; border-radius:6px; text-align:center; font-size:13px; font-weight:600; border:2px solid transparent; background:var(--white); color:var(--navy); cursor:pointer; transition:all 0.2s;';
+      cell.textContent = day;
+      cell.addEventListener('mouseenter', function() {
+        if (!isSelected) this.style.background = 'var(--cream)';
+      });
+      cell.addEventListener('mouseleave', function() {
+        if (!isSelected) this.style.background = 'var(--white)';
+      });
+      cell.addEventListener('click', function() {
+        selectedDate = date;
+        if (dateStartInput) dateStartInput.value = formatDate(date);
+        if (dateEndInput) dateEndInput.value = formatDate(date);
+        renderCalendar();
+      });
+      calendarGrid.appendChild(cell);
+    }
+  }
+
+  prevMonthBtn?.addEventListener('click', function() {
+    currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+    renderCalendar();
+  });
+
+  nextMonthBtn?.addEventListener('click', function() {
+    currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  [dateStartInput, dateEndInput].forEach(function(input) {
+    input?.addEventListener('change', function() {
+      if (dateStartInput?.value) {
+        selectedDate = new Date(dateStartInput.value);
+        currentMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+        renderCalendar();
+      }
+    });
+  });
+
+  // Highlight selected workspace on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    renderCalendar();
+    const espaceSelect = document.getElementById('id_espace');
+    if (espaceSelect && espaceSelect.value) {
+      selectWorkspace(espaceSelect.value);
+    }
+  });
+</script>
+{% endblock %}

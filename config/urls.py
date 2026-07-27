@@ -42,6 +42,8 @@ urlpatterns = [
     # URLs membres pour les réclamations (espace membre)
     path('reclamation/membre/', include((member_urlpatterns, 'reclamation'), namespace='reclamation')),
     path('accounts/', include('allauth.urls')),
+    path('chatbot/', include('chatbot.urls')),
+    path('conciergerie/', include('conciergerie.urls')),
 ]
 
 if settings.DEBUG:

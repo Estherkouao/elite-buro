@@ -1286,6 +1286,57 @@ class AdminTestimonialRejectView(AdminBaseView):
         return redirect("dashboard_admin:testimonials_list")
 
 
+class AdminDevisFormationListView(AdminBaseView):
+    """Liste des demandes de devis formation pour l'admin."""
+    template_name = "dashboard/admin/devis_formation_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from core.models import DevisFormation
+
+        context["active_section"] = "devis_formation"
+        devis_qs = DevisFormation.objects.all().order_by("-created_at")
+
+        # Filtre par statut
+        statut_filter = self.request.GET.get("statut", "")
+        if statut_filter == "non_lu":
+            devis_qs = devis_qs.filter(lu=False)
+        elif statut_filter == "lu":
+            devis_qs = devis_qs.filter(lu=True)
+
+        context["devis_list"] = devis_qs
+        context["total_count"] = DevisFormation.objects.count()
+        context["unread_count"] = DevisFormation.objects.filter(lu=False).count()
+        context["current_filter"] = statut_filter
+        return context
+
+
+class AdminDevisMarkReadView(AdminBaseView):
+    """Marque une demande de devis comme lue."""
+
+    def post(self, request, devis_id, *args, **kwargs):
+        from core.models import DevisFormation
+        devis = get_object_or_404(DevisFormation, id=devis_id)
+        devis.lu = True
+        devis.lu_le = timezone.now()
+        devis.save(update_fields=["lu", "lu_le"])
+        messages.success(request, "Demande marquée comme lue.")
+        return redirect("dashboard_admin:devis_formation_list")
+
+
+class AdminDevisMarkUnreadView(AdminBaseView):
+    """Marque une demande de devis comme non lue."""
+
+    def post(self, request, devis_id, *args, **kwargs):
+        from core.models import DevisFormation
+        devis = get_object_or_404(DevisFormation, id=devis_id)
+        devis.lu = False
+        devis.lu_le = None
+        devis.save(update_fields=["lu", "lu_le"])
+        messages.success(request, "Demande marquée comme non lue.")
+        return redirect("dashboard_admin:devis_formation_list")
+
+
 class AdminCoworkingSpaceDeleteView(AdminBaseView):
 
     template_name = "dashboard/admin/coworking_space_delete.html"

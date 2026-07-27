@@ -1,0 +1,422 @@
+{% extends "layouts/base_admin.html" %}
+{% load static %}
+
+{% block title %}Demandes de devis formation — Admin{% endblock %}
+
+{% block content %}
+<div class="content">
+  <!-- Header -->
+  <div class="reservation-header">
+    <div class="reservation-title">
+      <h1>Demandes de devis formation</h1>
+      <p>{{ total_count }} demande(s) au total — 
+        {% if unread_count > 0 %}
+          <strong style="color:var(--elite-warning);">{{ unread_count }} non lue(s)</strong>
+        {% else %}
+          Toutes lues
+        {% endif %}
+      </p>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <a href="{% url 'dashboard_admin:devis_formation_list' %}" class="btn-filter" style="{% if not current_filter %}background:var(--elite-navy);{% else %}background:var(--text-lighter);{% endif %}">Tous</a>
+      <a href="{% url 'dashboard_admin:devis_formation_list' %}?statut=non_lu" class="btn-filter" style="{% if current_filter == 'non_lu' %}background:var(--elite-warning);{% else %}background:var(--text-lighter);{% endif %}">Non lus</a>
+      <a href="{% url 'dashboard_admin:devis_formation_list' %}?statut=lu" class="btn-filter" style="{% if current_filter == 'lu' %}background:var(--elite-success);{% else %}background:var(--text-lighter);{% endif %}">Lus</a>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="reservation-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Entreprise</th>
+          <th>Contact</th>
+          <th>Participants</th>
+          <th>Budget</th>
+          <th>Début souhaité</th>
+          <th>Statut</th>
+          <th>Reçue le</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for devis in devis_list %}
+        <tr style="{% if not devis.lu %}background:rgba(201,160,44,0.05);{% endif %}">
+          <td>
+            <strong class="reservation-number" style="{% if not devis.lu %}font-weight:700;{% endif %}">{{ devis.company_name }}</strong>
+            <br><small style="color:var(--text-light); font-size:12px;">{{ devis.secteur|default:"—" }}</small>
+            {% if devis.taille_entreprise %}
+              <br><small style="color:var(--text-lighter); font-size:11px;">{{ devis.taille_entreprise }}</small>
+            {% endif %}
+          </td>
+          <td>
+            <strong>{{ devis.nom_complet }}</strong>
+            <br><small style="color:var(--text-light); font-size:12px;">{{ devis.email }}</small>
+            <br><small style="color:var(--text-light); font-size:12px;">{{ devis.telephone }}</small>
+          </td>
+          <td>
+            <span class="badge" style="background:rgba(13,43,85,0.08); color:var(--elite-navy); font-weight:700;">
+              {{ devis.nombre_participants }} pers.
+            </span>
+          </td>
+          <td style="font-weight:600; color:var(--elite-navy); font-family:'Roboto Mono',monospace;">
+            {{ devis.budget|floatformat:0 }} F
+          </td>
+          <td>
+            <small>{{ devis.date_debut_souhaitee|default:"—"|date:"d/m/Y" }}</small>
+          </td>
+          <td>
+            {% if not devis.lu %}
+              <span class="badge pending">Non lu</span>
+            {% else %}
+              <span class="badge confirmed">Lu</span>
+              {% if devis.lu_le %}
+                <br><small style="font-size:10px; color:var(--text-lighter);">{{ devis.lu_le|date:"d/m/Y H:i" }}</small>
+              {% endif %}
+            {% endif %}
+          </td>
+          <td>
+            <small style="color:var(--text-light);">{{ devis.created_at|date:"d/m/Y" }}</small>
+            <br><small style="color:var(--text-lighter); font-size:11px;">{{ devis.created_at|date:"H:i" }}</small>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="action-btn action-view" onclick="showDevisDetail({{ devis.id }})">Détails</button>
+              {% if not devis.lu %}
+                <form method="POST" action="{% url 'dashboard_admin:devis_formation_mark_read' devis.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="action-btn action-confirm">Marquer lu</button>
+                </form>
+              {% else %}
+                <form method="POST" action="{% url 'dashboard_admin:devis_formation_mark_unread' devis.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="action-btn action-refuse">Marquer non lu</button>
+                </form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8">
+            <div class="empty-reservation">
+              <div style="font-size:48px; margin-bottom:12px;">📋</div>
+              <h3 style="font-family:'Playfair Display',serif; color:var(--elite-navy); margin-bottom:8px;">Aucune demande de devis</h3>
+              <p style="color:var(--text-light);">Les demandes soumises via le formulaire public apparaîtront ici.</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal de détail -->
+<div class="modal-overlay" id="devisDetailModal" style="display:none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 id="modalTitle">Détails de la demande</h3>
+      <button class="modal-close" onclick="closeDevisModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Rempli dynamiquement -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeDevisModal()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,43,85,0.6);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.modal-container {
+  background: white;
+  border-radius: 24px;
+  max-width: 740px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(13,43,85,0.25);
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn {
+  from { opacity:0; transform:translateY(20px) scale(0.97); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+.modal-header {
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid rgba(13,43,85,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top:0;
+  background:white;
+  z-index:1;
+  border-radius:24px 24px 0 0;
+}
+.modal-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--elite-navy);
+  margin:0;
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-lighter);
+  cursor: pointer;
+  line-height:1;
+  padding:0 4px;
+  transition:color 0.2s;
+}
+.modal-close:hover { color: var(--elite-danger); }
+.modal-body { padding: 24px 28px; }
+.modal-footer {
+  padding: 16px 28px 20px;
+  border-top: 1px solid rgba(13,43,85,0.08);
+  text-align: right;
+}
+.detail-section { margin-bottom: 24px; }
+.detail-section:last-child { margin-bottom:0; }
+.detail-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--elite-gold);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(201,160,44,0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+}
+.detail-field { margin-bottom: 6px; }
+.detail-field .label {
+  font-size: 11px;
+  color: var(--text-lighter);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.detail-field .value {
+  font-size: 14px;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+.detail-field .value.mono {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  color: var(--elite-navy);
+}
+.detail-full { grid-column: 1 / -1; }
+.detail-full .value {
+  line-height: 1.6;
+  font-size: 13px;
+  color: #374151;
+}
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+.stat-card {
+  text-align: center;
+  padding: 16px 12px;
+  background: var(--elite-cream);
+  border-radius: 12px;
+}
+.stat-card .stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--elite-navy);
+  font-family: 'Roboto Mono', monospace;
+}
+.stat-card .stat-label {
+  font-size: 11px;
+  color: var(--text-lighter);
+  margin-top: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.btn-secondary {
+  padding: 10px 22px;
+  background: var(--elite-cream);
+  color: var(--elite-navy);
+  border: 1px solid rgba(13,43,85,0.15);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.btn-secondary:hover {
+  background: var(--elite-navy);
+  color: white;
+}
+@media(max-width:600px){
+  .detail-grid { grid-template-columns:1fr; }
+  .detail-stats { grid-template-columns:1fr; }
+  .modal-body { padding:16px; }
+  .modal-header { padding:16px; }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Données des devis injectées depuis Django
+const devisData = {};
+{% for devis in devis_list %}
+devisData[{{ devis.id }}] = {
+  company: '{{ devis.company_name|escapejs }}',
+  rccm: '{{ devis.rccm|default:"—"|escapejs }}',
+  secteur: '{{ devis.secteur|default:"—"|escapejs }}',
+  taille: '{{ devis.taille_entreprise|default:"—"|escapejs }}',
+  adresse: '{{ devis.adresse|default:"—"|escapejs }}',
+  civilite: '{{ devis.civilite|default:"Mr"|escapejs }}',
+  nom: '{{ devis.nom_complet|escapejs }}',
+  fonction: '{{ devis.fonction|default:"—"|escapejs }}',
+  email: '{{ devis.email|escapejs }}',
+  telephone: '{{ devis.telephone|escapejs }}',
+  telephone2: '{{ devis.telephone_secondaire|default:"—"|escapejs }}',
+  type: '{{ devis.type_formation|default:"Non précisé"|escapejs }}',
+  domaines: '{{ devis.domaines|default:"Non précisé"|escapejs }}',
+  participants: '{{ devis.nombre_participants }}',
+  budget: '{{ devis.budget|floatformat:0 }}',
+  date_debut: '{{ devis.date_debut_souhaitee|date:"d/m/Y"|default:"Non précisée" }}',
+  duree: '{{ devis.duree_souhaitee|default:"Non précisée"|escapejs }}',
+  lieu: '{% if devis.lieu_formation == "nos-locaux" %}Dans nos locaux{% elif devis.lieu_formation == "vos-locaux" %}Dans vos locaux{% elif devis.lieu_formation == "enligne" %}En ligne{% elif devis.lieu_formation == "hybride" %}Hybride{% else %}{{ devis.lieu_formation|default:"Nos locaux" }}{% endif %}',
+  objectifs: '{{ devis.objectifs|escapejs|truncatewords:80 }}',
+  public_cible: '{{ devis.public_cible|default:"Non spécifié"|escapejs|truncatewords:50 }}',
+  fichier: '{{ devis.fichier_joint.url|default:""|escapejs }}',
+  statut: '{% if devis.lu %}Lu{% else %}Non lu{% endif %}',
+  date_creation: '{{ devis.created_at|date:"d/m/Y \\à H:i" }}',
+  lu_le: '{{ devis.lu_le|date:"d/m/Y \\à H:i"|default:"—" }}',
+};
+{% endfor %}
+
+function showDevisDetail(id) {
+  const d = devisData[id];
+  if (!d) return;
+
+  const luLeHtml = d.statut === 'Lu' ? `<br><small style="font-size:11px; color:var(--text-lighter);">Lu le ${d.lu_le}</small>` : '';
+
+  document.getElementById('modalTitle').textContent = 'Demande — ' + d.company;
+
+  document.getElementById('modalBody').innerHTML = `
+    <!-- Section 1: Entreprise -->
+    <div class="detail-section">
+      <div class="detail-section-title">🏢 Entreprise</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="label">Nom</div><div class="value"><strong>${d.company}</strong></div></div>
+        <div class="detail-field"><div class="label">RCCM / RC</div><div class="value">${d.rccm}</div></div>
+        <div class="detail-field"><div class="label">Secteur d'activité</div><div class="value">${d.secteur}</div></div>
+        <div class="detail-field"><div class="label">Taille</div><div class="value">${d.taille}</div></div>
+        <div class="detail-field detail-full"><div class="label">Adresse</div><div class="value">${d.adresse}</div></div>
+      </div>
+    </div>
+
+    <!-- Section 2: Contact -->
+    <div class="detail-section">
+      <div class="detail-section-title">👤 Contact</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="label">Nom complet</div><div class="value"><strong>${d.nom}</strong></div></div>
+        <div class="detail-field"><div class="label">Fonction</div><div class="value">${d.fonction}</div></div>
+        <div class="detail-field"><div class="label">Email</div><div class="value">${d.email}</div></div>
+        <div class="detail-field"><div class="label">Téléphone</div><div class="value">${d.telephone}</div></div>
+        <div class="detail-field"><div class="label">Téléphone secondaire</div><div class="value">${d.telephone2}</div></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="detail-section">
+      <div class="detail-stats">
+        <div class="stat-card">
+          <div class="stat-value">${d.participants}</div>
+          <div class="stat-label">Participants</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${d.budget} F</div>
+          <div class="stat-label">Budget</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">${d.date_debut}</div>
+          <div class="stat-label">Début souhaité</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Besoin de formation -->
+    <div class="detail-section">
+      <div class="detail-section-title">📚 Besoin de formation</div>
+      <div class="detail-grid">
+        <div class="detail-field"><div class="label">Type</div><div class="value">${d.type}</div></div>
+        <div class="detail-field"><div class="label">Domaines</div><div class="value">${d.domaines}</div></div>
+        <div class="detail-field"><div class="label">Durée souhaitée</div><div class="value">${d.duree}</div></div>
+        <div class="detail-field"><div class="label">Lieu</div><div class="value">${d.lieu}</div></div>
+        ${d.fichier ? `<div class="detail-field detail-full"><div class="label">Document joint</div><div class="value"><a href="${d.fichier}" target="_blank" style="color:var(--elite-navy);font-weight:600;">📎 Télécharger le document</a></div></div>` : ''}
+      </div>
+    </div>
+
+    <!-- Section 4: Objectifs -->
+    <div class="detail-section">
+      <div class="detail-section-title">🎯 Objectifs de la formation</div>
+      <div class="detail-field detail-full">
+        <div class="value" style="line-height:1.7;">${d.objectifs}</div>
+      </div>
+      <div style="margin-top:12px;">
+        <div style="font-size:11px; color:var(--text-lighter); text-transform:uppercase;font-weight:600;letter-spacing:0.04em;margin-bottom:4px;">Public cible</div>
+        <div style="font-size:13px; color:#374151;line-height:1.6;">${d.public_cible}</div>
+      </div>
+    </div>
+
+    <!-- Métadonnées -->
+    <div class="detail-section" style="margin-bottom:0;">
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-top:12px; border-top:1px solid rgba(13,43,85,0.06);">
+        <div>
+          <span style="font-size:11px; color:var(--text-lighter); text-transform:uppercase;font-weight:600;">Reçue le</span>
+          <div style="font-size:13px; color:var(--text-dark);">${d.date_creation}</div>
+        </div>
+        <div>
+          <span style="font-size:11px; color:var(--text-lighter); text-transform:uppercase;font-weight:600;">Statut</span>
+          <div style="font-size:13px; color:var(--text-dark);">${d.statut}${luLeHtml}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('devisDetailModal').style.display = 'flex';
+}
+
+function closeDevisModal() {
+  document.getElementById('devisDetailModal').style.display = 'none';
+}
+
+// Close on outside click
+document.getElementById('devisDetailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDevisModal();
+});
+</script>
+{% endblock %}
+

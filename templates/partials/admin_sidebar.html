@@ -77,10 +77,16 @@ lile t{% load static %}
             </a>
             
 
-        <a href="{% url 'dashboard_admin:profile_view' %}"
-           class="nav-item {% if active_section == 'profil' %}active{% endif %}">
-            <span class="nav-icon">👤</span>
-            <span class="nav-label">Profil</span>
+        
+
+        {# Demandes Devis Formation #}
+        <a href="{% url 'dashboard_admin:devis_formation_list' %}"
+           class="nav-item {% if active_section == 'devis_formation' %}active{% endif %}">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Demandes Devis</span>
+            {% if unread_count > 0 %}
+                <span class="nav-badge badge-warning">{{ unread_count }}</span>
+            {% endif %}
         </a>
 
         {# Avis Clients #}
@@ -90,6 +96,7 @@ lile t{% load static %}
             <span class="nav-label">Avis Clients</span>
         </a>
 
+
         {# Messages de contact #}
         <a href="{% url 'dashboard_admin:contact_messages' %}"
            class="nav-item {% if active_section == 'contact_messages' %}active{% endif %}">
@@ -98,6 +105,11 @@ lile t{% load static %}
             {% if contact_unread_count > 0 %}
                 <span class="nav-badge badge-warning">{{ contact_unread_count }}</span>
             {% endif %}
+        </a>
+        <a href="{% url 'dashboard_admin:profile_view' %}"
+           class="nav-item {% if active_section == 'profil' %}active{% endif %}">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Profil</span>
         </a>
 
     </nav>

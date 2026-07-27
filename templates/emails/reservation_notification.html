@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F7F7F2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 620px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 15px 40px rgba(13,43,85,0.12);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-family: Georgia, serif;
+            font-size: 34px;
+            font-weight: bold;
+            color: #C9A02C;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            color: #64748B;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        h2 {
+            color: #0D2B55;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        p {
+            color: #334155;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .highlight {
+            background: #FAFAF7;
+            border-left: 4px solid #C9A02C;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 35px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #0D2B55;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .btn:hover {
+            background: #C9A02C;
+        }
+        .details-card {
+            background: #F8FAFC;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .details-table td {
+            padding: 10px 5px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+        }
+        .details-table td:first-child {
+            color: #64748B;
+            font-weight: 500;
+            width: 40%;
+        }
+        .details-table td:last-child {
+            color: #0D2B55;
+            font-weight: 600;
+            text-align: right;
+        }
+        .details-table tr:last-child td {
+            border-bottom: none;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .status-confirmed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .status-canceled {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        .status-finished {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #94A3B8;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .footer strong {
+            color: #C9A02C;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <div class="logo">EliteBuro</div>
+            <div class="subtitle">Coworking • Centre de Formation • Solutions professionnelles</div>
+        </div>
+
+        <h2>{% if titre %}{{ titre }}{% else %}📬 Notification de réservation{% endif %}</h2>
+
+        <p>Bonjour <strong>{{ user.get_full_name|default:user.email }}</strong>,</p>
+
+        {% if message_personnalise %}
+        <p>{{ message_personnalise }}</p>
+        {% else %}
+        <p>{{ message }}</p>
+        {% endif %}
+
+        {% if reservation %}
+        <div class="details-card">
+            <table class="details-table">
+                <tr>
+                    <td>Réservation</td>
+                    <td>{{ reservation.reservation_number }}</td>
+                </tr>
+                <tr>
+                    <td>Espace</td>
+                    <td>{{ reservation.espace.nom }}</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>{{ reservation.date_debut|date:"d/m/Y" }} → {{ reservation.date_fin|date:"d/m/Y" }}</td>
+                </tr>
+                <tr>
+                    <td>Montant</td>
+                    <td>{{ reservation.montant_total }} FCFA</td>
+                </tr>
+                {% if reservation.statut %}
+                <tr>
+                    <td>Statut</td>
+                    <td>
+                        <span class="status-badge 
+                            {% if reservation.statut == 'confirmed' %}status-confirmed
+                            {% elif reservation.statut == 'canceled' %}status-canceled
+                            {% elif reservation.statut == 'finished' %}status-finished
+                            {% else %}status-pending{% endif %}">
+                            {{ reservation.get_statut_display }}
+                        </span>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if action_url and action_label %}
+        <div class="btn-container">
+            <a href="{{ action_url }}" class="btn">{{ action_label }}</a>
+        </div>
+        {% endif %}
+
+        <p>
+            Cordialement,<br>
+            <strong>L'équipe EliteBuro</strong>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>
+            <strong>EliteBuro</strong><br>
+            L'espace qui accompagne votre réussite professionnelle.
+        </p>
+        <p>
+            Riviera Palmeraie, Abidjan<br>
+            Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+        </p>
+    </div>
+</div>
+</body>
+</html>
+

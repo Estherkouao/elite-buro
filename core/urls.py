@@ -11,6 +11,9 @@ urlpatterns = [
     # Contact
     path("contact/", views.contact, name="contact"),
 
+    # Devis formation
+    path("demande-devis-formation/", views.devis_formation, name="devis_formation"),
+
     # Pages institutionnelles
     path("a-propos/", TemplateView.as_view(template_name="core/a_propos.html"), name="a_propos"),
     path("faq/", TemplateView.as_view(template_name="core/faq.html"), name="faq"),
@@ -30,5 +33,3 @@ urlpatterns = [
         name="conditions_utilisation",
     ),
 ]
-
-

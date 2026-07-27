@@ -19,6 +19,10 @@
                 Coworking
             </a>
 
+            <a href="{% url 'conciergerie:home' %}" class="nav-link">
+                Conciergerie
+            </a>
+
             <div class="relative group">
 
         <button class="nav-link flex items-center gap-2">
@@ -79,6 +83,9 @@
 
         <a href="{% url 'formation:home' %}" class="nav-link">
             Formation
+        </a>
+        <a href="{% url 'core:devis_formation' %}" class="nav-link">
+            Devis Formation
         </a>
         <a href="{% url 'blog:list' %}" class="nav-link">
             Blog

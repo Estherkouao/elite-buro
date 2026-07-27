@@ -8,8 +8,8 @@
    ============================================ */
 
 :root {
-    --primary-color: #0f3460;
-    --secondary-color: #16213e;
+    --primary-color: #808080;
+    --secondary-color: #808080;
     --accent-color: #e94560;
     --success-color: #27ae60;
     --warning-color: #f39c12;
@@ -1961,4 +1961,6 @@ a:active {
 
 
 }
-
+.sidebar {
+    background: linear-gradient(135deg, #111111 0%, #111111 100%) !important;
+}

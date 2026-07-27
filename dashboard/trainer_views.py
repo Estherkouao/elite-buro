@@ -6,11 +6,12 @@ from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Sum, Avg, Q
-from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.views import View
+from django.views.generic import DetailView
 
 from accounts.models import User, Profile
 from formation.models import (
@@ -286,8 +287,20 @@ class TrainerDashboardView(LoginRequiredMixin, View):
                 "color": self._get_color(completion_pct),
             })
 
-        # ---- Nombre de formations enseignées ----
+# ---- Nombre de formations enseignées ----
         formations_count = len(formations_ids)
+
+# ---- Réservations actives ----
+        from reservation.models import ReservationStatus
+        from reservation.models import Reservation as ReservationModel
+        active_reservations_count = ReservationModel.objects.filter(
+            utilisateur=user,
+            statut__in=[
+                ReservationStatus.PENDING,
+                ReservationStatus.CONFIRMED,
+                ReservationStatus.IN_PROGRESS,
+            ]
+        ).count()
 
         context = {
             "user": user,
@@ -320,6 +333,7 @@ class TrainerDashboardView(LoginRequiredMixin, View):
             # Performance des modules
             "performance_data": performance_data,
             # URLs
+            "active_reservations_count": active_reservations_count,
             "trainer_name": user.full_name,
             "trainer_initials": self._get_initials(user),
             # Liste des inscrits récents pour le tableau
@@ -1094,5 +1108,237 @@ def delete_document(request, document_id):
             "Le document pédagogique a été supprimé avec succès."
         )
 
-    return redirect("dashboard_trainer:documents")    
+    return redirect("dashboard_trainer:documents")
+
+
+# ═══════════════════════════════════════════════════════════════
+#  DEMANDES DE DEVIS FORMATION (formateur)
+# ═══════════════════════════════════════════════════════════════
+
+class TrainerDevisFormationView(TrainerBaseView):
+    """Liste des demandes de devis formation (lecture seule pour les formateurs)."""
+    template_name = "dashboard/trainer/devis_formation_list.html"
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = self._get_base_context(request)
+        from core.models import DevisFormation
+
+        devis_qs = DevisFormation.objects.all().order_by("-created_at")
+
+        # Filtre par statut
+        statut_filter = request.GET.get("statut", "")
+        if statut_filter == "non_lu":
+            devis_qs = devis_qs.filter(lu=False)
+        elif statut_filter == "lu":
+            devis_qs = devis_qs.filter(lu=True)
+
+        context["devis_list"] = devis_qs
+        context["total_count"] = DevisFormation.objects.count()
+        context["unread_count"] = DevisFormation.objects.filter(lu=False).count()
+        context["current_filter"] = statut_filter
+        context["page_title"] = "Demandes de devis"
+        return render(request, self.template_name, context)
+
+
+# ═══════════════════════════════════════════════════════════════
+#  RÉSERVATIONS DU FORMATEUR
+# ═══════════════════════════════════════════════════════════════
+
+from reservation.models import Reservation as ReservationModel, ReservationLog, ReservationStatus
+from reservation.permissions import can_view_reservation, can_cancel_reservation
+from reservation.forms import ReservationForm
+from reservation.services import (
+    check_availability_conflict,
+    create_invoice_for_reservation,
+    calculate_amount_for_workspace,
+)
+from coworking.models import Workspace
+
+
+class TrainerReservationCreateView(TrainerBaseView):
+    """Permet au formateur de créer une réservation depuis son dashboard."""
+    
+    template_name = "dashboard/trainer/reservation_create.html"
+    
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = self._get_base_context(request)
+        form = ReservationForm(request=request)
+        workspaces = Workspace.objects.filter(disponible=True).select_related("espace", "categorie")
+        context["form"] = form
+        context["workspaces"] = workspaces
+        context["page_title"] = "Nouvelle réservation"
+        return render(request, self.template_name, context)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        context = self._get_base_context(request)
+        form = ReservationForm(request.POST, request=request)
+        
+        if not form.is_valid():
+            context["form"] = form
+            context["workspaces"] = Workspace.objects.filter(disponible=True).select_related("espace", "categorie")
+            context["page_title"] = "Nouvelle réservation"
+            return render(request, self.template_name, context, status=400)
+        
+        data = form.cleaned_data
+        entreprise = data.get("entreprise")
+        espace = data["espace"]
+        nombre_participants = data.get("nombre_participants", 1)
+        
+        montant_bd = calculate_amount_for_workspace(
+            espace=espace,
+            type_reservation=data["type_reservation"],
+            date_debut=data["date_debut"],
+            date_fin=data["date_fin"],
+            heure_debut=data.get("heure_debut"),
+            heure_fin=data.get("heure_fin"),
+            nombre_personnes=nombre_participants,
+        )
+        
+        try:
+            # Vérifier les conflits de disponibilité
+            from reservation.models import Reservation as ResModel
+            provisional = ResModel(
+                espace=espace,
+                date_debut=data["date_debut"],
+                date_fin=data["date_fin"],
+                statut=ReservationStatus.PENDING,
+            )
+            if data.get("heure_debut"):
+                provisional.heure_debut = data["heure_debut"]
+            if data.get("heure_fin"):
+                provisional.heure_fin = data["heure_fin"]
+            check_availability_conflict(reservation=provisional)
+        except Exception as exc:
+            messages.error(request, f"⚠️ {exc}")
+            context["form"] = form
+            context["workspaces"] = Workspace.objects.filter(disponible=True).select_related("espace", "categorie")
+            context["page_title"] = "Nouvelle réservation"
+            return render(request, self.template_name, context, status=409)
+        
+        try:
+            # Créer la réservation
+            reservation = form.save(commit=False)
+            reservation.utilisateur = request.user
+            reservation.entreprise = entreprise
+            reservation.prix_unitaire = montant_bd.montant
+            reservation.remise = montant_bd.remise
+            reservation.taxes = montant_bd.taxe
+            reservation.montant_total = montant_bd.total
+            reservation.nombre_participants = nombre_participants
+            reservation.statut = ReservationStatus.PENDING
+            reservation.save()
+            
+            # Log
+            ReservationLog.objects.create(
+                reservation=reservation,
+                action=ReservationLog.ActionType.CREATED,
+                acteur=request.user,
+                detail=f"Création réservation {reservation.reservation_number}",
+            )
+            
+            # Facture
+            create_invoice_for_reservation(reservation)
+            
+            messages.success(request, f"Réservation {reservation.reservation_number} créée avec succès.")
+            return redirect("dashboard_trainer:trainer_reservations")
+            
+        except Exception as exc:
+            messages.error(request, f"Erreur lors de la création : {exc}")
+            context["form"] = form
+            context["workspaces"] = Workspace.objects.filter(disponible=True).select_related("espace", "categorie")
+            context["page_title"] = "Nouvelle réservation"
+            return render(request, self.template_name, context, status=500)
+
+
+class TrainerReservationsView(TrainerBaseView):
+    """Liste des réservations personnelles du formateur."""
+
+    template_name = "dashboard/trainer/reservations.html"
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = self._get_base_context(request)
+
+        # Filtrer les réservations appartenant au formateur connecté
+        reservations = ReservationModel.objects.filter(
+            utilisateur=request.user
+        ).select_related(
+            "espace", "entreprise"
+        ).order_by("-created_at")
+
+        # Filtres optionnels
+        statut = request.GET.get("statut", "")
+        if statut:
+            reservations = reservations.filter(statut=statut)
+
+        search = request.GET.get("q", "").strip()
+        if search:
+            reservations = reservations.filter(
+                Q(reservation_number__icontains=search) |
+                Q(espace__nom__icontains=search)
+            )
+
+        # Compter les réservations actives
+        active_count = reservations.filter(
+            statut__in=[
+                ReservationStatus.PENDING,
+                ReservationStatus.CONFIRMED,
+                ReservationStatus.IN_PROGRESS,
+            ]
+        ).count()
+
+        context["reservations"] = reservations
+        context["active_count"] = active_count
+        context["statut_filter"] = statut
+        context["search"] = search
+        context["page_title"] = "Mes réservations"
+        return render(request, self.template_name, context)
+
+
+class TrainerReservationDetailView(TrainerBaseView):
+    """Détail d'une réservation du formateur."""
+
+    template_name = "dashboard/trainer/reservation_detail.html"
+
+    def get(self, request: HttpRequest, reservation_id, *args, **kwargs):
+        context = self._get_base_context(request)
+
+        reservation = get_object_or_404(
+            ReservationModel.objects.select_related(
+                "espace", "utilisateur", "entreprise"
+            ).prefetch_related("participants", "logs"),
+            id=reservation_id,
+            utilisateur=request.user,
+        )
+
+        context["reservation"] = reservation
+        context["page_title"] = f"Réservation {reservation.reservation_number}"
+        return render(request, self.template_name, context)
+
+
+class TrainerReservationCancelView(TrainerBaseView):
+    """Annuler une réservation depuis le dashboard formateur."""
+
+    def post(self, request: HttpRequest, reservation_id, *args, **kwargs):
+        reservation = get_object_or_404(
+            ReservationModel,
+            id=reservation_id,
+            utilisateur=request.user,
+        )
+
+        if not can_cancel_reservation(request.user, reservation):
+            messages.error(request, "Vous ne pouvez pas annuler cette réservation.")
+            return redirect("dashboard_trainer:trainer_reservations")
+
+        reservation.statut = ReservationStatus.CANCELED
+        reservation.save(update_fields=["statut"])
+
+        ReservationLog.objects.create(
+            reservation=reservation,
+            action=ReservationLog.ActionType.CANCELED,
+            acteur=request.user,
+            detail="Annulation depuis le dashboard formateur",
+        )
+
+        messages.success(request, f"Réservation {reservation.reservation_number} annulée.")
+        return redirect("dashboard_trainer:trainer_reservations")
 

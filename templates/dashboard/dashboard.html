@@ -20,8 +20,8 @@
                   EliteBuro depuis votre espace personnel.
               </p>
               <div class="hero-buttons">
-                  <a href="{% url 'reservation:create' %}" class="btn-gold">réservation salle de formation/bureau</a>
-                  <a href="{% url 'domiciliation:new_request' %}" class="btn-gold">Domiciliations</a>
+                  <a href="{% url 'reservation:create' %}" class="btn-orange">réservation salle de formation/bureau</a>
+                  <a href="{% url 'domiciliation:new_request' %}" class="btn-orange">Domiciliations</a>
               </div>
           </div>
           <div class="hero-image">
@@ -57,7 +57,6 @@
               </div>
           </div>
           <div class="stat-card">
-              <div class="stat-icon gold">💳</div>
               <div class="stat-content">
                   <span class="stat-number">{{ payments_count|default:"0" }}</span>
                   <p>Paiements</p>
@@ -323,7 +322,7 @@
         const val = this.dataset.value;
         document.getElementById('note-input').value = val;
         document.querySelectorAll('.star-select').forEach(s => {
-          s.style.color = s.dataset.value <= val ? '#C9A02C' : '#D4DCE8';
+          s.style.color = s.dataset.value <= val ? '#FF8000' : '#D4DCE8';
         });
       });
     });

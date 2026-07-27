@@ -23,25 +23,25 @@
           {% if formation.image %}
             <img src="{{ formation.image.url }}" alt="{{ formation.titre }}" class="h-44 w-full rounded-t-xl object-cover" />
           {% else %}
-            <div class="flex h-44 items-center justify-center rounded-t-xl bg-[#0D2B55] text-5xl text-white">🎓</div>
+            <div class="flex h-44 items-center justify-center rounded-t-xl bg-[#FF8000] text-5xl text-white">🎓</div>
           {% endif %}
           <div class="p-5">
-            <span class="inline-block rounded-full bg-[#C9A02C]/10 px-3 py-1 text-xs font-semibold text-[#C9A02C]">
+            <span class="inline-block rounded-full bg-[#6B7280]/10 px-3 py-1 text-xs font-semibold text-[#6B7280]">
               {{ formation.category.name|default:formation.category }}
             </span>
-            <h3 class="mt-3 text-lg font-bold text-[#0D2B55]">{{ formation.titre }}</h3>
+            <h3 class="mt-3 text-lg font-bold text-[#FF8000]">{{ formation.titre }}</h3>
             <p class="mt-2 text-sm text-slate-600 line-clamp-2">{{ formation.description_courte|truncatewords:20 }}</p>
             <div class="mt-4 flex items-center justify-between">
-              <span class="text-lg font-bold text-[#C9A02C]">{{ formation.prix }} FCFA</span>
+              <span class="text-lg font-bold text-[#6B7280]">{{ formation.prix }} FCFA</span>
               <span class="text-sm text-slate-500">{{ formation.duree }} h</span>
             </div>
             <div class="mt-4 flex gap-2">
               <a href="{% url 'formation:detail' slug=formation.slug %}"
-                 class="flex-1 rounded-lg border border-[#0D2B55] px-3 py-2 text-center text-sm font-semibold text-[#0D2B55] transition hover:bg-[#0D2B55] hover:text-white">
+                 class="flex-1 rounded-lg border border-[#FF8000] px-3 py-2 text-center text-sm font-semibold text-[#FF8000] transition hover:bg-[#FF8000] hover:text-white">
                 Détails
               </a>
               <a href="{% url 'formation:inscription' %}?formation={{ formation.id }}"
-                 class="flex-1 rounded-lg bg-[#C9A02C] px-3 py-2 text-center text-sm font-semibold text-[#0D2B55] transition hover:bg-[#C9A02C]/90">
+                 class="flex-1 rounded-lg bg-[#6B7280] px-3 py-2 text-center text-sm font-semibold text-[#FF8000] transition hover:bg-[#6B7280]/90">
                 S'inscrire
               </a>
             </div>
@@ -81,7 +81,7 @@
 
             {% if reg.session %}
 
-            <h3 class="text-xl font-bold text-[#0D2B55]">
+            <h3 class="text-xl font-bold text-[#FF8000]">
               {{ reg.session.formation.titre }}
             </h3>
 
@@ -98,7 +98,7 @@
 
               <p>
                 💰 Prix :
-                <span class="font-semibold text-[#C9A02C]">
+                <span class="font-semibold text-[#6B7280]">
                   {{ reg.session.formation.prix }} FCFA
                 </span>
               </p>
@@ -145,14 +145,14 @@
             {% elif reg.formation %}
 
 
-            <h3 class="text-xl font-bold text-[#0D2B55]">
+            <h3 class="text-xl font-bold text-[#FF8000]">
               {{ reg.formation.titre }}
             </h3>
 
 
             <p class="mt-2 text-sm text-slate-600">
               💰 Prix :
-              <span class="font-semibold text-[#C9A02C]">
+              <span class="font-semibold text-[#6B7280]">
                 {{ reg.formation.prix }} FCFA
               </span>
             </p>
@@ -205,7 +205,7 @@
           {% if reg.session %}
 
           <a href="{% url 'formation:detail' slug=reg.session.formation.slug %}"
-          class="rounded-lg bg-[#0D2B55] px-5 py-2 text-sm text-white hover:bg-[#0D2B55]/90">
+          class="rounded-lg bg-[#FF8000] px-5 py-2 text-sm text-white hover:bg-[#FF8000]/90">
 
             Voir la formation
 
@@ -214,7 +214,7 @@
           {% elif reg.formation %}
 
           <a href="{% url 'formation:detail' slug=reg.formation.slug %}"
-          class="rounded-lg bg-[#0D2B55] px-5 py-2 text-sm text-white">
+          class="rounded-lg bg-[#FF8000] px-5 py-2 text-sm text-white">
 
             Voir la formation
 
@@ -240,7 +240,7 @@
                 <p class="text-xs text-green-600 mt-1">Utilisez ce code pour accéder à vos cours en ligne.</p>
               </div>
               <a href="#"
-                 class="inline-flex items-center gap-2 rounded-lg bg-[#0D2B55] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#0D2B55]/90 transition mt-2">
+                 class="inline-flex items-center gap-2 rounded-lg bg-[#FF8000] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#FF8000]/90 transition mt-2">
                 🎬 Suivre la formation
               </a>
               {% endif %}
@@ -249,7 +249,7 @@
 
               <!-- Paiement pas encore effectué -->
               <a href="{% url 'paiement:index' %}?inscription_id={{ reg.id }}"
-                 class="rounded-lg bg-[#C9A02C] px-5 py-2 text-sm font-semibold text-[#0D2B55]">
+                 class="rounded-lg bg-[#6B7280] px-5 py-2 text-sm font-semibold text-[#FF8000]">
                 Effectuer le paiement
               </a>
 

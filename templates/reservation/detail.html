@@ -155,6 +155,13 @@
                 ✏ Modifier
             </a>
 
+            {% if reservation.statut not in "canceled refused finished expired" %}
+            <a class="action"
+               style="background:#E74C3C;"
+               href="{% url 'reservation:cancel' reservation.id %}">
+                🗑 Annuler
+            </a>
+            {% endif %}
 
         </div>
 

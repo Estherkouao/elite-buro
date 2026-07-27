@@ -299,6 +299,8 @@ INSTALLED_APPS = [
     'paiement',
     'reservation',
     'reclamation',
+    'chatbot',
+    'conciergerie',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

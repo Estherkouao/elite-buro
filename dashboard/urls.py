@@ -57,6 +57,9 @@ from .views import (
     AdminContactMessageMarkReadView,
     AdminContactMessageMarkUnreadView,
     AdminContactMessageDeleteView,
+    AdminDevisFormationListView,
+    AdminDevisMarkReadView,
+    AdminDevisMarkUnreadView,
 )
 
 from .member_dashboard import MemberDashboardView
@@ -132,7 +135,11 @@ from .trainer_views import (
     TrainerStudentRefuseView,
     TrainerFormationDetailView,
     delete_document,
-
+    TrainerReservationsView,
+    TrainerReservationDetailView,
+    TrainerReservationCancelView,
+    TrainerReservationCreateView,
+    TrainerDevisFormationView,
 )
 
 
@@ -408,6 +415,19 @@ urlpatterns = [
         name="testimonial_reject",
     ),
 
+    # Demandes de devis formation
+    path("devis-formation/", AdminDevisFormationListView.as_view(), name="devis_formation_list"),
+    path(
+        "devis-formation/<int:devis_id>/mark-read/",
+        AdminDevisMarkReadView.as_view(),
+        name="devis_formation_mark_read",
+    ),
+    path(
+        "devis-formation/<int:devis_id>/mark-unread/",
+        AdminDevisMarkUnreadView.as_view(),
+        name="devis_formation_mark_unread",
+    ),
+
     # Messages de contact
     path("contact-messages/", AdminContactMessagesListView.as_view(), name="contact_messages"),
     path(
@@ -526,6 +546,31 @@ dashboard_trainer_urls = [
         "documents/<int:document_id>/delete/",
         delete_document,
         name="delete_document"
+    ),
+    path(
+        "devis-formation/",
+        TrainerDevisFormationView.as_view(),
+        name="devis_formation_list"
+    ),
+    path(
+        "reservations/",
+        TrainerReservationsView.as_view(),
+        name="trainer_reservations"
+    ),
+    path(
+        "reservations/create/",
+        TrainerReservationCreateView.as_view(),
+        name="trainer_reservation_create"
+    ),
+    path(
+        "reservations/<uuid:reservation_id>/",
+        TrainerReservationDetailView.as_view(),
+        name="trainer_reservation_detail"
+    ),
+    path(
+        "reservations/<uuid:reservation_id>/cancel/",
+        TrainerReservationCancelView.as_view(),
+        name="trainer_reservation_cancel"
     ),
 ]
 
