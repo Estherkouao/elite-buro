@@ -60,6 +60,11 @@ from .views import (
     AdminDevisFormationListView,
     AdminDevisMarkReadView,
     AdminDevisMarkUnreadView,
+    # Conciergerie
+    AdminConciergerieListView,
+    AdminConciergerieDetailView,
+    AdminConciergerieValidateView,
+    AdminConciergerieRefuseView,
 )
 
 from .member_dashboard import MemberDashboardView
@@ -483,6 +488,24 @@ urlpatterns = [
         "payments/receipts/<uuid:receipt_id>/download/",
         AdminReceiptDownloadView.as_view(),
         name="receipt_download",
+    ),
+
+    # Demande de conciergerie
+    path("conciergerie/", AdminConciergerieListView.as_view(), name="conciergerie_list"),
+    path(
+        "conciergerie/<int:demande_id>/",
+        AdminConciergerieDetailView.as_view(),
+        name="conciergerie_detail",
+    ),
+    path(
+        "conciergerie/<int:demande_id>/validate/",
+        AdminConciergerieValidateView.as_view(),
+        name="conciergerie_validate",
+    ),
+    path(
+        "conciergerie/<int:demande_id>/refuse/",
+        AdminConciergerieRefuseView.as_view(),
+        name="conciergerie_refuse",
     ),
 
     path(

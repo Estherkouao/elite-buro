@@ -2864,8 +2864,7 @@ Sam : 8h–17h</div>
         </div>
     </section>
 
-    <!-- WhatsApp Float Button -->
-    <a href="#" class="whatsapp-float" aria-label="WhatsApp Elite Buro">💬</a>
+    
 
     <script>
         // Simple navigation active state
@@ -2876,6 +2875,524 @@ Sam : 8h–17h</div>
             });
         });
     </script>
+    <!-- ========================================
+     ELITE BURO CHATBOT COMPONENT
+     Composant prêt à intégrer dans Django
+     ======================================== -->
+
+<!-- HTML STRUCTURE -->
+<div id="chatbot-widget" class="chatbot-widget">
+    <!-- Floating Button -->
+    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Ouvrir le chat">
+        <span class="chatbot-icon">💬</span>
+        <span class="chatbot-badge" id="chatbot-badge" style="display: none;">1</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatbot-window" class="chatbot-window" style="display: none;">
+        <!-- Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-left">
+                <div class="chatbot-avatar">🤖</div>
+                <div class="chatbot-header-text">
+                    <h3>Assistant Elite Buro</h3>
+                    <p class="chatbot-status">En ligne</p>
+                </div>
+            </div>
+            <div class="chatbot-header-actions">
+                <button id="chatbot-minimize" class="chatbot-btn-icon" aria-label="Minimiser">−</button>
+                <button id="chatbot-close" class="chatbot-btn-icon" aria-label="Fermer">✕</button>
+            </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Les messages seront ajoutés ici par JavaScript -->
+        </div>
+
+        <!-- Input Area -->
+        <div class="chatbot-input-area">
+            <div id="chatbot-suggestions" class="chatbot-suggestions">
+                <!-- Les suggestions rapides seront ajoutées ici -->
+            </div>
+            <div class="chatbot-input-wrapper">
+                <input 
+                    type="text" 
+                    id="chatbot-input" 
+                    class="chatbot-input" 
+                    placeholder="Écrivez votre question..."
+                    autocomplete="off"
+                >
+                <button id="chatbot-send" class="chatbot-send-btn" aria-label="Envoyer">
+                    <span>➤</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================
+     STYLES CSS
+     ======================================== -->
+<style>
+    /* ================================
+   CHATBOT
+================================ */
+
+/* Conteneur */
+.chatbot-widget{
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 99999;
+}
+
+/* Bouton flottant */
+.chatbot-toggle{
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:#FF8000;
+    color:#fff;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    transition:.3s;
+}
+
+.chatbot-toggle:hover{
+    transform:scale(1.08);
+}
+
+/* Badge */
+.chatbot-badge{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#e53935;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* Fenêtre */
+.chatbot-window{
+    position:absolute;
+    bottom:80px;
+    right:0;
+    width:380px;
+    height:600px;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    display:none;
+    flex-direction:column;
+    box-shadow:0 15px 45px rgba(0,0,0,.2);
+}
+
+/* Header */
+.chatbot-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    background:#FF8000;
+    color:#fff;
+}
+
+.chatbot-header-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.chatbot-avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:rgba(255,255,255,.2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.chatbot-header-actions{
+    display:flex;
+    gap:8px;
+}
+
+.chatbot-btn-icon{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:8px;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    cursor:pointer;
+}
+
+/* Messages */
+.chatbot-messages{
+    flex:1;
+    overflow-y:auto;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    background:#f8f8f8;
+}
+
+.chatbot-message{
+    display:flex;
+}
+
+.chatbot-message.bot{
+    justify-content:flex-start;
+}
+
+.chatbot-message.user{
+    justify-content:flex-end;
+}
+
+.chatbot-message-content{
+    max-width:75%;
+    padding:10px 14px;
+    border-radius:12px;
+    font-size:14px;
+}
+
+.chatbot-message.bot .chatbot-message-content{
+    background:#FFF3E0;
+    color:#222;
+}
+
+.chatbot-message.user .chatbot-message-content{
+    background:#FF8000;
+    color:#fff;
+}
+
+/* Indicateur de saisie */
+.chatbot-typing{
+    padding:10px 14px;
+    background:#FFF3E0;
+    border-radius:12px;
+}
+
+/* Zone de saisie */
+.chatbot-input-area{
+    padding:15px;
+    border-top:1px solid #eee;
+    background:#fff;
+}
+
+.chatbot-suggestions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.chatbot-suggestion-btn{
+    padding:8px 12px;
+    border:1px solid #ddd;
+    border-radius:20px;
+    background:#fff;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.chatbot-suggestion-btn:hover{
+    background:#FF8000;
+    color:#fff;
+}
+
+.chatbot-input-wrapper{
+    display:flex;
+    gap:8px;
+}
+
+.chatbot-input{
+    flex:1;
+    padding:10px 14px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+}
+
+.chatbot-send-btn{
+    width:45px;
+    border:none;
+    border-radius:8px;
+    background:#FF8000;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* Responsive */
+@media(max-width:480px){
+
+    .chatbot-widget{
+        right:15px;
+        bottom:15px;
+    }
+
+    .chatbot-window{
+        width:calc(100vw - 30px);
+        height:75vh;
+        right:0;
+    }
+}
+</style>
+
+<!-- ========================================
+     JAVASCRIPT LOGIC
+     ======================================== -->
+<script>
+    // Chatbot Knowledge Base
+    const chatbotKnowledge = {
+        greetings: [
+            "Bonjour ! Je suis votre Assistant Elite Buro. Comment puis-je vous aider aujourd'hui ?",
+            "Bienvenue chez Elite Buro ! N'hésitez pas à me poser vos questions sur nos services.",
+            "Salut ! Je suis là pour vous aider. Que puis-je faire pour vous ?"
+        ],
+        bureaux: {
+            keywords: ["bureau", "privatif", "office", "espace", "coworking", "disponibilité"],
+            response: "Elite Buro propose 11 bureaux privatifs à Riviera Palmeraie, avec disponibilités en temps réel. Nos bureaux varient de 12 à 40 m² et peuvent accueillir de 2 à 10 personnes. Les tarifs commencent à partir de 15 000 FCFA par jour. Souhaitez-vous réserver un bureau ?"
+        },
+        hotdesk: {
+            keywords: ["hot desk", "hotdesk", "poste", "journée", "demi-journée"],
+            response: "Nous avons actuellement 12 hot desks disponibles. Vous pouvez les réserver à la demi-journée ou à la journée. C'est l'option idéale pour les freelances et les entrepreneurs. Voulez-vous réserver un hot desk ?"
+        },
+        salles: {
+            keywords: ["salle", "réunion", "formation", "conférence", "événement", "séminaire"],
+            response: "Elite Buro dispose de 3 salles de réunion modulables : Salle Ivoire (12 pers.), Salle Savane (20 pers.) et Salle Élite (30 pers.). Elles sont équipées de vidéoprojecteurs, tableaux blancs et systèmes audio. Les tarifs pour une demi-journée varient de 45 000 à 90 000 FCFA. Souhaitez-vous réserver une salle ?"
+        },
+        domiciliation: {
+            keywords: ["domiciliation", "adresse", "entreprise", "formule", "plan", "subscription"],
+            response: "La domiciliation d'entreprise d'Elite Buro vous offre une adresse prestigieuse à Riviera Palmeraie, autorisée par le CEPICI. Souscription 100% en ligne, contrat signé électroniquement, dossier validé en 48h. Nous proposons plusieurs formules adaptées à vos besoins. Voulez-vous en savoir plus ?"
+        },
+        formation: {
+            keywords: ["formation", "academy", "cours", "stage", "stagiaire", "formateur"],
+            response: "Elite Buro Academy propose des salles de formation modulables, équipées et professionnelles. Nous travaillons avec 120+ formateurs partenaires et avons formé plus de 2 400 stagiaires. Les devis sont générés automatiquement en 60 secondes. Souhaitez-vous réserver une salle de formation ?"
+        },
+        contact: {
+            keywords: ["contact", "téléphone", "email", "adresse", "horaires", "whatsapp"],
+            response: "Vous pouvez nous contacter de plusieurs façons :\n📍 Riviera Palmeraie, Cocody, Abidjan\n📞 +225 07 XX XX XX XX\n📧 contact@eliteburo.com\n🕐 Lun–Ven : 7h–20h | Sam : 8h–17h\n💬 Ou discutez directement avec nous via WhatsApp !"
+        },
+        tarifs: {
+            keywords: ["prix", "tarif", "coût", "combien", "paiement", "facturation"],
+            response: "Voici nos tarifs approximatifs :\n💼 Bureaux privatifs : 15 000 - 45 000 FCFA/jour\n👥 Hot desks : À partir de 5 000 FCFA/jour\n🏢 Salles de réunion : 45 000 - 90 000 FCFA (demi-journée)\n🏛️ Domiciliation : À partir de 25 000 FCFA/mois\nPour des tarifs précis, veuillez nous contacter ou consulter notre site."
+        },
+        paiement: {
+            keywords: ["paiement", "orange money", "wave", "mtn", "visa", "mastercard", "paypal"],
+            response: "Elite Buro accepte les paiements via :\n🟠 Orange Money\n🌊 Wave\n🟣 MTN MoMo\n💳 Visa / Mastercard\n🔵 PayPal\n🏦 Virement bancaire\nTous les paiements sont sécurisés par CinetPay avec confirmation instantanée SMS + Email + WhatsApp."
+        },
+        reserver: {
+            keywords: ["réserver", "booking", "réservation", "commander"],
+            response: "Pour réserver :\n1️⃣ Consultez les disponibilités en temps réel sur notre site\n2️⃣ Sélectionnez l'espace et la date souhaitée\n3️⃣ Complétez vos informations\n4️⃣ Effectuez le paiement\n5️⃣ Confirmation instantanée !\nSouhaitez-vous être redirigé vers la page de réservation ?"
+        },
+        avis: {
+            keywords: ["avis", "témoignage", "satisfaction", "note", "évaluation"],
+            response: "Elite Buro a une note de 4.9/5 ⭐ basée sur les avis de nos membres. Nous sommes fiers de notre engagement envers l'excellence et la satisfaction client. Avez-vous d'autres questions ?"
+        }
+    };
+
+    // Chatbot State
+    let chatbotState = {
+        isOpen: false,
+        isMinimized: false,
+        messages: [],
+        unreadCount: 0
+    };
+
+    // DOM Elements
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotWindow = document.getElementById('chatbot-window');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+    const chatbotClose = document.getElementById('chatbot-close');
+    const chatbotMinimize = document.getElementById('chatbot-minimize');
+    const chatbotSuggestions = document.getElementById('chatbot-suggestions');
+    const chatbotBadge = document.getElementById('chatbot-badge');
+
+    // Initialize Chatbot
+    function initChatbot() {
+        chatbotToggle.addEventListener('click', toggleChatbot);
+        chatbotClose.addEventListener('click', closeChatbot);
+        chatbotMinimize.addEventListener('click', minimizeChatbot);
+        chatbotSend.addEventListener('click', sendMessage);
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Welcome message
+        setTimeout(() => {
+            addMessage('bot', chatbotKnowledge.greetings[0]);
+            showSuggestions();
+        }, 500);
+    }
+
+    // Toggle Chatbot Window
+    function toggleChatbot() {
+        if (chatbotState.isOpen) {
+            closeChatbot();
+        } else {
+            openChatbot();
+        }
+    }
+
+    function openChatbot() {
+        chatbotState.isOpen = true;
+        chatbotWindow.style.display = 'flex';
+        chatbotInput.focus();
+        chatbotBadge.style.display = 'none';
+        chatbotState.unreadCount = 0;
+    }
+
+    function closeChatbot() {
+        chatbotState.isOpen = false;
+        chatbotWindow.style.display = 'none';
+    }
+
+    function minimizeChatbot() {
+        chatbotState.isMinimized = !chatbotState.isMinimized;
+        if (chatbotState.isMinimized) {
+            chatbotMessages.style.display = 'none';
+            chatbotInput.parentElement.parentElement.style.display = 'none';
+            chatbotMinimize.textContent = '+';
+        } else {
+            chatbotMessages.style.display = 'flex';
+            chatbotInput.parentElement.parentElement.style.display = 'block';
+            chatbotMinimize.textContent = '−';
+        }
+    }
+
+    // Add Message to Chat
+    function addMessage(sender, text) {
+        const messageEl = document.createElement('div');
+        messageEl.className = `chatbot-message ${sender}`;
+
+        const contentEl = document.createElement('div');
+        contentEl.className = 'chatbot-message-content';
+        contentEl.textContent = text;
+
+        messageEl.appendChild(contentEl);
+        chatbotMessages.appendChild(messageEl);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        chatbotState.messages.push({ sender, text });
+    }
+
+    // Show Typing Indicator
+    function showTyping() {
+        const typingEl = document.createElement('div');
+        typingEl.className = 'chatbot-message bot';
+        typingEl.id = 'typing-indicator';
+
+        const typingContent = document.createElement('div');
+        typingContent.className = 'chatbot-typing';
+        typingContent.innerHTML = '<span></span><span></span><span></span>';
+
+        typingEl.appendChild(typingContent);
+        chatbotMessages.appendChild(typingEl);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    // Remove Typing Indicator
+    function removeTyping() {
+        const typingEl = document.getElementById('typing-indicator');
+        if (typingEl) typingEl.remove();
+    }
+
+    // Show Quick Reply Suggestions
+    function showSuggestions() {
+        chatbotSuggestions.innerHTML = '';
+        const suggestions = [
+            { text: '🏢 Bureaux privatifs', key: 'bureaux' },
+            { text: '👥 Hot desks', key: 'hotdesk' },
+            { text: '📋 Salles de réunion', key: 'salles' },
+            { text: '🏛️ Domiciliation', key: 'domiciliation' }
+        ];
+
+        suggestions.forEach(suggestion => {
+            const btn = document.createElement('button');
+            btn.className = 'chatbot-suggestion-btn';
+            btn.textContent = suggestion.text;
+            btn.addEventListener('click', () => {
+                addMessage('user', suggestion.text);
+                chatbotSuggestions.innerHTML = '';
+                handleUserMessage(suggestion.key);
+            });
+            chatbotSuggestions.appendChild(btn);
+        });
+    }
+
+    // Send Message
+    function sendMessage() {
+        const userText = chatbotInput.value.trim();
+        if (!userText) return;
+
+        addMessage('user', userText);
+        chatbotInput.value = '';
+        chatbotSuggestions.innerHTML = '';
+
+        showTyping();
+        setTimeout(() => {
+            removeTyping();
+            const response = generateResponse(userText);
+            addMessage('bot', response);
+            showSuggestions();
+        }, 800);
+    }
+
+    // Handle User Message
+    function handleUserMessage(key) {
+        showTyping();
+        setTimeout(() => {
+            removeTyping();
+            const response = chatbotKnowledge[key]?.response || "Je ne suis pas sûr de comprendre. Pouvez-vous reformuler votre question ?";
+            addMessage('bot', response);
+            showSuggestions();
+        }, 800);
+    }
+
+    // Generate Response
+    function generateResponse(userText) {
+        const lowerText = userText.toLowerCase();
+
+        // Check each knowledge category
+        for (const [key, data] of Object.entries(chatbotKnowledge)) {
+            if (key === 'greetings') continue;
+            if (data.keywords && data.keywords.some(keyword => lowerText.includes(keyword))) {
+                return data.response;
+            }
+        }
+
+        // Default response
+        return "Je ne suis pas sûr de comprendre votre demande. Pouvez-vous choisir parmi les options suivantes ou reformuler votre question ?";
+    }
+
+    // Initialize on Load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initChatbot);
+    } else {
+        initChatbot();
+    }
+</script>
 {% endblock content %}
 
 {% block extra_js %}

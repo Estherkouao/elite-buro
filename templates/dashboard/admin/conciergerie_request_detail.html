@@ -1,0 +1,133 @@
+{% extends 'layouts/base_admin.html' %}
+{% load static %}
+
+{% block title %}Détail demande {{ demande.reference }} | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="section-header">
+        <div>
+            <h2>Demande {{ demande.reference }}</h2>
+            <p style="color:var(--text-light);font-size:14px;">Date : {{ demande.created_at|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:conciergerie_list' %}" class="btn-secondary">← Retour</a>
+            {% if demande.statut == 'nouvelle' %}
+            <form method="post" action="{% url 'dashboard_admin:conciergerie_validate' demande_id=demande.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary">✅ Accepter</button>
+            </form>
+            <form method="post" action="{% url 'dashboard_admin:conciergerie_refuse' demande_id=demande.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger" onclick="return confirm('Refuser cette demande ?')">❌ Refuser</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <!-- Colonne gauche -->
+        <div class="card">
+            <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+                Informations personnelles
+            </h3>
+            <table class="detail-table">
+                <tr><th>Référence</th><td>{{ demande.reference }}</td></tr>
+                <tr><th>Civilité</th><td>{{ demande.civilite }}</td></tr>
+                <tr><th>Nom complet</th><td>{{ demande.nom }}</td></tr>
+                <tr><th>Fonction</th><td>{{ demande.fonction }}</td></tr>
+                <tr><th>Entreprise</th><td>{{ demande.entreprise }}</td></tr>
+                <tr><th>Email</th><td>{{ demande.email }}</td></tr>
+                <tr><th>Téléphone</th><td>{{ demande.telephone }}</td></tr>
+                <tr><th>Secteur</th><td>{{ demande.secteur|default:"—" }}</td></tr>
+                <tr><th>Statut</th><td><span class="status-badge">{{ demande.get_statut_display }}</span></td></tr>
+            </table>
+        </div>
+
+        <!-- Colonne droite -->
+        <div class="card">
+            <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+                Demande de service
+            </h3>
+            <table class="detail-table">
+                <tr><th>Service</th><td>{{ demande.service }}</td></tr>
+                <tr><th>Participants</th><td>{{ demande.participants }} personne(s)</td></tr>
+                <tr><th>Date début</th><td>{{ demande.date_debut|date:"d/m/Y" }}</td></tr>
+                <tr><th>Durée</th><td>{{ demande.duree }}</td></tr>
+                <tr><th>Budget</th><td>{{ demande.budget|default:"Non précisé" }}</td></tr>
+                <tr><th>Horaires</th><td>{{ demande.horaires }}</td></tr>
+                <tr><th>Commentaire</th><td style="white-space:pre-wrap;">{{ demande.commentaire|default:"Aucun" }}</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.detail-table { width: 100%; border-collapse: collapse; }
+.detail-table th {
+    text-align: left;
+    padding: 10px 12px 10px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    width: 140px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border-light);
+}
+.detail-table td {
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--dark);
+    border-bottom: 1px solid var(--border-light);
+}
+.status-badge {
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #E3F2FD;
+    color: #1565C0;
+}
+.btn-secondary {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--dark);
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-primary {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: var(--gold);
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-danger {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: #DC2626;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+

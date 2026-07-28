@@ -100,6 +100,14 @@
                     <span class="nav-badge badge-warning">{{ contact_unread_count }}</span>
                 {% endif %}
             </a>
+            <a href="{% url 'dashboard_admin:conciergerie_list' %}"
+            class="nav-item {% if active_section == 'conciergerie' %}active{% endif %}">
+                <span class="nav-icon">🧹</span>
+                <span class="nav-label">Conciergerie</span>
+                {% if nouvelle_count > 0 %}
+                    <span class="nav-badge badge-warning">{{ nouvelle_count }}</span>
+                {% endif %}
+            </a>
             <a href="" class="nav-item" data-section="profil">
                 <span class="nav-icon">👤</span>
                 <span class="nav-label">Profil</span>

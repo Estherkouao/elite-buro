@@ -19,6 +19,7 @@ from formation.models import Formation, FormationSession, FormationRegistration
 
 from reservation.models import Reservation, ReservationLog
 from domiciliation.models import DomiciliationRequest
+from conciergerie.models import DemandeConciergerie
 
 from .permissions import is_admin_or_manager
 from .services import get_admin_stats, get_space_availability_summary, get_recent_activity
@@ -60,6 +61,9 @@ class AdminBaseView(LoginRequiredMixin, TemplateView):
 
         # Derniers messages de contact (5 max) pour le panneau admin
         context["contact_messages"] = ContactMessage.objects.all().order_by("-created_at")[:5]
+
+        # Nombre de nouvelles demandes conciergerie pour le badge sidebar
+        context["nouvelle_count"] = DemandeConciergerie.objects.filter(statut="nouvelle").count()
 
         return context
 
@@ -1387,3 +1391,58 @@ class AdminCoworkingSpaceDeleteView(AdminBaseView):
         return redirect(
             "dashboard_admin:coworking"
         )
+
+
+# ═══════════════════════════════════════════════════════════
+#  CONCIERGERIE — Gestion des demandes (Dashboard Admin)
+# ═══════════════════════════════════════════════════════════
+
+class AdminConciergerieListView(AdminBaseView):
+    """Liste toutes les demandes de conciergerie."""
+    template_name = "dashboard/admin/conciergerie_requests.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "conciergerie"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = DemandeConciergerie.objects.all().order_by("-created_at")
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = DemandeConciergerie.objects.count()
+        context["nouvelle_count"] = DemandeConciergerie.objects.filter(statut="nouvelle").count()
+        context["current_filter"] = statut_filter
+        return context
+
+
+class AdminConciergerieDetailView(AdminBaseView):
+    """Détail d'une demande de conciergerie."""
+    template_name = "dashboard/admin/conciergerie_request_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(DemandeConciergerie, id=demande_id)
+        return render(request, self.template_name, {"demande": demande, "active_section": "conciergerie"})
+
+
+class AdminConciergerieValidateView(AdminBaseView):
+    """Valide une demande (passe en 'acceptee')."""
+
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(DemandeConciergerie, id=demande_id)
+        demande.statut = "acceptee"
+        demande.save(update_fields=["statut"])
+        messages.success(request, f"Demande {demande.reference} acceptée.")
+        return redirect("dashboard_admin:conciergerie_list")
+
+
+class AdminConciergerieRefuseView(AdminBaseView):
+    """Refuse une demande."""
+
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(DemandeConciergerie, id=demande_id)
+        demande.statut = "refusee"
+        demande.save(update_fields=["statut"])
+        messages.warning(request, f"Demande {demande.reference} refusée.")
+        return redirect("dashboard_admin:conciergerie_list")

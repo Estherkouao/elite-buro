@@ -1,0 +1,139 @@
+{% extends 'layouts/base_admin.html' %}
+{% load static %}
+
+{% block title %}Demandes Conciergerie | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="section-header">
+        <div>
+            <h2>Demandes de conciergerie</h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                {{ total_count }} demande(s) — 
+                <span style="color:var(--gold);font-weight:600;">{{ nouvelle_count }} nouvelle(s)</span>
+            </p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:index' %}" class="btn-secondary">← Retour</a>
+        </div>
+    </div>
+
+    <!-- Filtres -->
+    <div style="margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="{% url 'dashboard_admin:conciergerie_list' %}"
+           class="btn-filter {% if not current_filter %}active{% endif %}">Toutes</a>
+        <a href="{% url 'dashboard_admin:conciergerie_list' %}?statut=nouvelle"
+           class="btn-filter {% if current_filter == 'nouvelle' %}active{% endif %}">Nouvelles</a>
+        <a href="{% url 'dashboard_admin:conciergerie_list' %}?statut=acceptee"
+           class="btn-filter {% if current_filter == 'acceptee' %}active{% endif %}">Acceptées</a>
+        <a href="{% url 'dashboard_admin:conciergerie_list' %}?statut=refusee"
+           class="btn-filter {% if current_filter == 'refusee' %}active{% endif %}">Refusées</a>
+        <a href="{% url 'dashboard_admin:conciergerie_list' %}?statut=terminee"
+           class="btn-filter {% if current_filter == 'terminee' %}active{% endif %}">Terminées</a>
+    </div>
+
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Nom</th>
+                    <th>Entreprise</th>
+                    <th>Service</th>
+                    <th>Participants</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for d in demandes %}
+                <tr>
+                    <td><strong>{{ d.reference }}</strong></td>
+                    <td>{{ d.civilite }} {{ d.nom }}</td>
+                    <td>{{ d.entreprise }}</td>
+                    <td>{{ d.get_service_display|default:d.service }}</td>
+                    <td>{{ d.participants }}</td>
+                    <td>{{ d.created_at|date:"d/m/Y" }}</td>
+                    <td>
+                        <span class="status-badge 
+                            {% if d.statut == 'nouvelle' %}badge-info
+                            {% elif d.statut == 'acceptee' %}badge-success
+                            {% elif d.statut == 'refusee' %}badge-danger
+                            {% else %}badge-secondary{% endif %}">
+                            {{ d.get_statut_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            <a class="btn-sm btn-primary" 
+                               href="{% url 'dashboard_admin:conciergerie_detail' demande_id=d.id %}">
+                               Détail
+                            </a>
+
+                            {% if d.statut == 'nouvelle' %}
+                            <form method="post" 
+                                  action="{% url 'dashboard_admin:conciergerie_validate' demande_id=d.id %}"
+                                  style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-sm btn-success">Accepter</button>
+                            </form>
+                            <form method="post" 
+                                  action="{% url 'dashboard_admin:conciergerie_refuse' demande_id=d.id %}"
+                                  style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-sm btn-danger"
+                                        onclick="return confirm('Refuser cette demande ?')">Refuser</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" style="text-align:center;padding:40px;">
+                        Aucune demande de conciergerie trouvée.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+.btn-filter {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.btn-filter:hover { border-color: var(--gold); color: var(--gold); }
+.btn-filter.active { background: var(--gold); color: white; border-color: var(--gold); }
+
+.btn-sm {
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+}
+.btn-sm:hover { opacity: 0.85; }
+.btn-success { background: #2E7D32; color: white; }
+.btn-danger { background: #DC2626; color: white; }
+.badge-info { background: #E3F2FD; color: #1565C0; }
+.badge-success { background: #E8F5E9; color: #2E7D32; }
+.badge-danger { background: #FFEBEE; color: #C62828; }
+.badge-secondary { background: #F3F4F6; color: #6B7280; }
+.status-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+</style>
+{% endblock %}
+

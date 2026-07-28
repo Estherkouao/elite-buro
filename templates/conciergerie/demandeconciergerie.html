@@ -1,985 +1,1228 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Demande de Conciergerie — Elite Bureau</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <style>
-    /* ═══════════════════════════════════════════
-       RESET & VARIABLES — Charte Elite Bureau
-       ═══════════════════════════════════════════ */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --navy: #17325C; --navy-light: #23416F; --navy-dark: #0F1E3C;
-      --gold: #B99646; --gold-light: #d4b36a; --gold-pale: rgba(185,150,70,0.10);
-      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C;
-      --text-muted: #5C5C5C; --text-light: #8A8A8A;
-      --white: #FFFFFF; --border: #D8D0C2; --border-light: rgba(0,0,0,0.06);
-      --success: #2E7D32; --error: #C62828;
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'Source Sans 3', system-ui, sans-serif;
-      --radius: 8px; --radius-lg: 12px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
-    a { text-decoration: none; color: var(--gold); font-weight: 500; }
-    a:hover { color: var(--navy); }
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+{% extends "layouts/base_public.html" %}
+{% load static %}
 
-    /* ═══════════════════════════════════════════
-       HEADER
-       ═══════════════════════════════════════════ */
-    .header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; height: 72px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-    .header-brand { display: flex; align-items: center; gap: 12px; }
-    .header-logo { width: 40px; height: 40px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-display); font-weight: 700; font-size: 18px; }
-    .header-name { font-family: var(--font-display); font-size: 16px; letter-spacing: 0.22em; font-weight: 600; color: var(--navy); }
-    .header-tagline { font-size: 9px; letter-spacing: 0.18em; font-style: italic; color: var(--text-light); margin-top: -2px; }
-    .nav { display: flex; align-items: center; gap: 32px; }
-    .nav a { font-size: 14px; font-weight: 600; color: var(--dark); letter-spacing: 0.02em; transition: color 0.2s; }
-    .nav a:hover { color: var(--gold); }
-    .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
-    .nav-toggle svg { width: 24px; height: 24px; color: var(--dark); }
+{% block title %}Demande de Conciergerie | Elite Buro{% endblock %}
 
-    /* ═══════════════════════════════════════════
-       HERO
-       ═══════════════════════════════════════════ */
-    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white); padding: 60px 40px; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 260px; height: 260px; border-radius: 50%; background: rgba(185,150,70,0.10); }
-    .hero::after { content: ''; position: absolute; bottom: -70px; left: -30px; width: 180px; height: 180px; border-radius: 50%; background: rgba(185,150,70,0.06); }
-    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(185,150,70,0.15); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--gold); margin-bottom: 16px; position: relative; z-index: 1; letter-spacing: 0.04em; }
-    .hero h1 { font-family: var(--font-display); font-size: 34px; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; }
-    .hero p { font-size: 16px; color: rgba(255,255,255,0.7); position: relative; z-index: 1; max-width: 620px; margin: 0 auto; line-height: 1.7; }
-    .hero-features { display: flex; align-items: center; justify-content: center; gap: 32px; margin-top: 28px; position: relative; z-index: 1; flex-wrap: wrap; }
-    .hero-feature { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.75); }
-    .hero-feature svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+{% block extra_css %}
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES
+   ═══════════════════════════════════════════ */
+:root {
+    --navy: #FF8000;
+    --navy-light: #FF8000;
+    --gold: #808080;
+    --gold-light: #808080;
+    --ivory: #F7F4EE;
+    --white: #FFFFFF;
+    --dark: #1C1C1C;
+    --text-muted: #5C5C5C;
+    --border: #D8D0C2;
+    --success: #2E7D32;
+    --error: #DC2626;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+}
 
-    /* ═══════════════════════════════════════════
-       PAGE LAYOUT
-       ═══════════════════════════════════════════ */
-    .page-content { padding: 48px 0 80px; }
-    .form-layout { display: grid; grid-template-columns: 1fr 380px; gap: 48px; }
+/* ═══════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════ */
+.concierge-page { background: var(--ivory); min-height: 100vh; }
 
-    /* ═══════════════════════════════════════════
-       FORM
-       ═══════════════════════════════════════════ */
-    .form-section { margin-bottom: 40px; }
-    .form-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
-    .form-section-num { width: 32px; height: 32px; border-radius: 50%; background: var(--navy); color: var(--gold); font-family: var(--font-display); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .form-section-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--navy); }
-    .form-section-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .form-grid .full { grid-column: 1 / -1; }
+/* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+.concierge-hero {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    color: white;
+    padding: 70px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.concierge-hero::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(185,150,70,0.12);
+    border-radius: 50%;
+    top: -100px;
+    right: -80px;
+}
+.concierge-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    margin-bottom: 15px;
+    position: relative;
+}
+.concierge-hero p {
+    max-width: 650px;
+    margin: auto;
+    color: rgba(255,255,255,0.75);
+    font-size: 17px;
+}
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(185,150,70,0.15);
+    color: #d4b36a;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-label { font-size: 13px; font-weight: 600; color: var(--dark); letter-spacing: 0.02em; }
-    .form-label .required { color: var(--error); margin-left: 2px; }
-    .form-label .optional { font-weight: 400; color: var(--text-light); font-size: 11px; margin-left: 4px; }
-    .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-body); font-size: 14px; color: var(--dark); background: var(--white); transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-pale); }
-    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-light); }
-    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238A8A8A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px; cursor: pointer; }
-    .form-textarea { resize: vertical; min-height: 100px; }
+/* ═══════════════════════════════════════════
+   STEPPER
+   ═══════════════════════════════════════════ */
+.stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: -30px auto 40px;
+    max-width: 700px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 20px 30px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 2;
+}
+.stepper-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    position: relative;
+}
+.stepper-step:not(:last-child)::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    margin: 0 12px;
+    transition: background 0.3s;
+}
+.stepper-step.completed:not(:last-child)::after { background: var(--gold); }
+.stepper-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--white);
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+.stepper-step.active .stepper-circle {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--white);
+}
+.stepper-step.completed .stepper-circle {
+    border-color: var(--success);
+    background: var(--success);
+    color: var(--white);
+}
+.stepper-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.stepper-step.active .stepper-label { color: var(--navy); font-weight: 700; }
+.stepper-step.completed .stepper-label { color: var(--success); }
 
-    /* Custom radio & checkbox */
-    .form-options { display: flex; flex-wrap: wrap; gap: 10px; }
-    .form-option { position: relative; }
-    .form-option input { position: absolute; opacity: 0; pointer-events: none; }
-    .form-option label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--dark); cursor: pointer; transition: all 0.2s; background: var(--white); }
-    .form-option input:checked + label { border-color: var(--navy); background: rgba(23,50,92,0.04); color: var(--navy); }
-    .form-option label:hover { border-color: var(--gold); }
+/* ═══════════════════════════════════════════
+   FORM STEPS
+   ═══════════════════════════════════════════ */
+.form-step { display: none; }
+.form-step.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* File upload */
-    .file-upload { border: 2px dashed var(--border); border-radius: var(--radius); padding: 28px; text-align: center; cursor: pointer; transition: border-color 0.2s; background: var(--white); }
-    .file-upload:hover { border-color: var(--gold); }
-    .file-upload svg { width: 32px; height: 32px; color: var(--text-light); margin-bottom: 8px; }
-    .file-upload p { font-size: 13px; color: var(--text-muted); }
-    .file-upload span { color: var(--gold); font-weight: 600; }
+/* ═══════════════════════════════════════════
+   CONTENT GRID
+   ═══════════════════════════════════════════ */
+.concierge-content { padding: 60px 0; }
+.concierge-grid{
+    display:flex;
+    justify-content:center;
+}
+.concierge-grid > div{
+    width:100%;
+    max-width:900px;
+}
 
-    /* Stepper */
-    .stepper { display: flex; align-items: center; gap: 0; margin-bottom: 40px; padding: 20px 0; }
-    .stepper-step { display: flex; align-items: center; gap: 10px; flex: 1; }
-    .stepper-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--text-light); flex-shrink: 0; transition: all 0.3s; background: var(--white); }
-    .stepper-step.active .stepper-circle { border-color: var(--navy); background: var(--navy); color: var(--gold); }
-    .stepper-step.completed .stepper-circle { border-color: var(--success); background: var(--success); color: var(--white); }
-    .stepper-label { font-size: 13px; font-weight: 600; color: var(--text-light); white-space: nowrap; }
-    .stepper-step.active .stepper-label { color: var(--navy); }
-    .stepper-step.completed .stepper-label { color: var(--success); }
-    .stepper-line { flex: 1; height: 2px; background: var(--border); margin: 0 12px; }
-    .stepper-line.completed { background: var(--success); }
+/* ═══════════════════════════════════════════
+   CARDS
+   ═══════════════════════════════════════════ */
+.card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+.form-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 22px;
+    margin-bottom: 25px;
+}
 
-    /* Form steps */
-    .form-step { display: none; }
-    .form-step.active { display: block; }
-    .form-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-light); }
+/* ═══════════════════════════════════════════
+   FORM FIELDS
+   ═══════════════════════════════════════════ */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-group.full { grid-column: 1 / -1; }
+label { font-size: 13px; font-weight: 600; color: var(--dark); }
+input, select, textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(185,150,70,0.15);
+}
+input.error, select.error, textarea.error { border-color: var(--error); }
+textarea { min-height: 120px; resize: vertical; }
 
-    /* ═══════════════════════════════════════════
-       SIDEBAR
-       ═══════════════════════════════════════════ */
-    .sidebar { position: sticky; top: 96px; }
-    .sidebar-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; }
-    .sidebar-header { background: var(--navy); padding: 20px 24px; }
-    .sidebar-header h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--white); }
-    .sidebar-body { padding: 24px; }
-    .sidebar-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-light); }
-    .sidebar-row:last-child { border-bottom: none; }
-    .sidebar-row-label { font-size: 13px; color: var(--text-muted); }
-    .sidebar-row-value { font-size: 13px; font-weight: 600; color: var(--dark); }
-    .sidebar-row-value.empty { color: var(--text-light); font-weight: 400; }
-    .sidebar-total { margin-top: 12px; padding-top: 16px; border-top: 2px solid var(--navy); display: flex; justify-content: space-between; align-items: baseline; }
-    .sidebar-total-label { font-size: 14px; font-weight: 600; color: var(--navy); }
-    .sidebar-total-value { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--navy); }
-    .sidebar-total-value.confirm { font-size: 16px; font-style: italic; color: var(--text-muted); }
+/* ═══════════════════════════════════════════
+   CHECKBOX / RADIO TAGS
+   ═══════════════════════════════════════════ */
+.tag-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+.tag-label {
+    border: 1px solid var(--border);
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    user-select: none;
+}
+.tag-label:hover { border-color: var(--gold); }
+.tag-label input { display: none; }
+.tag-label.selected {
+    border-color: var(--gold);
+    background: rgba(185,150,70,0.08);
+    color: var(--navy);
+    font-weight: 600;
+}
 
-    /* Timeline */
-    .sidebar-card + .sidebar-card { margin-top: 20px; }
-    .timeline { padding: 24px; }
-    .timeline-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .timeline-title svg { width: 16px; height: 16px; color: var(--gold); }
-    .timeline-step { display: flex; gap: 14px; padding-bottom: 16px; position: relative; }
-    .timeline-step:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--border); }
-    .timeline-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-light); flex-shrink: 0; background: var(--white); }
-    .timeline-step.active .timeline-dot { border-color: var(--navy); background: var(--navy); color: var(--gold); }
-    .timeline-step.done .timeline-dot { border-color: var(--success); background: var(--success); color: var(--white); }
-    .timeline-info h5 { font-size: 13px; font-weight: 600; color: var(--dark); }
-    .timeline-info p { font-size: 12px; color: var(--text-light); }
+/* ═══════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════ */
+.btn-gold {
+    background: var(--gold);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 7px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 15px;
+}
+.btn-gold:hover { background: var(--gold-light); }
+.btn-gold:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--border);
+    padding: 12px 28px;
+    border-radius: 7px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-group { display: flex; gap: 15px; margin-top: 30px; }
 
-    /* Help card */
-    .help-card { padding: 24px; }
-    .help-card h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-    .help-card h4 svg { width: 16px; height: 16px; color: var(--gold); }
-    .help-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.6; }
-    .help-contact { display: flex; flex-direction: column; gap: 8px; }
-    .help-contact a { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--navy); }
-    .help-contact a svg { width: 14px; height: 14px; color: var(--gold); flex-shrink: 0; }
+/* ═══════════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════════ */
+.sidebar { position: sticky; top: 100px; }
+.sidebar-item { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; }
+.sidebar-item strong { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.sidebar-item span { font-size: 16px; font-weight: 600; color: var(--dark); }
+.sidebar-item span.empty { color: var(--text-muted); font-weight: 400; }
+.sidebar-total-value { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--gold); }
+.sidebar-total-value.confirm { color: var(--text-muted); font-size: 16px; font-weight: 400; }
 
-    /* ═══════════════════════════════════════════
-       BUTTONS
-       ═══════════════════════════════════════════ */
-    .btn { padding: 12px 28px; border-radius: 6px; font-family: var(--font-body); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; transition: all 0.2s; border: none; display: inline-flex; align-items: center; gap: 8px; }
-    .btn:active { transform: scale(0.97); }
-    .btn-primary { background: var(--navy); color: var(--white); }
-    .btn-primary:hover { background: var(--navy-light); }
-    .btn-gold { background: var(--gold); color: var(--white); }
-    .btn-gold:hover { background: var(--gold-light); }
-    .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
-    .btn-outline:hover { border-color: var(--navy); }
-    .btn svg { width: 16px; height: 16px; }
+/* ═══════════════════════════════════════════
+   RECAP
+   ═══════════════════════════════════════════ */
+.recap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.recap-item { }
+.recap-item strong { display: block; font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.recap-item p { font-size: 16px; font-weight: 600; color: var(--dark); margin: 0; }
 
-    /* ═══════════════════════════════════════════
-       SUCCESS MODAL
-       ═══════════════════════════════════════════ */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-    .modal-overlay.visible { opacity: 1; pointer-events: all; }
-    .modal { background: var(--white); border-radius: var(--radius-lg); padding: 48px; max-width: 480px; width: 90%; text-align: center; box-shadow: var(--shadow-lg); transform: scale(0.95); transition: transform 0.3s; }
-    .modal-overlay.visible .modal { transform: scale(1); }
-    .modal-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(46,125,50,0.10); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-    .modal-icon svg { width: 32px; height: 32px; color: var(--success); }
-    .modal h3 { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
-    .modal p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 6px; }
-    .modal .ref { display: inline-block; padding: 8px 20px; background: var(--gold-pale); border-radius: 6px; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--navy); margin: 16px 0 24px; letter-spacing: 0.04em; }
+/* ═══════════════════════════════════════════
+   CONFIRMATION BOX
+   ═══════════════════════════════════════════ */
+.confirm-box {
+    background: var(--ivory);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
 
-    /* ═══════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════ */
-    .footer { background: #111111; padding: 48px 0 32px; }
-    .footer-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; }
-    .footer-brand { display: flex; align-items: center; gap: 12px; }
-    .footer-brand .footer-mark { width: 36px; height: 36px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-display); font-weight: 700; font-size: 16px; }
-    .footer-brand .footer-name { font-family: var(--font-display); font-size: 16px; letter-spacing: 0.22em; color: var(--white); font-weight: 600; }
-    .footer-brand .footer-tag { font-size: 9px; letter-spacing: 0.18em; font-style: italic; color: rgba(255,255,255,0.35); margin-top: -2px; }
-    .footer-info { text-align: right; }
-    .footer-info p { font-size: 13px; color: rgba(255,255,255,0.5); }
-    .footer-info a { color: rgba(255,255,255,0.65); }
-    .footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
-    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+/* ═══════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.visible { display: flex; }
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #E8F5E9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+}
+.modal-content h2 { font-family: 'Playfair Display', serif; color: var(--navy); margin-bottom: 10px; }
+.modal-content p { color: var(--text-muted); margin-bottom: 6px; font-size: 14px; }
+.modal-ref { font-family: 'Roboto Mono', monospace; color: var(--gold); font-size: 18px; font-weight: 700; margin: 15px 0; }
 
-    /* ═══════════════════════════════════════════
-       RESPONSIVE
-       ═══════════════════════════════════════════ */
-    @media (max-width: 1024px) {
-      .form-layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; }
-    }
-    @media (max-width: 768px) {
-      .header { padding: 0 20px; }
-      .nav { display: none; }
-      .nav-toggle { display: block; }
-      .hero { padding: 40px 20px; }
-      .hero h1 { font-size: 26px; }
-      .hero-features { flex-direction: column; gap: 12px; }
-      .page-content { padding: 32px 0 60px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .stepper { overflow-x: auto; padding-bottom: 8px; }
-      .stepper-label { font-size: 11px; }
-    }
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 1000px) {
+    .concierge-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+}
+@media (max-width: 700px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .concierge-hero h1 { font-size: 28px; }
+    .stepper { flex-direction: column; gap: 10px; }
+    .stepper-step:not(:last-child)::after { display: none; }
+    .recap-grid { grid-template-columns: 1fr; }
+    .btn-group { flex-direction: column; }
+}
+/* SIDEBAR PREMIUM */
 
-    /* ═══════════════════════════════════════════
-       ANIMATIONS
-       ═══════════════════════════════════════════ */
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-  </style>
-</head>
-<body>
+.sidebar-header{
 
-  <!-- ═══════ HEADER ═══════ -->
-  <header class="header">
-    <div class="header-brand">
-      <div class="header-logo">E</div>
-      <div>
-        <div class="header-name">ELITE BURO</div>
-        <div class="header-tagline">Créateur de liens et de business</div>
-      </div>
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px;
+
+}
+
+
+.sidebar-icon{
+
+width:45px;
+height:45px;
+
+border-radius:50%;
+
+background:
+rgba(185,150,70,.15);
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+font-size:22px;
+
+}
+
+
+
+.sidebar-header h3 {
+    font-size:22px;
+    white-space:nowrap;
+}
+
+.sidebar-header p{
+
+font-size:12px;
+color:var(--text-muted);
+
+}
+
+
+
+
+.summary-list{
+
+display:flex;
+flex-direction:column;
+gap:12px;
+
+}
+
+
+
+.summary-item{
+
+background:#faf8f3;
+
+border:1px solid var(--border);
+
+border-radius:10px;
+
+padding:12px 15px;
+
+}
+
+
+
+.summary-label{
+
+font-size:12px;
+
+color:var(--text-muted);
+
+margin-bottom:5px;
+
+font-weight:600;
+
+}
+
+
+
+
+.summary-item span{
+
+font-size:15px;
+
+font-weight:600;
+
+color:var(--navy);
+
+}
+
+
+
+.badge-gold{
+
+display:inline-block;
+
+background:
+rgba(185,150,70,.15);
+
+color:var(--gold)!important;
+
+padding:5px 12px;
+
+border-radius:20px;
+
+font-size:13px!important;
+
+}
+
+
+
+
+.process-box{
+
+margin-top:30px;
+
+padding-top:25px;
+
+border-top:1px solid #ddd;
+
+}
+
+
+
+.process-box h4{
+
+color:var(--navy);
+
+margin-bottom:20px;
+
+font-family:'Playfair Display',serif;
+
+}
+
+
+
+
+.process-step{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-size:14px;
+
+margin-bottom:15px;
+
+color:var(--text-muted);
+
+}
+
+
+
+.process-step span{
+
+
+width:30px;
+
+height:30px;
+
+border-radius:50%;
+
+background:var(--gold);
+
+color:white;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:12px;
+
+font-weight:bold;
+
+
+}
+
+
+
+
+.help-card{
+
+margin-top:25px;
+
+}
+
+
+
+.help-title{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+margin-bottom:15px;
+
+}
+
+
+
+.help-title h3{
+
+font-family:'Playfair Display',serif;
+
+color:var(--navy);
+
+}
+
+
+
+.contact-box{
+
+margin-top:20px;
+
+background:#faf8f3;
+
+padding:15px;
+
+border-radius:10px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+
+
+.contact-box div{
+
+font-weight:600;
+
+color:var(--gold);
+
+}
+
+
+.contact-box span{
+
+color:var(--dark);
+
+margin-left:8px;
+
+}
+.sidebar .card {
+    padding:40px;
+    width:100%;
+}
+
+
+.sidebar-header h3 {
+
+    font-size:24px;
+
+}
+
+
+.summary-item {
+    padding:18px 22px;
+    min-height:70px;
+}
+
+
+.summary-item span {
+    font-size:17px;
+    display:block;
+}
+
+
+
+.process-step {
+
+    font-size:15px;
+
+    padding:5px 0;
+
+}
+
+
+
+.help-card p {
+
+    font-size:15px;
+
+    line-height:1.7;
+
+}
+/* SIDEBAR PLUS LARGE ET AÉRÉE */
+
+.sidebar {
+    width: 100%;
+}
+
+.sidebar-card {
+    padding: 45px !important;
+}
+
+
+/* En-tête résumé */
+
+.sidebar-header {
+    margin-bottom: 35px;
+}
+
+.sidebar-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+}
+
+.sidebar-header h3 {
+    font-size: 26px;
+    margin-bottom: 8px;
+}
+
+.sidebar-header p {
+    font-size: 14px;
+}
+
+
+/* Liste résumé */
+
+.summary-list {
+    gap: 18px;
+}
+
+
+.summary-item {
+    padding: 20px 22px;
+    min-height: 82px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.summary-label {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+
+.summary-item span {
+    font-size: 17px;
+}
+
+
+/* Section Comment ça marche */
+
+.process-box {
+    margin-top: 40px;
+    padding-top: 35px;
+}
+
+
+.process-box h4 {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+
+.process-step {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+
+.process-step span {
+    width: 35px;
+    height: 35px;
+}
+
+
+/* Bloc aide */
+
+.help-card {
+    padding: 35px !important;
+}
+
+
+.help-title h3 {
+    font-size: 22px;
+}
+
+
+.help-card p {
+    font-size: 16px;
+}
+
+
+.contact-box {
+    padding: 20px;
+    gap: 15px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="concierge-page">
+
+    <!-- ═══════ HERO ═══════ -->
+    <section class="concierge-hero">
+       
+    </section>
+
+    <!-- ═══════ STEPPER ═══════ -->
+    <div class="stepper" id="stepper">
+        <div class="stepper-step active" data-step="1">
+            <div class="stepper-circle">1</div>
+            <span class="stepper-label">Identité</span>
+        </div>
+        <div class="stepper-step" data-step="2">
+            <div class="stepper-circle">2</div>
+            <span class="stepper-label">Besoins</span>
+        </div>
+        <div class="stepper-step" data-step="3">
+            <div class="stepper-circle">3</div>
+            <span class="stepper-label">Préférences</span>
+        </div>
+        <div class="stepper-step" data-step="4">
+            <div class="stepper-circle">4</div>
+            <span class="stepper-label">Confirmation</span>
+        </div>
     </div>
-    <nav class="nav">
-      <a href="a-propos.html">À propos</a>
-      <a href="conciergerie.html">Conciergerie</a>
-      <a href="formation.html">Formation</a>
-      <a href="blog.html">Blog</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <button class="nav-toggle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-  </header>
 
-  <!-- ═══════ HERO ═══════ -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:14px;height:14px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Formulaire de demande
-      </div>
-      <h1>Demande de Conciergerie</h1>
-      <p>Remplissez le formulaire ci-dessous pour obtenir un espace de travail ou un service de conciergerie adapté à vos besoins professionnels.</p>
-      <div class="hero-features">
-        <div class="hero-feature">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Réponse sous 24h
+    <!-- ═══════ FORM ═══════ -->
+    <form method="POST" enctype="multipart/form-data" id="conciergeForm">
+        {% csrf_token %}
+
+        <section class="concierge-content">
+            <div class="container">
+                <div class="concierge-grid">
+                    <div>
+
+                        <!-- ═══════ ÉTAPE 1 : Identité ═══════ -->
+                        <div class="form-step active" data-step="1">
+                            <div class="card">
+                                <h2 class="form-title">Informations personnelles</h2>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Civilité *</label>
+                                        <select name="civilite" id="civilite" required>
+                                            <option value="">Sélectionnez</option>
+                                            <option value="M">Monsieur</option>
+                                            <option value="Mme">Madame</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nom complet *</label>
+                                        <input type="text" name="nom" id="nom" placeholder="Votre nom complet" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fonction *</label>
+                                        <input type="text" name="fonction" id="fonction" placeholder="Directeur Général..." required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Entreprise *</label>
+                                        <input type="text" name="entreprise" id="entreprise" placeholder="Nom de la société" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email professionnel *</label>
+                                        <input type="email" name="email" id="email" placeholder="contact@entreprise.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Téléphone *</label>
+                                        <input type="tel" name="telephone" id="telephone" placeholder="+225 07 00 00 00 00" required>
+                                    </div>
+                                    <div class="form-group full">
+                                        <label>Secteur d'activité</label>
+                                        <input type="text" name="secteur" id="secteur" placeholder="Ex: Technologies, Finance, Santé...">
+                                    </div>
+                                </div>
+                                <div class="btn-group" style="justify-content:flex-end;">
+                                    <button type="button" class="btn-gold" onclick="goToStep(2)">Suivant →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ═══════ ÉTAPE 2 : Besoins ═══════ -->
+                        <div class="form-step" data-step="2">
+                            <div class="card">
+                                <h2 class="form-title">Votre besoin en conciergerie</h2>
+                                <div class="form-grid">
+                                    <div class="form-group full">
+                                        <label>Type de service souhaité *</label>
+                                        <select name="service" id="service" required>
+                                            <option value="">Sélectionnez un service</option>
+                                            <option value="bureau">Bureau privatif</option>
+                                            <option value="hotdesk">Hot Desk</option>
+                                            <option value="salle">Salle de réunion</option>
+                                            <option value="domiciliation">Domiciliation</option>
+                                            <option value="secretariat">Secrétariat</option>
+                                            <option value="pack">Pack complet</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nombre de personnes *</label>
+                                        <input type="number" name="participants" id="participants" min="1" max="50" value="1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date de début souhaitée *</label>
+                                        <input type="date" name="date_debut" id="dateDebut" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Durée souhaitée *</label>
+                                        <select name="duree" id="duree" required>
+                                            <option value="">Choisir une durée</option>
+                                            <option>1 mois</option>
+                                            <option>3 mois</option>
+                                            <option>6 mois</option>
+                                            <option>1 an</option>
+                                            <option>Indéterminée</option>
+                                            <option>Sur mesure</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Budget mensuel estimé</label>
+                                        <select name="budget" id="budget">
+                                            <option value="">Choisir</option>
+                                            <option>Moins de 50 000 FCFA</option>
+                                            <option>50 000 à 100 000 FCFA</option>
+                                            <option>100 000 à 200 000 FCFA</option>
+                                            <option>200 000 à 500 000 FCFA</option>
+                                            <option>Plus de 500 000 FCFA</option>
+                                            <option>À définir ensemble</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Horaires d'utilisation *</label>
+                                        <select name="horaires" id="horaires" required>
+                                            <option value="">Sélectionnez</option>
+                                            <option>Heures bureau (8h - 18h)</option>
+                                            <option>Étendu (7h - 21h)</option>
+                                            <option>24h/24 - 7j/7</option>
+                                            <option>Flexible</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="btn-group" style="justify-content:space-between;">
+                                    <button type="button" class="btn-outline" onclick="goToStep(1)">← Retour</button>
+                                    <button type="button" class="btn-gold" onclick="goToStep(3)">Suivant →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ═══════ ÉTAPE 3 : Préférences ═══════ -->
+                        <div class="form-step" data-step="3">
+                            <div class="card">
+                                <h2 class="form-title">Vos préférences</h2>
+                                <div class="form-group">
+                                    <label>Demande particulière</label>
+                                    <textarea name="commentaire" id="commentaire" placeholder="Décrivez vos besoins spécifiques, contraintes ou demandes particulières..."></textarea>
+                                </div>
+
+                                <br>
+
+                                <div class="confirm-box">
+                                    Avant d'envoyer votre demande, vérifiez que toutes vos informations sont correctes.<br><br>
+                                    Notre équipe Elite Buro analysera votre demande et vous contactera dans un délai maximum de 24 heures.
+                                </div>
+
+                                <br>
+
+                                <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;cursor:pointer;">
+                                    <input type="checkbox" id="conditions" required>
+                                    <span>J'accepte les conditions d'utilisation et la politique de confidentialité d'Elite Buro.</span>
+                                </label>
+
+                                <div class="btn-group" style="justify-content:space-between;">
+                                    <button type="button" class="btn-outline" onclick="goToStep(2)">← Retour</button>
+                                    <button type="button" class="btn-gold" onclick="goToStep(4)">Vérifier →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ═══════ ÉTAPE 4 : Confirmation ═══════ -->
+                        <div class="form-step" data-step="4">
+                            <div class="card">
+                                <h2 class="form-title">Confirmation de votre demande</h2>
+
+                                <div id="recapContent">
+                                    <div class="recap-grid">
+                                        <div class="recap-item">
+                                            <strong>Nom</strong>
+                                            <p id="recapNom">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Entreprise</strong>
+                                            <p id="recapEntreprise">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Email</strong>
+                                            <p id="recapEmail">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Téléphone</strong>
+                                            <p id="recapTelephone">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Service</strong>
+                                            <p id="recapService">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Participants</strong>
+                                            <p id="recapParticipants">1 personne(s)</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Date début</strong>
+                                            <p id="recapDate">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Durée</strong>
+                                            <p id="recapDuree">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Budget</strong>
+                                            <p id="recapBudget">—</p>
+                                        </div>
+                                        <div class="recap-item">
+                                            <strong>Horaires</strong>
+                                            <p id="recapHoraires">—</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="btn-group" style="justify-content:space-between;">
+                                    <button type="button" class="btn-outline" onclick="goToStep(3)">← Modifier</button>
+                                    <button type="submit" class="btn-gold">Envoyer ma demande</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                  
+                </div>
+            </div>
+        </section>
+
+    </form>
+
+    <!-- ═══════ MODAL SUCCÈS ═══════ -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h2>Demande envoyée avec succès !</h2>
+            <p>Référence de votre dossier :</p>
+            <p class="modal-ref" id="modalRef">EB-CONC-2026-XXXX</p>
+            <p>Notre équipe vous contactera sous 24h.</p>
+            <br>
+            <button class="btn-gold" onclick="closeModal()">Fermer</button>
         </div>
-        <div class="hero-feature">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Devis sans engagement
-        </div>
-        <div class="hero-feature">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Données confidentielles
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- ═══════ CONTENT ═══════ -->
-  <div class="page-content">
-    <div class="container">
-      <div class="form-layout">
+</div>
+{% endblock %}
 
-        <!-- FORM -->
-        <div>
-          <!-- Stepper -->
-          <div class="stepper">
-            <div class="stepper-step active" data-step="1">
-              <div class="stepper-circle">1</div>
-              <div class="stepper-label">Vos informations</div>
-            </div>
-            <div class="stepper-line"></div>
-            <div class="stepper-step" data-step="2">
-              <div class="stepper-circle">2</div>
-              <div class="stepper-label">Votre besoin</div>
-            </div>
-            <div class="stepper-line"></div>
-            <div class="stepper-step" data-step="3">
-              <div class="stepper-circle">3</div>
-              <div class="stepper-label">Vos préférences</div>
-            </div>
-            <div class="stepper-line"></div>
-            <div class="stepper-step" data-step="4">
-              <div class="stepper-circle">4</div>
-              <div class="stepper-label">Confirmation</div>
-            </div>
-          </div>
+{% block extra_js %}
+<script>
+/* ═════════════════════════════════════════════
+   ELITE BURO - CONCIERGERIE FORM
+   Multi-step avec validation en temps réel
+   ═════════════════════════════════════════════ */
 
-          <form id="conciergeForm" novalidate>
+let currentStep = 1;
 
-            <!-- ═══ ÉTAPE 1 — Informations ═══ -->
-            <div class="form-step active" data-step="1">
-              <div class="form-section">
-                <div class="form-section-header">
-                  <div class="form-section-num">1</div>
-                  <div>
-                    <div class="form-section-title">Informations personnelles</div>
-                    <div class="form-section-sub">Tous les champs marqués * sont obligatoires.</div>
-                  </div>
-                </div>
+/* ─── Service labels ─── */
+const serviceLabels = {
+    bureau: "Bureau privatif",
+    hotdesk: "Hot Desk",
+    salle: "Salle de réunion",
+    domiciliation: "Domiciliation",
+    secretariat: "Secrétariat",
+    pack: "Pack complet"
+};
 
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label">Civilité <span class="required">*</span></label>
-                    <select class="form-select" id="civilite" required>
-                      <option value="">— Sélectionnez —</option>
-                      <option value="M">Monsieur</option>
-                      <option value="Mme">Madame</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Fonction / Poste <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="fonction" placeholder="Ex : Directeur Général, Fondatrice" required />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Nom complet <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="nom" placeholder="Prénom et Nom" required />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Nom de l'entreprise <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="entreprise" placeholder="Nom de votre société" required />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Email professionnel <span class="required">*</span></label>
-                    <input type="email" class="form-input" id="email" placeholder="nom@entreprise.com" required />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Téléphone <span class="required">*</span></label>
-                    <input type="tel" class="form-input" id="telephone" placeholder="+225 07 00 00 00 00" required />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Téléphone secondaire <span class="optional">(optionnel)</span></label>
-                    <input type="tel" class="form-input" id="telephone2" placeholder="+225 01 00 00 00 00" />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Secteur d'activité <span class="required">*</span></label>
-                    <select class="form-select" id="secteur" required>
-                      <option value="">— Sélectionnez —</option>
-                      <option>Finance & Banque</option>
-                      <option>Télécommunications</option>
-                      <option>Énergie & Mines</option>
-                      <option>Santé & Pharmaceutique</option>
-                      <option>Éducation & Formation</option>
-                      <option>Commerce & Distribution</option>
-                      <option>Industrie & Manufacture</option>
-                      <option>ONG & Organisations</option>
-                      <option>Administration publique</option>
-                      <option>Technologies & IT</option>
-                      <option>Immobilier & BTP</option>
-                      <option>Autre</option>
-                    </select>
-                  </div>
-                  <div class="form-group full">
-                    <label class="form-label">Adresse de l'entreprise <span class="optional">(optionnel)</span></label>
-                    <input type="text" class="form-input" id="adresse" placeholder="Adresse complète" />
-                  </div>
-                </div>
-              </div>
+/* ─── Navigation ─── */
+function goToStep(step) {
+    if (step > currentStep && !validateStep(currentStep)) return;
 
-              <div class="form-nav">
-                <div></div>
-                <button type="button" class="btn btn-primary" onclick="goToStep(2)">
-                  Suivant
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              </div>
-            </div>
+    document.querySelectorAll(".form-step").forEach(el => el.classList.remove("active"));
+    const target = document.querySelector(`.form-step[data-step="${step}"]`);
+    if (target) target.classList.add("active");
 
-            <!-- ═══ ÉTAPE 2 — Besoin ═══ -->
-            <div class="form-step" data-step="2">
-              <div class="form-section">
-                <div class="form-section-header">
-                  <div class="form-section-num">2</div>
-                  <div>
-                    <div class="form-section-title">Votre besoin en conciergerie</div>
-                    <div class="form-section-sub">Sélectionnez les services qui vous intéressent.</div>
-                  </div>
-                </div>
+    updateStepper(step);
+    currentStep = step;
 
-                <div class="form-group" style="margin-bottom: 24px;">
-                  <label class="form-label">Type de service souhaité <span class="required">*</span></label>
-                  <div class="form-options">
-                    <div class="form-option">
-                      <input type="radio" name="service" id="srv-bureau" value="bureau" required />
-                      <label for="srv-bureau">Bureau privatif</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="service" id="srv-hotdesk" value="hotdesk" />
-                      <label for="srv-hotdesk">Hot Desk</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="service" id="srv-salle" value="salle" />
-                      <label for="srv-salle">Salle de réunion</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="service" id="srv-dom" value="domiciliation" />
-                      <label for="srv-dom">Domiciliation</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="service" id="srv-secretariat" value="secretariat" />
-                      <label for="srv-secretariat">Secrétariat</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="service" id="srv-pack" value="pack" />
-                      <label for="srv-pack">Pack complet</label>
-                    </div>
-                  </div>
-                </div>
+    if (step === 4) buildRecap();
 
-                <div class="form-group" style="margin-bottom: 24px;">
-                  <label class="form-label">Nombre de personnes <span class="required">*</span></label>
-                  <div style="display:flex; align-items:center; gap:12px;">
-                    <button type="button" class="btn btn-outline" id="decreasePers" style="padding:8px 14px; font-size:18px; font-weight:700;">−</button>
-                    <input type="number" class="form-input" id="participants" value="1" min="1" max="50" style="width:80px; text-align:center; font-weight:600;" />
-                    <button type="button" class="btn btn-outline" id="increasePers" style="padding:8px 14px; font-size:18px; font-weight:700;">+</button>
-                    <span style="font-size:13px; color:var(--text-muted); margin-left:4px;">personnes</span>
-                  </div>
-                </div>
+    window.scrollTo({ top: 250, behavior: "smooth" });
+}
 
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label">Date de début souhaitée <span class="required">*</span></label>
-                    <input type="date" class="form-input" id="dateDebut" required />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Durée souhaitée <span class="required">*</span></label>
-                    <select class="form-select" id="duree" required>
-                      <option value="">— Durée —</option>
-                      <option>1 mois</option>
-                      <option>3 mois</option>
-                      <option>6 mois</option>
-                      <option>1 an</option>
-                      <option>Indéterminée</option>
-                      <option>Sur mesure</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Budget mensuel estimé (FCFA)</label>
-                    <select class="form-select" id="budget">
-                      <option value="">— Budget —</option>
-                      <option>Moins de 50 000 F</option>
-                      <option>50 000 à 100 000 F</option>
-                      <option>100 000 à 200 000 F</option>
-                      <option>200 000 à 500 000 F</option>
-                      <option>Plus de 500 000 F</option>
-                      <option>À définir ensemble</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Horaires d'utilisation <span class="required">*</span></label>
-                    <select class="form-select" id="horaires" required>
-                      <option value="">— Horaires —</option>
-                      <option>Heures de bureau (8h-18h)</option>
-                      <option>Étendu (7h-21h)</option>
-                      <option>24h/24, 7j/7</option>
-                      <option>Flexible</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+/* ─── Validation ─── */
+function validateStep(step){
 
-              <div class="form-nav">
-                <button type="button" class="btn btn-outline" onclick="goToStep(1)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-                  Précédent
-                </button>
-                <button type="button" class="btn btn-primary" onclick="goToStep(3)">
-                  Suivant
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              </div>
-            </div>
+    const container =
+    document.querySelector(
+        `.form-step[data-step="${step}"]`
+    );
 
-            <!-- ═══ ÉTAPE 3 — Préférences ═══ -->
-            <div class="form-step" data-step="3">
-              <div class="form-section">
-                <div class="form-section-header">
-                  <div class="form-section-num">3</div>
-                  <div>
-                    <div class="form-section-title">Vos préférences & options</div>
-                    <div class="form-section-sub">Personnalisez votre espace et vos services.</div>
-                  </div>
-                </div>
+    if(!container) return true;
 
-                <div class="form-group" style="margin-bottom: 24px;">
-                  <label class="form-label">Options supplémentaires souhaitées</label>
-                  <div class="form-options">
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-impression" />
-                      <label for="opt-impression">Impression & scan</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-visiteur" />
-                      <label for="opt-visiteur">Accueil visiteurs</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-courrier" />
-                      <label for="opt-courrier">Gestion du courrier</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-traiteur" />
-                      <label for="opt-traiteur">Service traiteur</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-parking" />
-                      <label for="opt-parking">Parking dédié</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-coffee" />
-                      <label for="opt-coffee">Café & snacks</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-coaching" />
-                      <label for="opt-coaching">Coaching business</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="checkbox" id="opt-reseau" />
-                      <label for="opt-reseau">Accès réseau alumni</label>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="form-group" style="margin-bottom: 24px;">
-                  <label class="form-label">Moyen de paiement préféré <span class="required">*</span></label>
-                  <div class="form-options">
-                    <div class="form-option">
-                      <input type="radio" name="paiement" id="pay-om" value="orange-money" />
-                      <label for="pay-om">Orange Money</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="paiement" id="pay-momo" value="mtn-momo" />
-                      <label for="pay-momo">MTN MoMo</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="paiement" id="pay-wave" value="wave" />
-                      <label for="pay-wave">Wave</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="paiement" id="pay-carte" value="carte" />
-                      <label for="pay-carte">Carte bancaire</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="paiement" id="pay-virement" value="virement" />
-                      <label for="pay-virement">Virement bancaire</label>
-                    </div>
-                  </div>
-                </div>
+    let valid=true;
 
-                <div class="form-group" style="margin-bottom: 24px;">
-                  <label class="form-label">Comment avez-vous connu Elite Bureau ?</label>
-                  <div class="form-options">
-                    <div class="form-option">
-                      <input type="radio" name="source" id="src-google" value="google" />
-                      <label for="src-google">Google</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="source" id="src-social" value="social" />
-                      <label for="src-social">Réseaux sociaux</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="src-social" id="src-recommandation" value="recommandation" />
-                      <label for="src-recommandation">Recommandation</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="source" id="src-evenement" value="evenement" />
-                      <label for="src-evenement">Événement</label>
-                    </div>
-                    <div class="form-option">
-                      <input type="radio" name="source" id="src-autre" value="autre" />
-                      <label for="src-autre">Autre</label>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="form-group" style="margin-bottom: 24px;">
-                  <label class="form-label">Commentaire ou demande particulière <span class="optional">(optionnel)</span></label>
-                  <textarea class="form-textarea" id="commentaire" placeholder="Décrivez vos besoins spécifiques, contraintes, demandes particulières..." rows="4"></textarea>
-                </div>
+    container.querySelectorAll("[required]").forEach(field=>{
 
-                <div class="form-group">
-                  <label class="form-label">Documents à joindre <span class="optional">(optionnel)</span></label>
-                  <div class="file-upload" onclick="document.getElementById('fileInput').click()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <p><span>Cliquez pour ajouter un fichier</span></p>
-                    <p style="font-size:11px; color:var(--text-light); margin-top:4px;">PDF, Word ou Excel — Max 10 Mo</p>
-                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx" style="display:none;" />
-                  </div>
-                </div>
-              </div>
 
-              <div class="form-nav">
-                <button type="button" class="btn btn-outline" onclick="goToStep(2)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-                  Précédent
-                </button>
-                <button type="button" class="btn btn-primary" onclick="goToStep(4)">
-                  Suivant
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              </div>
-            </div>
+        field.classList.remove("error");
 
-            <!-- ═══ ÉTAPE 4 — Confirmation ═══ -->
-            <div class="form-step" data-step="4">
-              <div class="form-section">
-                <div class="form-section-header">
-                  <div class="form-section-num">4</div>
-                  <div>
-                    <div class="form-section-title">Confirmation & envoi</div>
-                    <div class="form-section-sub">Vérifiez vos informations avant de soumettre votre demande.</div>
-                  </div>
-                </div>
 
-                <div id="recapContent" style="background:var(--white); border-radius:var(--radius-lg); border:1px solid var(--border-light); padding:28px; margin-bottom:24px;">
-                  <!-- Rempli dynamiquement par JS -->
-                </div>
+        if(field.type === "checkbox"){
 
-                <div class="form-group" style="margin-bottom:16px;">
-                  <div class="form-option">
-                    <input type="checkbox" id="accept-cgu" required />
-                    <label for="accept-cgu">J'accepte les <a href="conditions-utilisation.html" target="_blank" style="color:var(--gold);">conditions d'utilisation</a> et la <a href="politique-confidentialite.html" target="_blank" style="color:var(--gold);">politique de confidentialité</a> d'Elite Bureau. <span class="required">*</span></label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="form-option">
-                    <input type="checkbox" id="accept-contact" />
-                    <label for="accept-contact">J'accepte de recevoir des communications commerciales d'Elite Bureau.</label>
-                  </div>
-                </div>
-              </div>
+            if(!field.checked){
 
-              <div class="form-nav">
-                <button type="button" class="btn btn-outline" onclick="goToStep(3)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-                  Précédent
-                </button>
-                <button type="submit" class="btn btn-gold" style="padding:14px 36px;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                  Envoyer ma demande
-                </button>
-              </div>
-            </div>
+                valid=false;
+                field.classList.add("error");
 
-          </form>
-        </div>
+            }
 
-        <!-- ═══ SIDEBAR ═══ -->
-        <div class="sidebar">
-          <div class="sidebar-card">
-            <div class="sidebar-header">
-              <h3>Récapitulatif</h3>
-            </div>
-            <div class="sidebar-body">
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Nom</span>
-                <span class="sidebar-row-value empty" id="side-nom">—</span>
-              </div>
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Entreprise</span>
-                <span class="sidebar-row-value empty" id="side-entreprise">—</span>
-              </div>
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Service</span>
-                <span class="sidebar-row-value empty" id="side-service">—</span>
-              </div>
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Personnes</span>
-                <span class="sidebar-row-value empty" id="side-pers">—</span>
-              </div>
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Date début</span>
-                <span class="sidebar-row-value empty" id="side-date">—</span>
-              </div>
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Durée</span>
-                <span class="sidebar-row-value empty" id="side-duree">—</span>
-              </div>
-              <div class="sidebar-row">
-                <span class="sidebar-row-label">Budget</span>
-                <span class="sidebar-row-value empty" id="side-budget">—</span>
-              </div>
-              <div class="sidebar-total">
-                <span class="sidebar-total-label">Estimation</span>
-                <span class="sidebar-total-value confirm" id="side-estim">À confirmer</span>
-              </div>
-            </div>
-          </div>
+        }
 
-          <div class="sidebar-card">
-            <div class="timeline">
-              <div class="timeline-title">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Comment ça marche ?
-              </div>
-              <div class="timeline-step active">
-                <div class="timeline-dot">1</div>
-                <div class="timeline-info">
-                  <h5>Soumission du formulaire</h5>
-                  <p>Vous êtes ici</p>
-                </div>
-              </div>
-              <div class="timeline-step">
-                <div class="timeline-dot">2</div>
-                <div class="timeline-info">
-                  <h5>Prise de contact</h5>
-                  <p>Sous 24h</p>
-                </div>
-              </div>
-              <div class="timeline-step">
-                <div class="timeline-dot">3</div>
-                <div class="timeline-info">
-                  <h5>Visite des locaux</h5>
-                  <p>À convenir</p>
-                </div>
-              </div>
-              <div class="timeline-step">
-                <div class="timeline-dot">4</div>
-                <div class="timeline-info">
-                  <h5>Signez & emménagez</h5>
-                  <p>Activation immédiate</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="sidebar-card">
-            <div class="help-card">
-              <h4>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Besoin d'aide ?
-              </h4>
-              <p>Un conseiller est à votre disposition pour vous accompagner dans votre demande.</p>
-              <div class="help-contact">
-                <a href="tel:+2252722470000">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  +225 27 22 47 00 00
-                </a>
-                <a href="mailto:conciergerie@eliteburo.com">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  conciergerie@eliteburo.com
-                </a>
-                <a href="mailto:contact@eliteburo.com">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  contact@eliteburo.com
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        else if(field.type === "radio"){
 
-      </div>
-    </div>
-  </div>
+            const radios =
+            container.querySelectorAll(
+                `input[name="${field.name}"]`
+            );
 
-  <!-- ═══════ FOOTER ═══════ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="footer-mark">E</div>
-          <div>
-            <div class="footer-name">ELITE BURO</div>
-            <div class="footer-tag">Créateur de liens et de business</div>
-          </div>
-        </div>
-        <div class="footer-info">
-          <p>Riviera Palmeraie, Cocody, Abidjan</p>
-          <p><a href="mailto:contact@eliteburo.com">contact@eliteburo.com</a> · +225 27 22 47 00 00</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 SAS Elite Buro Coworking. Tous droits réservés.</p>
-      </div>
-    </div>
-  </footer>
 
-  <!-- ═══════ SUCCESS MODAL ═══════ -->
-  <div class="modal-overlay" id="successModal">
-    <div class="modal">
-      <div class="modal-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h3>Demande envoyée !</h3>
-      <p>Votre demande de conciergerie a bien été enregistrée.</p>
-      <p>Nos équipes vous contacteront sous <strong>24 heures</strong> pour prendre rendez-vous.</p>
-      <div class="ref" id="modalRef">EB-CONC-2026-0000</div>
-      <p style="font-size:12px; color:var(--text-light);">Conservez cette référence pour le suivi de votre dossier.</p>
-      <button class="btn btn-gold" style="margin-top:20px;" onclick="closeModal()">Fermer</button>
-    </div>
-  </div>
+            let checked=false;
 
-  <script>
-    /* ═══════════════════════════════════════════
-       STEPPER NAVIGATION
-       ═══════════════════════════════════════════ */
-    let currentStep = 1;
 
-    function goToStep(step) {
-      // Hide all steps
-      document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
-      // Show target step
-      document.querySelector(`.form-step[data-step="${step}"]`).classList.add('active');
-      // Update stepper
-      document.querySelectorAll('.stepper-step').forEach(el => {
-        const s = parseInt(el.dataset.step);
-        el.classList.remove('active', 'completed');
-        if (s < step) el.classList.add('completed');
-        else if (s === step) el.classList.add('active');
-      });
-      document.querySelectorAll('.stepper-line').forEach((el, i) => {
-        el.classList.toggle('completed', i < step - 1);
-      });
-      currentStep = step;
-      // If step 4, build recap
-      if (step === 4) buildRecap();
-      window.scrollTo({ top: 200, behavior: 'smooth' });
-    }
+            radios.forEach(r=>{
 
-    /* ═══════════════════════════════════════════
-       PARTICIPANTS COUNTER
-       ═══════════════════════════════════════════ */
-    document.getElementById('increasePers').addEventListener('click', () => {
-      const input = document.getElementById('participants');
-      input.value = Math.min(50, parseInt(input.value) + 1);
-      updateSidebar();
-    });
-    document.getElementById('decreasePers').addEventListener('click', () => {
-      const input = document.getElementById('participants');
-      input.value = Math.max(1, parseInt(input.value) - 1);
-      updateSidebar();
+                if(r.checked)
+                    checked=true;
+
+            });
+
+
+            if(!checked)
+                valid=false;
+
+
+        }
+
+
+        else{
+
+            if(!field.value.trim()){
+
+                valid=false;
+                field.classList.add("error");
+
+            }
+
+        }
+
+
     });
 
-    /* ═══════════════════════════════════════════
-       SIDEBAR LIVE UPDATE
-       ═══════════════════════════════════════════ */
-    const serviceLabels = { bureau: 'Bureau privatif', hotdesk: 'Hot Desk', salle: 'Salle de réunion', domiciliation: 'Domiciliation', secretariat: 'Secrétariat', pack: 'Pack complet' };
-    const servicePrices = { bureau: '75 000 F/mois', hotdesk: '5 000 F/jour', salle: '35 000 F/demi-j.', domiciliation: '25 000 F/mois', secretariat: '45 000 F/mois', pack: 'Sur devis' };
 
-    function updateSidebar() {
-      const nom = document.getElementById('nom').value;
-      const entreprise = document.getElementById('entreprise').value;
-      const service = document.querySelector('input[name="service"]:checked');
-      const participants = document.getElementById('participants').value;
-      const dateDebut = document.getElementById('dateDebut').value;
-      const duree = document.getElementById('duree').value;
-      const budget = document.getElementById('budget').value;
 
-      document.getElementById('side-nom').textContent = nom || '—';
-      document.getElementById('side-nom').className = 'sidebar-row-value' + (nom ? '' : ' empty');
-      document.getElementById('side-entreprise').textContent = entreprise || '—';
-      document.getElementById('side-entreprise').className = 'sidebar-row-value' + (entreprise ? '' : ' empty');
-      document.getElementById('side-service').textContent = service ? serviceLabels[service.value] : '—';
-      document.getElementById('side-service').className = 'sidebar-row-value' + (service ? '' : ' empty');
-      document.getElementById('side-pers').textContent = participants + ' pers.';
-      document.getElementById('side-pers').className = 'sidebar-row-value';
-      document.getElementById('side-date').textContent = dateDebut ? new Date(dateDebut).toLocaleDateString('fr-FR') : '—';
-      document.getElementById('side-date').className = 'sidebar-row-value' + (dateDebut ? '' : ' empty');
-      document.getElementById('side-duree').textContent = duree || '—';
-      document.getElementById('side-duree').className = 'sidebar-row-value' + (duree ? '' : ' empty');
-      document.getElementById('side-budget').textContent = budget || '—';
-      document.getElementById('side-budget').className = 'sidebar-row-value' + (budget ? '' : ' empty');
+    if(!valid){
 
-      if (service) {
-        const estim = document.getElementById('side-estim');
-        if (service.value === 'pack') { estim.textContent = 'Sur devis'; }
-        else { estim.textContent = servicePrices[service.value]; estim.className = 'sidebar-total-value'; }
-      } else {
-        const estim = document.getElementById('side-estim');
-        estim.textContent = 'À confirmer'; estim.className = 'sidebar-total-value confirm';
-      }
+        alert(
+        "Veuillez remplir tous les champs obligatoires."
+        );
+
     }
 
-    // Listen for all input changes
-    document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => {
-      el.addEventListener('input', updateSidebar);
-      el.addEventListener('change', updateSidebar);
+
+    return valid;
+
+}
+/* ─── Stepper ─── */
+function updateStepper(step) {
+    document.querySelectorAll(".stepper-step").forEach(item => {
+        const num = parseInt(item.dataset.step);
+        item.classList.remove("active", "completed");
+        if (num < step) item.classList.add("completed");
+        if (num === step) item.classList.add("active");
     });
-    document.querySelectorAll('input[name="service"]').forEach(el => el.addEventListener('change', updateSidebar));
+}
 
-    /* ═══════════════════════════════════════════
-       RECAP BUILD (STEP 4)
-       ═══════════════════════════════════════════ */
-    function buildRecap() {
-      const civ = document.getElementById('civilite').value;
-      const fonction = document.getElementById('fonction').value;
-      const nom = document.getElementById('nom').value;
-      const entreprise = document.getElementById('entreprise').value;
-      const email = document.getElementById('email').value;
-      const tel = document.getElementById('telephone').value;
-      const secteur = document.getElementById('secteur').value;
-      const service = document.querySelector('input[name="service"]:checked');
-      const participants = document.getElementById('participants').value;
-      const dateDebut = document.getElementById('dateDebut').value;
-      const duree = document.getElementById('duree').value;
-      const budget = document.getElementById('budget').value;
-      const horaires = document.getElementById('horaires').value;
-      const commentaire = document.getElementById('commentaire').value;
+/* ─── Sidebar update ─── */
+function updateSidebar() {
+    const fields = {
+        sideNom: document.getElementById("nom")?.value,
+        sideEntreprise: document.getElementById("entreprise")?.value,
+        sidePers: document.getElementById("participants")?.value,
+        sideDate: document.getElementById("dateDebut")?.value,
+        sideDuree: document.getElementById("duree")?.value,
+        sideBudget: document.getElementById("budget")?.value,
+    };
 
-      // Options
-      const options = [];
-      ['impression','visiteur','courrier','traiteur','parking','coffee','coaching','reseau'].forEach(id => {
-        if (document.getElementById('opt-' + id).checked) options.push(document.querySelector(`label[for="opt-${id}"]`).textContent);
-      });
+    const service = document.getElementById("service")?.value;
+    document.getElementById("sideService").textContent = service ? serviceLabels[service] || service : "—";
 
-      // Paiement
-      const paiement = document.querySelector('input[name="paiement"]:checked');
-      const paiementLabels = { 'orange-money': 'Orange Money', 'mtn-momo': 'MTN MoMo', 'wave': 'Wave', 'carte': 'Carte bancaire', 'virement': 'Virement bancaire' };
+    Object.entries(fields).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (id === "sideDate" && val) {
+            el.textContent = new Date(val + "T00:00:00").toLocaleDateString("fr-FR");
+        } else {
+            el.textContent = val || "—";
+        }
+        el.classList.toggle("empty", !val);
+    });
+}
 
-      let html = '<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">';
-      html += recapField('Civilité', civ || '—');
-      html += recapField('Fonction', fonction || '—');
-      html += recapField('Nom complet', nom || '—');
-      html += recapField('Entreprise', entreprise || '—');
-      html += recapField('Email', email || '—');
-      html += recapField('Téléphone', tel || '—');
-      html += recapField('Secteur', secteur || '—');
-      html += recapField('Service', service ? serviceLabels[service.value] : '—');
-      html += recapField('Participants', participants + ' pers.');
-      html += recapField('Date début', dateDebut ? new Date(dateDebut).toLocaleDateString('fr-FR') : '—');
-      html += recapField('Durée', duree || '—');
-      html += recapField('Budget', budget || '—');
-      html += recapField('Horaires', horaires || '—');
-      if (paiement) html += recapField('Paiement', paiementLabels[paiement.value] || '—');
-      html += '</div>';
-      if (options.length) html += '<div style="margin-top:16px;"><div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">Options choisies</div><div style="display:flex;flex-wrap:wrap;gap:6px;">' + options.map(o => `<span style="padding:4px 12px;background:var(--gold-pale);border-radius:4px;font-size:12px;font-weight:500;color:var(--navy);">${o}</span>`).join('') + '</div></div>';
-      if (commentaire) html += `<div style="margin-top:16px;"><div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">Commentaire</div><p style="font-size:13px;color:var(--text-muted);background:var(--cream);padding:12px;border-radius:6px;">${commentaire}</p></div>`;
-      document.getElementById('recapContent').innerHTML = html;
-    }
+/* ─── Recap ─── */
+function buildRecap() {
+    const getVal = (id) => document.getElementById(id)?.value || "—";
 
-    function recapField(label, value) {
-      return `<div><div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:2px;">${label}</div><div style="font-size:14px;color:var(--dark);font-weight:500;">${value}</div></div>`;
-    }
+    document.getElementById("recapNom").textContent = getVal("nom");
+    document.getElementById("recapEntreprise").textContent = getVal("entreprise");
+    document.getElementById("recapEmail").textContent = getVal("email");
+    document.getElementById("recapTelephone").textContent = getVal("telephone");
 
-    /* ═══════════════════════════════════════════
-       FORM SUBMISSION
-       ═══════════════════════════════════════════ */
-    document.getElementById('conciergeForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Generate reference
-      const ref = 'EB-CONC-2026-' + String(Math.floor(1000 + Math.random() * 9000)).padStart(4, '0');
-      document.getElementById('modalRef').textContent = ref;
-      // Show modal
-      document.getElementById('successModal').classList.add('visible');
+    const service = document.getElementById("service")?.value;
+    document.getElementById("recapService").textContent = service ? serviceLabels[service] || service : "—";
+    document.getElementById("recapParticipants").textContent = getVal("participants") + " personne(s)";
+    document.getElementById("recapDate").textContent = getVal("dateDebut") ? new Date(getVal("dateDebut") + "T00:00:00").toLocaleDateString("fr-FR") : "—";
+    document.getElementById("recapDuree").textContent = getVal("duree");
+    document.getElementById("recapBudget").textContent = getVal("budget");
+    document.getElementById("recapHoraires").textContent = getVal("horaires");
+}
+
+/* ─── Form submission ─── */
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("conciergeForm");
+
+    /* Auto-update sidebar */
+    document.querySelectorAll("#conciergeForm input, #conciergeForm select, #conciergeForm textarea").forEach(el => {
+        el.addEventListener("input", updateSidebar);
+        el.addEventListener("change", updateSidebar);
     });
 
-    function closeModal() {
-      document.getElementById('successModal').classList.remove('visible');
-    }
+    form.addEventListener("submit", function (e) {
+        if (!validateStep(4) || !document.getElementById("conditions").checked) {
+            e.preventDefault();
+            if (!document.getElementById("conditions").checked) {
+                alert("Veuillez accepter les conditions d'utilisation.");
+            }
+            return;
+        }
 
-    /* ═══════════════════════════════════════════
-       MOBILE NAV
-       ═══════════════════════════════════════════ */
-    document.querySelector('.nav-toggle').addEventListener('click', function() {
-      const nav = document.querySelector('.nav');
-      if (nav.style.display === 'flex') { nav.style.display = 'none'; }
-      else {
-        nav.style.display = 'flex'; nav.style.flexDirection = 'column';
-        nav.style.position = 'absolute'; nav.style.top = '72px'; nav.style.right = '24px';
-        nav.style.background = 'white'; nav.style.padding = '24px'; nav.style.borderRadius = '8px';
-        nav.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)'; nav.style.gap = '20px';
-      }
+        /* Allow normal Django form submission */
+        /* The modal is shown only if we want to demo without actual submit */
     });
-  </script>
-</body>
-</html>
+
+    updateSidebar();
+});
+
+/* ─── Modal ─── */
+function showSuccessModal() {
+    const ref = "EB-CONC-2026-" + Math.floor(1000 + Math.random() * 9000);
+    document.getElementById("modalRef").textContent = ref;
+    document.getElementById("successModal").classList.add("visible");
+}
+
+function closeModal() {
+    document.getElementById("successModal").classList.remove("visible");
+}
+</script>
+{% endblock %}
+
