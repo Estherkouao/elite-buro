@@ -1782,16 +1782,13 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         /* Overlay très léger pour lisibilité du titre */
-        .hero-image-wrapper::after {
+        .hero-image-wrapper::after{
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to top,
-                rgba(0,0,0,0.35) 0%,
-                rgba(0,0,0,0.10) 40%,
-                transparent 70%
-            );
+            background: rgba(0,0,0,.35);
+            z-index:1;
+            pointer-events:none;
         }
 
         /* Titre et badge positionnés sur l'image */
@@ -2036,6 +2033,58 @@ EliteBuro - Coworking & Formation à Abidjan
             font-weight: 500;
             line-height: 1.6;
         }
+        .hero-image-wrapper{
+            position: relative;
+            width: 100%;
+            height: 100vh; /* ou 700px selon ton design */
+            overflow: hidden;
+        }
+
+        .hero-image-wrapper{
+            position: relative;
+            width: 100%;
+            height: 90vh;
+            overflow: hidden;
+        }
+
+        .hero-video{
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-image-wrapper::after{
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,.35);
+            z-index: 1;
+        }
+
+        .hero-title-overlay{
+            position: absolute;
+            z-index: 2;
+        }
+
+        .floating-card{
+            position: absolute;
+            z-index: 3;
+        }
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-image-wrapper video::-webkit-media-controls {
+            z-index: 10;
+        }
         
 
         
@@ -2047,34 +2096,41 @@ EliteBuro - Coworking & Formation à Abidjan
    
 
     <!-- Hero Section -->
-    <section class="hero" id="accueil">
+        <section class="hero" id="accueil">
+            <!-- VIDÉO PLEIN ÉCRAN AVEC TITRE PAR-DESSUS -->
+            <div class="hero-image-wrapper">
 
-        <!-- IMAGE PLEIN ÉCRAN AVEC TITRE PAR-DESSUS -->
-        <div class="hero-image-wrapper">
-            <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600"
-                class="hero-image"
-                alt="Elite Buro">
+                <video
+                    class="hero-video"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        controls>
+                        <source src="/media/hero.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
 
-            <div class="hero-title-overlay">
-                <div class="badge">
-                    <div class="badge-dot"></div>
-                    Riviera Palmeraie · Cocody · Abidjan
+                <div class="hero-title-overlay">
+                    <div class="badge">
+                        <div class="badge-dot"></div>
+                        Riviera Palmeraie · Cocody · Abidjan
+                    </div>
+                    <h1>
+                        L'excellence
+                        professionnelle
+                        au cœur d'Abidjan
+                    </h1>
                 </div>
-                <h1>
-                    L'excellence
-                    <span class="accent">professionnelle</span>
-                    au cœur d'Abidjan
-                </h1>
-            </div>
 
-            <div class="floating-card">
-                <div class="card-status">🟢 Disponible</div>
-                <h3>Bureau Panorama 05</h3>
-                <p>20 m² • 4 postes • Étage 2</p>
-                <strong>22 000 FCFA / jour</strong>
+                <div class="floating-card">
+                    <div class="card-status">🟢 Disponible</div>
+                    <h3>Bureau Panorama 05</h3>
+                    <p>20 m² • 4 postes • Étage 2</p>
+                    <strong>22 000 FCFA / jour</strong>
+                </div>
+
             </div>
-        </div>
 
         <section class="hero-content-section">
 
@@ -2099,18 +2155,6 @@ EliteBuro - Coworking & Formation à Abidjan
                     <button class="btn-primary"
                     onclick="window.location.href='{% url 'reservation:landing' %}'">
                         Réserver une salle de formation
-                    </button>
-
-
-                    <button class="btn-primary"
-                    onclick="window.location.href='{% url 'reservation:landing' %}'">
-                        Réserver un espace →
-                    </button>
-
-
-                    <button class="btn-outline"
-                    onclick="window.location.href='{% url 'domiciliation:index' %}'">
-                        Nos formules
                     </button>
 
 
@@ -2171,7 +2215,7 @@ EliteBuro - Coworking & Formation à Abidjan
             <div class="hero-secondary-image">
 
                 <img 
-                src="/media/images2.jpeg"
+                src="/media/images3.jpeg"
                 alt="Espace Elite Buro">
 
             </div>
@@ -2599,14 +2643,14 @@ EliteBuro - Coworking & Formation à Abidjan
                     </div>
 
                     <div class="formation-image">
-                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&h=700&fit=crop&auto=format" alt="Salle de formation">
+                        <img src="/media/formation.jpeg" alt="Salle de formation">
                         <div class="formation-overlay"></div>
                         <div class="formation-quote">
                             <div class="quote-label">Devis automatique</div>
-                            <div class="quote-title">Formation Management — 2 jours, 18 stagiaires</div>
+                            <div class="quote-title">Formation qualifiantee</div>
                             <div class="quote-details">
-                                <span class="quote-location">Salle Ivoire · Pause café incluse</span>
-                                <span class="quote-price">285 000 F HT</span>
+                                <span class="quote-location">Salle de formation inclus</span>
+                                <span class="quote-price">a moindre coup</span>
                             </div>
                         </div>
                     </div>

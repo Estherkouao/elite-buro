@@ -81,36 +81,66 @@
         .hero-text {
             color: rgba(255,255,255,.9);
         }
+        /* Décale le Hero sous le header */
+        .hero-section {
+            position: relative;
+            margin-top: 80px; /* hauteur de ton header */
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+
+        /* Vidéo plein écran dans le Hero */
+        .hero-section video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Le contenu reste au-dessus de la vidéo */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
 </style>
 
 <!-- 2) HERO SECTION -->
-<section class="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-elite-navy">
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000" alt="" class="w-full h-full object-cover opacity-30">
-    </div>
-    <div class="absolute inset-0 bg-elite-navy/60"></div>
+<section class="hero-section flex items-end justify-center">
 
-    <div class="container mx-auto px-6 relative z-10 text-center text-elite-gold">
-        <h1 class="mt-6 text-5xl lg:text-6xl font-black leading-tight text-white">
-        
-            Réservez votre espace professionnel <br class="hidden md:block">
-            en toute simplicité
-        </h1>
-        <h1 class="mt-6 font-display text-4xl font-bold leading-tight text-[#5A6A85] sm:text-5xl"></h1>
-       <p class="hero-text text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-            Bureaux privés, Hot Desks, salles de réunion, formations et conférences disponibles en temps réel.
-        </p>
+    <div class="absolute inset-0 overflow-hidden">
+        <video 
+            class="w-full h-full object-cover"
+            autoplay
+            muted
+            loop
+            playsinline
+            controls>
+            <source src="/media/elite buro.m4v" type="video/mp4">
+            Votre navigateur ne supporte pas la vidéo.
+        </video>
+    </div>
+
+    <div class="hero-content container mx-auto px-6 text-center pb-16">
+
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{% url 'reservation:create' %}" class="btn-gold px-8 py-4 rounded-full font-semibold text-lg inline-block">
+            <a href="{% url 'reservation:create' %}" 
+               class="btn-gold px-8 py-4 rounded-full font-semibold text-lg">
                 Réserver maintenant
             </a>
-            <a href="#nos-espaces" class="bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 px-8 py-4 rounded-full font-semibold text-lg transition-all inline-block">
+
+            <a href="#nos-espaces"
+               class="bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 px-8 py-4 rounded-full font-semibold text-lg text-white">
                 Voir les espaces
             </a>
         </div>
+
+    </div>
+
 </section>
 
-<!-- 3) BARRE DE RECHERCHE DE DISPONIBILITÉ -->
+<!-- 3) BARRE DE RECHERCHE DE DISPONIBILITÉ 
 <section class="relative z-20 -mt-16 container mx-auto px-6">
     <div class="bg-white p-6 md:p-8 rounded-2xl shadow-2xl">
         <form action="{% url 'reservation:search' %}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
