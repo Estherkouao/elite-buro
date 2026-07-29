@@ -44,7 +44,12 @@
                     <td>{{ req.date_creation|date:"d/m/Y" }}</td>
                     <td>
                         <div style="display:flex;flex-wrap:wrap;gap:10px;">
-                            <a class="btn-secondary" href="{% url 'dashboard_admin:domiciliation_request_edit' plan_id=req.id %}">Modifier</a>
+                            <a href="{% url 'dashboard_admin:domiciliation_request_edit' request_id=req.id %}"
+                                class="btn btn-small">
+
+                                    Modifier
+
+                            </a>
 
                             <form method="post" action="{% url 'dashboard_admin:domiciliation_request_validate' request_id=req.id %}" style="display:inline;">
                                 {% csrf_token %}

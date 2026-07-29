@@ -38,7 +38,9 @@
       </thead>
       <tbody>
         {% for devis in devis_list %}
-        <tr onclick="showDevisDetail('{{ devis.id }}')" style="cursor:pointer; {% if not devis.lu %}font-weight:600;{% endif %}">
+        <tr  onclick="window.location='{% url "formation:devis_formation_detail" devis.id %}'"
+                  style="cursor:pointer;"
+                  >
           <td>
             <div class="session-name">{{ devis.company_name }}</div>
             <div class="session-date">{{ devis.secteur|default:"—" }}</div>

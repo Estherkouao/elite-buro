@@ -1,0 +1,35 @@
+{% extends "layouts/base_public.html" %}
+
+{% block title %}
+Demande envoyée | EliteBuro Formation
+{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen flex items-center justify-center bg-gray-100">
+
+    <div class="bg-white p-10 rounded-xl shadow-lg text-center">
+
+        <div class="text-5xl mb-4">
+            ✅
+        </div>
+
+        <h1 class="text-3xl font-bold mb-4">
+            Demande envoyée avec succès
+        </h1>
+
+        <p class="text-gray-600">
+            Votre demande de devis formation a bien été reçue.
+            Notre équipe EliteBuro vous contactera rapidement.
+        </p>
+
+        <a href="{% url 'formation:catalogue' %}"
+           class="inline-block mt-6 px-6 py-3 bg-orange-500 text-white rounded-lg">
+            Voir nos formations
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

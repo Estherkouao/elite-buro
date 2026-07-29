@@ -7,6 +7,7 @@ app_name = "domiciliation"
 urlpatterns = [
     path("", views.index, name="index"),
     path("souscrire/", views.domiciliation_from, name="domiciliation_from"),
+    path("individuelle/", views.domiciliation_individuelle, name="domiciliation_individuelle"),
     path("plans/", views.plans, name="plans"),
     path("plans/<slug:slug>/", views.plan_detail, name="plan_detail"),
 

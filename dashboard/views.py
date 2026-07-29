@@ -474,21 +474,42 @@ class AdminDomiciliationRequestEditView(AdminBaseView):
 
 
 class AdminDomiciliationRequestValidateView(AdminBaseView):
+
     def post(self, request: HttpRequest, request_id: str, *args, **kwargs):
+
         from domiciliation.models import DomiciliationLog
 
-        obj = get_object_or_404(DomiciliationRequest, id=request_id)
-        obj.statut = DomiciliationRequest.Status.ACTIVE
-        obj.save(update_fields=["statut"])
+        obj = get_object_or_404(
+            DomiciliationRequest,
+            id=request_id
+        )
+
+
+        obj.statut = DomiciliationRequest.Status.EN_VÉRIFICATION
+
+        obj.save(
+            update_fields=["statut"]
+        )
+
 
         DomiciliationLog.objects.create(
             demande=obj,
             utilisateur=request.user,
             action="VALIDATION",
-            details="Demande validée par l’admin.",
+            details="Demande validée et envoyée en vérification par l’administration.",
         )
 
-        return redirect("dashboard_admin:domiciliation_requests")
+
+        messages.success(
+            request,
+            "La demande a été validée avec succès."
+        )
+
+
+        return redirect(
+            "dashboard_admin:domiciliation_detail",
+            request_id=obj.id
+        )
 
 
 class AdminDomiciliationRequestRefuseView(AdminBaseView):
@@ -1296,7 +1317,7 @@ class AdminDevisFormationListView(AdminBaseView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        from core.models import DevisFormation
+        from formation.models import DevisFormation
 
         context["active_section"] = "devis_formation"
         devis_qs = DevisFormation.objects.all().order_by("-created_at")
@@ -1319,7 +1340,7 @@ class AdminDevisMarkReadView(AdminBaseView):
     """Marque une demande de devis comme lue."""
 
     def post(self, request, devis_id, *args, **kwargs):
-        from core.models import DevisFormation
+        from formation.models import DevisFormation
         devis = get_object_or_404(DevisFormation, id=devis_id)
         devis.lu = True
         devis.lu_le = timezone.now()
@@ -1446,3 +1467,140 @@ class AdminConciergerieRefuseView(AdminBaseView):
         demande.save(update_fields=["statut"])
         messages.warning(request, f"Demande {demande.reference} refusée.")
         return redirect("dashboard_admin:conciergerie_list")
+
+from django.shortcuts import render, get_object_or_404
+
+from domiciliation.models import DomiciliationRequest
+
+
+def domiciliation_detail(request, request_id):
+
+    demande = get_object_or_404(
+        DomiciliationRequest,
+        id=request_id
+    )
+
+    return render(
+        request,
+        "dashboard/admin/domiciliation_detail.html",
+        {
+            "demande": demande
+        }
+    )
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.utils import timezone
+
+from formation.models import DevisFormation
+
+
+
+def send_devis_email(request, pk):
+
+    devis = get_object_or_404(
+        DevisFormation,
+        id=pk
+    )
+
+
+    # Vérification
+    if not devis.montant_propose:
+        messages.error(
+            request,
+            "Veuillez renseigner le montant proposé avant l'envoi."
+        )
+
+        return redirect(
+            "dashboard_trainer:devis_formation_detail",
+            pk=pk
+        )
+
+
+
+    sujet = "Votre devis de formation EliteBuro"
+
+
+    message = f"""
+
+Bonjour {devis.nom},
+
+
+Nous avons le plaisir de vous transmettre notre proposition de formation.
+
+
+Entreprise :
+{devis.company_name}
+
+
+Programme :
+
+{devis.programme}
+
+
+Montant proposé :
+
+{devis.montant_propose} FCFA
+
+
+Validité du devis :
+
+{devis.validite}
+
+
+Observations :
+
+{devis.observations}
+
+
+Nous restons disponibles pour toute information complémentaire.
+
+
+Cordialement,
+
+EliteBuro Formation
+
+"""
+
+
+    send_mail(
+
+        sujet,
+
+        message,
+
+        "formation@eliteburo.com",
+
+        [devis.email],
+
+        fail_silently=False,
+
+    )
+
+
+
+    # Mise à jour automatique
+
+    devis.statut = DevisFormation.Statut.DEVIS_ENVOYE
+
+    devis.date_envoi = timezone.now()
+
+    devis.save(
+        update_fields=[
+            "statut",
+            "date_envoi"
+        ]
+    )
+
+
+    messages.success(
+        request,
+        "Le devis a été envoyé au client."
+    )
+
+
+    return redirect(
+        "dashboard_trainer:devis_formation_detail",
+        pk=pk
+    )

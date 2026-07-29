@@ -182,6 +182,177 @@ def domiciliation_from(request: HttpRequest) -> HttpResponse:
     return render(request, "domiciliation/domiciliation.from.html", {"plans": plans})
 
 
+@csrf_protect
+def domiciliation_individuelle(request: HttpRequest) -> HttpResponse:
+    """
+    Formulaire public de création et domiciliation d'entreprise individuelle.
+    """
+
+    if request.method == "POST":
+        # Récupération des champs
+        nom = request.POST.get("nom", "").strip()
+        prenom = request.POST.get("prenom", "").strip()
+        email = request.POST.get("email", "").strip()
+        telephone = request.POST.get("telephone", "").strip()
+
+        entreprise_nom = request.POST.get("entreprise", "").strip()
+        activite = request.POST.get("activite", "").strip()
+        deja_entreprise = request.POST.get("entreprise_existante", "").strip()
+        certificat_delai = request.POST.get("delai_idu", "").strip()
+        ville = request.POST.get("ville", "").strip()
+        siege = request.POST.get("siege_social", "").strip()
+
+        # Validation
+        erreurs = []
+
+        if not nom:
+            erreurs.append("Le nom est obligatoire.")
+
+        if not prenom:
+            erreurs.append("Le prénom est obligatoire.")
+
+        if not email:
+            erreurs.append("L'email est obligatoire.")
+
+        if not telephone:
+            erreurs.append("Le téléphone est obligatoire.")
+
+        if not entreprise_nom:
+            erreurs.append("Le nom de l'entreprise est obligatoire.")
+
+        if not ville:
+            erreurs.append("La ville est obligatoire.")
+
+        if not siege:
+            erreurs.append("Le siège social est obligatoire.")
+
+        if email and User.objects.filter(email=email).exists():
+            erreurs.append("Cet email est déjà utilisé.")
+
+        if telephone and User.objects.filter(phone=telephone).exists():
+            erreurs.append("Ce numéro de téléphone est déjà utilisé.")
+
+        if erreurs:
+            for err in erreurs:
+                messages.error(request, err)
+
+            return render(
+                request,
+                "domiciliation/domiciliation_individuelle.html",
+            )
+
+        try:
+            with transaction.atomic():
+
+                # 1. Création utilisateur
+                mot_de_passe = _generer_mot_de_passe()
+
+                user = User.objects.create_user(
+                    email=email,
+                    password=mot_de_passe,
+                    first_name=prenom,
+                    last_name=nom,
+                    phone=telephone,
+                    role=User.Role.MEMBER,
+                    is_active=True,
+                )
+
+                # 2. Création entreprise
+                company = Company.objects.create(
+                    owner=user,
+                    company_name=entreprise_nom,
+                    description=activite,
+                )
+
+                # 3. Adresse
+                adresse = f"{siege}, {ville}, Côte d'Ivoire"
+
+                # 4. Observations
+                observations = (
+                    f"Type : Entreprise Individuelle\n"
+                    f"Activité : {activite}\n"
+                    f"Entreprise existante : {deja_entreprise}\n"
+                    f"Délai certificat IDU : {certificat_delai}\n"
+                    f"Ville : {ville}"
+                )
+
+                # 5. Création demande
+                numero = _generer_numero_demande()
+
+                demande = DomiciliationRequest.objects.create(
+                    utilisateur=user,
+                    entreprise=company,
+                    formule=DomiciliationPlan.objects.filter(actif=True).first(),
+                    numero_demande=numero,
+                    adresse_domiciliation=adresse,
+                    observations=observations,
+                    statut=DomiciliationRequest.Status.EN_ATTENTE,
+                    date_creation=timezone.now(),
+                )
+
+                # 6. Notification
+                notification = NotificationService.notify(
+                    user=user,
+                    title="Bienvenue chez EliteBuro — Vos identifiants de connexion",
+                    message=(
+                        f"Votre demande {numero} a été enregistrée."
+                    ),
+                    notification_type=NotificationType.EMAIL,
+                )
+
+
+                NotificationService.send_html_notification(
+                    notification,
+                    "emails/bienvenue_identifiants.html",
+                    {
+                        "prenom": prenom,
+                        "nom": nom,
+                        "numero": numero,
+                        "email": email,
+                        "mot_de_passe": mot_de_passe,
+                        "login_url": request.build_absolute_uri(
+                            reverse("accounts:login")
+                        ),
+                    }
+                )
+
+                # 7. Connexion automatique
+                from django.contrib.auth import login
+
+                login(
+                    request,
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend"
+                )
+
+                # 8. Message
+                messages.success(
+                    request,
+                    "Votre demande a été enregistrée avec succès. "
+                    "Vos identifiants vous ont été envoyés par email."
+                )
+
+                return redirect(
+                    reverse(
+                        "domiciliation:request_detail",
+                        args=[str(demande.id)],
+                    )
+                )
+
+        except Exception as e:
+            messages.error(request, str(e))
+
+            return render(
+                request,
+                "domiciliation/domiciliation_individuelle.html",
+            )
+
+    return render(
+        request,
+        "domiciliation/domiciliation_individuelle.html",
+    )
+
+
 def index(request: HttpRequest) -> HttpResponse:
     plans = DomiciliationPlan.objects.filter(actif=True).order_by("ordre", "nom")
     return render(request, "domiciliation/index.html", {"plans": plans})

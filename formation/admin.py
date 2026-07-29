@@ -329,3 +329,38 @@ class FormationReviewAdmin(admin.ModelAdmin):
     autocomplete_fields = ("membre",)
     readonly_fields = ("created_at", "updated_at")
 
+
+from django.contrib import admin
+from .models import DevisFormation
+
+
+@admin.register(DevisFormation)
+class DevisFormationAdmin(admin.ModelAdmin):
+    list_display = (
+        "company_name",
+        "nom",
+        "telephone",
+        "email",
+        "statut",
+        "lu",
+        "created_at",
+    )
+
+    list_filter = (
+        "statut",
+        "lu",
+        "created_at",
+    )
+
+    search_fields = (
+        "company_name",
+        "nom",
+        "email",
+        "telephone",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+

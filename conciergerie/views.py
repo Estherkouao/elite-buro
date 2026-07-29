@@ -31,7 +31,7 @@ def conciergerie(request):
 
 
             return redirect(
-                "conciergerie"
+                "conciergerie:conciergerie"
             )
 
 

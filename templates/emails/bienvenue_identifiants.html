@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+
+<style>
+body {
+    margin:0;
+    padding:0;
+    background:#f6f6f2;
+    font-family:Arial, sans-serif;
+}
+
+.container {
+    width:600px;
+    max-width:95%;
+    margin:30px auto;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+.header {
+    background:linear-gradient(135deg,#111111,#FF8000);
+    padding:35px;
+    text-align:center;
+}
+
+.logo {
+    width:180px;
+}
+
+.header h1 {
+    color:white;
+    margin-top:20px;
+    font-size:25px;
+}
+
+.content {
+    padding:35px;
+    color:#444;
+    line-height:1.7;
+}
+
+.info {
+    background:#fff5e8;
+    border-left:5px solid #FF8000;
+    padding:20px;
+    border-radius:10px;
+    margin:25px 0;
+}
+
+.info strong {
+    color:#111;
+}
+
+.btn {
+    display:inline-block;
+    background:#FF8000;
+    color:white!important;
+    padding:15px 30px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.footer {
+    background:#111;
+    color:#ddd;
+    text-align:center;
+    padding:20px;
+    font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <img src="https://ton-domaine.com/media/ELITE%20BURO%20LOG1.png"
+             class="logo">
+
+        <h1>Bienvenue chez EliteBuro</h1>
+
+    </div>
+
+
+    <div class="content">
+
+        <p>
+            Bonjour <strong>{{ prenom }} {{ nom }}</strong>,
+        </p>
+
+        <p>
+            Merci d'avoir choisi EliteBuro.
+            Votre demande a bien été enregistrée.
+        </p>
+
+
+        <div class="info">
+
+            <p>
+                <strong>Numéro de demande :</strong><br>
+                {{ numero }}
+            </p>
+
+
+            <p>
+                <strong>Email :</strong><br>
+                {{ email }}
+            </p>
+
+
+            <p>
+                <strong>Mot de passe :</strong><br>
+                {{ mot_de_passe }}
+            </p>
+
+        </div>
+
+
+        <p>
+            Vous pouvez accéder à votre espace client :
+        </p>
+
+
+        <a href="{{ login_url }}" class="btn">
+            Se connecter
+        </a>
+
+
+        <p style="margin-top:30px;">
+            Nous vous recommandons de modifier votre mot de passe
+            après votre première connexion.
+        </p>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        EliteBuro<br>
+        Coworking & Centre de Formation Premium
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

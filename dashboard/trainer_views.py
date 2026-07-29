@@ -1121,7 +1121,7 @@ class TrainerDevisFormationView(TrainerBaseView):
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = self._get_base_context(request)
-        from core.models import DevisFormation
+        from formation.models import DevisFormation
 
         devis_qs = DevisFormation.objects.all().order_by("-created_at")
 

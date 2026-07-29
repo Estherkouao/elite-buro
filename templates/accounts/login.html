@@ -64,22 +64,46 @@
         }
 
         /* Section gauche - Branding */
-        .login-brand {
-            flex: 1;
+        .login-brand{
+            flex:1;
             background:linear-gradient(
-                    135deg,
-                    #FF8000 0%,
-                    #111111 55%,
-                    #111111 100%
-                    );
-            color: white;
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
-            overflow: hidden;
+                135deg,
+                #FF8000 0%,
+                #111111 55%,
+                #111111 100%
+            );
+            color:white;
+            padding:80px 65px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .brand-content{
+            position:relative;
+            z-index:2;
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            align-items:center;   /* Centre tout le contenu */
+            text-align:center;
+        }
+
+        .logo-link{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:100%;
+            margin-bottom:30px;
+        }
+
+        .elite-logo{
+            width:320px;      /* augmente la taille */
+            max-width:90%;
+            height:auto;
+            display:block;
         }
 
         .login-brand::before {
@@ -104,10 +128,7 @@
             border-radius: 50%;
         }
 
-        .brand-content {
-            position: relative;
-            z-index: 2;
-        }
+        
 
         .brand-logo{
             font-family:'Playfair Display',Georgia,serif;
@@ -535,6 +556,17 @@
                 display: none;
             }
         }
+        .logo-link{
+            display:flex;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .elite-logo{
+            width:180px;
+            height:auto;
+            object-fit:contain;
+        }
     </style>
 </head>
 <body>
@@ -542,7 +574,11 @@
         <!-- Section Branding -->
         <div class="login-brand">
             <div class="brand-content">
-                <div class="brand-logo">EliteBuro</div>
+                <a href="{% url 'core:home' %}" class="logo-link">
+                    <img src="/media/ELITE BURO LOG1.png" 
+                        alt="EliteBuro"
+                        class="elite-logo">
+                </a>
                 <div class="brand-subtitle">Coworking & Centre de Formation Premium</div>
 
                 <div class="brand-features">
@@ -637,7 +673,7 @@
                 <button type="submit" class="btn-login">Connexion</button>
             </form>
 
-            <div class="divider">
+          <!--   <div class="divider">
                 <span>ou</span>
             </div>
 
@@ -646,7 +682,7 @@
                     🌐 Continuer avec Google
                 </a>
                 
-            </div>
+            </div> -->
 
             <div class="signup-link">
                 Pas encore inscrit ? <a href="{% url 'accounts:register' %}">Créer un compte</a>

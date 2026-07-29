@@ -599,3 +599,307 @@ class FormationPaymentProcessView(View):
                 "success": False,
                 "error": f"Erreur: {str(e)}",
             }, status=500)
+
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from formation.models import DevisFormation
+
+
+def devis_formation_create(request):
+
+    if request.method == "POST":
+
+        DevisFormation.objects.create(
+
+            company_name=request.POST.get("company_name"),
+            rccm=request.POST.get("rccm"),
+            secteur=request.POST.get("secteur"),
+            taille=request.POST.get("taille"),
+            adresse=request.POST.get("adresse"),
+
+            civilite=request.POST.get("civilite"),
+            fonction=request.POST.get("fonction"),
+            nom=request.POST.get("nom"),
+            email=request.POST.get("email"),
+            telephone=request.POST.get("telephone"),
+            telephone2=request.POST.get("telephone2"),
+
+            participants=request.POST.get("participants"),
+            budget=request.POST.get("budget"),
+            date_debut=request.POST.get("date_debut"),
+            duree=request.POST.get("duree"),
+
+            objectifs=request.POST.get("objectifs"),
+            public_cible=request.POST.get("public_cible"),
+
+            document=request.FILES.get("document"),
+
+            lu=False,
+        )
+
+
+        messages.success(
+            request,
+            "Votre demande de devis a été envoyée."
+        )
+
+
+        return redirect("formation:devis_success")
+
+
+    return render(
+        request,
+        "core/demandeformationdevis.html"
+    )
+
+def devis_success(request):
+    return render(
+        request,
+        "formation/devis_success.html"
+    )
+
+from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone
+from django.contrib import messages
+from django.views.generic import TemplateView
+
+from formation.models import DevisFormation
+
+
+from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.utils import timezone
+from django.core.mail import EmailMessage
+from django.conf import settings
+
+from formation.models import DevisFormation
+
+
+class DevisFormationDetailView(TemplateView):
+
+    template_name = "dashboard/trainer/devis_formation_detail.html"
+
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+
+        devis = get_object_or_404(
+            DevisFormation,
+            pk=self.kwargs["pk"]
+        )
+
+
+        # Marquer automatiquement comme lu
+
+        if not devis.lu:
+
+            devis.lu = True
+
+            devis.save(update_fields=["lu"])
+
+
+
+        context["page_title"] = "Détail du devis"
+
+        context["devis"] = devis
+
+
+        # Pour le select statut dans le template
+
+        context["statuts"] = DevisFormation.Statut.choices
+
+
+        return context
+
+
+
+
+
+    def post(self, request, *args, **kwargs):
+
+
+        devis = get_object_or_404(
+            DevisFormation,
+            pk=self.kwargs["pk"]
+        )
+
+
+
+        action = request.POST.get("action")
+
+
+
+        # =====================================
+        # ENREGISTRER LES MODIFICATIONS
+        # =====================================
+
+        if action == "save":
+
+
+            devis.montant_propose = (
+                request.POST.get("montant_propose")
+                or None
+            )
+
+
+            devis.programme = request.POST.get(
+                "programme"
+            )
+
+
+            devis.observations = request.POST.get(
+                "observations"
+            )
+
+
+            devis.validite = (
+                request.POST.get("validite")
+                or None
+            )
+
+
+            devis.statut = request.POST.get(
+                "statut"
+            )
+
+
+            devis.save()
+
+
+
+            messages.success(
+                request,
+                "Le devis a été enregistré avec succès."
+            )
+
+
+
+
+
+        # =====================================
+        # ENVOYER LE DEVIS PAR EMAIL
+        # =====================================
+
+        elif action == "send":
+
+
+            devis.montant_propose = (
+                request.POST.get("montant_propose")
+                or None
+            )
+
+
+            devis.programme = request.POST.get(
+                "programme"
+            )
+
+
+            devis.observations = request.POST.get(
+                "observations"
+            )
+
+
+            devis.validite = (
+                request.POST.get("validite")
+                or None
+            )
+
+
+            # changement automatique
+
+            devis.statut = (
+                DevisFormation.Statut.DEVIS_ENVOYE
+            )
+
+
+            devis.date_envoi = timezone.now()
+
+
+
+            devis.save()
+
+
+
+            # Contenu du mail
+
+            sujet = (
+                f"Votre devis formation - {devis.company_name}"
+            )
+
+
+            contenu = f"""
+
+Bonjour {devis.civilite} {devis.nom},
+
+
+Nous avons le plaisir de vous transmettre notre proposition
+de formation.
+
+
+Entreprise :
+{devis.company_name}
+
+
+Programme :
+
+{devis.programme}
+
+
+Montant proposé :
+
+{devis.montant_propose} FCFA
+
+
+Validité :
+
+{devis.validite}
+
+
+Observations :
+
+{devis.observations}
+
+
+
+Nous restons disponibles pour toute information complémentaire.
+
+
+Cordialement,
+
+EliteBuro Formation
+
+"""
+
+
+
+            email = EmailMessage(
+
+                sujet,
+
+                contenu,
+
+                settings.DEFAULT_FROM_EMAIL,
+
+                [devis.email]
+
+            )
+
+
+            email.send()
+
+
+
+            messages.success(
+                request,
+                "Le devis a été envoyé au client."
+            )
+
+
+
+        return redirect(
+            "dashboard_trainer:devis_formation_detail",
+            pk=devis.pk
+        )

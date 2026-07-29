@@ -249,279 +249,509 @@
           </div>
           <div class="form-card-body">
 
-            <!-- ═══ SECTION 1 — Informations entreprise ═══ -->
-            <div class="form-section-title">
-              <span class="step-num">1</span>
-              Informations de votre organisation
-            </div>
+          <form method="POST"
+                  action="{% url 'formation:devis_formation_create' %}"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+            <!-- SECTION 1 — Informations entreprise -->
 
             <div class="form-row">
-              <div class="form-group">
-                <label>Nom de l'entreprise <span class="required">*</span></label>
-                <input type="text" class="form-input" placeholder="Nom de votre société" id="companyName" required />
-              </div>
-              <div class="form-group">
-                <label>Numéro RCCM / RC</label>
-                <input type="text" class="form-input" placeholder="Numéro de registre" />
-                <div class="form-hint">Optionnel — accélère le traitement</div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Secteur d'activité <span class="required">*</span></label>
-                <select class="form-input" required>
-                  <option value="">— Sélectionnez votre secteur —</option>
-                  <option value="finance">Finance & Banque</option>
-                  <option value="telecom">Télécommunications</option>
-                  <option value="energie">Énergie & Mines</option>
-                  <option value="sante">Santé & Pharmaceutique</option>
-                  <option value="education">Éducation & Formation</option>
-                  <option value="commerce">Commerce & Distribution</option>
-                  <option value="industriel">Industrie & Manufacture</option>
-                  <option value="ngos">ONG & Organisations internationales</option>
-                  <option value="public">Administration publique</option>
-                  <option value="autre">Autre</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Taille de l'entreprise <span class="required">*</span></label>
-                <select class="form-input" required>
-                  <option value="">— Taille —</option>
-                  <option value="1-10">1 à 10 employés</option>
-                  <option value="11-50">11 à 50 employés</option>
-                  <option value="51-200">51 à 200 employés</option>
-                  <option value="201-500">201 à 500 employés</option>
-                  <option value="500+">Plus de 500 employés</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Adresse de l'entreprise</label>
-              <input type="text" class="form-input" placeholder="Adresse complète" />
-            </div>
-
-            <!-- ═══ SECTION 2 — Contact ═══ -->
-            <div class="form-section-title" style="margin-top:36px;">
-              <span class="step-num">2</span>
-              Personne de contact
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Civilité</label>
-                <select class="form-input">
-                  <option value="mr">Monsieur</option>
-                  <option value="mme">Madame</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Fonction / Poste <span class="required">*</span></label>
-                <input type="text" class="form-input" placeholder="Ex : DRH, Directeur Formation" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Nom complet <span class="required">*</span></label>
-                <input type="text" class="form-input" placeholder="Prénom et Nom" required />
-              </div>
-              <div class="form-group">
-                <label>Email professionnel <span class="required">*</span></label>
-                <input type="email" class="form-input" placeholder="nom@entreprise.com" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Téléphone <span class="required">*</span></label>
-                <input type="tel" class="form-input" placeholder="+225 07 00 00 00 00" required />
-              </div>
-              <div class="form-group">
-                <label>Téléphone secondaire <span class="optional">(optionnel)</span></label>
-                <input type="tel" class="form-input" placeholder="+225 01 00 00 00 00" />
-              </div>
-            </div>
-
-            <!-- ═══ SECTION 3 — Besoin de formation ═══ -->
-            <div class="form-section-title" style="margin-top:36px;">
-              <span class="step-num">3</span>
-              Besoin de formation
-            </div>
-
-            <div class="form-group">
-              <label>Type de formation souhaitée <span class="required">*</span></label>
-              <div class="tag-group">
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="type" value="intra" />
-                  Intra-entreprise
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="type" value="inter" />
-                  Inter-entreprises
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="type" value="certifiante" />
-                  Formation certifiante
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="type" value="coaching" />
-                  Coaching individuel
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="type" value="audit" />
-                  Audit & Conseil
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Domaine(s) de formation <span class="required">*</span></label>
-              <div class="tag-group">
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="management" />
-                  Management & Leadership
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="digital" />
-                  Marketing Digital
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="finance" />
-                  Finance & Comptabilité
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="rh" />
-                  Ressources Humaines
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="entrepreneuriat" />
-                  Entrepreneuriat
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="softskills" />
-                  Soft Skills
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="qualite" />
-                  Qualité & Normes
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="bureautique" />
-                  Bureautique & IT
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="securite" />
-                  HSE & Sécurité
-                </label>
-                <label class="tag-item" onclick="toggleTag(this)">
-                  <input type="checkbox" name="domain" value="langues" />
-                  Langues étrangères
-                </label>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Nombre de participants <span class="required">*</span></label>
-                <div class="counter-group">
-                  <button type="button" class="counter-btn" onclick="updateCounter(-1)">−</button>
-                  <input type="number" class="counter-value" id="participants" value="10" min="1" max="500" />
-                  <button type="button" class="counter-btn" onclick="updateCounter(1)">+</button>
-                  <span style="font-size:13px; color:var(--text-muted); margin-left:4px;">personnes</span>
+                <div class="form-group">
+                    <label>Nom de l'entreprise <span class="required">*</span></label>
+                    <input type="text"
+                          class="form-input"
+                          name="company_name"
+                          placeholder="Nom de votre société"
+                          required>
                 </div>
-              </div>
-              <div class="form-group">
-                <label>Budget estimé (FCFA)</label>
-                <div class="budget-slider-group">
-                  <div class="budget-value" id="budgetDisplay">500 000 F</div>
-                  <input type="range" min="100000" max="10000000" step="100000" value="500000" id="budgetRange" oninput="updateBudget(this.value)" />
-                  <div class="budget-slider-labels">
-                    <span>100 000 F</span>
-                    <span>5 000 000 F</span>
-                    <span>10 000 000 F</span>
-                  </div>
+
+                <div class="form-group">
+                    <label>Numéro RCCM / RC</label>
+                    <input type="text"
+                          class="form-input"
+                          name="rccm"
+                          placeholder="Numéro de registre">
+
+                    <div class="form-hint">
+                        Optionnel — accélère le traitement
+                    </div>
                 </div>
-              </div>
             </div>
+
 
             <div class="form-row">
-              <div class="form-group">
-                <label>Date de début souhaitée <span class="required">*</span></label>
-                <input type="date" class="form-input" required />
-              </div>
-              <div class="form-group">
-                <label>Durée souhaitée <span class="required">*</span></label>
-                <select class="form-input" required>
-                  <option value="">— Durée —</option>
-                  <option value="1j">1 jour</option>
-                  <option value="2j">2 jours</option>
-                  <option value="3j">3 jours</option>
-                  <option value="5j">5 jours (1 semaine)</option>
-                  <option value="10j">10 jours (2 semaines)</option>
-                  <option value="custom">Sur mesure</option>
-                </select>
-              </div>
+
+                <div class="form-group">
+                    <label>Secteur d'activité <span class="required">*</span></label>
+
+                    <select class="form-input"
+                            name="secteur"
+                            required>
+
+                        <option value="">
+                            — Sélectionnez votre secteur —
+                        </option>
+
+                        <option value="finance">
+                            Finance & Banque
+                        </option>
+
+                        <option value="telecom">
+                            Télécommunications
+                        </option>
+
+                        <option value="energie">
+                            Énergie & Mines
+                        </option>
+
+                        <option value="sante">
+                            Santé & Pharmaceutique
+                        </option>
+
+                        <option value="education">
+                            Éducation & Formation
+                        </option>
+
+                        <option value="commerce">
+                            Commerce & Distribution
+                        </option>
+
+                        <option value="industriel">
+                            Industrie & Manufacture
+                        </option>
+
+                        <option value="ngos">
+                            ONG & Organisations internationales
+                        </option>
+
+                        <option value="public">
+                            Administration publique
+                        </option>
+
+                        <option value="autre">
+                            Autre
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Taille de l'entreprise <span class="required">*</span></label>
+
+                    <select class="form-input"
+                            name="taille"
+                            required>
+
+                        <option value="">
+                            — Taille —
+                        </option>
+
+                        <option value="1-10">
+                            1 à 10 employés
+                        </option>
+
+                        <option value="11-50">
+                            11 à 50 employés
+                        </option>
+
+                        <option value="51-200">
+                            51 à 200 employés
+                        </option>
+
+                        <option value="201-500">
+                            201 à 500 employés
+                        </option>
+
+                        <option value="500+">
+                            Plus de 500 employés
+                        </option>
+
+                    </select>
+
+                </div>
+
             </div>
+
 
             <div class="form-group">
-              <label>Lieu de formation souhaité</label>
-              <div class="tag-group">
-                <label class="tag-item" onclick="toggleRadio(this, 'lieu')">
-                  <input type="radio" name="lieu" value="nos-locaux" checked />
-                  Dans nos locaux
-                </label>
-                <label class="tag-item" onclick="toggleRadio(this, 'lieu')">
-                  <input type="radio" name="lieu" value="vos-locaux" />
-                  Dans vos locaux
-                </label>
-                <label class="tag-item" onclick="toggleRadio(this, 'lieu')">
-                  <input type="radio" name="lieu" value="enligne" />
-                  En ligne (distanciel)
-                </label>
-                <label class="tag-item" onclick="toggleRadio(this, 'lieu')">
-                  <input type="radio" name="lieu" value="hybride" />
-                  Hybride
-                </label>
-              </div>
+
+            <label>
+            Adresse de l'entreprise
+            </label>
+
+            <input type="text"
+                  class="form-input"
+                  name="adresse"
+                  placeholder="Adresse complète">
+
             </div>
 
-            <!-- ═══ SECTION 4 — Description du besoin ═══ -->
-            <div class="form-section-title" style="margin-top:36px;">
-              <span class="step-num">4</span>
-              Description détaillée du besoin
-            </div>
+
+
+            <!-- SECTION 2 — Contact -->
+
+
+            <div class="form-row">
 
             <div class="form-group">
-              <label>Objectifs de la formation <span class="required">*</span></label>
-              <textarea class="form-input" placeholder="Décrivez les objectifs pédagogiques souhaités, les compétences à développer, les résultats attendus..." required style="min-height:120px;"></textarea>
+
+            <label>Civilité</label>
+
+            <select class="form-input"
+                    name="civilite">
+
+            <option value="Monsieur">
+            Monsieur
+            </option>
+
+            <option value="Madame">
+            Madame
+            </option>
+
+            </select>
+
             </div>
 
-            <div class="form-group">
-              <label>Public cible / Profil des participants <span class="optional">(optionnel)</span></label>
-              <textarea class="form-input" placeholder="Décrivez le profil des participants : niveau d'études, poste, expérience..." style="min-height:80px;"></textarea>
-            </div>
 
             <div class="form-group">
-              <label>Documents à joindre <span class="optional">(optionnel)</span></label>
-              <div class="file-upload" onclick="document.getElementById('fileInput').click()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <div class="file-upload-text">Cliquez pour ajouter un fichier</div>
-                <div class="file-upload-hint">PDF, Word ou Excel — Max 10 Mo</div>
-                <input type="file" id="fileInput" style="display:none;" accept=".pdf,.doc,.docx,.xls,.xlsx" />
-              </div>
+
+            <label>
+            Fonction / Poste <span class="required">*</span>
+            </label>
+
+            <input type="text"
+                  class="form-input"
+                  name="fonction"
+                  placeholder="Ex : DRH, Directeur Formation"
+                  required>
+
+            </div>
+
+            </div>
+
+
+
+            <div class="form-row">
+
+            <div class="form-group">
+
+            <label>
+            Nom complet <span class="required">*</span>
+            </label>
+
+            <input type="text"
+                  class="form-input"
+                  name="nom"
+                  placeholder="Prénom et Nom"
+                  required>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+            <label>
+            Email professionnel <span class="required">*</span>
+            </label>
+
+            <input type="email"
+                  class="form-input"
+                  name="email"
+                  placeholder="nom@entreprise.com"
+                  required>
+
+            </div>
+
+            </div>
+
+
+
+            <div class="form-row">
+
+            <div class="form-group">
+
+            <label>
+            Téléphone <span class="required">*</span>
+            </label>
+
+            <input type="tel"
+                  class="form-input"
+                  name="telephone"
+                  placeholder="+225 07 00 00 00 00"
+                  required>
+
+            </div>
+
+
+            <div class="form-group">
+
+            <label>
+            Téléphone secondaire
+            <span class="optional">
+            (optionnel)
+            </span>
+            </label>
+
+            <input type="tel"
+                  class="form-input"
+                  name="telephone2"
+                  placeholder="+225 01 00 00 00 00">
+
+            </div>
+
+            </div>
+
+
+
+            <!-- SECTION 3 -->
+
+
+            <div class="form-group">
+
+            <label>
+            Nombre de participants <span class="required">*</span>
+            </label>
+
+
+            <div class="counter-group">
+
+            <button type="button"
+                    class="counter-btn"
+                    onclick="updateCounter(-1)">
+            −
+            </button>
+
+
+            <input type="number"
+                  class="counter-value"
+                  id="participants"
+                  name="participants"
+                  value="10"
+                  min="1"
+                  max="500">
+
+
+            <button type="button"
+                    class="counter-btn"
+                    onclick="updateCounter(1)">
+            +
+            </button>
+
+
+            </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+            <label>
+            Budget estimé
+            </label>
+
+
+            <input type="hidden"
+                  id="budgetInput"
+                  name="budget"
+                  value="500000">
+
+
+            <div class="budget-slider-group">
+
+            <div class="budget-value"
+                id="budgetDisplay">
+            500 000 F
+            </div>
+
+
+            <input type="range"
+                  min="100000"
+                  max="10000000"
+                  step="100000"
+                  value="500000"
+                  id="budgetRange"
+                  oninput="updateBudget(this.value)">
+
+            </div>
+
+            </div>
+
+
+
+
+            <div class="form-row">
+
+
+            <div class="form-group">
+
+            <label>
+            Date de début souhaitée
+            <span class="required">*</span>
+            </label>
+
+
+            <input type="date"
+                  class="form-input"
+                  name="date_debut"
+                  required>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+            <label>
+            Durée souhaitée
+            <span class="required">*</span>
+            </label>
+
+
+            <select class="form-input"
+                    name="duree"
+                    required>
+
+
+            <option value="">
+            — Durée —
+            </option>
+
+
+            <option value="1j">
+            1 jour
+            </option>
+
+
+            <option value="2j">
+            2 jours
+            </option>
+
+
+            <option value="3j">
+            3 jours
+            </option>
+
+
+            <option value="5j">
+            5 jours
+            </option>
+
+
+            <option value="10j">
+            10 jours
+            </option>
+
+
+            <option value="custom">
+            Sur mesure
+            </option>
+
+
+            </select>
+
+
+            </div>
+
+
+            </div>
+
+
+
+
+            <!-- SECTION 4 -->
+
+
+            <div class="form-group">
+
+            <label>
+            Objectifs de la formation
+            <span class="required">*</span>
+            </label>
+
+
+            <textarea
+            class="form-input"
+            name="objectifs"
+            placeholder="Décrivez les objectifs pédagogiques..."
+            required
+            style="min-height:120px;"></textarea>
+
+
+            </div>
+
+
+
+
+            <div class="form-group">
+
+            <label>
+            Public cible / Profil des participants
+            </label>
+
+
+            <textarea
+            class="form-input"
+            name="public_cible"
+            placeholder="Décrivez le profil des participants..."
+            style="min-height:80px;"></textarea>
+
+
+            </div>
+
+
+
+
+            <div class="form-group">
+
+            <label>
+            Documents à joindre
+            </label>
+
+
+            <div class="file-upload"
+            onclick="document.getElementById('fileInput').click()">
+
+
+
+            <div class="file-upload-text">
+            Cliquez pour ajouter un fichier
+            </div>
+
+
+            <div class="file-upload-hint">
+            PDF, Word ou Excel — Max 10 Mo
+            </div>
+
+
+            <input type="file"
+                  id="fileInput"
+                  name="document"
+                  style="display:none;"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx">
+
+            </div>
+
+
             </div>
 
             <!-- ═══ Submit ═══ -->
             <div style="padding-top:24px; border-top:1px solid var(--border-light); margin-top:8px; display:flex; justify-content:flex-end;">
-              <button class="btn btn-gold btn-lg" onclick="submitDevis()" type="button">
+              <button class="btn btn-gold btn-lg" type="submit">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                 Envoyer ma demande de devis
               </button>
             </div>
 
           </div>
+
+        </form>  
         </div>
 
         <!-- Right: Sidebar -->
@@ -696,6 +926,7 @@
       const formatted = parseInt(value).toLocaleString('fr-FR') + ' F';
       document.getElementById('budgetDisplay').textContent = formatted;
       document.getElementById('sidebarBudget').textContent = formatted;
+      document.getElementById('budgetInput').value = value;
     }
 
     /* ═══════════════════════════════════════════
@@ -712,9 +943,6 @@
     /* ═══════════════════════════════════════════
        FORM SUBMISSION
        ═══════════════════════════════════════════ */
-    function submitDevis() {
-      document.getElementById('successOverlay').classList.add('show');
-    }
 
     function closeSuccess() {
       document.getElementById('successOverlay').classList.remove('show');

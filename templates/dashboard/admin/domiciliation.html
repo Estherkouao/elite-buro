@@ -91,6 +91,10 @@
                         Créé
                     </th>
 
+                    <th>
+                        type
+                    </th>
+
 
                 </tr>
 
@@ -142,9 +146,41 @@
                     <td>
                         {{ req.date_creation|date:"d/m/Y" }}
                     </td>
+                    <td>
+
+                            {% if req.type_domiciliation == "INDIVIDUELLE" %}
+
+                                <span class="status-badge">
+                                    Entreprise individuelle
+                                </span>
+
+                            {% elif req.type_domiciliation == "DOMICILIATION" %}
+
+                                <span class="status-badge confirmed">
+                                    Domiciliation
+                                </span>
+
+                            {% else %}
+
+                                Non défini
+
+                            {% endif %}
+
+                        </td>
+
+
+                        
 
                     <td>
-                        <a href="{% url 'domiciliation:contract_download' uuid=req.id %}" class="btn btn-small">Télécharger</a>
+
+                        <a href="{% url 'dashboard_admin:domiciliation_detail' request_id=req.id %}"
+                            class="btn-action">
+
+                                <span class="btn-icon">👁</span>
+                                <span>Voir détails</span>
+
+                        </a>
+
                     </td>
 
                 </tr>

@@ -1,0 +1,518 @@
+{% extends 'layouts/base_admin.html' %}
+
+
+{% block title %}
+Détail domiciliation
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="content">
+
+
+<style>
+
+.detail-wrapper{
+    max-width:1100px;
+    margin:auto;
+}
+
+
+.detail-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+
+}
+
+
+.detail-header h2{
+
+    font-size:28px;
+    font-weight:900;
+    color:#111;
+
+}
+
+
+.btn-back{
+
+    background:#f3f4f6;
+    color:#808080;
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:.3s;
+
+}
+
+
+.btn-back:hover{
+
+    background:#808080;
+    color:white;
+
+}
+
+
+
+
+
+.detail-card{
+
+    background:white;
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    margin-bottom:25px;
+
+}
+
+
+
+.section-title{
+
+    color:#808080;
+    font-size:20px;
+    font-weight:900;
+    margin-bottom:20px;
+
+}
+
+
+
+.info-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+
+}
+
+
+
+.info-box{
+
+    background:#f9fafb;
+    padding:18px;
+    border-radius:15px;
+    border-left:4px solid #FF8000;
+
+}
+
+
+
+.info-box strong{
+
+    display:block;
+    color:#555;
+    font-size:13px;
+    margin-bottom:8px;
+
+}
+
+
+
+.info-box span{
+
+    font-weight:700;
+    color:#111;
+
+}
+
+
+
+
+.status{
+
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:30px;
+    background:#fff5e8;
+    color:#FF8000;
+    font-weight:800;
+
+}
+
+
+
+
+
+.observation{
+
+    background:#fff7ed;
+    border-radius:15px;
+    padding:20px;
+    line-height:1.8;
+    color:#444;
+
+}
+
+
+
+
+
+.actions{
+
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+
+}
+
+
+
+.action-btn{
+
+    padding:14px 25px;
+    border-radius:12px;
+    font-weight:800;
+    text-decoration:none;
+    transition:.3s;
+
+}
+
+
+.btn-success{
+
+    background:#16a34a;
+    color:white;
+
+}
+
+
+.btn-danger{
+
+    background:#dc2626;
+    color:white;
+
+}
+
+
+.btn-warning{
+
+    background:#FF8000;
+    color:white;
+
+}
+
+
+.btn-primary{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+
+
+.action-btn:hover{
+
+    transform:translateY(-3px);
+    opacity:.9;
+
+}
+
+
+</style>
+
+
+
+
+
+<div class="detail-wrapper">
+
+
+
+<div class="detail-header">
+
+
+<h2>
+📋 Demande {{ demande.numero_demande }}
+</h2>
+
+
+<a href="{% url 'dashboard_admin:domiciliation' %}"
+class="btn-back">
+
+← Retour
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="detail-card">
+
+
+<h3 class="section-title">
+👤 Informations client
+</h3>
+
+
+<div class="info-grid">
+
+
+<div class="info-box">
+
+<strong>Nom complet</strong>
+
+<span>
+{{ demande.utilisateur.full_name }}
+</span>
+
+</div>
+
+
+
+<div class="info-box">
+
+<strong>Email</strong>
+
+<span>
+{{ demande.utilisateur.email }}
+</span>
+
+</div>
+
+
+
+
+<div class="info-box">
+
+<strong>Téléphone</strong>
+
+<span>
+{{ demande.utilisateur.phone }}
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="detail-card">
+
+
+<h3 class="section-title">
+🏢 Entreprise
+</h3>
+
+
+<div class="info-grid">
+
+
+<div class="info-box">
+
+<strong>Nom entreprise</strong>
+
+<span>
+{{ demande.entreprise.company_name }}
+</span>
+
+</div>
+
+
+
+<div class="info-box">
+
+<strong>Activité</strong>
+
+<span>
+{{ demande.entreprise.description }}
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="detail-card">
+
+
+<h3 class="section-title">
+📍 Domiciliation
+</h3>
+
+
+
+<div class="info-grid">
+
+
+<div class="info-box">
+
+<strong>Adresse</strong>
+
+<span>
+{{ demande.adresse_domiciliation }}
+</span>
+
+</div>
+
+
+
+<div class="info-box">
+
+<strong>Formule</strong>
+
+<span>
+{{ demande.formule.nom }}
+</span>
+
+</div>
+
+
+
+<div class="info-box">
+
+<strong>Statut</strong>
+
+<span class="status">
+{{ demande.statut }}
+</span>
+
+</div>
+
+
+
+<div class="info-box">
+
+<strong>Date création</strong>
+
+<span>
+{{ demande.date_creation|date:"d/m/Y H:i" }}
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="detail-card">
+
+
+<h3 class="section-title">
+📝 Observations client
+</h3>
+
+
+<div class="observation">
+
+{{ demande.observations|linebreaks }}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="actions">
+
+
+<form method="POST"
+      action="{% url 'dashboard_admin:domiciliation_request_validate' request_id=demande.id %}"
+      style="display:inline;">
+
+    {% csrf_token %}
+
+    <button type="submit"
+            class="action-btn btn-success">
+
+        ✅ Valider la demande
+
+    </button>
+
+</form>
+
+
+
+<a href="{% url 'dashboard_admin:domiciliation_request_refuse' request_id=demande.id %}"
+class="action-btn btn-danger">
+
+❌ Refuser
+
+</a>
+
+
+
+<a href=""
+class="action-btn btn-warning">
+
+📄 Générer contrat
+
+</a>
+
+
+
+
+<a href=""
+class="action-btn btn-primary">
+
+💰 Créer facture
+
+</a>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

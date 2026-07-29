@@ -561,3 +561,233 @@ class FormationPedagogicalDocument(TimeStampedModel):
         return f"{self.formation.titre} - {self.titre}"
 
 
+from django.db import models
+
+
+from django.db import models
+from django.conf import settings
+from django.utils import timezone
+
+
+class DevisFormation(models.Model):
+
+    class Statut(models.TextChoices):
+        NOUVELLE = "Nouvelle", "Nouvelle"
+        EN_ETUDE = "En étude", "En étude"
+        DEVIS_ENVOYE = "Devis envoyé", "Devis envoyé"
+        ACCEPTEE = "Acceptée", "Acceptée"
+        REFUSEE = "Refusée", "Refusée"
+
+    # ==========================================
+    # ENTREPRISE
+    # ==========================================
+    company_name = models.CharField(
+        "Entreprise",
+        max_length=255
+    )
+
+    rccm = models.CharField(
+        "RCCM / RC",
+        max_length=100,
+        blank=True
+    )
+
+    secteur = models.CharField(
+        "Secteur d'activité",
+        max_length=200
+    )
+
+    taille = models.CharField(
+        "Taille de l'entreprise",
+        max_length=100,
+        blank=True
+    )
+
+    adresse = models.TextField(
+        "Adresse",
+        blank=True
+    )
+
+    # ==========================================
+    # CONTACT
+    # ==========================================
+    civilite = models.CharField(
+        max_length=20
+    )
+
+    fonction = models.CharField(
+        max_length=150
+    )
+
+    nom = models.CharField(
+        "Nom complet",
+        max_length=255
+    )
+
+    email = models.EmailField()
+
+    telephone = models.CharField(
+        max_length=30
+    )
+
+    telephone2 = models.CharField(
+        max_length=30,
+        blank=True
+    )
+
+    # ==========================================
+    # BESOIN DE FORMATION
+    # ==========================================
+    participants = models.PositiveIntegerField(
+        default=1
+    )
+
+    budget = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    date_debut = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    duree = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    objectifs = models.TextField()
+
+    public_cible = models.TextField(
+        blank=True
+    )
+
+    # ==========================================
+    # DEVIS ELITEBURO
+    # ==========================================
+
+    numero_devis = models.CharField(
+        max_length=50,
+        unique=True,
+        blank=True,
+        null=True,
+        db_index=True
+    )
+
+    montant_propose = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    programme = models.TextField(
+        blank=True
+    )
+
+    observations = models.TextField(
+        blank=True
+    )
+
+    message_client = models.TextField(
+        blank=True
+    )
+
+    validite = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    # ==========================================
+    # DOCUMENTS
+    # ==========================================
+
+    document = models.FileField(
+        upload_to="devis_formation/documents/",
+        blank=True,
+        null=True
+    )
+
+    devis_pdf = models.FileField(
+        upload_to="devis_formation/pdf/",
+        blank=True,
+        null=True
+    )
+
+    # ==========================================
+    # SUIVI
+    # ==========================================
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.NOUVELLE
+    )
+
+    lu = models.BooleanField(
+        default=False
+    )
+
+    formateur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="devis_formations"
+    )
+
+    date_traitement = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    date_envoi = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    date_acceptation = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    date_refus = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Demande de devis formation"
+        verbose_name_plural = "Demandes de devis formation"
+
+    def __str__(self):
+        return f"{self.numero_devis or 'Sans numéro'} - {self.company_name}"
+
+    def save(self, *args, **kwargs):
+        """
+        Génère automatiquement un numéro de devis.
+        Exemple : EB-FORM-2026-00015
+        """
+        nouveau = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if nouveau and not self.numero_devis:
+            self.numero_devis = (
+                f"EB-FORM-{timezone.now().year}-{self.pk:05d}"
+            )
+            super().save(update_fields=["numero_devis"])        
+
+

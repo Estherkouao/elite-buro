@@ -33,6 +33,21 @@ urlpatterns = [
     path("<slug:slug>/", views.FormationDetailView.as_view(), name="detail"),
     # Endpoints backoffice (admin-like) utilisés par actions Django Admin
     path("backoffice/quotes/<int:quote_id>/preview/", views.QuotePreviewView.as_view(), name="quote_preview"),
+    path(
+        "devis/formation/create/",
+        views.devis_formation_create,
+        name="devis_formation_create",
+    ),
+    path(
+        "devis/success/",
+        views.devis_success,
+        name="devis_success"
+    ),
+    path(
+        "devis-formation/<int:pk>/",
+        views.DevisFormationDetailView.as_view(),
+        name="devis_formation_detail",
+    ),
 ]
 
 

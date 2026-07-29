@@ -826,8 +826,11 @@
 
             .brand-content{
                 max-width:420px;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                text-align:center;
             }
-
             .brand-logo{
                 font-family:"Playfair Display",serif;
                 font-size:46px;
@@ -1067,7 +1070,13 @@
             }
 
             .signup-brand{
-                display:none;
+                background:linear-gradient(135deg,#111111,#FF8000);
+                color:#fff;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                padding:60px;
+                text-align:center;
             }
 
             .signup-form-section{
@@ -1079,6 +1088,25 @@
             }
 
             }
+            /* ============================================
+            LOGO ELITEBURO
+            ============================================ */
+
+            .logo-link{
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                width:100%;
+                margin-bottom:25px;
+            }
+
+            .elite-logo{
+                width:220px;      /* Ajuste entre 180px et 260px selon le rendu souhaité */
+                max-width:100%;
+                height:auto;
+                display:block;
+                object-fit:contain;
+            }
 
     </style>
 </head>
@@ -1087,7 +1115,11 @@
         <!-- Section Branding -->
         <div class="signup-brand">
             <div class="brand-content">
-                <div class="brand-logo">EliteBuro</div>
+                <a href="{% url 'core:home' %}" class="logo-link">
+                    <img src="/media/ELITE BURO LOG1.png" 
+                        alt="EliteBuro"
+                        class="elite-logo">
+                </a>
                 <div class="brand-subtitle">Coworking & Centre de Formation Premium</div>
 
                 <div class="brand-features">

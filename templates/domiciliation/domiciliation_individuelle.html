@@ -1,0 +1,508 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}
+Côte d'Ivoire entreprise INDIVIDUELLE | EliteBuro
+{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-gray-100 py-20">
+    <a href="javascript:history.back()"
+       class="inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000] hover:bg-gray-300 transition ml-6 lg:ml-20">
+        ← Retour
+    </a>
+
+    <div class="max-w-3xl mx-auto px-6 mt-6">
+
+        <div class="bg-white rounded-3xl shadow-2xl p-10">
+
+            <!-- TITRE -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-black text-[#FF8000]">
+                    Côte d'Ivoire entreprise INDIVIDUELLE
+                </h1>
+                <p class="mt-3 text-gray-500">
+                    Remplissez les informations ci-dessous
+                </p>
+            </div>
+
+            <!-- PROGRESSION -->
+            <div class="mb-10">
+                <div class="flex justify-between text-sm font-bold text-[#FF8000]">
+                    <span>
+                        Progression (<span id="stepNumber">1</span> / 10)
+                    </span>
+                    <span>EliteBuro</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3 mt-3 overflow-hidden">
+                    <div id="progress"
+                         class="bg-green-500 h-3 rounded-full transition-all duration-500 ease-in-out"
+                         style="width:10%">
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" action="{% url 'domiciliation:domiciliation_individuelle' %}" id="domiciliationForm">
+
+                {% csrf_token %}
+
+                <!-- ÉTAPE 1 : Numéro de téléphone -->
+                <div class="step">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        1. Votre numéro de téléphone
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-gray-100 px-4 py-4 rounded-xl text-lg font-bold text-gray-700">+225</span>
+                        <input type="tel"
+                               name="telephone"
+                               id="id_telephone"
+                               placeholder="07 00 00 00 00"
+                               required
+                               maxlength="15"
+                               class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000] focus:border-transparent">
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">Exemple : 07 00 00 00 00</p>
+                </div>
+
+                <!-- ÉTAPE 2 : Adresse email -->
+                <div class="step hidden">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        2. Votre adresse email
+                    </h2>
+                    <input type="email"
+                           name="email"
+                           id="id_email"
+                           placeholder="exemple@email.com"
+                           required
+                           class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000] focus:border-transparent">
+                    <p class="text-xs text-gray-400 mt-2">Vous recevrez vos identifiants de connexion sur cette adresse.</p>
+                </div>
+
+                <!-- ÉTAPE 3 : Prénom -->
+                <div class="step hidden">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        3. Votre prénom
+                    </h2>
+                    <input type="text"
+                           name="prenom"
+                           id="id_prenom"
+                           placeholder="Votre prénom"
+                           required
+                           class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000] focus:border-transparent">
+                </div>
+
+                <!-- ÉTAPE 4 : Nom -->
+                <div class="step hidden">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        4. Votre nom
+                    </h2>
+                    <input type="text"
+                           name="nom"
+                           id="id_nom"
+                           placeholder="Votre nom"
+                           required
+                           class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000] focus:border-transparent">
+                </div>
+
+                <!-- ÉTAPE 5 : Nom de l'entreprise -->
+                <div class="step hidden">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        5. Quel est le nom de l'entreprise ?
+                    </h2>
+                    <input type="text"
+                           name="entreprise"
+                           id="id_entreprise"
+                           placeholder="Nom de votre entreprise"
+                           required
+                           class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000] focus:border-transparent">
+                </div>
+
+                <!-- ÉTAPE 6 : Domaine d'activité -->
+                <div class="step hidden">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        6. Quelle est votre domaine d'activité ?
+                    </h2>
+                    <input type="text"
+                           name="activite"
+                           id="id_activite"
+                           placeholder="Ex: Commerce, Services, Agriculture, etc."
+                           required
+                           class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000] focus:border-transparent">
+                </div>
+                                <!-- ÉTAPE 7 : Entreprise déjà créée -->
+                <div class="step hidden">
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        7. Avez-vous déjà créé une entreprise ?
+                    </h2>
+
+                    <div class="space-y-4">
+
+                        <label class="flex items-center border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+                            <input type="radio"
+                                   name="entreprise_existante"
+                                   value="Oui"
+                                   required
+                                   class="mr-4">
+
+                            <div>
+                                <p class="font-bold">Oui</p>
+                                <p class="text-sm text-gray-500">
+                                    Mon entreprise existe déjà.
+                                </p>
+                            </div>
+                        </label>
+
+                        <label class="flex items-center border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+                            <input type="radio"
+                                   name="entreprise_existante"
+                                   value="Non"
+                                   required
+                                   class="mr-4">
+
+                            <div>
+                                <p class="font-bold">Non</p>
+                                <p class="text-sm text-gray-500">
+                                    Je souhaite créer mon entreprise.
+                                </p>
+                            </div>
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- ÉTAPE 8 : Délai IDU -->
+                <div class="step hidden">
+
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        8. Quand souhaitez-vous recevoir votre certificat d'immatriculation (IDU) ?
+                    </h2>
+
+                    <select
+                        name="delai_idu"
+                        required
+                        class="w-full border rounded-xl px-5 py-4 focus:ring-2 focus:ring-[#FF8000]">
+
+                        <option value="">Choisissez un délai</option>
+                        <option value="Standard">Standard</option>
+                        <option value="72 heures">Sous 72 heures</option>
+                        <option value="Urgent">Urgent</option>
+
+                    </select>
+
+                </div>
+
+                <!-- ÉTAPE 9 : Ville -->
+                <div class="step hidden">
+
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        9. Dans quelle ville se situe votre société ?
+                    </h2>
+
+                    <input type="text"
+                           name="ville"
+                           placeholder="Ex : Abidjan"
+                           required
+                           class="w-full border rounded-xl px-5 py-4">
+
+                </div>
+
+                <!-- ÉTAPE 10 : Siège social + Résumé -->
+                <div class="step hidden">
+
+                    <h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+                        10. Où se situera le siège de votre entreprise ?
+                    </h2>
+
+                    <textarea
+                        name="siege_social"
+                        rows="4"
+                        required
+                        placeholder="Adresse complète du siège social"
+                        class="w-full border rounded-xl px-5 py-4"></textarea>
+
+                    <div class="mt-10 bg-gray-50 border rounded-2xl p-6">
+
+                        <h3 class="text-xl font-bold text-[#FF8000] mb-5">
+                            Résumé de votre commande
+                        </h3>
+
+                        <div class="space-y-3 text-gray-700">
+
+                            <div class="flex justify-between">
+                                <span>Téléphone</span>
+                                <span id="resumeTelephone"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Email</span>
+                                <span id="resumeEmail"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Nom</span>
+                                <span id="resumeNom"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Prénom</span>
+                                <span id="resumePrenom"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Entreprise</span>
+                                <span id="resumeEntreprise"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Activité</span>
+                                <span id="resumeActivite"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Entreprise créée</span>
+                                <span id="resumeCreation"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Délai IDU</span>
+                                <span id="resumeDelai"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Ville</span>
+                                <span id="resumeVille"></span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span>Siège social</span>
+                                <span id="resumeSiege"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-8 rounded-xl bg-orange-50 border border-orange-200 p-5">
+
+                            <h4 class="font-bold text-[#FF8000] mb-2">
+                                Paiement
+                            </h4>
+
+                            <p class="text-sm text-gray-600">
+                                Vous avez la possibilité de payer plus tard depuis votre espace client ou en vous rendant directement dans nos bureaux.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Boutons -->
+
+                <div class="flex justify-between mt-10">
+
+                    <button
+                        type="button"
+                        id="previous"
+                        class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+                        Retour
+
+                    </button>
+
+                    <button
+                        type="button"
+                        id="next"
+                        class="px-8 py-3 rounded-xl bg-[#6B7280] text-[#FF8000] font-bold">
+
+                        Suivant
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="submit"
+                        class="hidden px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold hover:bg-orange-600">
+
+                        Payer maintenant
+
+                    </button>
+
+                </div>
+
+          </form>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+
+let current = 0;
+
+const steps = document.querySelectorAll(".step");
+
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("previous");
+const submitBtn = document.getElementById("submit");
+
+const progress = document.getElementById("progress");
+const number = document.getElementById("stepNumber");
+
+function displayStep(){
+
+    steps.forEach((step,index)=>{
+        step.classList.toggle("hidden", index !== current);
+    });
+
+    number.innerHTML = current + 1;
+
+    let percentage = ((current + 1) / steps.length) * 100;
+
+    progress.style.width = percentage + "%";
+
+    prevBtn.classList.toggle("hidden", current === 0);
+
+    nextBtn.classList.toggle("hidden", current === steps.length-1);
+
+    submitBtn.classList.toggle("hidden", current !== steps.length-1);
+
+    if(current === steps.length-1){
+        remplirResume();
+    }
+
+}
+
+function validerEtape(){
+
+    const champs = steps[current].querySelectorAll("input, select, textarea");
+
+    for(let champ of champs){
+
+        if(champ.hasAttribute("required")){
+
+            if(champ.type === "radio"){
+
+                const radios = steps[current].querySelectorAll(
+                    `input[name="${champ.name}"]`
+                );
+
+                let checked = false;
+
+                radios.forEach(radio=>{
+                    if(radio.checked){
+                        checked = true;
+                    }
+                });
+
+                if(!checked){
+                    alert("Veuillez sélectionner une réponse.");
+                    return false;
+                }
+
+            }
+
+            else{
+
+                if(champ.value.trim() === ""){
+
+                    champ.focus();
+
+                    alert("Veuillez remplir ce champ.");
+
+                    return false;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    return true;
+
+}
+
+nextBtn.addEventListener("click",()=>{
+
+    if(!validerEtape()){
+        return;
+    }
+
+    if(current < steps.length-1){
+
+        current++;
+
+        displayStep();
+
+    }
+
+});
+
+prevBtn.addEventListener("click",()=>{
+
+    if(current > 0){
+
+        current--;
+
+        displayStep();
+
+    }
+
+});
+
+function valeurRadio(name){
+
+    const radio = document.querySelector(`input[name="${name}"]:checked`);
+
+    return radio ? radio.value : "";
+
+}
+
+function remplirResume(){
+
+    document.getElementById("resumeTelephone").innerHTML =
+        "+225 " + document.getElementById("id_telephone").value;
+
+    document.getElementById("resumeEmail").innerHTML =
+        document.getElementById("id_email").value;
+
+    document.getElementById("resumeNom").innerHTML =
+        document.getElementById("id_nom").value;
+
+    document.getElementById("resumePrenom").innerHTML =
+        document.getElementById("id_prenom").value;
+
+    document.getElementById("resumeEntreprise").innerHTML =
+        document.getElementById("id_entreprise").value;
+
+    document.getElementById("resumeActivite").innerHTML =
+        document.getElementById("id_activite").value;
+
+    document.getElementById("resumeCreation").innerHTML =
+        valeurRadio("entreprise_existante");
+
+    document.getElementById("resumeDelai").innerHTML =
+        document.querySelector('[name="delai_idu"]').value;
+
+    document.getElementById("resumeVille").innerHTML =
+        document.querySelector('[name="ville"]').value;
+
+    document.getElementById("resumeSiege").innerHTML =
+        document.querySelector('[name="siege_social"]').value;
+
+}
+
+displayStep();
+
+</script>
+
+{% endblock %}
+
+          

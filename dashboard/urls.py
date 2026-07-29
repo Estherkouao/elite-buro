@@ -2,6 +2,7 @@ from django.urls import path
 from . import trainer_views
 from . import views
 from .views import TrainerDetailView
+from .views import send_devis_email
 
 from .views import (
     AdminIndexView,
@@ -395,6 +396,11 @@ urlpatterns = [
         AdminDomiciliationPlanDeleteView.as_view(),
         name="domiciliation_plans_delete",
     ),
+    path(
+        "domiciliation/<uuid:request_id>/",
+        views.domiciliation_detail,
+        name="domiciliation_detail"
+    ),
 
 
 
@@ -431,6 +437,11 @@ urlpatterns = [
         "devis-formation/<int:devis_id>/mark-unread/",
         AdminDevisMarkUnreadView.as_view(),
         name="devis_formation_mark_unread",
+    ),
+    path(
+        "devis/<int:pk>/envoyer/",
+        send_devis_email,
+        name="send_devis_email"
     ),
 
     # Messages de contact
