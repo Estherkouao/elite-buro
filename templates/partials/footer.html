@@ -45,11 +45,11 @@
             <div class="footer-section">
                 <h4 class="footer-title">Services</h4>
                 <ul class="footer-links">
-                    <li><a href="#" class="footer-link">Espaces de Travail</a></li>
-                    <li><a href="#" class="footer-link">Formations Professionnelles</a></li>
-                    <li><a href="#" class="footer-link">Domiciliation d'Entreprise</a></li>
-                    <li><a href="#" class="footer-link">Salles de Réunion</a></li>
-                    <li><a href="#" class="footer-link">Services de Conciergerie</a></li>
+                    <li><a href="{% url 'coworking:workspace_list' %}" class="footer-link">Espaces de Travail</a></li>
+                    <li><a href="{% url 'formation:catalogue' %}" class="footer-link">Formations Professionnelles</a></li>
+                    <li><a href="{% url 'domiciliation:index' %}" class="footer-link">Domiciliation d'Entreprise</a></li>
+                    <li><a href="{% url 'blog:list' %}" class="footer-link">blog</a></li>
+                    <li><a href="{% url 'conciergerie:home' %}" class="footer-link">Services de Conciergerie</a></li>
                 </ul>
             </div>
 
@@ -57,24 +57,48 @@
             <div class="footer-section">
                 <h4 class="footer-title">Entreprise</h4>
                 <ul class="footer-links">
-                    <li><a href="#" class="footer-link">À Propos</a></li>
-                    <li><a href="#" class="footer-link">Nos Valeurs</a></li>
-                    <li><a href="#" class="footer-link">Carrières</a></li>
-                    <li><a href="#" class="footer-link">Blog</a></li>
-                    <li><a href="#" class="footer-link">Presse</a></li>
+                    <li><a href="{% url 'core:a_propos' %}" class="footer-link">À Propos</a></li>
+                    <li><a href="{% url 'core:faq' %}" class="footer-link">FAQ</a></li>
+                    <li><a href="{% url 'core:conditions_utilisation' %}" class="footer-link">conditions d'utilisation</a></li>
+                    <li><a href="{% url 'core:mentions_legales' %}" class="footer-link">mentions legales</a></li>
+                    <li><a href="{% url 'core:politique_confidentialite' %}" class="footer-link">politique de confidentialité</a></li>
                 </ul>
             </div>
 
-            <!-- Section 4: Support -->
-            <div class="footer-section">
-                <h4 class="footer-title">Support</h4>
-                <ul class="footer-links">
-                    <li><a href="#" class="footer-link">Centre d'Aide</a></li>
-                    <li><a href="#" class="footer-link">Nous Contacter</a></li>
-                    <li><a href="#" class="footer-link">FAQ</a></li>
-                    <li><a href="#" class="footer-link">Conditions d'Utilisation</a></li>
-                    <li><a href="#" class="footer-link">Politique de Confidentialité</a></li>
-                </ul>
+            
+           <!-- Section 5: Contact -->
+            <div class="footer-section footer-contact-box">
+
+                <h4 class="footer-title">
+                    Contact
+                </h4>
+
+                <div class="contact-card">
+
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <div>
+                            <small>Email</small>
+                            <a href="mailto:info@eliteburo.com">
+                                info@eliteburo.com
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="contact-item">
+                        <span class="contact-icon">☎️</span>
+                        <div>
+                            <small>Téléphone</small>
+                            <a href="tel:+2250000000000">
+                                Nous appeler
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+
             </div>
 
            

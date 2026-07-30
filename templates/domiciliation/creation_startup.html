@@ -1,0 +1,2254 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création Startup Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+
+
+<!-- ==========================
+     PRESENTATION STARTUP
+=========================== -->
+
+
+
+<div class="space-y-6">
+
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+🚀
+
+</div>
+
+
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une Startup
+
+</h1>
+
+
+
+
+<p class="text-gray-500">
+
+Innovation & développement de projets
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+Une startup est une jeune entreprise innovante
+qui développe un produit, un service ou une solution
+avec un fort potentiel de croissance.
+
+
+EliteBuro accompagne les entrepreneurs dans la
+structuration juridique et administrative de leur
+startup en Côte d'Ivoire.
+
+
+Nous vous aidons à choisir la meilleure structure,
+préparer votre dossier et mettre en place une base
+professionnelle pour développer votre activité.
+
+
+</p>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi créer votre Startup ?
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Structurer votre idée innovante.
+</li>
+
+
+<li>
+✔ Donner une existence légale au projet.
+</li>
+
+
+<li>
+✔ Faciliter l'accès aux partenaires.
+</li>
+
+
+<li>
+✔ Préparer une croissance rapide.
+</li>
+
+
+<li>
+✔ Accompagnement administratif complet.
+</li>
+
+
+<li>
+✔ Conseil sur le choix juridique.
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+
+<li>
+📌 Documents de création entreprise
+</li>
+
+
+<li>
+📌 Statuts juridiques
+</li>
+
+
+<li>
+📌 RCCM
+</li>
+
+
+<li>
+📌 Certificat d'immatriculation IDU
+</li>
+
+
+<li>
+📌 Documents fiscaux
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+     FORMULAIRE STARTUP
+=========================== -->
+
+
+
+<div>
+
+
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création Startup Côte d'Ivoire
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mt-3">
+
+Présentez votre projet entrepreneurial
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+<div class="mb-10">
+
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression 
+(<span id="stepNumber">1</span>/11)
+
+</span>
+
+
+
+
+<span>
+EliteBuro
+</span>
+
+
+
+</div>
+
+
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full transition-all"
+style="width:9%">
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_startup' %}"
+id="startupForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 1
+=========================== -->
+
+
+
+<div class="step">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Responsable du projet
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 2
+=========================== -->
+
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Adresse email
+
+</h2>
+
+
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Vos identifiants EliteBuro seront envoyés par email.
+
+</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 3
+=========================== -->
+
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Informations sur votre Startup
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="startup_nom"
+required
+placeholder="Nom de votre Startup"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<input type="text"
+name="domaine"
+required
+placeholder="Domaine d'activité"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+
+<textarea
+name="description_projet"
+required
+rows="5"
+placeholder="Décrivez votre projet ou votre solution..."
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 4 : TYPE STARTUP
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Quel est le domaine de votre Startup ?
+
+</h2>
+
+
+
+
+
+<select
+name="type_startup"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<option value="">
+
+Sélectionnez un domaine
+
+</option>
+
+
+
+
+<option value="Technologie">
+
+💻 Technologie / Digital
+
+</option>
+
+
+
+
+<option value="Commerce">
+
+🛒 Commerce
+
+</option>
+
+
+
+
+<option value="Finance">
+
+💰 Finance / FinTech
+
+</option>
+
+
+
+
+<option value="Agriculture">
+
+🌱 Agriculture
+
+</option>
+
+
+
+
+<option value="Santé">
+
+🏥 Santé
+
+</option>
+
+
+
+
+<option value="Education">
+
+📚 Education
+
+</option>
+
+
+
+
+<option value="Autre">
+
+Autre
+
+</option>
+
+
+
+</select>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 5 : STADE PROJET
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. À quel stade se trouve votre projet ?
+
+</h2>
+
+
+
+
+
+
+
+<div class="space-y-4">
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="radio"
+name="stade_projet"
+value="Idée"
+required>
+
+
+
+<div>
+
+<h3 class="font-bold">
+
+💡 Idée
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+J'ai uniquement une idée de projet.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="radio"
+name="stade_projet"
+value="Prototype">
+
+
+
+<div>
+
+<h3 class="font-bold">
+
+🛠 Prototype
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Une première version existe déjà.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="radio"
+name="stade_projet"
+value="Lancée">
+
+
+
+<div>
+
+<h3 class="font-bold">
+
+🚀 Startup lancée
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+L'activité fonctionne déjà.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="radio"
+name="stade_projet"
+value="Croissance">
+
+
+
+<div>
+
+<h3 class="font-bold">
+
+📈 Croissance
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Nous cherchons à développer rapidement.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 6 : FONDATEURS
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Les fondateurs de la Startup
+
+</h2>
+
+
+
+
+
+
+<select
+name="nombre_fondateurs"
+required
+class="w-full border rounded-xl px-5 py-4 mb-5">
+
+
+
+<option value="">
+
+Nombre de fondateurs
+
+</option>
+
+
+
+
+<option value="1">
+
+1 fondateur
+
+</option>
+
+
+
+
+<option value="2">
+
+2 fondateurs
+
+</option>
+
+
+
+
+<option value="3">
+
+3 fondateurs
+
+</option>
+
+
+
+
+<option value="plus">
+
+Plus de 3 fondateurs
+
+</option>
+
+
+
+</select>
+
+
+
+
+
+
+
+<textarea
+name="fondateurs"
+required
+rows="5"
+placeholder="
+Exemple :
+
+Jean Kouassi - Fondateur
+Awa Traoré - Associée
+
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 7 : STRUCTURE JURIDIQUE
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Quelle structure juridique souhaitez-vous ?
+
+</h2>
+
+
+
+
+
+
+
+<select
+name="structure_juridique"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+
+<option value="">
+
+Choisir une structure
+
+</option>
+
+
+
+
+
+<option value="SAS">
+
+SAS - Société par Actions Simplifiée
+
+</option>
+
+
+
+
+
+<option value="SASU">
+
+SASU - Associé unique
+
+</option>
+
+
+
+
+
+<option value="SARL">
+
+SARL
+
+</option>
+
+
+
+
+
+<option value="Entreprise Individuelle">
+
+Entreprise Individuelle
+
+</option>
+
+
+
+
+
+<option value="Conseil EliteBuro">
+
+Je ne sais pas encore, conseillez-moi
+
+</option>
+
+
+
+
+
+</select>
+
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Nos conseillers peuvent vous orienter vers la structure adaptée à votre projet.
+
+</p>
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 8 : SIEGE SOCIAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Adresse du siège social de votre Startup
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="5"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 9 : SERVICES ELITEBURO
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Services souhaités
+
+</h2>
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<input type="checkbox"
+name="creation_entreprise"
+value="Oui">
+
+
+
+
+
+<div>
+
+
+<h3 class="font-bold text-lg">
+
+🏢 Création de l'entreprise
+
+</h3>
+
+
+
+<p class="text-sm text-gray-500">
+
+Accompagnement pour créer la structure juridique adaptée.
+
+</p>
+
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<input type="checkbox"
+name="domiciliation"
+value="Oui">
+
+
+
+
+
+<div>
+
+
+<h3 class="font-bold text-lg">
+
+📍 Domiciliation professionnelle
+
+</h3>
+
+
+
+<p class="text-sm text-gray-500">
+
+Une adresse professionnelle pour votre Startup.
+
+</p>
+
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<input type="checkbox"
+name="accompagnement"
+value="Oui">
+
+
+
+
+
+<div>
+
+
+<h3 class="font-bold text-lg">
+
+🤝 Accompagnement administratif
+
+</h3>
+
+
+
+<p class="text-sm text-gray-500">
+
+Suivi du dossier et assistance dans vos démarches.
+
+</p>
+
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 10 : MODE PAIEMENT
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Sélectionnez comment vous souhaitez régler votre accompagnement Startup.
+
+</p>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT EN LIGNE -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant en ligne
+
+</h3>
+
+
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier démarre immédiatement après paiement.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT PLUS TARD -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+
+
+<p class="text-gray-600 mt-2">
+
+Vous pourrez payer depuis votre espace client EliteBuro.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT BUREAU -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+
+
+<p class="text-gray-600 mt-2">
+
+Effectuez votre règlement directement chez EliteBuro.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-sm text-gray-700">
+
+🔐 Après validation, votre compte client sera créé automatiquement pour suivre l'évolution de votre projet Startup.
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 11 : RESUME FINAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Vérification de votre demande Startup
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez les informations avant de valider votre demande.
+
+</p>
+
+
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé de votre projet Startup
+
+</h3>
+
+
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Responsable
+</span>
+
+<span id="resumeResponsable"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom Startup
+</span>
+
+<span id="resumeEntreprise"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Domaine
+</span>
+
+<span id="resumeType"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Stade du projet
+</span>
+
+<span id="resumeStade"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Fondateurs
+</span>
+
+<span id="resumeFondateurs"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Structure juridique
+</span>
+
+<span id="resumeStructure"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege"></span>
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<h3 class="font-bold text-[#FF8000] mb-2">
+
+💳 Paiement
+
+</h3>
+
+
+<p class="text-gray-600">
+
+Vous pouvez payer maintenant ou choisir un paiement différé depuis votre espace client EliteBuro.
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+BOUTONS NAVIGATION
+=========================== -->
+
+
+<div class="flex justify-between mt-10">
+
+
+
+<button
+type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+
+<button
+type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+
+<button
+type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-green-600 text-white font-bold">
+
+Valider ma demande
+
+</button>
+
+
+
+</div>
+
+
+
+</form>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block extra_js %}
+
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn = document.getElementById("next");
+
+const prevBtn = document.getElementById("previous");
+
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+
+const number = document.getElementById("stepNumber");
+
+
+
+
+
+function displayStep(){
+
+
+steps.forEach((step,index)=>{
+
+
+step.classList.toggle(
+"hidden",
+index !== current
+);
+
+
+});
+
+
+
+
+
+number.innerHTML = current + 1;
+
+
+
+
+
+let pourcentage =
+((current + 1) / steps.length) * 100;
+
+
+
+progress.style.width =
+pourcentage + "%";
+
+
+
+
+
+
+
+prevBtn.classList.toggle(
+"hidden",
+current === 0
+);
+
+
+
+
+
+nextBtn.classList.toggle(
+"hidden",
+current === steps.length - 1
+);
+
+
+
+
+
+submitBtn.classList.toggle(
+"hidden",
+current !== steps.length - 1
+);
+
+
+
+
+
+
+
+if(current === steps.length - 1){
+
+remplirResume();
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function validerEtape(){
+
+
+const champs =
+steps[current].querySelectorAll(
+"input, select, textarea"
+);
+
+
+
+
+
+for(let champ of champs){
+
+
+
+if(champ.hasAttribute("required")){
+
+
+
+
+
+if(champ.type === "radio"){
+
+
+let radios =
+steps[current].querySelectorAll(
+`input[name="${champ.name}"]`
+);
+
+
+let ok=false;
+
+
+
+radios.forEach(r=>{
+
+
+if(r.checked){
+
+ok=true;
+
+}
+
+
+});
+
+
+
+
+if(!ok){
+
+alert("Veuillez sélectionner une option.");
+
+return false;
+
+}
+
+
+
+}
+
+else{
+
+
+if(champ.value.trim()===""){
+
+
+champ.focus();
+
+alert("Veuillez remplir ce champ.");
+
+return false;
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+return true;
+
+
+}
+
+
+
+
+
+
+
+
+
+nextBtn.onclick = ()=>{
+
+
+if(!validerEtape()) return;
+
+
+
+if(current < steps.length-1){
+
+
+current++;
+
+displayStep();
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+
+prevBtn.onclick = ()=>{
+
+
+if(current>0){
+
+
+current--;
+
+displayStep();
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+function valeur(name){
+
+
+let champ =
+document.querySelector(`[name="${name}"]`);
+
+
+return champ ? champ.value : "";
+
+
+}
+
+
+
+
+
+
+
+function radioValeur(name){
+
+
+let r =
+document.querySelector(
+`input[name="${name}"]:checked`
+);
+
+
+return r ? r.value : "";
+
+}
+
+
+function remplirResume(){
+
+
+
+document.getElementById("resumeResponsable").innerHTML =
+
+valeur("prenom")+" "+valeur("nom");
+
+
+
+
+
+document.getElementById("resumeTelephone").innerHTML =
+
+"+225 "+valeur("telephone");
+
+
+
+
+
+document.getElementById("resumeEmail").innerHTML =
+
+valeur("email");
+
+
+
+
+
+document.getElementById("resumeEntreprise").innerHTML =
+
+valeur("entreprise");
+
+
+
+
+
+document.getElementById("resumeType").innerHTML =
+
+valeur("type_startup");
+
+
+
+
+
+document.getElementById("resumeStade").innerHTML =
+
+radioValeur("stade_projet");
+
+
+
+
+
+document.getElementById("resumeFondateurs").innerHTML =
+
+valeur("fondateurs");
+
+
+
+
+
+document.getElementById("resumeStructure").innerHTML =
+
+valeur("structure_juridique");
+
+
+
+
+
+document.getElementById("resumeVille").innerHTML =
+
+valeur("ville");
+
+
+
+
+
+document.getElementById("resumeSiege").innerHTML =
+
+valeur("siege_social");
+
+
+
+}
+
+
+
+
+
+
+displayStep();
+
+
+</script>
+
+
+{% endblock %}

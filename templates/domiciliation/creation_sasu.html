@@ -1,0 +1,1934 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création SASU Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+
+
+<!-- ==========================
+     PRESENTATION SASU
+=========================== -->
+
+
+
+<div class="space-y-6">
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+👤
+
+</div>
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une SASU
+
+</h1>
+
+
+
+<p class="text-gray-500">
+
+Société par Actions Simplifiée Unipersonnelle
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+La SASU (Société par Actions Simplifiée Unipersonnelle)
+est une forme juridique permettant à un entrepreneur
+de créer seul une société tout en bénéficiant
+d'une responsabilité limitée.
+
+
+Elle offre une grande liberté dans l'organisation
+de l'entreprise et permet une évolution facile
+vers une SAS avec plusieurs associés.
+
+
+EliteBuro vous accompagne dans toutes les étapes
+de création de votre SASU en Côte d'Ivoire,
+de la constitution du dossier jusqu'à
+l'obtention des documents officiels.
+
+
+</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi choisir une SASU ?
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Un seul associé possible.
+</li>
+
+
+<li>
+✔ Protection du patrimoine personnel.
+</li>
+
+
+<li>
+✔ Grande liberté de fonctionnement.
+</li>
+
+
+<li>
+✔ Image professionnelle auprès des partenaires.
+</li>
+
+
+<li>
+✔ Transformation possible en SAS.
+</li>
+
+
+<li>
+✔ Adaptée aux entrepreneurs individuels ambitieux.
+</li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+📌 Certificat d'immatriculation IDU
+</li>
+
+
+<li>
+📌 RCCM
+</li>
+
+
+<li>
+📌 Statuts SASU
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Déclaration fiscale d'existence
+</li>
+
+
+<li>
+📌 Numéro compte contribuable
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+     FORMULAIRE SASU
+=========================== -->
+
+
+
+<div>
+
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création SASU Côte d'Ivoire
+
+</h2>
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre société
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+
+<div class="mb-10">
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression 
+(<span id="stepNumber">1</span>/11)
+
+</span>
+
+
+
+<span>
+EliteBuro
+</span>
+
+
+
+</div>
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full transition-all"
+style="width:9%">
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_sasu' %}"
+id="sasuForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 1
+=========================== -->
+
+
+<div class="step">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Informations de l'associé unique
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 2
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Votre adresse email
+
+</h2>
+
+
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Vos identifiants EliteBuro seront envoyés à cette adresse.
+
+</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 3
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Informations de votre SASU
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="entreprise"
+required
+placeholder="Nom souhaité de la SASU"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<input type="text"
+name="activite"
+required
+placeholder="Activité principale"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 4 : ACTIVITE DETAILLEE
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Décrivez votre activité
+
+</h2>
+
+
+
+<textarea
+name="activite_detail"
+required
+rows="5"
+placeholder="Décrivez précisément l'activité de votre SASU..."
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Cette information permettra de préparer correctement vos statuts.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 5 : CAPITAL SOCIAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Capital social de votre SASU
+
+</h2>
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<input type="number"
+name="capital_social"
+required
+placeholder="Exemple : 1000000"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
+FCFA
+
+</span>
+
+
+
+</div>
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Montant du capital apporté par l'associé unique.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 6 : APPORT ASSOCIE UNIQUE
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Nature de l'apport de l'associé unique
+
+</h2>
+
+
+
+
+
+
+<select
+name="type_apport"
+required
+class="w-full border rounded-xl px-5 py-4 mb-5">
+
+
+<option value="">
+Choisissez le type d'apport
+</option>
+
+
+
+<option value="numeraire">
+
+Apport en numéraire (argent)
+
+</option>
+
+
+
+<option value="nature">
+
+Apport en nature (matériel, bien...)
+
+</option>
+
+
+
+<option value="mixte">
+
+Apport mixte
+
+</option>
+
+
+
+</select>
+
+
+
+
+
+
+
+<textarea
+name="apport_associe"
+required
+rows="4"
+placeholder="Décrivez votre apport..."
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 7 : PRESIDENT SASU
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Président de la SASU
+
+</h2>
+
+
+
+
+
+
+<p class="text-gray-600 mb-5">
+
+Le président représente légalement votre société.
+
+</p>
+
+
+
+
+
+
+
+<input type="text"
+name="president"
+required
+placeholder="Nom complet du président"
+class="w-full border rounded-xl px-5 py-4 mb-5">
+
+
+
+
+
+
+
+<select
+name="president_associe"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<option value="">
+Le président est-il l'associé unique ?
+</option>
+
+
+
+
+<option value="Oui">
+
+Oui
+
+</option>
+
+
+
+
+
+<option value="Non">
+
+Non
+
+</option>
+
+
+
+
+</select>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 8 : SIEGE SOCIAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Adresse du siège social
+
+</h2>
+
+
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="4"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 9 : SERVICES SOUHAITES
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Services complémentaires souhaités
+
+</h2>
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="statuts"
+value="Oui">
+
+
+
+<div>
+
+<h3 class="font-bold text-lg">
+
+📄 Rédaction des statuts SASU
+
+</h3>
+
+
+<p class="text-gray-500 text-sm">
+
+Préparation des documents juridiques de constitution.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="domiciliation"
+value="Oui">
+
+
+
+<div>
+
+<h3 class="font-bold text-lg">
+
+🏢 Domiciliation professionnelle
+
+</h3>
+
+
+<p class="text-gray-500 text-sm">
+
+Utilisez une adresse professionnelle EliteBuro pour votre société.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="accompagnement"
+value="Oui">
+
+
+
+<div>
+
+<h3 class="font-bold text-lg">
+
+🤝 Accompagnement administratif
+
+</h3>
+
+
+<p class="text-gray-500 text-sm">
+
+Suivi complet de votre dossier jusqu'à finalisation.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 10 : MODE DE PAIEMENT
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Sélectionnez la solution qui vous convient pour votre création SASU.
+
+</p>
+
+
+
+
+
+
+
+<!-- PAIEMENT EN LIGNE -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant en ligne
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier démarre automatiquement après confirmation du paiement.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT PLUS TARD -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Vous pourrez régler depuis votre espace client EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT BUREAU -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<div class="flex gap-4">
+
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Effectuez votre règlement directement auprès d'EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-gray-700 text-sm">
+
+🔐 Après validation, votre compte client sera créé automatiquement afin de suivre votre dossier SASU.
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 11 : RESUME
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Vérification de votre demande SASU
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez vos informations avant de valider votre création.
+
+</p>
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé création SASU
+
+</h3>
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom complet
+</span>
+
+<span id="resumeNomComplet"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom SASU
+</span>
+
+<span id="resumeEntreprise"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Activité
+</span>
+
+<span id="resumeActivite"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Capital social
+</span>
+
+<span id="resumeCapital"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Apport associé unique
+</span>
+
+<span id="resumeApport"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Président
+</span>
+
+<span id="resumePresident"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege"></span>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- BOUTONS -->
+
+
+<div class="flex justify-between mt-10">
+
+
+<button
+type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+
+Retour
+
+
+</button>
+
+
+
+
+
+
+<button
+type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#6B7280] text-[#FF8000] font-bold">
+
+
+Suivant
+
+
+</button>
+
+
+
+
+
+
+<button
+type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+
+Valider ma demande
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block extra_js %}
+
+
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn = document.getElementById("next");
+
+const prevBtn = document.getElementById("previous");
+
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+
+const number = document.getElementById("stepNumber");
+
+
+
+
+
+function displayStep(){
+
+
+
+steps.forEach((step,index)=>{
+
+
+step.classList.toggle(
+"hidden",
+index !== current
+);
+
+
+});
+
+
+
+
+
+number.innerHTML = current + 1;
+
+
+
+let pourcentage =
+((current + 1) / steps.length) * 100;
+
+
+
+progress.style.width =
+pourcentage + "%";
+
+
+
+
+
+
+prevBtn.classList.toggle(
+"hidden",
+current === 0
+);
+
+
+
+
+
+nextBtn.classList.toggle(
+"hidden",
+current === steps.length - 1
+);
+
+
+
+
+
+submitBtn.classList.toggle(
+"hidden",
+current !== steps.length - 1
+);
+
+
+
+
+
+
+if(current === steps.length - 1){
+
+remplirResume();
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function validerEtape(){
+
+
+
+const champs =
+steps[current].querySelectorAll(
+"input, select, textarea"
+);
+
+
+
+
+
+for(let champ of champs){
+
+
+
+if(champ.required){
+
+
+
+if(champ.type === "radio"){
+
+
+
+let radios =
+steps[current].querySelectorAll(
+`input[name="${champ.name}"]`
+);
+
+
+
+let checked = false;
+
+
+
+radios.forEach(radio=>{
+
+
+if(radio.checked){
+
+checked=true;
+
+}
+
+
+});
+
+
+
+
+if(!checked){
+
+alert(
+"Veuillez sélectionner une option."
+);
+
+return false;
+
+}
+
+
+}
+
+else if(champ.value.trim()===""){
+
+
+champ.focus();
+
+
+alert(
+"Veuillez remplir ce champ."
+);
+
+
+return false;
+
+
+}
+
+
+}
+
+
+
+}
+
+
+
+
+return true;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+nextBtn.addEventListener(
+"click",
+()=>{
+
+
+if(!validerEtape()){
+
+return;
+
+}
+
+
+
+if(current < steps.length-1){
+
+
+current++;
+
+
+displayStep();
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+prevBtn.addEventListener(
+"click",
+()=>{
+
+
+if(current>0){
+
+
+current--;
+
+
+displayStep();
+
+
+}
+
+
+});
+
+
+
+
+
+
+
+
+
+function getValue(name){
+
+
+let element =
+document.querySelector(
+`[name="${name}"]`
+);
+
+
+
+return element ? element.value : "";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function remplirResume(){
+
+
+
+document.getElementById(
+"resumeNomComplet"
+).innerHTML =
+
+getValue("prenom")
++
+" "
++
+getValue("nom");
+
+
+
+
+
+
+document.getElementById(
+"resumeTelephone"
+).innerHTML =
+
+"+225 "
++
+getValue("telephone");
+
+
+
+
+
+
+document.getElementById(
+"resumeEmail"
+).innerHTML =
+
+getValue("email");
+
+
+
+
+
+
+document.getElementById(
+"resumeEntreprise"
+).innerHTML =
+
+getValue("entreprise");
+
+
+
+
+
+
+document.getElementById(
+"resumeActivite"
+).innerHTML =
+
+getValue("activite");
+
+
+
+
+
+
+document.getElementById(
+"resumeCapital"
+).innerHTML =
+
+getValue("capital_social")
++
+" FCFA";
+
+
+
+
+
+
+document.getElementById(
+"resumeApport"
+).innerHTML =
+
+getValue("apport_associe");
+
+
+
+
+
+
+document.getElementById(
+"resumePresident"
+).innerHTML =
+
+getValue("president");
+
+
+
+
+
+
+document.getElementById(
+"resumeVille"
+).innerHTML =
+
+getValue("ville");
+
+
+
+
+
+
+document.getElementById(
+"resumeSiege"
+).innerHTML =
+
+getValue("siege_social");
+
+
+
+}
+
+
+
+
+
+
+
+displayStep();
+
+
+
+</script>
+
+
+
+{% endblock %}

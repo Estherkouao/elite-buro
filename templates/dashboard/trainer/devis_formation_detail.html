@@ -8,95 +8,116 @@ Détail de la demande de devis
 {% block content_area %}
 <style>
     /* =====================================================
-   ELITEBURO TRAINER DASHBOARD - DETAIL DEVIS FORMATION
+   ELITEBURO - DETAIL DEVİS FORMATION
+   STYLE DASHBOARD PREMIUM
 ===================================================== */
 
 
-/* ================= GLOBAL ================= */
+/* ================= CONTENT ================= */
 
 .content {
-    padding: 30px;
-    background: #f6f7fb;
-    min-height: 100vh;
-    font-family: "Inter", "Segoe UI", sans-serif;
+    padding:32px;
+    background:var(--ivory);
+    min-height:100vh;
 }
 
 
+/* ================= HEADER ================= */
+
 .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 25px 30px;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0,0,0,.06);
-    margin-bottom: 25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:var(--white);
+
+    padding:25px 30px;
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-sm);
+
+    border:1px solid var(--border-light);
+
+    margin-bottom:25px;
 }
 
 
 .page-title {
-    font-size: 28px;
-    font-weight: 800;
-    color: #0d2b55;
-    margin: 0;
+
+    font-family:var(--font-display);
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:var(--navy);
+
 }
 
 
 .page-subtitle {
-    color: #6b7280;
-    margin-top: 8px;
+
+    color:var(--text-muted);
+
+    margin-top:8px;
+
 }
 
 
 
-
-/* ================= BOUTONS ================= */
+/* ================= BUTTONS ================= */
 
 .btn {
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display:inline-flex;
 
-    padding: 12px 22px;
+    align-items:center;
 
-    border-radius: 12px;
+    justify-content:center;
 
-    text-decoration: none;
+    padding:12px 22px;
 
-    font-weight: 600;
+    border-radius:var(--radius);
 
-    transition: .3s;
-
-    border:none;
+    font-weight:600;
 
     cursor:pointer;
+
+    transition:.3s;
+
+    border:none;
 
 }
 
 
+
 .btn:hover {
-    transform: translateY(-2px);
+
+    transform:translateY(-2px);
+
 }
 
 
 
 .btn-primary {
 
-    background:#0d2b55;
+    background:var(--navy);
 
     color:white;
 
 }
 
 
+
 .btn-outline {
 
     background:white;
 
-    border:2px solid #0d2b55;
+    border:1px solid var(--gold);
 
-    color:#0d2b55;
+    color:var(--gold);
 
 }
 
@@ -104,7 +125,7 @@ Détail de la demande de devis
 
 .btn-gold {
 
-    background:#f59e0b;
+    background:var(--gold);
 
     color:white;
 
@@ -113,13 +134,13 @@ Détail de la demande de devis
 
 .btn-gold:hover {
 
-    background:#d97706;
+    background:var(--gold-light);
 
 }
 
 
 
-/* ================= CARTES STAT ================= */
+/* ================= GRIDS ================= */
 
 
 .grid-4 {
@@ -127,138 +148,6 @@ Détail de la demande de devis
     display:grid;
 
     grid-template-columns:repeat(4,1fr);
-
-    gap:20px;
-
-}
-
-
-
-.stat-card {
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:18px;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.06);
-
-}
-
-
-
-.stat-title {
-
-    color:#6b7280;
-
-    font-size:14px;
-
-    margin-bottom:12px;
-
-}
-
-
-
-.stat-value {
-
-    font-size:22px;
-
-    font-weight:800;
-
-    color:#0d2b55;
-
-}
-
-
-
-/* ================= PANELS ================= */
-
-
-.panel {
-
-    background:white;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.07);
-
-}
-
-
-
-.panel-header {
-
-    padding:20px 25px;
-
-    background:#0d2b55;
-
-    color:white;
-
-}
-
-
-
-.panel-header h3 {
-
-    margin:0;
-
-    font-size:20px;
-
-}
-
-
-
-.panel-body {
-
-    padding:30px;
-
-}
-
-
-
-/* animation */
-
-.animate-in {
-
-    animation:fadeUp .4s ease;
-
-}
-
-
-@keyframes fadeUp {
-
-    from {
-
-        opacity:0;
-
-        transform:translateY(20px);
-
-    }
-
-    to {
-
-        opacity:1;
-
-        transform:none;
-
-    }
-
-}
-
-
-
-
-/* ================= GRILLES ================= */
-
-
-.grid-2 {
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
 
     gap:20px;
 
@@ -278,8 +167,107 @@ Détail de la demande de devis
 
 
 
+.grid-2 {
 
-/* ================= FORMULAIRE ================= */
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+
+
+/* ================= STAT CARDS ================= */
+
+
+.stat-card {
+
+    background:var(--white);
+
+    padding:22px 24px;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow-sm);
+
+    border:1px solid var(--border-light);
+
+}
+
+
+
+.stat-title {
+
+    color:var(--text-muted);
+
+    font-size:13px;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.stat-value {
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:var(--navy);
+
+}
+
+
+
+/* ================= PANELS ================= */
+
+
+.panel {
+
+    background:var(--white);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-sm);
+
+    border:1px solid var(--border-light);
+
+    overflow:hidden;
+
+}
+
+
+
+.panel-header {
+
+    padding:18px 22px;
+
+    background:var(--navy);
+
+    color:white;
+
+}
+
+
+
+.panel-header h3 {
+    color: #FFFFFF;
+}
+
+
+
+.panel-body {
+
+    padding:30px;
+
+}
+
+
+
+/* ================= FORM ================= */
 
 
 .form-group {
@@ -294,9 +282,9 @@ Détail de la demande de devis
 
     display:block;
 
-    font-weight:700;
+    font-weight:600;
 
-    color:#374151;
+    color:var(--dark);
 
     margin-bottom:8px;
 
@@ -310,13 +298,13 @@ Détail de la demande de devis
 
     padding:13px 15px;
 
-    border-radius:12px;
+    border-radius:var(--radius);
 
-    border:1px solid #d1d5db;
+    border:1px solid var(--border);
 
-    background:#f9fafb;
+    background:#fafafa;
 
-    color:#111827;
+    color:var(--dark);
 
     font-size:15px;
 
@@ -328,9 +316,9 @@ Détail de la demande de devis
 
     outline:none;
 
-    border-color:#f59e0b;
+    border-color:var(--gold);
 
-    box-shadow:0 0 0 3px rgba(245,158,11,.2);
+    box-shadow:0 0 0 3px rgba(185,150,70,.15);
 
 }
 
@@ -344,68 +332,67 @@ textarea.form-control {
 
 
 
-
 /* ================= BADGES ================= */
 
 
 .badge {
 
-    padding:8px 15px;
+    display:inline-flex;
 
-    border-radius:30px;
+    padding:7px 14px;
 
-    font-size:13px;
+    border-radius:20px;
+
+    font-size:12px;
 
     font-weight:700;
 
 }
 
 
-
 .badge-warning {
 
-    background:#fef3c7;
+    background:#fff3cd;
 
-    color:#92400e;
+    color:#856404;
 
 }
 
 
 .badge-info {
 
-    background:#dbeafe;
+    background:#e8eef7;
 
-    color:#1e40af;
+    color:var(--navy);
 
 }
 
 
 .badge-primary {
 
-    background:#dbeafe;
+    background:var(--gold-pale);
 
-    color:#0d2b55;
+    color:var(--gold);
 
 }
 
 
 .badge-success {
 
-    background:#dcfce7;
+    background:var(--success-bg);
 
-    color:#166534;
+    color:var(--success);
 
 }
 
 
 .badge-danger {
 
-    background:#fee2e2;
+    background:var(--danger-bg);
 
-    color:#991b1b;
+    color:var(--danger);
 
 }
-
 
 
 
@@ -414,15 +401,15 @@ textarea.form-control {
 
 .alert-box {
 
-    background:#fff7ed;
+    background:var(--gold-pale);
 
-    border-left:5px solid #f59e0b;
+    border-left:4px solid var(--gold);
 
     padding:18px;
 
-    border-radius:12px;
+    border-radius:var(--radius);
 
-    color:#7c2d12;
+    color:var(--dark);
 
     margin-bottom:25px;
 
@@ -430,19 +417,18 @@ textarea.form-control {
 
 
 
-
-/* ================= APERCU DEVIS ================= */
+/* ================= PREVIEW DEVİS ================= */
 
 
 .devis-preview {
 
     background:white;
 
-    border:2px dashed #d1d5db;
+    border:1px dashed var(--border);
 
     padding:35px;
 
-    border-radius:20px;
+    border-radius:var(--radius-lg);
 
 }
 
@@ -460,7 +446,9 @@ textarea.form-control {
 
 .preview-header h2 {
 
-    color:#0d2b55;
+    color:var(--gold);
+
+    font-family:var(--font-display);
 
     font-size:28px;
 
@@ -470,7 +458,7 @@ textarea.form-control {
 
 .preview-header p {
 
-    color:#6b7280;
+    color:var(--text-muted);
 
 }
 
@@ -484,9 +472,9 @@ textarea.form-control {
 
     padding:20px;
 
-    background:#f9fafb;
+    background:var(--ivory);
 
-    border-radius:15px;
+    border-radius:var(--radius);
 
 }
 
@@ -496,10 +484,9 @@ textarea.form-control {
 
     font-size:30px;
 
-    color:#f59e0b;
+    color:var(--gold);
 
 }
-
 
 
 
@@ -512,7 +499,6 @@ textarea.form-control {
     font-weight:700;
 
 }
-
 
 
 
@@ -543,7 +529,7 @@ textarea.form-control {
 
     width:3px;
 
-    background:#e5e7eb;
+    background:var(--border);
 
 }
 
@@ -557,8 +543,6 @@ textarea.form-control {
 
     margin-bottom:35px;
 
-    position:relative;
-
 }
 
 
@@ -571,7 +555,7 @@ textarea.form-control {
 
     border-radius:50%;
 
-    background:#d1d5db;
+    background:var(--border);
 
     color:white;
 
@@ -581,9 +565,7 @@ textarea.form-control {
 
     justify-content:center;
 
-    font-weight:800;
-
-    z-index:2;
+    font-weight:700;
 
 }
 
@@ -591,7 +573,7 @@ textarea.form-control {
 
 .timeline-item.active .timeline-point {
 
-    background:#f59e0b;
+    background:var(--gold);
 
 }
 
@@ -601,7 +583,7 @@ textarea.form-control {
 
     margin:0;
 
-    color:#0d2b55;
+    color:var(--navy);
 
 }
 
@@ -609,10 +591,42 @@ textarea.form-control {
 
 .timeline-content p {
 
-    color:#6b7280;
+    color:var(--text-muted);
 
 }
 
+
+
+/* ================= ANIMATION ================= */
+
+
+.animate-in {
+
+    animation:fadeUp .4s ease;
+
+}
+
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
 
 
 
@@ -621,13 +635,11 @@ textarea.form-control {
 
 @media(max-width:1100px){
 
-
     .grid-4 {
 
         grid-template-columns:repeat(2,1fr);
 
     }
-
 
 }
 
@@ -635,10 +647,9 @@ textarea.form-control {
 
 @media(max-width:768px){
 
-
     .content {
 
-        padding:15px;
+        padding:16px;
 
     }
 
@@ -654,7 +665,6 @@ textarea.form-control {
     }
 
 
-
     .grid-2,
     .grid-3,
     .grid-4 {
@@ -662,7 +672,6 @@ textarea.form-control {
         grid-template-columns:1fr;
 
     }
-
 
 }
 </style>
@@ -1301,10 +1310,10 @@ textarea.form-control {
 
             <button
                 type="submit"
+                name="action"
+                value="save"
                 class="btn btn-gold">
-
                 💾 Enregistrer le devis
-
             </button>
 
 
@@ -1344,26 +1353,15 @@ textarea.form-control {
         ">
 
 
-            <!-- ENREGISTRER -->
-
-            <button
-                type="submit"
-                form=""
-                class="btn btn-gold">
-
-                💾 Sauvegarder
-
-            </button>
 
 
 
             <!-- PDF -->
 
-            <a
-                href="#"
+            <a href="{% url 'dashboard_trainer:devis_formation_pdf' devis.id %}"
                 class="btn btn-outline">
 
-                📄 Générer PDF
+                    📄 Générer PDF
 
             </a>
 
@@ -1379,7 +1377,7 @@ textarea.form-control {
 
                 <input type="hidden" name="action" value="send">
 
-                <button type="submit">
+                <button type="submit" class="btn btn-outline">
                     Envoyer le devis
                 </button>
 

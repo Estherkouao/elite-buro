@@ -1488,12 +1488,15 @@ def domiciliation_detail(request, request_id):
         }
     )
 
+
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.conf import settings
 from django.utils import timezone
 
 from formation.models import DevisFormation
+
 
 
 
@@ -1503,7 +1506,6 @@ def send_devis_email(request, pk):
         DevisFormation,
         id=pk
     )
-
 
     # Vérification
     if not devis.montant_propose:
@@ -1517,73 +1519,41 @@ def send_devis_email(request, pk):
             pk=pk
         )
 
-
-
     sujet = "Votre devis de formation EliteBuro"
 
-
     message = f"""
-
 Bonjour {devis.nom},
 
-
-Nous avons le plaisir de vous transmettre notre proposition de formation.
-
-
-Entreprise :
-{devis.company_name}
+Nous avons le plaisir de vous transmettre en pièce jointe votre devis de formation.
 
 
-Programme :
 
-{devis.programme}
-
-
-Montant proposé :
-
-{devis.montant_propose} FCFA
-
-
-Validité du devis :
-
-{devis.validite}
-
-
-Observations :
-
-{devis.observations}
-
-
-Nous restons disponibles pour toute information complémentaire.
-
+Veuillez trouver le devis PDF en pièce jointe.
 
 Cordialement,
 
-EliteBuro Formation
-
+L'équipe EliteBuro Formation
 """
 
+    # Génération du PDF
+    pdf_bytes = generer_devis_pdf(devis)
 
-    send_mail(
-
-        sujet,
-
-        message,
-
-        "formation@eliteburo.com",
-
-        [devis.email],
-
-        fail_silently=False,
-
+    email = EmailMessage(
+        subject=sujet,
+        body=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[devis.email],
     )
 
+    email.attach(
+        f"{devis.numero_devis}.pdf",
+        pdf_bytes,
+        "application/pdf"
+    )
 
-
-    # Mise à jour automatique
+    email.send(fail_silently=False)
 
     devis.statut = DevisFormation.Statut.DEVIS_ENVOYE
-
     devis.date_envoi = timezone.now()
 
     devis.save(
@@ -1593,14 +1563,1228 @@ EliteBuro Formation
         ]
     )
 
-
     messages.success(
         request,
-        "Le devis a été envoyé au client."
+        "Le devis PDF a été envoyé au client."
     )
-
 
     return redirect(
         "dashboard_trainer:devis_formation_detail",
         pk=pk
     )
+
+# ============================================================
+# PDF DEVIS FORMATION ELITEBURO - PARTIE 1
+# Imports + styles + en-tête
+# ============================================================
+
+from io import BytesIO
+from decimal import Decimal
+
+from django.http import HttpResponse
+from django.conf import settings
+from django.utils import timezone
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Spacer,
+    Image,
+    Table,
+    TableStyle,
+    PageBreak
+)
+
+from reportlab.lib.units import cm
+
+
+# ============================================================
+# COULEURS CHARTE ELITEBURO
+# ============================================================
+
+ORANGE = colors.HexColor("#FF8000")
+ORANGE_LIGHT = colors.HexColor("#FDE8D0")
+
+NOIR = colors.HexColor("#1A1A1A")
+GRIS = colors.HexColor("#666666")
+GRIS_CLAIR = colors.HexColor("#F5F5F5")
+
+BLANC = colors.white
+
+
+# ============================================================
+# GENERATION PDF DEVIS FORMATION
+# ============================================================
+
+def generer_devis_pdf(devis):
+
+    from formation.models import DevisFormation
+
+    # devis est déjà l'objet DevisFormation
+    pass
+
+
+    # --------------------------------------------------------
+    # Création du fichier PDF en mémoire
+    # --------------------------------------------------------
+
+    buffer = BytesIO()
+
+
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+
+        rightMargin=1.5*cm,
+        leftMargin=1.5*cm,
+        topMargin=1.5*cm,
+        bottomMargin=1.5*cm
+    )
+
+
+
+    elements = []
+
+
+
+    # ========================================================
+    # STYLES
+    # ========================================================
+
+    styles = getSampleStyleSheet()
+
+
+
+    style_title = ParagraphStyle(
+        "TitleElite",
+        parent=styles["Heading1"],
+
+        fontName="Helvetica-Bold",
+        fontSize=18,
+
+        textColor=ORANGE,
+
+        alignment=TA_RIGHT,
+
+        spaceAfter=10
+    )
+
+
+
+    style_subtitle = ParagraphStyle(
+        "SubtitleElite",
+
+        parent=styles["Normal"],
+
+        fontSize=10,
+
+        textColor=GRIS,
+
+        alignment=TA_RIGHT
+    )
+
+
+
+    style_normal = ParagraphStyle(
+
+        "NormalElite",
+
+        parent=styles["Normal"],
+
+        fontName="Helvetica",
+
+        fontSize=9,
+
+        leading=13,
+
+        textColor=NOIR
+    )
+
+
+
+    style_client = ParagraphStyle(
+
+        "ClientElite",
+
+        parent=style_normal,
+
+        fontSize=10,
+
+        leading=15
+    )
+
+
+
+    style_section = ParagraphStyle(
+
+        "SectionElite",
+
+        parent=styles["Heading3"],
+
+        fontSize=11,
+
+        textColor=BLANC,
+
+        backColor=ORANGE,
+
+        leftIndent=5,
+
+        spaceBefore=10,
+
+        spaceAfter=8
+    )
+
+
+
+    # ========================================================
+    # EN-TETE ENTREPRISE
+    # ========================================================
+
+
+    logo_path = None
+
+
+    try:
+
+        logo_path = settings.BASE_DIR / "media" / "ELITE BURO LOG1.jpg"
+
+    except:
+
+        pass
+
+
+
+    header_data = []
+
+
+
+    # Logo
+
+    if logo_path and logo_path.exists():
+
+        logo = Image(
+            str(logo_path),
+            width=3*cm,
+            height=1.3*cm
+        )
+
+
+    else:
+
+        logo = Paragraph(
+            "<b>ELITEBURO</b>",
+            style_title
+        )
+
+
+
+    # Informations entreprise
+
+    company_info = Paragraph(
+
+        """
+        <b>ELITEBURO</b><br/>
+        Solutions professionnelles pour entreprises<br/>
+        Domiciliation • Formation • Conciergerie<br/><br/>
+
+        Abidjan, Côte d'Ivoire<br/>
+        Téléphone : +225 XX XX XX XX XX<br/>
+        Email : contact@eliteburo.com
+        """,
+
+        style_normal
+
+    )
+
+
+
+    devis_info = Paragraph(
+
+        f"""
+        <font size="18">
+        <b>DEVIS</b>
+        </font><br/><br/>
+
+        <b>N° :</b> {devis.numero_devis}<br/>
+
+        <b>Date :</b>
+        {timezone.now().strftime("%d/%m/%Y")}
+
+        """,
+
+        style_subtitle
+
+    )
+
+
+
+
+    header_table = Table(
+
+        [
+            [
+                logo,
+                company_info,
+                devis_info
+            ]
+        ],
+
+        colWidths=[
+            4*cm,
+            7*cm,
+            4*cm
+        ]
+
+    )
+
+
+
+    header_table.setStyle(
+
+        TableStyle(
+
+            [
+
+                (
+                    "VALIGN",
+                    (0,0),
+                    (-1,-1),
+                    "TOP"
+                ),
+
+                (
+                    "LINEBELOW",
+                    (0,0),
+                    (-1,-1),
+                    1,
+                    ORANGE
+                ),
+
+                (
+                    "BOTTOMPADDING",
+                    (0,0),
+                    (-1,-1),
+                    15
+                )
+
+            ]
+
+        )
+
+    )
+
+
+
+    elements.append(
+        header_table
+    )
+
+
+    elements.append(
+        Spacer(1,20)
+    )
+
+
+
+    # ========================================================
+    # INFORMATIONS CLIENT
+    # ========================================================
+
+
+    elements.append(
+
+        Paragraph(
+            "INFORMATIONS CLIENT",
+            style_section
+        )
+
+    )
+
+
+
+    client_table = Table(
+
+        [
+
+            [
+
+                Paragraph(
+                    f"""
+                    <b>Entreprise :</b>
+                    {devis.company_name or "-"}<br/>
+
+                    <b>RCCM :</b>
+                    {devis.rccm or "-"}<br/>
+
+                    <b>Contact :</b>
+                    {devis.nom or "-"}<br/>
+
+                    <b>Fonction :</b>
+                    {devis.fonction or "-"}<br/>
+
+                    <b>Email :</b>
+                    {devis.email or "-"}<br/>
+
+                    <b>Téléphone :</b>
+                    {devis.telephone or "-"}
+                    """,
+
+                    style_client
+                ),
+
+
+                Paragraph(
+                    f"""
+                    <b>Secteur :</b>
+                    {devis.secteur or "-"}<br/>
+
+                    <b>Taille :</b>
+                    {devis.taille or "-"}<br/>
+
+                    <b>Adresse :</b>
+                    {devis.adresse or "-"}<br/>
+
+                    <b>Participants :</b>
+                    {devis.participants}<br/>
+
+                    <b>Durée :</b>
+                    {devis.duree or "-"}
+                    """,
+
+                    style_client
+                )
+
+            ]
+
+        ],
+
+
+        colWidths=[
+            8*cm,
+            7*cm
+        ]
+
+    )
+
+
+
+    client_table.setStyle(
+
+        TableStyle(
+
+            [
+
+                (
+                    "BACKGROUND",
+                    (0,0),
+                    (-1,-1),
+                    GRIS_CLAIR
+                ),
+
+                (
+                    "BOX",
+                    (0,0),
+                    (-1,-1),
+                    0.5,
+                    colors.lightgrey
+                ),
+
+                (
+                    "VALIGN",
+                    (0,0),
+                    (-1,-1),
+                    "TOP"
+                ),
+
+                (
+                    "PADDING",
+                    (0,0),
+                    (-1,-1),
+                    10
+                )
+
+            ]
+
+        )
+
+    )
+
+
+
+    elements.append(
+        client_table
+    )
+
+
+    elements.append(
+        Spacer(1,20)
+    )
+
+
+
+    # La suite arrive dans PARTIE 2 :
+    # - tableau formation
+    # - calcul HT
+    # - TVA
+    # - TTC
+    # - total en lettres
+    # ============================================================
+# PDF DEVIS FORMATION ELITEBURO - PARTIE 2
+# Tableau prestation + TVA + Total
+# ============================================================
+
+
+    # ========================================================
+    # DESIGNATION DE LA PRESTATION
+    # ========================================================
+
+
+    elements.append(
+
+        Paragraph(
+            "DETAIL DE LA PRESTATION",
+            style_section
+        )
+
+    )
+
+
+
+    # Récupération des valeurs du devis
+
+    # ========================================================
+    # DESIGNATION DE LA PRESTATION
+    # ========================================================
+
+    designation = "Formation professionnelle EliteBuro"
+
+    if devis.programme:
+        designation = devis.programme
+
+    elif devis.objectifs:
+        designation = devis.objectifs[:200]
+
+
+
+    # Prix
+
+    prix_ht = Decimal(
+        devis.montant_propose or 0
+    )
+
+
+    quantite = devis.participants or 1
+
+
+
+    total_ht = prix_ht * quantite
+
+
+
+    # TVA Côte d'Ivoire 18%
+
+    taux_tva = Decimal("18")
+
+
+    montant_tva = (
+        total_ht * taux_tva / 100
+    )
+
+
+
+    total_ttc = (
+        total_ht + montant_tva
+    )
+
+
+
+
+    # ========================================================
+    # TABLEAU PRINCIPAL
+    # ========================================================
+
+
+    prestation_table = Table(
+
+        [
+
+            [
+
+                Paragraph(
+                    "<b>Désignation</b>",
+                    style_normal
+                ),
+
+                Paragraph(
+                    "<b>Qté</b>",
+                    style_normal
+                ),
+
+                Paragraph(
+                    "<b>Prix HT</b>",
+                    style_normal
+                ),
+
+                Paragraph(
+                    "<b>Total HT</b>",
+                    style_normal
+                )
+
+            ],
+
+
+            [
+
+                Paragraph(
+                    designation,
+                    style_normal
+                ),
+
+
+                Paragraph(
+                    str(quantite),
+                    style_normal
+                ),
+
+
+                Paragraph(
+                    f"{prix_ht:,.0f} FCFA",
+                    style_normal
+                ),
+
+
+                Paragraph(
+                    f"{total_ht:,.0f} FCFA",
+                    style_normal
+                )
+
+            ]
+
+        ],
+
+
+        colWidths=[
+
+            8*cm,
+            1.5*cm,
+            3*cm,
+            3*cm
+
+        ]
+
+    )
+
+
+
+    prestation_table.setStyle(
+
+        TableStyle(
+
+            [
+
+                (
+                    "BACKGROUND",
+                    (0,0),
+                    (-1,0),
+                    ORANGE
+                ),
+
+
+                (
+                    "TEXTCOLOR",
+                    (0,0),
+                    (-1,0),
+                    BLANC
+                ),
+
+
+                (
+                    "ALIGN",
+                    (1,0),
+                    (-1,-1),
+                    "CENTER"
+                ),
+
+
+                (
+                    "GRID",
+                    (0,0),
+                    (-1,-1),
+                    0.5,
+                    colors.lightgrey
+                ),
+
+
+                (
+                    "VALIGN",
+                    (0,0),
+                    (-1,-1),
+                    "MIDDLE"
+                ),
+
+
+                (
+                    "PADDING",
+                    (0,0),
+                    (-1,-1),
+                    8
+                )
+
+            ]
+
+        )
+
+    )
+
+
+
+    elements.append(
+
+        prestation_table
+
+    )
+
+
+
+    elements.append(
+
+        Spacer(
+            1,
+            15
+        )
+
+    )
+
+
+
+    # ========================================================
+    # RECAPITULATIF FINANCIER
+    # ========================================================
+
+
+
+    total_table = Table(
+
+        [
+
+            [
+
+                Paragraph(
+                    "Total HT",
+                    style_normal
+                ),
+
+                Paragraph(
+                    f"{total_ht:,.0f} FCFA",
+                    style_normal
+                )
+
+            ],
+
+
+            [
+
+                Paragraph(
+                    f"TVA ({taux_tva}%)",
+                    style_normal
+                ),
+
+                Paragraph(
+                    f"{montant_tva:,.0f} FCFA",
+                    style_normal
+                )
+
+            ],
+
+
+            [
+
+                Paragraph(
+                    "<b>TOTAL TTC</b>",
+                    style_normal
+                ),
+
+                Paragraph(
+                    f"<b>{total_ttc:,.0f} FCFA</b>",
+                    style_normal
+                )
+
+            ]
+
+        ],
+
+
+        colWidths=[
+
+            10*cm,
+            5.5*cm
+
+        ]
+
+    )
+
+
+
+    total_table.setStyle(
+
+        TableStyle(
+
+            [
+
+                (
+                    "BACKGROUND",
+                    (0,2),
+                    (-1,2),
+                    ORANGE_LIGHT
+                ),
+
+
+                (
+                    "BOX",
+                    (0,0),
+                    (-1,-1),
+                    0.8,
+                    ORANGE
+                ),
+
+
+                (
+                    "LINEBELOW",
+                    (0,0),
+                    (-1,1),
+                    0.3,
+                    colors.grey
+                ),
+
+
+                (
+                    "ALIGN",
+                    (1,0),
+                    (-1,-1),
+                    "RIGHT"
+                ),
+
+
+                (
+                    "PADDING",
+                    (0,0),
+                    (-1,-1),
+                    10
+                )
+
+            ]
+
+        )
+
+    )
+
+
+
+    elements.append(
+
+        total_table
+
+    )
+
+
+    elements.append(
+
+        Spacer(
+            1,
+            20
+        )
+
+    )
+
+
+
+    # ========================================================
+    # DESCRIPTION FORMATION
+    # ========================================================
+
+
+    elements.append(
+
+        Paragraph(
+            "DESCRIPTION",
+            style_section
+        )
+
+    )
+
+
+
+    description = devis.objectifs or devis.programme or "Formation professionnelle EliteBuro."
+
+
+
+    elements.append(
+
+        Paragraph(
+
+            description,
+
+            style_normal
+
+        )
+
+    )
+
+
+
+    elements.append(
+
+        Spacer(
+            1,
+            20
+        )
+
+    )
+
+    # ============================================================
+# PDF DEVIS FORMATION ELITEBURO - PARTIE 3
+# Pied de page + signature + génération finale
+# ============================================================
+
+
+
+    # ========================================================
+    # CONDITIONS DE REGLEMENT
+    # ========================================================
+
+
+    elements.append(
+
+        Paragraph(
+            "CONDITIONS DE REGLEMENT",
+            style_section
+        )
+
+    )
+
+
+
+    conditions = """
+
+    <b>Modalités :</b><br/>
+
+    • Paiement à effectuer selon les conditions convenues avec EliteBuro.<br/>
+    • Le devis est valable pendant 30 jours à compter de sa date d'émission.<br/>
+    • Toute prestation commencée est due.<br/>
+    • Les formations sont accessibles après validation administrative et financière.
+
+    """
+
+
+
+    elements.append(
+
+        Paragraph(
+            conditions,
+            style_normal
+        )
+
+    )
+
+
+
+    elements.append(
+
+        Spacer(
+            1,
+            20
+        )
+
+    )
+
+
+
+
+    # ========================================================
+    # COORDONNEES BANCAIRES
+    # ========================================================
+
+
+    elements.append(
+
+        Paragraph(
+            "COORDONNEES BANCAIRES",
+            style_section
+        )
+
+    )
+
+
+
+    banque = """
+
+    <b>ELITEBURO</b><br/>
+
+    Banque : ...............................................<br/>
+
+    IBAN : .................................................<br/>
+
+    Code SWIFT : ...........................................<br/>
+
+    Mobile Money : +225 XX XX XX XX XX
+
+    """
+
+
+
+    elements.append(
+
+        Paragraph(
+            banque,
+            style_normal
+        )
+
+    )
+
+
+
+    elements.append(
+
+        Spacer(
+            1,
+            25
+        )
+
+    )
+
+
+
+
+    # ========================================================
+    # SIGNATURES
+    # ========================================================
+
+
+    signature_table = Table(
+
+        [
+
+            [
+
+                Paragraph(
+
+                    """
+                    <b>ELITEBURO</b><br/><br/>
+
+                    Signature et cachet<br/><br/><br/>
+
+
+                    ______________________
+
+                    """,
+
+                    style_normal
+
+                ),
+
+
+
+                Paragraph(
+
+                    """
+                    <b>CLIENT</b><br/><br/>
+
+                    Bon pour accord<br/><br/><br/>
+
+
+                    ______________________
+
+                    """,
+
+                    style_normal
+
+                )
+
+            ]
+
+        ],
+
+
+        colWidths=[
+
+            7.5*cm,
+            7.5*cm
+
+        ]
+
+    )
+
+
+
+    signature_table.setStyle(
+
+        TableStyle(
+
+            [
+
+                (
+                    "VALIGN",
+                    (0,0),
+                    (-1,-1),
+                    "TOP"
+                ),
+
+
+                (
+                    "ALIGN",
+                    (0,0),
+                    (-1,-1),
+                    "CENTER"
+                ),
+
+
+                (
+                    "BOX",
+                    (0,0),
+                    (-1,-1),
+                    0.5,
+                    colors.lightgrey
+                ),
+
+
+                (
+                    "PADDING",
+                    (0,0),
+                    (-1,-1),
+                    15
+                )
+
+            ]
+
+        )
+
+    )
+
+
+
+    elements.append(
+
+        signature_table
+
+    )
+
+
+
+    elements.append(
+
+        Spacer(
+            1,
+            20
+        )
+
+    )
+
+
+
+
+
+    # ========================================================
+    # PIED DE PAGE
+    # ========================================================
+
+
+    def footer_page(canvas, doc):
+
+
+        canvas.saveState()
+
+
+        canvas.setFont(
+            "Helvetica",
+            8
+        )
+
+
+        canvas.setFillColor(
+            GRIS
+        )
+
+
+        canvas.drawCentredString(
+
+            A4[0] / 2,
+
+            1 * cm,
+
+            "EliteBuro - Solutions professionnelles | Abidjan Côte d'Ivoire"
+
+        )
+
+
+        canvas.drawRightString(
+
+            A4[0] - 1.5*cm,
+
+            1*cm,
+
+            f"Page {doc.page}"
+
+        )
+
+
+        canvas.restoreState()
+
+
+
+
+    # ========================================================
+    # GENERATION DU PDF
+    # ========================================================
+
+
+    pdf.build(
+
+        elements,
+
+        onFirstPage=footer_page,
+
+        onLaterPages=footer_page
+
+    )
+
+
+
+    pdf_value = buffer.getvalue()
+
+
+    buffer.close()
+
+
+
+    return pdf_value
+
+
+def devis_formation_pdf(request, devis_id):
+
+    devis = get_object_or_404(
+        DevisFormation,
+        id=devis_id
+    )
+
+    pdf = generer_devis_pdf(devis)
+
+
+    response = HttpResponse(
+        pdf,
+        content_type="application/pdf"
+    )
+
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="devis_{devis.numero_devis}.pdf"'
+    )
+
+
+    return response
+
+

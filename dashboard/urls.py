@@ -147,6 +147,7 @@ from .trainer_views import (
     TrainerReservationCreateView,
     TrainerDevisFormationView,
 )
+from formation.views import DevisFormationDetailView
 
 
 
@@ -587,6 +588,11 @@ dashboard_trainer_urls = [
         name="devis_formation_list"
     ),
     path(
+        "devis-formation/<int:pk>/",
+        DevisFormationDetailView.as_view(),
+        name="devis_formation_detail"
+    ),
+    path(
         "reservations/",
         TrainerReservationsView.as_view(),
         name="trainer_reservations"
@@ -605,6 +611,16 @@ dashboard_trainer_urls = [
         "reservations/<uuid:reservation_id>/cancel/",
         TrainerReservationCancelView.as_view(),
         name="trainer_reservation_cancel"
+    ),
+    path(
+        "devis/<int:devis_id>/pdf/",
+        views.devis_formation_pdf,
+        name="devis_formation_pdf"
+    ),
+     path(
+        "devis/<int:pk>/send/",
+        send_devis_email,
+        name="send_devis_email"
     ),
 ]
 

@@ -1,0 +1,880 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+{% block title %}
+Création et domiciliation d'entreprise | EliteBuro
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- HERO SECTION -->
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+
+        <!-- TITRE -->
+        <div class="text-center mb-16">
+
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-900">
+                Création & Domiciliation
+                <span class="text-orange-500">
+                    d'entreprise
+                </span>
+            </h1>
+
+
+            <p class="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+                Nous accompagnons les entrepreneurs, investisseurs et organisations
+                dans la création de leur structure juridique et la mise en place
+                d'une adresse professionnelle adaptée à leurs besoins.
+            </p>
+
+        </div>
+
+
+
+
+        <!-- EXPLICATION -->
+        <div class="grid md:grid-cols-2 gap-10 items-center mb-20">
+
+
+            <div class="bg-white rounded-3xl shadow-lg p-8">
+
+
+                <h2 class="text-3xl font-bold text-gray-900 mb-5">
+                    Qu'est-ce que la création d'entreprise ?
+                </h2>
+
+
+                <p class="text-gray-600 leading-relaxed">
+
+                    La création d'entreprise consiste à donner une existence
+                    juridique à votre activité.
+                    Elle comprend le choix de la forme juridique,
+                    la constitution du dossier administratif,
+                    l'immatriculation auprès des autorités compétentes
+                    et l'obtention des documents officiels nécessaires
+                    au fonctionnement de votre entreprise.
+
+                </p>
+
+
+                <p class="mt-5 text-gray-600 leading-relaxed">
+
+                    EliteBuro vous accompagne dans toutes les étapes afin
+                    de créer une entreprise conforme aux exigences
+                    administratives en Côte d'Ivoire.
+
+                </p>
+
+
+            </div>
+
+
+
+
+            <div class="bg-white rounded-3xl shadow-lg p-8">
+
+
+                <h2 class="text-3xl font-bold text-gray-900 mb-5">
+                    Qu'est-ce que la domiciliation d'entreprise ?
+                </h2>
+
+
+                <p class="text-gray-600 leading-relaxed">
+
+                    La domiciliation permet à votre entreprise de disposer
+                    d'une adresse professionnelle officielle sans forcément
+                    louer un bureau permanent.
+
+                    Cette solution est idéale pour les entrepreneurs,
+                    startups et sociétés souhaitant renforcer leur image
+                    professionnelle.
+
+                </p>
+
+
+                <p class="mt-5 text-gray-600 leading-relaxed">
+
+                    Votre siège social peut ainsi bénéficier d'une adresse
+                    stratégique, d'un accompagnement administratif et
+                    d'un espace adapté à votre activité.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!-- TYPES ENTREPRISES -->
+
+        <div class="text-center mb-12">
+
+
+            <h2 class="text-4xl font-bold text-gray-900">
+                Choisissez votre type d'entreprise
+            </h2>
+
+
+            <p class="text-gray-600 mt-4">
+                Sélectionnez la structure adaptée à votre projet.
+            </p>
+            <div class="mt-4 flex flex-col md:flex-row items-center justify-center gap-4">
+
+                <a href="tel:+2250700000000"
+                class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-full shadow-lg animate-pulse transition duration-300">
+
+                    📞 +225 07 00 00 00 00
+
+                </a>
+
+                <p class="text-gray-600 text-center md:text-left">
+                    Vous ne savez pas quelle structure choisir ?
+                    <span class="font-semibold text-gray-900">
+                        Contactez-nous dès maintenant, nous vous accompagnerons gratuitement dans le choix de la forme juridique adaptée à votre projet.
+                    </span>
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+
+
+            <!-- ENTREPRISE INDIVIDUELLE -->
+            <a href="{% url 'domiciliation:domiciliation_individuelle' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    👤
+                </div>
+
+                <h3 class="font-bold text-xl">
+                    Entreprise Individuelle
+                </h3>
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Pour les entrepreneurs indépendants.
+                </p>
+
+
+            </a>
+
+
+
+
+
+            <!-- SARL -->
+            <a href="{% url 'domiciliation:creation_sarl' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+                <div class="text-4xl mb-4">
+                    🏢
+                </div>
+
+                <h3 class="font-bold text-xl">
+                    SARL
+                </h3>
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Société à responsabilité limitée.
+                </p>
+
+            </a>
+
+
+
+
+
+            <!-- SARLU -->
+            <a href="{% url 'domiciliation:creation_sarlu' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+                <div class="text-4xl mb-4">
+                    🏛️
+                </div>
+
+                <h3 class="font-bold text-xl">
+                    SARLU
+                </h3>
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    SARL avec un associé unique.
+                </p>
+
+            </a>
+
+
+
+
+
+            <!-- SAS -->
+            <a href="{% url 'domiciliation:creation_sas' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    🚀
+                </div>
+
+                <h3 class="font-bold text-xl">
+                    SAS
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Structure flexible pour investisseurs.
+                </p>
+
+
+            </a>
+
+
+
+
+
+            <!-- SASU -->
+            <a href="{% url 'domiciliation:creation_sasu' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    👔
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    SASU
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    SAS avec un associé unique.
+                </p>
+
+
+            </a>
+
+
+
+
+
+            <!-- ONG -->
+            <a href="{% url 'domiciliation:creation_ong' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    🤝
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    ONG
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Organisation non gouvernementale.
+                </p>
+
+
+            </a>
+
+
+
+
+
+            <!-- STARTUP -->
+            <a href="{% url 'domiciliation:creation_startup' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    💡
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    Startup
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Pour projets innovants.
+                </p>
+
+
+            </a>
+
+
+
+
+
+
+            <!-- SCI -->
+            <a href="{% url 'domiciliation:creation_sci' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    🏠
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    SCI
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Société civile immobilière.
+                </p>
+
+
+            </a>
+
+
+
+
+
+
+            <!-- ASSOCIATION -->
+            <a href="{% url 'domiciliation:creation_association' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    🌍
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    Association
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Pour projets collectifs.
+                </p>
+
+
+            </a>
+
+
+
+
+
+
+            <!-- FONDATION -->
+            <a href="{% url 'domiciliation:creation_fondation' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    ❤️
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    Fondation
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Pour missions d'intérêt général.
+                </p>
+
+
+            </a>
+
+
+
+
+
+
+            <!-- SCOPS -->
+            <a href="{% url 'domiciliation:creation_scoop' %}"
+               class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 text-center">
+
+
+                <div class="text-4xl mb-4">
+                    👥
+                </div>
+
+
+                <h3 class="font-bold text-xl">
+                    SCOPS
+                </h3>
+
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Société coopérative.
+                </p>
+
+
+            </a>
+
+
+
+
+        </div>
+
+
+
+    </div>
+
+</section>
+
+<!-- ==========================
+     FAQ SECTION
+=========================== -->
+
+
+<section class="bg-white py-20">
+
+
+<div class="max-w-5xl mx-auto px-6">
+
+
+
+<div class="text-center mb-14">
+
+
+<h2 class="text-4xl md:text-5xl font-bold text-gray-900">
+
+Questions fréquentes
+
+</h2>
+
+
+<p class="mt-4 text-gray-600 text-lg">
+
+Tout savoir sur la création et la domiciliation d'entreprise avec EliteBuro.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="space-y-5">
+
+
+
+
+
+
+<!-- FAQ 1 -->
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Pourquoi créer mon entreprise avec EliteBuro ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+EliteBuro vous accompagne dans toutes les étapes de création
+de votre entreprise : choix de la forme juridique,
+constitution du dossier administratif, immatriculation,
+obtention des documents officiels et suivi après création.
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- FAQ 2 -->
+
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Quelle forme juridique choisir pour mon entreprise ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+Le choix dépend de votre projet, du nombre d'associés,
+de votre activité et de vos objectifs.
+
+Vous pouvez créer une Entreprise Individuelle,
+SARL, SARLU, SAS, SASU, ONG, Association,
+Fondation ou Société Coopérative.
+
+Nos conseillers peuvent vous orienter gratuitement.
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- FAQ 3 -->
+
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Quelle est la différence entre création et domiciliation ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+La création d'entreprise consiste à donner une existence
+juridique à votre activité.
+
+La domiciliation permet à votre entreprise de disposer
+d'une adresse professionnelle officielle sans forcément
+louer un bureau permanent.
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- FAQ 4 -->
+
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Quels documents vais-je recevoir après la création ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+Selon votre structure juridique, vous pouvez recevoir :
+
+<ul class="list-disc ml-6 mt-3 space-y-2">
+
+<li>Certificat d'immatriculation (IDU)</li>
+
+<li>RCCM</li>
+
+<li>Déclaration Fiscale d'Existence</li>
+
+<li>Statuts de société</li>
+
+<li>Procès-verbal de constitution</li>
+
+<li>Accès à votre espace client EliteBuro</li>
+
+</ul>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- FAQ 5 -->
+
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Combien de temps faut-il pour créer une entreprise ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+Le délai dépend du type de structure choisie,
+de la complétude du dossier et des démarches administratives.
+
+EliteBuro vous accompagne afin d'accélérer
+et sécuriser votre procédure.
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- FAQ 6 -->
+
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between des items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Puis-je suivre l'évolution de ma demande ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+Oui. Après validation de votre demande,
+un espace client EliteBuro est créé.
+Vous pourrez suivre l'avancement de votre dossier,
+recevoir vos documents et consulter vos informations.
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- FAQ 7 -->
+
+
+<div class="border rounded-2xl p-6 shadow-sm">
+
+
+<button 
+class="faq-btn w-full flex justify-between items-center text-left font-bold text-xl text-gray-900">
+
+
+<span>
+Puis-je payer plus tard ?
+</span>
+
+
+<span class="text-[#FF8000] text-2xl">
++
+</span>
+
+
+</button>
+
+
+
+<div class="faq-content hidden mt-4 text-gray-600 leading-7">
+
+
+Oui. Selon votre choix, vous pouvez payer immédiatement
+en ligne, depuis votre espace client ou directement
+dans les bureaux EliteBuro.
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+
+    const faqButtons = document.querySelectorAll(".faq-btn");
+
+
+    faqButtons.forEach(button => {
+
+
+        button.addEventListener("click", function(){
+
+
+            const content = this.nextElementSibling;
+
+
+            content.classList.toggle("hidden");
+
+
+
+            const icon = this.querySelector("span:last-child");
+
+
+            if(content.classList.contains("hidden")){
+
+                icon.textContent = "+";
+
+            } else {
+
+                icon.textContent = "−";
+
+            }
+
+
+        });
+
+
+    });
+
+
+});
+
+
+</script>
+
+
+
+{% endblock %}

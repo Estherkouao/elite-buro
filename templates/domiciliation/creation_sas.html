@@ -1,0 +1,2085 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création SAS Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+
+
+<!-- ==========================
+     PRESENTATION SAS
+=========================== -->
+
+
+
+<div class="space-y-6">
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+🚀
+
+</div>
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une SAS
+
+</h1>
+
+
+<p class="text-gray-500">
+
+Société par Actions Simplifiée
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+La SAS (Société par Actions Simplifiée)
+est une forme juridique moderne et flexible
+adaptée aux entrepreneurs, investisseurs
+et projets à fort potentiel.
+
+
+Elle permet d'organiser librement la gestion
+de l'entreprise grâce aux statuts et offre
+une grande souplesse dans la répartition
+des pouvoirs entre associés.
+
+
+EliteBuro vous accompagne dans la création
+de votre SAS en Côte d'Ivoire, de la rédaction
+des documents juridiques jusqu'à l'immatriculation
+de votre société.
+
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi choisir une SAS ?
+
+</h3>
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Grande liberté dans l'organisation.
+</li>
+
+
+<li>
+✔ Adaptée aux investisseurs.
+</li>
+
+
+<li>
+✔ Facilité d'entrée de nouveaux associés.
+</li>
+
+
+<li>
+✔ Protection du patrimoine personnel.
+</li>
+
+
+<li>
+✔ Image professionnelle auprès des partenaires.
+</li>
+
+
+<li>
+✔ Structure adaptée aux startups et PME.
+</li>
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+📌 Certificat d'immatriculation IDU
+</li>
+
+
+<li>
+📌 RCCM
+</li>
+
+
+<li>
+📌 Statuts de la SAS
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Déclaration fiscale d'existence
+</li>
+
+
+<li>
+📌 Numéro compte contribuable
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+     FORMULAIRE SAS
+=========================== -->
+
+
+
+<div>
+
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création SAS Côte d'Ivoire
+
+</h2>
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre société
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+
+<div class="mb-10">
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression 
+(<span id="stepNumber">1</span>/11)
+
+</span>
+
+
+
+<span>
+EliteBuro
+</span>
+
+
+
+</div>
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full transition-all"
+style="width:9%">
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_sas' %}"
+id="sasForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 1
+=========================== -->
+
+
+
+<div class="step">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Informations du responsable
+
+</h2>
+
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 2
+=========================== -->
+
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Votre adresse email
+
+</h2>
+
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-2">
+
+Vos identifiants EliteBuro seront envoyés par email.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 3
+=========================== -->
+
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Informations de votre SAS
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="entreprise"
+required
+placeholder="Nom souhaité de la SAS"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="activite"
+required
+placeholder="Activité principale"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 4
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Nombre d'actionnaires
+
+</h2>
+
+
+
+
+<select
+name="nombre_actionnaires"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<option value="">
+Sélectionnez le nombre d'actionnaires
+</option>
+
+
+
+<option value="1">
+1 actionnaire
+</option>
+
+
+
+<option value="2">
+2 actionnaires
+</option>
+
+
+
+<option value="3">
+3 actionnaires
+</option>
+
+
+
+<option value="plus">
+Plus de 3 actionnaires
+</option>
+
+
+
+</select>
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+La SAS peut être constituée avec un ou plusieurs actionnaires.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 5
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Capital social de la SAS
+
+</h2>
+
+
+
+
+
+<div class="flex gap-3">
+
+
+
+<input type="number"
+name="capital_social"
+required
+placeholder="Exemple : 1000000"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
+FCFA
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Indiquez le montant du capital prévu pour votre société.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 6
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Répartition des actions
+
+</h2>
+
+
+
+
+
+<textarea
+name="repartition_actions"
+required
+rows="5"
+placeholder="
+Exemple :
+
+Jean Kouassi : 60 actions
+Awa Traoré : 40 actions
+
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Décrivez la répartition prévue entre les actionnaires.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 7
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Président de la SAS
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="president"
+required
+placeholder="Nom complet du président"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Le président représente légalement la SAS.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 8
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Adresse du siège social
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="4"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 9 : SERVICES
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Services souhaités
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-6">
+
+Sélectionnez les services dont vous avez besoin pour votre création SAS.
+
+</p>
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="statuts_sas"
+value="oui">
+
+
+<div>
+
+<p class="font-bold">
+
+📄 Rédaction des statuts SAS
+
+</p>
+
+
+<p class="text-sm text-gray-500">
+
+Préparation des documents juridiques de votre société.
+
+</p>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="domiciliation"
+value="oui">
+
+
+<div>
+
+<p class="font-bold">
+
+🏢 Domiciliation professionnelle
+
+</p>
+
+
+<p class="text-sm text-gray-500">
+
+Une adresse professionnelle pour votre SAS.
+
+</p>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="accompagnement"
+value="oui">
+
+
+<div>
+
+<p class="font-bold">
+
+🤝 Accompagnement administratif
+
+</p>
+
+
+<p class="text-sm text-gray-500">
+
+Suivi complet jusqu'à l'immatriculation.
+
+</p>
+
+
+</div>
+
+
+
+</label>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 10 : PAIEMENT
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Comment souhaitez-vous régler votre création SAS ?
+
+</p>
+
+
+
+
+
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant en ligne
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier est lancé immédiatement après validation du paiement.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+required
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Vous pourrez payer depuis votre espace client EliteBuro.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+required
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Rendez-vous directement chez EliteBuro pour effectuer votre règlement.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-gray-700 text-sm">
+
+🔐 Après validation, votre espace client sera créé automatiquement et vous pourrez suivre l'avancement de votre création SAS.
+
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 11 : RESUME
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Vérification de votre demande SAS
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez vos informations avant l'envoi définitif.
+
+</p>
+
+
+
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé création SAS
+
+</h3>
+
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Responsable
+</span>
+
+<span id="resumeNomComplet"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom SAS
+</span>
+
+<span id="resumeEntreprise"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Activité
+</span>
+
+<span id="resumeActivite"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Actionnaires
+</span>
+
+<span id="resumeActionnaires"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Capital
+</span>
+
+<span id="resumeCapital"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Répartition actions
+</span>
+
+<span id="resumeActions"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Président
+</span>
+
+<span id="resumePresident"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege"></span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+BOUTONS
+=========================== -->
+
+
+
+<div class="flex justify-between mt-10">
+
+
+
+<button
+type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+
+<button
+type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#6B7280] text-[#FF8000] font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+
+
+<button
+type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Valider ma demande
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+{% endblock %}
+{% block extra_js %}
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn = document.getElementById("next");
+
+const prevBtn = document.getElementById("previous");
+
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+
+const stepNumber = document.getElementById("stepNumber");
+
+
+
+
+
+
+/*
+================================
+AFFICHAGE DES ETAPES
+================================
+*/
+
+
+function displayStep(){
+
+
+
+    steps.forEach((step,index)=>{
+
+
+        step.classList.toggle(
+            "hidden",
+            index !== current
+        );
+
+
+    });
+
+
+
+
+
+    stepNumber.innerHTML =
+        current + 1;
+
+
+
+
+
+    let pourcentage =
+        ((current + 1) / steps.length) * 100;
+
+
+
+
+
+    progress.style.width =
+        pourcentage + "%";
+
+
+
+
+
+
+
+    prevBtn.classList.toggle(
+        "hidden",
+        current === 0
+    );
+
+
+
+
+
+    nextBtn.classList.toggle(
+        "hidden",
+        current === steps.length - 1
+    );
+
+
+
+
+
+
+    submitBtn.classList.toggle(
+        "hidden",
+        current !== steps.length - 1
+    );
+
+
+
+
+
+
+
+    if(current === steps.length - 1){
+
+
+        remplirResume();
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+================================
+VALIDATION ETAPE
+================================
+*/
+
+
+function validerEtape(){
+
+
+
+    const champs =
+        steps[current].querySelectorAll(
+            "input, select, textarea"
+        );
+
+
+
+
+
+    for(let champ of champs){
+
+
+
+
+
+        if(champ.hasAttribute("required")){
+
+
+
+
+
+            if(champ.type === "radio"){
+
+
+
+                const radios =
+                    steps[current].querySelectorAll(
+                        `input[name="${champ.name}"]`
+                    );
+
+
+
+
+                let choisi = false;
+
+
+
+
+                radios.forEach(radio=>{
+
+
+                    if(radio.checked){
+
+                        choisi = true;
+
+                    }
+
+
+                });
+
+
+
+
+
+                if(!choisi){
+
+
+                    alert(
+                    "Veuillez choisir une option."
+                    );
+
+
+                    return false;
+
+
+                }
+
+
+
+
+            }
+
+            else{
+
+
+
+
+
+                if(champ.value.trim() === ""){
+
+
+                    champ.focus();
+
+
+                    alert(
+                    "Veuillez remplir ce champ."
+                    );
+
+
+                    return false;
+
+
+                }
+
+
+
+
+            }
+
+
+
+
+
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+    return true;
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+================================
+BOUTON SUIVANT
+================================
+*/
+
+
+nextBtn.addEventListener(
+"click",
+()=>{
+
+
+
+    if(!validerEtape()){
+
+        return;
+
+    }
+
+
+
+
+    if(current < steps.length - 1){
+
+
+
+        current++;
+
+
+        displayStep();
+
+
+
+    }
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+/*
+================================
+BOUTON RETOUR
+================================
+*/
+
+
+prevBtn.addEventListener(
+"click",
+()=>{
+
+
+
+    if(current > 0){
+
+
+
+        current--;
+
+
+        displayStep();
+
+
+
+    }
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+/*
+================================
+RECUPERATION CHAMP
+================================
+*/
+
+
+function valeurChamp(name){
+
+
+
+    let champ =
+        document.querySelector(
+            `[name="${name}"]`
+        );
+
+
+
+
+    return champ ? champ.value : "";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+================================
+REMPLIR RESUME SAS
+================================
+*/
+
+
+function remplirResume(){
+
+
+
+
+
+    document.getElementById(
+        "resumeNomComplet"
+    ).innerHTML =
+
+
+        valeurChamp("prenom")
+        +
+        " "
+        +
+        valeurChamp("nom");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeTelephone"
+    ).innerHTML =
+
+
+        "+225 "
+        +
+        valeurChamp("telephone");
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeEmail"
+    ).innerHTML =
+
+
+        valeurChamp("email");
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeEntreprise"
+    ).innerHTML =
+
+
+        valeurChamp("entreprise");
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeActivite"
+    ).innerHTML =
+
+
+        valeurChamp("activite");
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeActionnaires"
+    ).innerHTML =
+
+
+        valeurChamp(
+            "nombre_actionnaires"
+        );
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeCapital"
+    ).innerHTML =
+
+
+        valeurChamp(
+            "capital_social"
+        )
+        +
+        " FCFA";
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeActions"
+    ).innerHTML =
+
+
+        valeurChamp(
+            "repartition_actions"
+        );
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumePresident"
+    ).innerHTML =
+
+
+        valeurChamp(
+            "president"
+        );
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeVille"
+    ).innerHTML =
+
+
+        valeurChamp(
+            "ville"
+        );
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeSiege"
+    ).innerHTML =
+
+
+        valeurChamp(
+            "siege_social"
+        );
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+================================
+INITIALISATION
+================================
+*/
+
+
+displayStep();
+
+
+
+</script>
+
+{% endblock %}

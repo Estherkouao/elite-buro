@@ -1,0 +1,1908 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création Fondation Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+<!-- =====================================
+     PRESENTATION FONDATION
+====================================== -->
+
+
+<div class="space-y-6">
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+❤️
+
+</div>
+
+
+
+<div>
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une Fondation
+
+</h1>
+
+
+<p class="text-gray-500">
+
+Fondation à but social ou d'intérêt général
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+La fondation est une structure créée afin
+de soutenir une cause d'intérêt général
+dans des domaines tels que l'éducation,
+la santé, l'environnement, la solidarité
+ou le développement social.
+
+
+EliteBuro vous accompagne dans la création
+de votre fondation en Côte d'Ivoire,
+la préparation des documents administratifs
+et le suivi de votre dossier.
+
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi créer une Fondation ?
+
+</h3>
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Porter un projet d'intérêt général.
+</li>
+
+
+<li>
+✔ Donner un cadre juridique à vos actions.
+</li>
+
+
+<li>
+✔ Renforcer votre crédibilité auprès des partenaires.
+</li>
+
+
+<li>
+✔ Recevoir des soutiens et collaborations.
+</li>
+
+
+<li>
+✔ Accompagnement administratif EliteBuro.
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+📌 Statuts de la fondation
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Règlement intérieur
+</li>
+
+
+<li>
+📌 Liste des dirigeants
+</li>
+
+
+<li>
+📌 Documents administratifs nécessaires
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     FORMULAIRE
+====================================== -->
+
+
+<div>
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création Fondation Côte d'Ivoire
+
+</h2>
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre fondation
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+<div class="mb-10">
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression
+(<span id="stepNumber">1</span>/12)
+
+</span>
+
+
+<span>
+
+EliteBuro
+
+</span>
+
+
+</div>
+
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full transition-all"
+style="width:8%">
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_fondation' %}"
+id="fondationForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+
+<!-- ETAPE 1 -->
+
+
+<div class="step">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Responsable de la fondation
+
+</h2>
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom du responsable"
+
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom du responsable"
+
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ETAPE 2 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Adresse email
+
+</h2>
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<p class="text-sm text-gray-400 mt-2">
+
+Vos identifiants EliteBuro seront envoyés par email.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 3 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Nom de la Fondation
+
+</h2>
+
+
+
+
+<input type="text"
+name="fondation"
+required
+placeholder="Nom officiel de la fondation"
+
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ETAPE 4 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Type de Fondation
+
+</h2>
+
+
+
+
+<select name="type_fondation"
+required
+
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<option value="">
+Choisissez le type
+</option>
+
+
+
+<option value="Privée">
+Fondation privée
+</option>
+
+
+
+<option value="Familiale">
+Fondation familiale
+</option>
+
+
+
+<option value="Entreprise">
+Fondation d'entreprise
+</option>
+
+
+
+<option value="Association">
+Fondation issue d'une association
+</option>
+
+
+
+</select>
+
+
+
+</div>
+<!-- =====================================
+     ETAPE 5 : DOMAINE D'INTERVENTION
+====================================== -->
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Domaine d'intervention de la Fondation
+
+</h2>
+
+
+
+<select 
+name="domaine"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+<option value="">
+Sélectionnez un domaine
+</option>
+
+
+<option value="Education">
+Education et formation
+</option>
+
+
+<option value="Santé">
+Santé et bien-être
+</option>
+
+
+<option value="Environnement">
+Protection de l'environnement
+</option>
+
+
+<option value="Social">
+Action sociale et solidarité
+</option>
+
+
+<option value="Culture">
+Culture et patrimoine
+</option>
+
+
+<option value="Développement">
+Développement communautaire
+</option>
+
+
+<option value="Autre">
+Autre domaine
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ETAPE 6 : MISSION
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Mission et objectifs de la Fondation
+
+</h2>
+
+
+
+
+<textarea
+
+name="mission"
+
+required
+
+rows="6"
+
+placeholder="
+Décrivez la mission principale de votre fondation.
+
+Exemple :
+Aider les enfants défavorisés,
+promouvoir l'éducation,
+soutenir les populations vulnérables...
+"
+
+class="w-full border rounded-xl px-5 py-4">
+
+</textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ETAPE 7 : RESSOURCES INITIALES
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Ressources initiales de la Fondation
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-5">
+
+Indiquez les moyens prévus pour le lancement de votre fondation.
+
+</p>
+
+
+
+
+<div class="flex gap-3">
+
+
+<input
+
+type="number"
+
+name="ressources"
+
+required
+
+placeholder="Exemple : 5000000"
+
+class="w-full border rounded-xl px-5 py-4">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
+FCFA
+
+</span>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ETAPE 8 : CONSEIL ADMINISTRATION
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Conseil d'administration
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-5">
+
+Indiquez les personnes qui composeront les organes dirigeants.
+
+</p>
+
+
+
+
+<textarea
+
+name="conseil_administration"
+
+required
+
+rows="6"
+
+placeholder="
+Exemple :
+
+Président : Jean Kouassi
+
+Vice-président : Marie Yao
+
+Secrétaire : Paul Traoré
+
+Trésorier : Awa Koné
+
+"
+
+class="w-full border rounded-xl px-5 py-4">
+
+</textarea>
+
+
+
+</div>
+<!-- =====================================
+     ETAPE 9 : SIEGE SOCIAL
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Adresse du siège social de la Fondation
+
+</h2>
+
+
+
+
+<input
+type="text"
+name="ville"
+required
+placeholder="Ville (Ex: Abidjan, Bouaké...)"
+
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<textarea
+
+name="siege_social"
+
+required
+
+rows="5"
+
+placeholder="
+Adresse complète du siège social
+
+Exemple :
+Cocody Riviera, Abidjan
+"
+
+class="w-full border rounded-xl px-5 py-4">
+
+</textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ETAPE 10 : SERVICES ELITEBURO
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Services souhaités avec EliteBuro
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-6">
+
+Sélectionnez les services nécessaires pour votre fondation.
+
+</p>
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input 
+type="checkbox"
+name="statuts"
+class="w-5 h-5">
+
+
+
+<div>
+
+<h3 class="font-bold">
+
+📄 Rédaction des statuts
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Préparation des documents juridiques de la fondation.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000]">
+
+
+<input 
+type="checkbox"
+name="declaration"
+class="w-5 h-5">
+
+
+
+<div>
+
+
+<h3 class="font-bold">
+
+🏛️ Déclaration administrative
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Accompagnement dans les démarches administratives.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000]">
+
+
+<input 
+type="checkbox"
+name="suivi"
+class="w-5 h-5">
+
+
+
+<div>
+
+
+<h3 class="font-bold">
+
+📋 Suivi du dossier
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Suivi jusqu'à finalisation de votre demande.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================================
+     ETAPE 11 : MODE PAIEMENT
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Comment souhaitez-vous régler votre création de fondation ?
+
+</p>
+
+
+
+
+
+
+
+<!-- PAIEMENT EN LIGNE -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+<input
+
+type="radio"
+
+name="mode_paiement"
+
+value="paiement_en_ligne"
+
+required
+
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant en ligne
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier sera traité immédiatement après paiement.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT PLUS TARD -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+<input
+
+type="radio"
+
+name="mode_paiement"
+
+value="paiement_plus_tard"
+
+required
+
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Vous pourrez payer depuis votre espace client EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT BUREAU -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<div class="flex gap-4">
+
+
+<input
+
+type="radio"
+
+name="mode_paiement"
+
+value="paiement_bureau"
+
+required
+
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Réglez directement votre dossier auprès de nos équipes.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-gray-700 text-sm">
+
+🔐 Après validation, votre espace client sera créé automatiquement pour suivre votre dossier.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+<!-- =====================================
+     ETAPE 12 : RESUME FINAL
+====================================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+12. Vérification de votre demande
+
+</h2>
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez vos informations avant de valider la création de votre fondation.
+
+</p>
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé Fondation
+
+</h3>
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+<div class="flex justify-between border-b pb-2">
+<span class="font-semibold">
+Responsable
+</span>
+
+<span id="resumeResponsable"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+<span class="font-semibold">
+Fondation
+</span>
+
+<span id="resumeFondation"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+<span class="font-semibold">
+Type
+</span>
+
+<span id="resumeType"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+<span class="font-semibold">
+Domaine
+</span>
+
+<span id="resumeDomaine"></span>
+
+</div>
+
+
+
+
+
+<div class="border-b pb-2">
+
+<span class="font-semibold">
+Mission
+</span>
+
+<p id="resumeMission"
+class="mt-2">
+</p>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ressources
+</span>
+
+<span id="resumeRessources"></span>
+
+</div>
+
+
+
+
+
+<div class="border-b pb-2">
+
+<span class="font-semibold">
+Conseil administration
+</span>
+
+<p id="resumeConseil"
+class="mt-2">
+</p>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+<div class="border-b pb-2">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<p id="resumeSiege"></p>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Paiement
+</span>
+
+<span id="resumePaiement"></span>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- BOUTONS -->
+
+
+<div class="flex justify-between mt-10">
+
+
+<button
+
+type="button"
+
+id="previous"
+
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+
+<button
+
+type="button"
+
+id="next"
+
+class="px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+
+<button
+
+type="submit"
+
+id="submit"
+
+class="hidden px-8 py-3 rounded-xl bg-green-600 text-white font-bold">
+
+Valider ma demande
+
+</button>
+
+
+
+</div>
+{% endblock %}
+{% block extra_js %}
+
+<script>
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("previous");
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+const stepNumber = document.getElementById("stepNumber");
+
+
+
+
+
+function displayStep(){
+
+
+    steps.forEach((step,index)=>{
+
+
+        step.classList.toggle(
+            "hidden",
+            index !== current
+        );
+
+
+    });
+
+
+
+
+    stepNumber.innerHTML =
+        current + 1;
+
+
+
+
+    let percent =
+        ((current + 1) / steps.length) * 100;
+
+
+
+    progress.style.width =
+        percent + "%";
+
+
+
+
+
+    prevBtn.classList.toggle(
+        "hidden",
+        current === 0
+    );
+
+
+
+    nextBtn.classList.toggle(
+        "hidden",
+        current === steps.length - 1
+    );
+
+
+
+    submitBtn.classList.toggle(
+        "hidden",
+        current !== steps.length - 1
+    );
+
+
+
+
+
+    if(current === steps.length - 1){
+
+        remplirResume();
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+function validerEtape(){
+
+
+    const champs =
+        steps[current].querySelectorAll(
+            "input,select,textarea"
+        );
+
+
+
+    for(let champ of champs){
+
+
+
+        if(champ.required){
+
+
+
+            if(champ.type === "radio"){
+
+
+
+                let checked =
+                    steps[current]
+                    .querySelector(
+                    `input[name="${champ.name}"]:checked`
+                    );
+
+
+
+                if(!checked){
+
+
+                    alert(
+                    "Veuillez sélectionner une option."
+                    );
+
+
+                    return false;
+
+                }
+
+
+
+            }
+            else{
+
+
+                if(champ.value.trim()===""){
+
+
+                    champ.focus();
+
+
+                    alert(
+                    "Veuillez remplir ce champ."
+                    );
+
+
+                    return false;
+
+                }
+
+            }
+
+
+
+        }
+
+
+
+    }
+
+
+
+    return true;
+
+
+}
+
+
+
+
+
+
+
+
+nextBtn.onclick = function(){
+
+
+    if(!validerEtape()){
+
+        return;
+
+    }
+
+
+    if(current < steps.length-1){
+
+        current++;
+
+        displayStep();
+
+    }
+
+
+};
+
+
+
+
+
+
+
+prevBtn.onclick = function(){
+
+
+    if(current > 0){
+
+        current--;
+
+        displayStep();
+
+    }
+
+
+};
+
+
+
+
+
+
+
+
+
+function valeur(name){
+
+
+    let champ =
+    document.querySelector(
+        `[name="${name}"]`
+    );
+
+
+    return champ ? champ.value : "";
+
+}
+
+
+
+
+
+
+
+
+function remplirResume(){
+
+
+
+document.getElementById(
+"resumeResponsable"
+).innerHTML =
+
+valeur("prenom")
++
+" "
++
+valeur("nom");
+
+
+
+
+
+
+document.getElementById(
+"resumeTelephone"
+).innerHTML =
+
+"+225 "
++
+valeur("telephone");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeEmail"
+).innerHTML =
+
+valeur("email");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeFondation"
+).innerHTML =
+
+valeur("fondation");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeType"
+).innerHTML =
+
+valeur("type_fondation");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeDomaine"
+).innerHTML =
+
+valeur("domaine");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeMission"
+).innerHTML =
+
+valeur("mission");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeRessources"
+).innerHTML =
+
+valeur("ressources")
++
+" FCFA";
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeConseil"
+).innerHTML =
+
+valeur("conseil_administration");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeVille"
+).innerHTML =
+
+valeur("ville");
+
+
+
+
+
+
+
+
+document.getElementById(
+"resumeSiege"
+).innerHTML =
+
+valeur("siege_social");
+
+
+
+
+
+
+
+let paiement =
+document.querySelector(
+'input[name="mode_paiement"]:checked'
+);
+
+
+
+document.getElementById(
+"resumePaiement"
+).innerHTML =
+
+paiement ?
+paiement.value :
+"";
+
+
+
+}
+
+
+
+
+
+
+
+displayStep();
+
+
+</script>
+
+
+{% endblock %}

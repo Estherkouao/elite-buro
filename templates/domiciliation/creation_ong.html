@@ -1,0 +1,2048 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création ONG Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+
+
+<!-- ==========================
+     PRESENTATION ONG
+=========================== -->
+
+
+
+<div class="space-y-6">
+
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+🤝
+
+</div>
+
+
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une ONG
+
+</h1>
+
+
+
+
+<p class="text-gray-500">
+
+Organisation Non Gouvernementale
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+La création d'une ONG permet de structurer
+un projet à vocation sociale, humanitaire,
+éducative, environnementale ou communautaire.
+
+
+Elle offre un cadre légal permettant de mener
+des actions d'intérêt général, recevoir des
+partenariats et développer des programmes
+au service de la communauté.
+
+
+EliteBuro vous accompagne dans la constitution
+de votre dossier ONG en Côte d'Ivoire,
+depuis la préparation des documents jusqu'à
+l'accompagnement administratif.
+
+
+</p>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi créer une ONG ?
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Donner un cadre légal à votre projet.
+</li>
+
+
+<li>
+✔ Développer des actions sociales et humanitaires.
+</li>
+
+
+<li>
+✔ Collaborer avec des partenaires.
+</li>
+
+
+<li>
+✔ Renforcer la crédibilité de votre organisation.
+</li>
+
+
+<li>
+✔ Faciliter la gestion administrative.
+</li>
+
+
+<li>
+✔ Accompagnement complet EliteBuro.
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+
+<li>
+📌 Statuts de l'ONG
+</li>
+
+
+<li>
+📌 Règlement intérieur
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Liste des membres fondateurs
+</li>
+
+
+<li>
+📌 Dossier administratif ONG
+</li>
+
+
+<li>
+📌 Récépissé / documents officiels
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+     FORMULAIRE ONG
+=========================== -->
+
+
+
+<div>
+
+
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création ONG Côte d'Ivoire
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre organisation
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+<div class="mb-10">
+
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression 
+(<span id="stepNumber">1</span>/11)
+
+</span>
+
+
+
+
+<span>
+EliteBuro
+</span>
+
+
+
+</div>
+
+
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full transition-all"
+style="width:9%">
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_ong' %}"
+id="ongForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 1
+=========================== -->
+
+
+
+<div class="step">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Responsable du projet ONG
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom du responsable"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom du responsable"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 2
+=========================== -->
+
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Adresse email
+
+</h2>
+
+
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Vos identifiants EliteBuro seront envoyés par email.
+
+</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 3
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Informations générales de l'ONG
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="ong_nom"
+required
+placeholder="Nom officiel de votre ONG"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+
+<input type="text"
+name="domaine"
+required
+placeholder="Domaine d'intervention (social, santé, éducation...)"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 4 : MISSION ONG
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Mission et objectifs de votre ONG
+
+</h2>
+
+
+
+
+
+<textarea
+name="mission"
+required
+rows="6"
+placeholder="
+Décrivez la mission de votre ONG.
+
+Exemple :
+Promouvoir l'éducation des jeunes,
+aider les populations vulnérables,
+protéger l'environnement...
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Ces informations permettront de préparer les documents officiels de l'ONG.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 5 : MEMBRES FONDATEURS
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Membres fondateurs
+
+</h2>
+
+
+
+
+
+
+<p class="text-gray-600 mb-5">
+
+Indiquez les personnes qui participent à la création de l'ONG.
+
+</p>
+
+
+
+
+
+
+
+<textarea
+name="fondateurs"
+required
+rows="6"
+placeholder="
+Exemple :
+
+1- Jean Kouassi - Président
+2- Awa Traoré - Secrétaire
+3- Marc Yao - Trésorier
+
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 6 : PRESIDENT ONG
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Responsable légal de l'ONG
+
+</h2>
+
+
+
+
+
+
+
+<p class="text-gray-600 mb-5">
+
+La personne responsable représentera officiellement l'organisation.
+
+</p>
+
+
+
+
+
+
+
+<input type="text"
+name="president"
+required
+placeholder="Nom complet du président de l'ONG"
+class="w-full border rounded-xl px-5 py-4 mb-5">
+
+
+
+
+
+
+
+<select
+name="fonction_president"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<option value="">
+
+Fonction du responsable
+
+</option>
+
+
+
+
+<option value="Président">
+
+Président
+
+</option>
+
+
+
+
+<option value="Directeur">
+
+Directeur exécutif
+
+</option>
+
+
+
+
+<option value="Coordinateur">
+
+Coordinateur
+
+</option>
+
+
+
+
+</select>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 7 : SIEGE SOCIAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Adresse du siège social de l'ONG
+
+</h2>
+
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="5"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 8 : INFORMATIONS COMPLEMENTAIRES
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Informations complémentaires ONG
+
+</h2>
+
+
+
+
+
+
+<label class="block text-gray-700 font-semibold mb-3">
+
+Votre ONG est-elle déjà déclarée ?
+
+</label>
+
+
+
+
+
+
+<div class="space-y-4">
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="radio"
+name="ong_existante"
+value="Oui"
+required>
+
+
+<div>
+
+<p class="font-bold">
+
+Oui
+
+</p>
+
+
+<p class="text-sm text-gray-500">
+
+Mon ONG existe déjà et je souhaite un accompagnement.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="radio"
+name="ong_existante"
+value="Non">
+
+
+
+<div>
+
+<p class="font-bold">
+
+Non
+
+</p>
+
+
+<p class="text-sm text-gray-500">
+
+Je souhaite créer une nouvelle ONG.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+</div>
+
+
+
+
+
+
+
+<textarea
+name="observations_ong"
+rows="4"
+placeholder="Informations supplémentaires concernant votre projet..."
+class="w-full border rounded-xl px-5 py-4 mt-6"></textarea>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 9 : SERVICES
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Services complémentaires souhaités
+
+</h2>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<input type="checkbox"
+name="statuts"
+value="Oui">
+
+
+
+<div>
+
+
+<h3 class="font-bold text-lg">
+
+📄 Rédaction des statuts ONG
+
+</h3>
+
+
+<p class="text-gray-500 text-sm">
+
+Préparation des documents juridiques nécessaires.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<input type="checkbox"
+name="accompagnement"
+value="Oui">
+
+
+
+<div>
+
+
+<h3 class="font-bold text-lg">
+
+🤝 Accompagnement administratif
+
+</h3>
+
+
+<p class="text-gray-500 text-sm">
+
+Suivi du dossier jusqu'à finalisation.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<input type="checkbox"
+name="domiciliation"
+value="Oui">
+
+
+
+<div>
+
+
+<h3 class="font-bold text-lg">
+
+🏢 Domiciliation professionnelle
+
+</h3>
+
+
+<p class="text-gray-500 text-sm">
+
+Une adresse professionnelle pour votre ONG.
+
+</p>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 10 : MODE PAIEMENT
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Sélectionnez la méthode qui vous convient.
+
+</p>
+
+
+
+
+
+
+
+<!-- PAIEMENT EN LIGNE -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<div class="flex gap-4">
+
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant en ligne
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier ONG sera lancé immédiatement après paiement.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PLUS TARD -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+
+
+<p class="text-gray-600 mt-2">
+
+Paiement possible depuis votre espace client EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- BUREAU -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition">
+
+
+
+<div class="flex gap-4">
+
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Rendez-vous directement chez EliteBuro.
+
+</p>
+
+
+
+</div>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-sm text-gray-700">
+
+🔐 Après validation, votre espace client sera créé automatiquement pour suivre votre dossier ONG.
+
+</p>
+
+
+</div>
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 11 : RESUME
+=========================== -->
+
+
+<div class="step hidden">
+
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Vérification de votre demande ONG
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez les informations avant de valider votre demande.
+
+</p>
+
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé création ONG
+
+</h3>
+
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Responsable
+</span>
+
+<span id="resumeResponsable"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom ONG
+</span>
+
+<span id="resumeONG"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Domaine
+</span>
+
+<span id="resumeDomaine"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Mission
+</span>
+
+<span id="resumeMission"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Président
+</span>
+
+<span id="resumePresident"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege"></span>
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- BOUTONS -->
+
+
+<div class="flex justify-between mt-10">
+
+
+
+<button type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+
+
+<button type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#6B7280] text-white font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+
+
+<button type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Valider ma demande
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block extra_js %}
+
+
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn = document.getElementById("next");
+
+const prevBtn = document.getElementById("previous");
+
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+
+const number = document.getElementById("stepNumber");
+
+
+
+
+
+
+function displayStep(){
+
+
+steps.forEach((step,index)=>{
+
+
+step.classList.toggle(
+"hidden",
+index !== current
+);
+
+
+});
+
+
+
+
+
+number.innerHTML = current + 1;
+
+
+
+
+
+let pourcentage =
+((current + 1) / steps.length) * 100;
+
+
+
+progress.style.width =
+pourcentage + "%";
+
+
+
+
+
+prevBtn.classList.toggle(
+"hidden",
+current === 0
+);
+
+
+
+
+
+nextBtn.classList.toggle(
+"hidden",
+current === steps.length-1
+);
+
+
+
+
+
+submitBtn.classList.toggle(
+"hidden",
+current !== steps.length-1
+);
+
+
+
+
+
+
+if(current === steps.length-1){
+
+remplirResume();
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function validerEtape(){
+
+
+
+const champs =
+steps[current].querySelectorAll(
+"input, select, textarea"
+);
+
+
+
+
+
+
+for(let champ of champs){
+
+
+
+
+
+if(champ.hasAttribute("required")){
+
+
+
+
+
+
+if(champ.type === "radio"){
+
+
+
+let radios =
+steps[current].querySelectorAll(
+`input[name="${champ.name}"]`
+);
+
+
+
+let ok = false;
+
+
+
+radios.forEach(radio=>{
+
+if(radio.checked){
+
+ok = true;
+
+}
+
+});
+
+
+
+
+
+if(!ok){
+
+alert("Veuillez choisir une option.");
+
+return false;
+
+}
+
+
+
+}
+
+
+
+
+
+else if(champ.value.trim()===""){
+
+
+
+champ.focus();
+
+alert("Veuillez remplir ce champ.");
+
+return false;
+
+
+}
+
+
+
+
+}
+
+
+
+}
+
+
+
+return true;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+nextBtn.addEventListener(
+"click",
+()=>{
+
+
+if(!validerEtape()){
+
+return;
+
+}
+
+
+
+if(current < steps.length-1){
+
+current++;
+
+displayStep();
+
+}
+
+
+});
+
+
+
+
+
+
+
+
+
+prevBtn.addEventListener(
+"click",
+()=>{
+
+
+if(current > 0){
+
+current--;
+
+displayStep();
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+
+
+function getValue(name){
+
+
+let champ =
+document.querySelector(`[name="${name}"]`);
+
+
+
+return champ ? champ.value : "";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function remplirResume(){
+
+
+
+
+
+document.getElementById(
+"resumeResponsable"
+).innerHTML =
+
+getValue("prenom")
++
+" "
++
+getValue("nom");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeTelephone"
+).innerHTML =
+
+"+225 "
++
+getValue("telephone");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeEmail"
+).innerHTML =
+
+getValue("email");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeONG"
+).innerHTML =
+
+getValue("ong_nom");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeDomaine"
+).innerHTML =
+
+getValue("domaine");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeMission"
+).innerHTML =
+
+getValue("mission");
+
+
+
+
+
+
+
+document.getElementById(
+"resumePresident"
+).innerHTML =
+
+getValue("president");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeVille"
+).innerHTML =
+
+getValue("ville");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeSiege"
+).innerHTML =
+
+getValue("siege_social");
+
+
+
+
+}
+
+
+
+
+
+
+displayStep();
+
+
+
+</script>
+
+
+
+{% endblock %}

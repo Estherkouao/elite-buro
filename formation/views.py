@@ -658,12 +658,7 @@ def devis_success(request):
         "formation/devis_success.html"
     )
 
-from django.shortcuts import get_object_or_404, redirect
-from django.utils import timezone
-from django.contrib import messages
-from django.views.generic import TemplateView
 
-from formation.models import DevisFormation
 
 
 from django.views.generic import TemplateView
@@ -785,110 +780,10 @@ class DevisFormationDetailView(TemplateView):
 
         elif action == "send":
 
-
-            devis.montant_propose = (
-                request.POST.get("montant_propose")
-                or None
+            return redirect(
+                "dashboard_trainer:send_devis_email",
+                pk=devis.pk
             )
-
-
-            devis.programme = request.POST.get(
-                "programme"
-            )
-
-
-            devis.observations = request.POST.get(
-                "observations"
-            )
-
-
-            devis.validite = (
-                request.POST.get("validite")
-                or None
-            )
-
-
-            # changement automatique
-
-            devis.statut = (
-                DevisFormation.Statut.DEVIS_ENVOYE
-            )
-
-
-            devis.date_envoi = timezone.now()
-
-
-
-            devis.save()
-
-
-
-            # Contenu du mail
-
-            sujet = (
-                f"Votre devis formation - {devis.company_name}"
-            )
-
-
-            contenu = f"""
-
-Bonjour {devis.civilite} {devis.nom},
-
-
-Nous avons le plaisir de vous transmettre notre proposition
-de formation.
-
-
-Entreprise :
-{devis.company_name}
-
-
-Programme :
-
-{devis.programme}
-
-
-Montant proposé :
-
-{devis.montant_propose} FCFA
-
-
-Validité :
-
-{devis.validite}
-
-
-Observations :
-
-{devis.observations}
-
-
-
-Nous restons disponibles pour toute information complémentaire.
-
-
-Cordialement,
-
-EliteBuro Formation
-
-"""
-
-
-
-            email = EmailMessage(
-
-                sujet,
-
-                contenu,
-
-                settings.DEFAULT_FROM_EMAIL,
-
-                [devis.email]
-
-            )
-
-
-            email.send()
 
 
 
@@ -899,7 +794,4 @@ EliteBuro Formation
 
 
 
-        return redirect(
-            "dashboard_trainer:devis_formation_detail",
-            pk=devis.pk
-        )
+        return redirect(request.path)

@@ -342,3 +342,113 @@
     border-color:#ffffff;
     color:#ffffff;
 }
+/* ================= CONTACT BOX ================= */
+
+.footer-contact-box {
+    width: 100%;
+}
+
+
+.contact-card {
+
+    background: rgba(255,255,255,0.05);
+
+    border: 1px solid rgba(185,150,70,0.35);
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    min-width: 260px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+    backdrop-filter: blur(8px);
+
+}
+
+
+.contact-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+
+}
+
+
+.contact-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+
+.contact-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#B99646;
+
+    color:#111;
+
+    border-radius:50%;
+
+    font-size:20px;
+
+}
+
+
+
+.contact-item small {
+
+    display:block;
+
+    color:rgba(255,255,255,0.5);
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    margin-bottom:4px;
+
+}
+
+
+
+.contact-item a {
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+}
+
+
+
+.contact-item a:hover {
+
+    color:#B99646;
+
+}

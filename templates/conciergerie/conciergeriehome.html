@@ -200,6 +200,122 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════
+      CENTRAGE CONTENU CONCIERGERIE
+      ═══════════════════════════════════════════ */
+
+    /* Bouton de demande en haut */
+    .page-content > .btn {
+        display: flex;
+        width: fit-content;
+        margin: 0 auto 40px auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    /* Toutes les sections principales */
+    .page-content .reveal,
+    .page-content .section-label,
+    .page-content .section-title,
+    .page-content .section-desc {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    /* Limite la largeur des textes */
+    .page-content .section-desc {
+        max-width: 700px;
+    }
+
+
+    /* Grilles centrées */
+    .services-grid,
+    .plans-grid,
+    .process-steps,
+    .testimonial-grid {
+        width: 100%;
+        justify-content: center;
+    }
+
+
+    /* Cartes bien alignées */
+    .service-card,
+    .plan-card,
+    .testimonial-card {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    /* Section concept */
+    .page-content section.reveal {
+        text-align: center;
+    }
+
+
+    /* Features banner */
+    .features-banner {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+
+    /* CTA */
+    .cta-section {
+        text-align: center;
+    }
+
+
+    .cta-buttons {
+        justify-content: center;
+    }
+
+
+    /* Responsive mobile */
+    @media(max-width:768px){
+
+        .page-content > .btn {
+            width: 90%;
+            justify-content: center;
+        }
+
+        .section-title {
+            text-align:center;
+        }
+
+        .section-desc {
+            text-align:center;
+        }
+
+    }
+    /* ═══════════════════════════════════════
+      ESPACEMENT HERO SOUS LE HEADER
+      ═══════════════════════════════════════ */
+
+    .hero {
+        margin-top: 90px; /* hauteur du header */
+    }
+
+
+    /* Si le header est fixe */
+    body {
+        padding-top: 0;
+    }
+
+
+    /* Adaptation mobile */
+    @media(max-width:768px){
+
+        .hero {
+            margin-top: 70px;
+        }
+
+    }
   </style>
 {% endblock %}
 
@@ -207,154 +323,252 @@
 
   <!-- ═══════ HERO ═══════ -->
   <section class="hero">
-   
-  </section>
+
+    <div class="hero-badge">
+        ✨ CONCIERGERIE PROFESSIONNELLE
+    </div>
+
+    <h1>
+        Votre assistant professionnel au quotidien
+    </h1>
+
+    <p>
+        Elite Bureau vous accompagne dans la gestion de vos tâches
+        administratives, professionnelles et personnelles afin de vous
+        permettre de vous concentrer sur l'essentiel : développer votre activité.
+    </p>
+
+
+    <div class="hero-stats">
+
+        <div class="hero-stat">
+            <div class="num">24/7</div>
+            <div class="label">
+                Disponibilité
+            </div>
+        </div>
+
+
+        <div class="hero-stat">
+            <div class="num">100%</div>
+            <div class="label">
+                Assistance personnalisée
+            </div>
+        </div>
+
+
+        <div class="hero-stat">
+            <div class="num">1</div>
+            <div class="label">
+                Interlocuteur dédié
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+  
 
   <!-- ═══════ CONTENT ═══════ -->
   <div class="page-content">
     <div class="container">
+      <a href="{% url 'conciergerie:conciergerie' %}" class="btn btn-gold btn-lg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                faire la demande de conciegerie
+            </a>
+            <section class="reveal" style="margin-top:60px">
 
-      <!-- Services -->
-      <div class="reveal">
-        <div class="section-label">Nos prestations</div>
-        <div class="section-title">Services de conciergerie</div>
-        <div class="section-desc">Elite Bureau met à votre disposition une gamme complète de services de conciergerie professionnelle pour accompagner votre activité au quotidien.</div>
-      </div>
+            <div class="section-label">
+            Notre concept
+            </div>
 
-      <div class="services-grid">
-        <!-- Service 1 -->
-        <div class="service-card reveal">
-          <div class="service-card-accent"></div>
-          <div class="service-card-body">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <div class="section-title">
+            Une conciergerie pensée pour les entrepreneurs
             </div>
-            <div class="service-card-title">Bureaux privatifs</div>
-            <div class="service-card-desc">11 bureaux entièrement équipés, disponibles à la journée, au mois ou à l'année avec connexion haut débit et mobilier premium.</div>
-            <ul class="service-card-features">
-              <li>Mobilier ergonomique & climatisation</li>
-              <li>Fibre optique dédiée</li>
-              <li>Accès 24h/24, 7j/7</li>
-              <li>Impression & scanner illimités</li>
-            </ul>
-            <div class="service-card-price">
-              <span class="amount">75 000 F</span>
-              <span class="unit">/ mois</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Service 2 -->
-        <div class="service-card reveal">
-          <div class="service-card-accent"></div>
-          <div class="service-card-body">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            </div>
-            <div class="service-card-title">Hot Desks</div>
-            <div class="service-card-desc">Postes de travail partagés dans un espace ouvert dynamique, idéal pour freelances et indépendants.</div>
-            <ul class="service-card-features">
-              <li>Accès flexible à la journée</li>
-              <li>Casiers personnels sécurisés</li>
-              <li>Café & snacks à volonté</li>
-              <li>Communauté d'entrepreneurs</li>
-            </ul>
-            <div class="service-card-price">
-              <span class="amount">5 000 F</span>
-              <span class="unit">/ jour</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Service 3 -->
-        <div class="service-card reveal">
-          <div class="service-card-accent"></div>
-          <div class="service-card-body">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div class="service-card-title">Salles de réunion</div>
-            <div class="service-card-desc">Salles de 4 à 20 places, équipées d'écrans, vidéoconférence et tableau blanc interactif.</div>
-            <ul class="service-card-features">
-              <li>Réservation en ligne</li>
-              <li>Écran LED & vidéoconférence</li>
-              <li>Service de traiteur sur demande</li>
-              <li>Assistance technique incluse</li>
-            </ul>
-            <div class="service-card-price">
-              <span class="amount">35 000 F</span>
-              <span class="unit">/ demi-journée</span>
-            </div>
-          </div>
-        </div>
+            <div class="section-desc">
 
-        <!-- Service 4 -->
-        <div class="service-card reveal">
-          <div class="service-card-accent"></div>
-          <div class="service-card-body">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <div class="service-card-title">Domiciliation</div>
-            <div class="service-card-desc">Domicilez votre entreprise chez Elite Bureau et bénéficiez d'une adresse professionnelle prestigieuse à Cocody.</div>
-            <ul class="service-card-features">
-              <li>Adresse professionnelle Cocody</li>
-              <li>Réception & redirection du courrier</li>
-              <li>Gestion documentaire</li>
-              <li>3 formules au choix</li>
-            </ul>
-            <div class="service-card-price">
-              <span class="amount">25 000 F</span>
-              <span class="unit">/ mois</span>
-            </div>
-          </div>
-        </div>
+            La conciergerie Elite Bureau est un service d'accompagnement
+            destiné aux entrepreneurs, dirigeants, expatriés et entreprises
+            qui souhaitent déléguer certaines tâches pour gagner du temps.
 
-        <!-- Service 5 -->
-        <div class="service-card reveal">
-          <div class="service-card-accent"></div>
-          <div class="service-card-body">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <div class="service-card-title">Accueil & secrétariat</div>
-            <div class="service-card-desc">Un personnel dédié pour accueillir vos visiteurs, prendre vos messages et gérer vos appels téléphoniques.</div>
-            <ul class="service-card-features">
-              <li>Accueil personnalisé</li>
-              <li>Prise d'appels & messages</li>
-              <li>Gestion de l'agenda</li>
-              <li>Saisie de documents</li>
-            </ul>
-            <div class="service-card-price">
-              <span class="amount">45 000 F</span>
-              <span class="unit">/ mois</span>
-            </div>
-          </div>
-        </div>
+            Notre équipe devient votre assistant opérationnel :
+            organisation, démarches administratives, recherches, réservations
+            et accompagnement personnalisé.
 
-        <!-- Service 6 -->
-        <div class="service-card reveal">
-          <div class="service-card-accent"></div>
-          <div class="service-card-body">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             </div>
-            <div class="service-card-title">Espace membre digital</div>
-            <div class="service-card-desc">Un portail en ligne pour gérer vos réservations, consulter vos factures, vos contrats et soumettre vos demandes.</div>
-            <ul class="service-card-features">
-              <li>Réservation en temps réel</li>
-              <li>Historique & facturation</li>
-              <li>Gestion documentaire</li>
-              <li>Support prioritaire</li>
-            </ul>
-            <div class="service-card-price">
-              <span class="amount">Inclus</span>
-              <span class="unit">dans toute formule</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
+
+            </section>
+            <div class="services-grid">
+
+
+              <div class="service-card reveal">
+
+              <div class="service-card-accent"></div>
+
+              <div class="service-card-body">
+
+              <div class="service-card-icon">
+              📅
+              </div>
+
+
+              <div class="service-card-title">
+              Gestion administrative
+              </div>
+
+
+              <div class="service-card-desc">
+
+              Nous vous aidons dans vos démarches administratives
+              afin de vous faire gagner du temps.
+
+              </div>
+
+
+              <ul class="service-card-features">
+
+              <li>
+              Classement et gestion documentaire
+              </li>
+
+              <li>
+              Suivi des dossiers administratifs
+              </li>
+
+              <li>
+              Préparation de documents
+              </li>
+
+              <li>
+              Relances et organisation
+              </li>
+
+
+              </ul>
+
+              </div>
+
+              </div>
+
+
+
+
+              <div class="service-card reveal">
+
+              <div class="service-card-accent"></div>
+
+              <div class="service-card-body">
+
+              <div class="service-card-icon">
+              🚗
+              </div>
+
+
+              <div class="service-card-title">
+              Assistance personnelle
+              </div>
+
+
+              <div class="service-card-desc">
+
+              Nous organisons vos besoins du quotidien pour
+              simplifier votre agenda.
+
+              </div>
+
+
+              <ul class="service-card-features">
+
+              <li>
+              Réservation restaurants
+              </li>
+
+              <li>
+              Organisation déplacements
+              </li>
+
+              <li>
+              Réservation hôtels
+              </li>
+
+              <li>
+              Gestion rendez-vous
+              </li>
+
+
+              </ul>
+
+              </div>
+
+              </div>
+
+
+
+
+
+              <div class="service-card reveal">
+
+              <div class="service-card-accent"></div>
+
+              <div class="service-card-body">
+
+              <div class="service-card-icon">
+              🏢
+              </div>
+
+
+              <div class="service-card-title">
+              Conciergerie entreprise
+              </div>
+
+
+              <div class="service-card-desc">
+
+              Un accompagnement professionnel pour les sociétés
+              et leurs collaborateurs.
+
+              </div>
+
+
+              <ul class="service-card-features">
+
+              <li>
+              Accueil visiteurs
+              </li>
+
+              <li>
+              Organisation réunions
+              </li>
+
+              <li>
+              Recherche fournisseurs
+              </li>
+
+              <li>
+              Support aux équipes
+              </li>
+
+
+              </ul>
+
+              </div>
+
+              </div>
+
+
+              </div>
+      
+
+      
       <!-- Features banner -->
     
 
@@ -519,6 +733,68 @@
           <div class="process-step-desc">Accédez 24h/24, utilisez tous les services et faites partie de notre communauté d'entrepreneurs.</div>
         </div>
       </div>
+      <section class="features-banner">
+        
+
+
+        <div class="feature-item">
+
+        <h4>
+        Gain de temps
+        </h4>
+
+        <p>
+        Vous vous concentrez sur votre activité.
+        </p>
+
+        </div>
+
+
+
+        <div class="feature-item">
+
+        <h4>
+        Confidentialité
+        </h4>
+
+        <p>
+        Vos informations sont traitées avec discrétion.
+        </p>
+
+        </div>
+
+
+
+
+        <div class="feature-item">
+
+        <h4>
+        Réactivité
+        </h4>
+
+        <p>
+        Une équipe disponible rapidement.
+        </p>
+
+        </div>
+
+
+
+
+        <div class="feature-item">
+
+        <h4>
+        Solution sur mesure
+        </h4>
+
+        <p>
+        Un service adapté à vos besoins.
+        </p>
+
+        </div>
+
+
+        </section>
 
       
 

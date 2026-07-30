@@ -31,16 +31,14 @@
           <th>Contact</th>
           <th>Participants</th>
           <th>Budget</th>
-          <th>Date début</th>
           <th>Statut</th>
           <th>Reçue le</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for devis in devis_list %}
-        <tr  onclick="window.location='{% url "formation:devis_formation_detail" devis.id %}'"
-                  style="cursor:pointer;"
-                  >
+        <tr>
           <td>
             <div class="session-name">{{ devis.company_name }}</div>
             <div class="session-date">{{ devis.secteur|default:"—" }}</div>
@@ -56,9 +54,7 @@
             </div>
           </td>
           <td style="font-weight:600; color:var(--navy);">{{ devis.budget|floatformat:0 }} F</td>
-          <td>
-            <div class="session-date">{{ devis.date_debut_souhaitee|default:"—"|date:"d/m/Y" }}</div>
-          </td>
+          
           <td>
             {% if not devis.lu %}
               <span class="badge badge-warning">Non lu</span>
@@ -68,6 +64,16 @@
           </td>
           <td>
             <div class="session-date">{{ devis.created_at|date:"d/m/Y H:i" }}</div>
+          </td>
+          <td>
+            <div class="session-actions">
+
+              <a href="{% url 'dashboard_trainer:devis_formation_detail' devis.id %}" 
+                class="btn btn-outline">
+                  Traiter la demande
+              </a>
+
+          </div>
           </td>
         </tr>
         {% empty %}

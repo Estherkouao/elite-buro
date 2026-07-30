@@ -1,0 +1,1971 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création Association Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+
+{% block content %}
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 bg-gray-200 px-6 py-3 rounded-xl font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+<!-- =================================
+COLONNE GAUCHE PRESENTATION
+================================= -->
+
+
+<div class="space-y-6">
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+🤝
+
+</div>
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une Association
+
+</h1>
+
+
+<p class="text-gray-500">
+
+Association en Côte d'Ivoire
+
+</p>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+Une association permet à plusieurs personnes
+de se réunir autour d'un objectif commun,
+social, culturel, sportif, éducatif ou humanitaire.
+
+
+EliteBuro vous accompagne dans la création
+de votre association en Côte d'Ivoire,
+la préparation des documents administratifs
+et le suivi de votre dossier.
+
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi créer une association ?
+
+</h3>
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Donner une existence officielle à votre projet.
+</li>
+
+
+<li>
+✔ Organiser légalement vos activités.
+</li>
+
+
+<li>
+✔ Obtenir une reconnaissance administrative.
+</li>
+
+
+<li>
+✔ Faciliter les partenariats.
+</li>
+
+
+<li>
+✔ Bénéficier d'un accompagnement EliteBuro.
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents préparés
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+📌 Statuts de l'association
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Liste des membres fondateurs
+</li>
+
+
+<li>
+📌 Liste du bureau exécutif
+</li>
+
+
+<li>
+📌 Dossier administratif complet
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+COLONNE DROITE FORMULAIRE
+================================= -->
+
+
+
+<div>
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création Association Côte d'Ivoire
+
+</h2>
+
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre association
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+<div class="mb-10">
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression
+(<span id="stepNumber">1</span>/12)
+
+</span>
+
+
+<span>
+
+EliteBuro
+
+</span>
+
+
+</div>
+
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full"
+style="width:8%">
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_association' %}"
+id="associationForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+<!-- ETAPE 1 -->
+
+
+<div class="step">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Informations du responsable
+
+</h2>
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 2 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Adresse email
+
+</h2>
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+<p class="text-gray-400 text-sm mt-3">
+
+Vos identifiants EliteBuro seront envoyés par email.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 3 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Nom de l'association
+
+</h2>
+
+
+
+
+<input type="text"
+name="association"
+required
+placeholder="Nom officiel de l'association"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+<!-- =================================
+ETAPE 4 : OBJET ASSOCIATION
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Quel est l'objet de votre association ?
+
+</h2>
+
+
+
+
+<textarea
+name="objet_association"
+required
+rows="5"
+placeholder="
+Exemple :
+
+Promouvoir l'éducation des jeunes,
+organiser des actions sociales,
+développer des activités culturelles...
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Décrivez clairement la mission principale de votre association.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+ETAPE 5 : DOMAINE ACTIVITE
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Domaine d'activité
+
+</h2>
+
+
+
+
+
+<select
+name="domaine"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+<option value="">
+Choisissez un domaine
+</option>
+
+
+<option value="Social">
+
+Social
+
+</option>
+
+
+<option value="Humanitaire">
+
+Humanitaire
+
+</option>
+
+
+<option value="Education">
+
+Education
+
+</option>
+
+
+<option value="Culture">
+
+Culture
+
+</option>
+
+
+<option value="Sport">
+
+Sport
+
+</option>
+
+
+<option value="Environnement">
+
+Environnement
+
+</option>
+
+
+<option value="Autre">
+
+Autre
+
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+ETAPE 6 : PRESIDENT
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Président de l'association
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="president"
+required
+placeholder="Nom complet du président"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="tel"
+name="telephone_president"
+placeholder="Téléphone du président"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+ETAPE 7 : MEMBRES FONDATEURS
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Membres fondateurs
+
+</h2>
+
+
+
+
+
+<textarea
+name="membres_fondateurs"
+required
+rows="6"
+placeholder="
+Exemple :
+
+1- Jean Kouassi
+2- Awa Traoré
+3- Marc Yao
+
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Indiquez les personnes qui participent à la création de l'association.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+ETAPE 8 : BUREAU EXECUTIF
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Composition du bureau exécutif
+
+</h2>
+
+
+
+
+
+<textarea
+name="bureau"
+required
+rows="6"
+placeholder="
+Exemple :
+
+Président : Jean Kouassi
+
+Secrétaire général : Awa Traoré
+
+Trésorier : Marc Yao
+
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Indiquez les responsables des principaux postes.
+
+</p>
+
+
+
+</div>
+<!-- =================================
+ETAPE 9 : SIEGE SOCIAL
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Adresse du siège social de l'association
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan, Bouaké...)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="5"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+ETAPE 10 : SERVICES ELITEBURO
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Services souhaités
+
+</h2>
+
+
+
+<p class="text-gray-600 mb-6">
+
+Sélectionnez les services dont votre association a besoin.
+
+</p>
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="checkbox"
+name="statuts"
+value="Oui"
+class="w-5 h-5">
+
+
+
+<div>
+
+
+<h3 class="font-bold">
+
+📄 Rédaction des statuts
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Préparation des statuts officiels de l'association.
+
+</p>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="checkbox"
+name="depot_dossier"
+value="Oui"
+class="w-5 h-5">
+
+
+
+<div>
+
+
+<h3 class="font-bold">
+
+🏛️ Constitution et dépôt du dossier
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Préparation et accompagnement administratif.
+
+</p>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-4 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000]">
+
+
+<input type="checkbox"
+name="suivi"
+value="Oui"
+class="w-5 h-5">
+
+
+
+<div>
+
+
+<h3 class="font-bold">
+
+📌 Suivi administratif
+
+</h3>
+
+
+<p class="text-sm text-gray-500">
+
+Suivi de l'avancement de votre demande.
+
+</p>
+
+
+</div>
+
+
+
+</label>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+ETAPE 11 : MODE PAIEMENT
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Comment souhaitez-vous régler les frais de création de votre association ?
+
+</p>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT EN LIGNE -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant en ligne
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier démarre automatiquement après paiement.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT PLUS TARD -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Vous pourrez payer depuis votre espace client EliteBuro.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT BUREAU -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000]">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+class="mt-2">
+
+
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+
+<p class="text-gray-600 mt-2">
+
+Effectuez votre règlement directement auprès d'EliteBuro.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-gray-700 text-sm">
+
+🔐 Après validation, votre compte client sera créé automatiquement et vous pourrez suivre votre dossier association.
+
+</p>
+
+
+</div>
+
+
+
+
+</div>
+<!-- =================================
+ETAPE 12 : RESUME FINAL
+================================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+12. Vérification de votre demande
+
+</h2>
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez les informations avant de valider votre création d'association.
+
+</p>
+
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé de votre association
+
+</h3>
+
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Responsable
+</span>
+
+<span id="resumeResponsable"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom association
+</span>
+
+<span id="resumeAssociation"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Objet
+</span>
+
+<span id="resumeObjet"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Domaine
+</span>
+
+<span id="resumeDomaine"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Président
+</span>
+
+<span id="resumePresident"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Membres fondateurs
+</span>
+
+<span id="resumeMembres"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Bureau exécutif
+</span>
+
+<span id="resumeBureau"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege"></span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<h3 class="font-bold text-[#FF8000]">
+
+💳 Paiement
+
+</h3>
+
+
+<p class="text-gray-600">
+
+Votre choix de paiement sera pris en compte après validation.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =================================
+BOUTONS NAVIGATION
+================================= -->
+
+
+<div class="flex justify-between mt-10">
+
+
+<button
+type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+<button
+type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+
+<button
+type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-green-600 text-white font-bold">
+
+Valider ma demande
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+</form>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block extra_js %}
+
+
+<script>
+
+
+let current = 0;
+
+
+const steps =
+document.querySelectorAll(".step");
+
+
+const nextBtn =
+document.getElementById("next");
+
+
+const prevBtn =
+document.getElementById("previous");
+
+
+const submitBtn =
+document.getElementById("submit");
+
+
+const progress =
+document.getElementById("progress");
+
+
+const stepNumber =
+document.getElementById("stepNumber");
+
+
+
+
+
+
+
+
+
+function displayStep(){
+
+
+
+steps.forEach((step,index)=>{
+
+
+step.classList.toggle(
+"hidden",
+index !== current
+);
+
+
+});
+
+
+
+
+stepNumber.innerHTML =
+current + 1;
+
+
+
+
+
+let percent =
+((current + 1) / steps.length) * 100;
+
+
+
+
+progress.style.width =
+percent + "%";
+
+
+
+
+
+
+
+prevBtn.classList.toggle(
+"hidden",
+current === 0
+);
+
+
+
+
+nextBtn.classList.toggle(
+"hidden",
+current === steps.length - 1
+);
+
+
+
+
+submitBtn.classList.toggle(
+"hidden",
+current !== steps.length - 1
+);
+
+
+
+
+
+if(current === steps.length - 1){
+
+remplirResume();
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function validerEtape(){
+
+
+let champs =
+steps[current].querySelectorAll(
+"input,select,textarea"
+);
+
+
+
+
+for(let champ of champs){
+
+
+
+if(champ.hasAttribute("required")){
+
+
+
+
+
+if(champ.type === "radio"){
+
+
+
+let radios =
+steps[current].querySelectorAll(
+`input[name="${champ.name}"]`
+);
+
+
+
+let checked = false;
+
+
+
+radios.forEach(radio=>{
+
+
+if(radio.checked){
+
+checked = true;
+
+}
+
+});
+
+
+
+if(!checked){
+
+alert(
+"Veuillez sélectionner une option."
+);
+
+return false;
+
+}
+
+
+}
+
+
+
+
+
+else{
+
+
+if(champ.value.trim() === ""){
+
+
+champ.focus();
+
+
+alert(
+"Veuillez remplir ce champ."
+);
+
+
+return false;
+
+
+}
+
+
+
+}
+
+
+
+
+}
+
+
+
+}
+
+
+
+return true;
+
+
+}
+
+
+
+
+
+
+
+
+
+nextBtn.onclick = ()=>{
+
+
+if(!validerEtape()){
+
+return;
+
+}
+
+
+
+if(current < steps.length - 1){
+
+
+current++;
+
+
+displayStep();
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+
+
+prevBtn.onclick = ()=>{
+
+
+if(current > 0){
+
+
+current--;
+
+
+displayStep();
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+
+
+function valeur(name){
+
+
+let champ =
+document.querySelector(
+`[name="${name}"]`
+);
+
+
+
+return champ ? champ.value : "";
+
+
+
+}
+
+
+
+
+
+
+
+
+function remplirResume(){
+
+
+
+document.getElementById(
+"resumeResponsable"
+).innerHTML =
+
+valeur("prenom")
++" "
++valeur("nom");
+
+
+
+
+
+
+document.getElementById(
+"resumeTelephone"
+).innerHTML =
+
+"+225 "
++valeur("telephone");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeEmail"
+).innerHTML =
+
+valeur("email");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeAssociation"
+).innerHTML =
+
+valeur("association");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeObjet"
+).innerHTML =
+
+valeur("objet_association");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeDomaine"
+).innerHTML =
+
+valeur("domaine");
+
+
+
+
+
+
+
+document.getElementById(
+"resumePresident"
+).innerHTML =
+
+valeur("president");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeMembres"
+).innerHTML =
+
+valeur("membres_fondateurs");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeBureau"
+).innerHTML =
+
+valeur("bureau");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeVille"
+).innerHTML =
+
+valeur("ville");
+
+
+
+
+
+
+
+document.getElementById(
+"resumeSiege"
+).innerHTML =
+
+valeur("siege_social");
+
+
+
+}
+
+
+
+
+
+
+
+displayStep();
+
+
+
+</script>
+
+
+
+{% endblock %}

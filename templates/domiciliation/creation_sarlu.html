@@ -1,0 +1,1852 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création SARLU Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+
+
+<!-- ==========================
+     PRESENTATION SARLU
+========================== -->
+
+
+<div class="space-y-6">
+
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+🏢
+
+</div>
+
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une SARLU
+
+</h1>
+
+
+<p class="text-gray-500">
+
+Société à Responsabilité Limitée Unipersonnelle
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+La SARLU (Société à Responsabilité Limitée Unipersonnelle)
+est une société composée d'un seul associé.
+
+
+Elle permet à un entrepreneur de créer une société
+avec une personnalité juridique propre tout en protégeant
+son patrimoine personnel.
+
+
+Elle est particulièrement adaptée aux entrepreneurs
+qui souhaitent exercer seuls avec une structure professionnelle
+reconnue.
+
+
+EliteBuro vous accompagne dans toutes les démarches :
+constitution du dossier, rédaction des documents,
+immatriculation et obtention des documents officiels.
+
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- AVANTAGES -->
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi choisir une SARLU ?
+
+</h3>
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Un seul associé.
+</li>
+
+
+<li>
+✔ Protection du patrimoine personnel.
+</li>
+
+
+<li>
+✔ Image professionnelle auprès des partenaires.
+</li>
+
+
+<li>
+✔ Gestion simplifiée.
+</li>
+
+
+<li>
+✔ Facilité d'évolution vers une SARL.
+</li>
+
+
+<li>
+✔ Accompagnement EliteBuro complet.
+</li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DOCUMENTS -->
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+📌 Certificat d'immatriculation IDU
+</li>
+
+
+<li>
+📌 RCCM
+</li>
+
+
+<li>
+📌 Déclaration Fiscale d'Existence
+</li>
+
+
+<li>
+📌 Numéro compte contribuable
+</li>
+
+
+<li>
+📌 Statuts SARLU
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+     FORMULAIRE SARLU
+========================== -->
+
+
+<div>
+
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création SARLU Côte d'Ivoire
+
+</h2>
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre société
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+<div class="mb-10">
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression
+(<span id="stepNumber">1</span>/10)
+
+</span>
+
+
+
+<span>
+
+EliteBuro
+
+</span>
+
+
+
+</div>
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full transition-all"
+style="width:10%">
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_sarlu' %}"
+id="sarluForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 1
+======================= -->
+
+
+<div class="step">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Informations de l'associé unique
+
+</h2>
+
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+</div>
+<!-- ======================
+     ETAPE 2 : EMAIL
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Votre adresse email
+
+</h2>
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Vos identifiants EliteBuro seront envoyés à cette adresse.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 3 : INFORMATIONS SARLU
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Informations de votre SARLU
+
+</h2>
+
+
+
+
+<input type="text"
+name="entreprise"
+required
+placeholder="Nom souhaité de la SARLU"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="activite"
+required
+placeholder="Activité principale de votre société"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 4 : ACTIVITE DETAIL
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Description de votre activité
+
+</h2>
+
+
+
+
+<textarea
+name="description_activite"
+rows="5"
+required
+placeholder="Décrivez brièvement votre activité..."
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 5 : CAPITAL SOCIAL
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Capital social de la SARLU
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-5">
+
+Indiquez le montant du capital social prévu pour votre société.
+
+</p>
+
+
+
+
+
+<div class="flex gap-3">
+
+
+
+<input type="number"
+name="capital_social"
+required
+placeholder="Exemple : 1000000"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
+FCFA
+
+</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 6 : SIEGE SOCIAL
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Adresse du siège social
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="5"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+<div class="mt-5 bg-blue-50 border border-blue-200 rounded-xl p-5">
+
+
+<p class="text-sm text-blue-700">
+
+📌 Cette adresse sera utilisée comme siège officiel de votre SARLU.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+<!-- ======================
+     ETAPE 7 : GERANT
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Informations du gérant
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-5">
+
+Indiquez la personne qui dirigera la SARLU.
+
+</p>
+
+
+
+
+
+<input type="text"
+name="gerant"
+required
+placeholder="Nom complet du gérant"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+
+<select
+name="qualite_gerant"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+<option value="">
+Qualité du gérant
+</option>
+
+
+<option value="associe_unique">
+Associé unique
+</option>
+
+
+<option value="tiers">
+Personne désignée
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 8 : SERVICES
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Services complémentaires
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-6">
+
+Choisissez les services dont vous souhaitez bénéficier.
+
+</p>
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="statuts"
+value="oui">
+
+
+<span>
+
+📄 Rédaction des statuts SARLU
+
+</span>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="domiciliation"
+value="oui">
+
+
+<span>
+
+🏢 Domiciliation professionnelle
+
+</span>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="flex items-center gap-3 border rounded-xl p-5 mt-4 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<input type="checkbox"
+name="accompagnement"
+value="oui">
+
+
+<span>
+
+🤝 Accompagnement administratif complet
+
+</span>
+
+
+</label>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 9 : RESUME
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Vérification de votre demande SARLU
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Vérifiez vos informations avant validation.
+
+</p>
+
+
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé création SARLU
+
+</h3>
+
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Associé unique
+</span>
+
+<span id="resumeNomComplet">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Nom SARLU
+</span>
+
+<span id="resumeEntreprise">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Activité
+</span>
+
+<span id="resumeActivite">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Capital social
+</span>
+
+<span id="resumeCapital">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Gérant
+</span>
+
+<span id="resumeGerant">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-3">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille">
+
+</span>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege">
+
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     ETAPE 10 : PAIEMENT
+======================= -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Sélectionnez la méthode de règlement de votre création SARLU.
+
+</p>
+
+
+
+
+
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required>
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Paiement maintenant
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Réglez immédiatement pour lancer votre dossier.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition mb-5">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+required>
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Paiement plus tard
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Payez depuis votre espace client EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000] transition">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+required>
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement dans nos bureaux
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Effectuez votre paiement directement chez EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     BOUTONS
+======================= -->
+
+
+<div class="flex justify-between mt-10">
+
+
+<button
+type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+← Retour
+
+</button>
+
+
+
+
+
+<button
+type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#6B7280] text-[#FF8000] font-bold">
+
+Suivant →
+
+</button>
+
+
+
+
+
+<button
+type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Valider ma demande SARLU
+
+</button>
+
+
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+{% endblock %}
+{% block extra_js %}
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn = document.getElementById("next");
+
+const prevBtn = document.getElementById("previous");
+
+const submitBtn = document.getElementById("submit");
+
+
+const progress = document.getElementById("progress");
+
+const stepNumber = document.getElementById("stepNumber");
+
+
+
+
+
+
+
+/*
+===========================
+AFFICHAGE DES ETAPES
+===========================
+*/
+
+
+function displayStep(){
+
+
+    steps.forEach((step,index)=>{
+
+
+        step.classList.toggle(
+            "hidden",
+            index !== current
+        );
+
+
+    });
+
+
+
+
+
+    stepNumber.innerHTML =
+        current + 1;
+
+
+
+
+
+    let pourcentage =
+        ((current + 1) / steps.length) * 100;
+
+
+
+
+    progress.style.width =
+        pourcentage + "%";
+
+
+
+
+
+
+    prevBtn.classList.toggle(
+        "hidden",
+        current === 0
+    );
+
+
+
+
+
+
+    nextBtn.classList.toggle(
+        "hidden",
+        current === steps.length - 1
+    );
+
+
+
+
+
+
+    submitBtn.classList.toggle(
+        "hidden",
+        current !== steps.length - 1
+    );
+
+
+
+
+
+
+
+    if(current === steps.length - 2){
+
+        remplirResume();
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+===========================
+VALIDATION DES CHAMPS
+===========================
+*/
+
+
+function validerEtape(){
+
+
+
+    const champs =
+        steps[current].querySelectorAll(
+            "input,select,textarea"
+        );
+
+
+
+
+
+    for(let champ of champs){
+
+
+
+        if(champ.hasAttribute("required")){
+
+
+
+
+
+            if(champ.type === "radio"){
+
+
+
+                const radios =
+                    steps[current].querySelectorAll(
+                        `input[name="${champ.name}"]`
+                    );
+
+
+
+                let selection = false;
+
+
+
+                radios.forEach(radio=>{
+
+
+                    if(radio.checked){
+
+                        selection = true;
+
+                    }
+
+
+                });
+
+
+
+
+
+                if(!selection){
+
+
+                    alert(
+                    "Veuillez sélectionner une option."
+                    );
+
+
+                    return false;
+
+
+                }
+
+
+
+
+
+            }
+
+            else {
+
+
+
+                if(champ.value.trim() === ""){
+
+
+                    champ.focus();
+
+
+
+                    alert(
+                    "Veuillez remplir ce champ obligatoire."
+                    );
+
+
+
+                    return false;
+
+
+                }
+
+
+
+            }
+
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+    return true;
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+===========================
+SUIVANT
+===========================
+*/
+
+
+nextBtn.addEventListener(
+"click",
+()=>{
+
+
+    if(!validerEtape()){
+
+        return;
+
+    }
+
+
+
+
+
+    if(current < steps.length - 1){
+
+
+        current++;
+
+
+        displayStep();
+
+
+    }
+
+
+
+});
+
+
+
+
+
+
+
+
+
+/*
+===========================
+RETOUR
+===========================
+*/
+
+
+prevBtn.addEventListener(
+"click",
+()=>{
+
+
+    if(current > 0){
+
+
+        current--;
+
+
+        displayStep();
+
+
+    }
+
+
+
+});
+
+
+
+
+
+
+
+
+
+/*
+===========================
+RECUPERATION VALEUR
+===========================
+*/
+
+
+function valeurChamp(name){
+
+
+    let champ =
+        document.querySelector(
+            `[name="${name}"]`
+        );
+
+
+
+    return champ ? champ.value : "";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+===========================
+REMPLISSAGE RESUME SARLU
+===========================
+*/
+
+
+function remplirResume(){
+
+
+
+    document.getElementById(
+        "resumeNomComplet"
+    ).innerHTML =
+
+
+        valeurChamp("prenom")
+        +
+        " "
+        +
+        valeurChamp("nom");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeTelephone"
+    ).innerHTML =
+
+
+        "+225 "
+        +
+        valeurChamp("telephone");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeEmail"
+    ).innerHTML =
+
+
+        valeurChamp("email");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeEntreprise"
+    ).innerHTML =
+
+
+        valeurChamp("entreprise");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeActivite"
+    ).innerHTML =
+
+
+        valeurChamp("activite");
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeCapital"
+    ).innerHTML =
+
+
+        valeurChamp("capital_social")
+        +
+        " FCFA";
+
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeGerant"
+    ).innerHTML =
+
+
+        valeurChamp("gerant");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeVille"
+    ).innerHTML =
+
+
+        valeurChamp("ville");
+
+
+
+
+
+
+
+    document.getElementById(
+        "resumeSiege"
+    ).innerHTML =
+
+
+        valeurChamp("siege_social");
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+===========================
+INITIALISATION
+===========================
+*/
+
+
+displayStep();
+
+
+
+</script>
+
+
+{% endblock %}

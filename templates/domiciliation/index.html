@@ -39,7 +39,7 @@
                         DOMICILIER MON ENTREPRISE
                     </a>
 
-                    <a href="{% url 'domiciliation:domiciliation_individuelle' %}"
+                    <a href="{% url 'domiciliation:creation_entreprise' %}"
                     class="bg-[#6B7280] text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
                         CREER ET DOMICILIER MON ENTREPRISE
                     </a>
@@ -100,7 +100,7 @@
             </div>
 
             <div class="rounded-2xl overflow-hidden shadow-xl">
-                <img src="/media/domiciliation.png"
+                <img src="/media/domi.png"
                      alt="Domiciliation EliteBuro"
                      class="w-full h-[450px] object-cover">
             </div>
@@ -301,7 +301,7 @@
 
                     <!-- Bouton -->
 
-                    <a href="{% url 'domiciliation:plans' %}"
+                    <a href="{% url 'domiciliation:domiciliation_from' %}?plan={{ plan.id }}"
 
                     class="mt-10 flex justify-center items-center gap-3 py-5 rounded-2xl bg-[#FF8000] text-white font-bold text-lg hover:bg-[#6B7280] hover:text-white transition-all duration-300">
 

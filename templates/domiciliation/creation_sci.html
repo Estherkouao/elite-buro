@@ -1,0 +1,1860 @@
+{% extends "layouts/base_public.html" %}
+{% load static %}
+
+
+{% block title %}
+Création SCI Côte d'Ivoire | EliteBuro
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
+
+
+<a href="javascript:history.back()"
+class="ml-6 lg:ml-20 inline-flex items-center gap-2 bg-gray-200 px-6 py-3 rounded-xl font-bold text-[#FF8000]">
+
+← Retour
+
+</a>
+
+
+
+
+
+<div class="max-w-7xl mx-auto px-6 mt-10">
+
+
+
+<div class="grid lg:grid-cols-[500px_minmax(700px,1fr)] gap-16 items-start">
+
+
+
+
+
+<!-- ==========================
+COLONNE GAUCHE
+=========================== -->
+
+
+<div class="space-y-6">
+
+
+
+
+
+<div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+
+
+
+<div class="flex items-center gap-4 mb-6">
+
+
+<div class="w-14 h-14 rounded-full bg-[#FF8000] text-white flex items-center justify-center text-3xl">
+
+🏠
+
+</div>
+
+
+
+<div>
+
+
+<h1 class="text-3xl font-bold text-[#FF8000]">
+
+Créer une SCI
+
+</h1>
+
+
+
+<p class="text-gray-500">
+
+Société Civile Immobilière
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<p class="text-gray-700 leading-8">
+
+
+La SCI (Société Civile Immobilière) est une structure
+juridique permettant à plusieurs personnes de gérer,
+acheter ou administrer un patrimoine immobilier.
+
+
+Elle est particulièrement utilisée pour les projets
+familiaux, l'investissement immobilier et la gestion
+collective de biens.
+
+
+
+EliteBuro vous accompagne dans la création de votre SCI
+en Côte d'Ivoire, depuis la constitution du dossier
+jusqu'à l'obtention des documents nécessaires.
+
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="bg-green-50 border border-green-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-green-700 mb-5">
+
+✅ Pourquoi créer une SCI ?
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+✔ Organisation du patrimoine immobilier.
+</li>
+
+
+<li>
+✔ Gestion simplifiée entre associés.
+</li>
+
+
+<li>
+✔ Préparation de transmission familiale.
+</li>
+
+
+<li>
+✔ Protection et séparation des biens.
+</li>
+
+
+<li>
+✔ Cadre professionnel reconnu.
+</li>
+
+
+<li>
+✔ Accompagnement EliteBuro.
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+
+
+<h3 class="text-2xl font-bold text-blue-700 mb-5">
+
+📄 Documents obtenus
+
+</h3>
+
+
+
+
+<ul class="space-y-3 text-gray-700">
+
+
+<li>
+📌 Statuts de la SCI
+</li>
+
+
+<li>
+📌 RCCM
+</li>
+
+
+<li>
+📌 Certificat d'immatriculation IDU
+</li>
+
+
+<li>
+📌 Déclaration fiscale
+</li>
+
+
+<li>
+📌 Procès-verbal de constitution
+</li>
+
+
+<li>
+📌 Accès espace client EliteBuro
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+FORMULAIRE SCI
+=========================== -->
+
+
+
+<div>
+
+
+
+<div class="bg-white rounded-3xl shadow-2xl p-10">
+
+
+
+
+
+<div class="text-center mb-10">
+
+
+<h2 class="text-4xl font-black text-[#FF8000]">
+
+Création SCI Côte d'Ivoire
+
+</h2>
+
+
+<p class="text-gray-500 mt-3">
+
+Remplissez les informations de votre société civile immobilière
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<!-- PROGRESSION -->
+
+
+<div class="mb-10">
+
+
+<div class="flex justify-between text-sm font-bold text-[#FF8000]">
+
+
+<span>
+
+Progression 
+(<span id="stepNumber">1</span>/11)
+
+</span>
+
+
+<span>
+
+EliteBuro
+
+</span>
+
+
+</div>
+
+
+
+
+<div class="w-full bg-gray-200 rounded-full h-3 mt-3">
+
+
+<div id="progress"
+class="bg-green-500 h-3 rounded-full"
+style="width:9%">
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<form method="POST"
+action="{% url 'domiciliation:creation_sci' %}"
+id="sciForm">
+
+
+{% csrf_token %}
+
+
+
+
+
+
+
+<!-- ETAPE 1 -->
+
+
+<div class="step">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+1. Responsable de la SCI
+
+</h2>
+
+
+
+
+<input type="text"
+name="prenom"
+required
+placeholder="Prénom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<input type="text"
+name="nom"
+required
+placeholder="Nom"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
++225
+
+</span>
+
+
+
+<input type="tel"
+name="telephone"
+required
+placeholder="07 00 00 00 00"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ETAPE 2 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+2. Adresse email
+
+</h2>
+
+
+
+
+<input type="email"
+name="email"
+required
+placeholder="exemple@email.com"
+class="w-full border rounded-xl px-5 py-4">
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Vos identifiants EliteBuro seront envoyés par email.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 3 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+3. Informations de la SCI
+
+</h2>
+
+
+
+
+<input type="text"
+name="entreprise"
+required
+placeholder="Nom de votre SCI"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 4 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+4. Objet de la SCI
+
+</h2>
+
+
+
+
+
+<textarea
+name="objet_sci"
+required
+rows="5"
+placeholder="
+Exemple :
+
+Acquisition, gestion et location de biens immobiliers
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ETAPE 5 -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+5. Type de SCI
+
+</h2>
+
+
+
+
+
+
+<select
+name="type_sci"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<option value="">
+
+Choisissez le type de SCI
+
+</option>
+
+
+
+<option value="Familiale">
+
+SCI Familiale
+
+</option>
+
+
+
+<option value="Investissement">
+
+SCI d'investissement immobilier
+
+</option>
+
+
+
+<option value="Gestion">
+
+SCI de gestion immobilière
+
+</option>
+
+
+
+<option value="Autre">
+
+Autre
+
+</option>
+
+
+
+</select>
+
+
+
+
+</div>
+<!-- ==========================
+ETAPE 6 : ASSOCIES
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+6. Nombre d'associés de la SCI
+
+</h2>
+
+
+
+
+<select
+name="nombre_associes"
+required
+class="w-full border rounded-xl px-5 py-4">
+
+
+<option value="">
+Sélectionnez le nombre d'associés
+</option>
+
+
+<option value="2">
+2 associés
+</option>
+
+
+<option value="3">
+3 associés
+</option>
+
+
+<option value="4">
+4 associés
+</option>
+
+
+<option value="plus">
+Plus de 4 associés
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 7 : INFORMATIONS ASSOCIES
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+7. Informations sur les associés
+
+</h2>
+
+
+
+
+
+<textarea
+name="associes"
+required
+rows="6"
+placeholder="
+Exemple :
+
+1- Jean Kouassi - Associé
+Parts : 50%
+
+2- Awa Traoré - Associée
+Parts : 50%
+
+"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+<p class="text-sm text-gray-400 mt-3">
+
+Indiquez le nom des associés ainsi que leur répartition.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 8 : CAPITAL SOCIAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+8. Capital social de la SCI
+
+</h2>
+
+
+
+
+
+
+<div class="flex gap-3">
+
+
+<input type="number"
+name="capital_social"
+required
+placeholder="Exemple : 1000000"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+<span class="bg-gray-100 px-5 py-4 rounded-xl font-bold">
+
+FCFA
+
+</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 9 : GERANT
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+9. Gérant de la SCI
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="gerant"
+required
+placeholder="Nom complet du gérant"
+class="w-full border rounded-xl px-5 py-4">
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 10 : SIEGE SOCIAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+10. Adresse du siège social
+
+</h2>
+
+
+
+
+
+<input type="text"
+name="ville"
+required
+placeholder="Ville (Ex : Abidjan)"
+class="w-full border rounded-xl px-5 py-4 mb-4">
+
+
+
+
+
+<textarea
+name="siege_social"
+required
+rows="5"
+placeholder="Adresse complète du siège social"
+class="w-full border rounded-xl px-5 py-4"></textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+ETAPE 11 : MODE PAIEMENT
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+11. Choisissez votre mode de paiement
+
+</h2>
+
+
+
+
+
+<p class="text-gray-600 mb-8">
+
+Sélectionnez la méthode qui vous convient pour votre création SCI.
+
+</p>
+
+
+
+
+
+
+
+
+<!-- PAIEMENT EN LIGNE -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_en_ligne"
+required
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+💳 Payer maintenant en ligne
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Votre dossier sera lancé immédiatement après paiement.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT PLUS TARD -->
+
+
+<label class="block border rounded-2xl p-6 mb-5 cursor-pointer hover:border-[#FF8000]">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_plus_tard"
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+⏳ Payer plus tard
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Vous pourrez payer depuis votre espace client EliteBuro.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+
+
+<!-- PAIEMENT BUREAU -->
+
+
+<label class="block border rounded-2xl p-6 cursor-pointer hover:border-[#FF8000]">
+
+
+<div class="flex gap-4">
+
+
+<input type="radio"
+name="mode_paiement"
+value="paiement_bureau"
+class="mt-2">
+
+
+
+<div>
+
+
+<h3 class="text-xl font-bold">
+
+🏢 Paiement en agence
+
+</h3>
+
+
+<p class="text-gray-600 mt-2">
+
+Rendez-vous dans nos bureaux pour effectuer votre règlement.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</label>
+
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<p class="text-gray-700 text-sm">
+
+🔐 Après validation, votre compte client sera créé automatiquement et vous pourrez suivre votre dossier SCI.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+<!-- ==========================
+ETAPE 12 : RESUME FINAL
+=========================== -->
+
+
+<div class="step hidden">
+
+
+<h2 class="text-2xl font-bold text-[#FF8000] mb-6">
+
+12. Vérification de votre demande SCI
+
+</h2>
+
+
+
+
+<p class="text-gray-500 mb-8">
+
+Vérifiez toutes les informations avant de valider votre création SCI.
+
+</p>
+
+
+
+
+
+
+<div class="bg-gray-50 border rounded-2xl p-6">
+
+
+
+<h3 class="text-xl font-bold text-[#FF8000] mb-6">
+
+📋 Résumé de votre SCI
+
+</h3>
+
+
+
+
+
+<div class="space-y-4 text-gray-700">
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Responsable
+</span>
+
+<span id="resumeResponsable"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Téléphone
+</span>
+
+<span id="resumeTelephone"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Email
+</span>
+
+<span id="resumeEmail"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Nom SCI
+</span>
+
+<span id="resumeEntreprise"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Objet SCI
+</span>
+
+<span id="resumeObjet"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Type SCI
+</span>
+
+<span id="resumeType"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Associés
+</span>
+
+<span id="resumeAssocies"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Informations associés
+</span>
+
+<span id="resumeListeAssocies"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Capital social
+</span>
+
+<span id="resumeCapital"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Gérant
+</span>
+
+<span id="resumeGerant"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between border-b pb-2">
+
+<span class="font-semibold">
+Ville
+</span>
+
+<span id="resumeVille"></span>
+
+</div>
+
+
+
+
+
+
+<div class="flex justify-between">
+
+<span class="font-semibold">
+Siège social
+</span>
+
+<span id="resumeSiege"></span>
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="mt-8 bg-orange-50 border border-orange-200 rounded-xl p-5">
+
+
+<h3 class="font-bold text-[#FF8000]">
+
+💳 Paiement
+
+</h3>
+
+
+<p class="text-gray-600">
+
+Vous pourrez régler maintenant ou choisir un paiement différé depuis votre espace client.
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+BOUTONS
+=========================== -->
+
+
+<div class="flex justify-between mt-10">
+
+
+<button
+type="button"
+id="previous"
+class="hidden px-8 py-3 rounded-xl bg-gray-200 font-bold">
+
+Retour
+
+</button>
+
+
+
+
+<button
+type="button"
+id="next"
+class="px-8 py-3 rounded-xl bg-[#FF8000] text-white font-bold">
+
+Suivant
+
+</button>
+
+
+
+
+<button
+type="submit"
+id="submit"
+class="hidden px-8 py-3 rounded-xl bg-green-600 text-white font-bold">
+
+Valider ma demande SCI
+
+</button>
+
+
+</div>
+
+
+
+</form>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block extra_js %}
+
+
+<script>
+
+
+let current = 0;
+
+
+const steps = document.querySelectorAll(".step");
+
+
+const nextBtn =
+document.getElementById("next");
+
+
+const prevBtn =
+document.getElementById("previous");
+
+
+const submitBtn =
+document.getElementById("submit");
+
+
+const progress =
+document.getElementById("progress");
+
+
+const number =
+document.getElementById("stepNumber");
+
+
+
+
+
+
+
+function displayStep(){
+
+
+
+steps.forEach((step,index)=>{
+
+
+step.classList.toggle(
+"hidden",
+index !== current
+);
+
+
+});
+
+
+
+
+
+number.innerHTML =
+current + 1;
+
+
+
+
+
+let pourcentage =
+((current + 1) / steps.length) * 100;
+
+
+
+progress.style.width =
+pourcentage + "%";
+
+
+
+
+
+
+
+prevBtn.classList.toggle(
+"hidden",
+current === 0
+);
+
+
+
+
+
+
+nextBtn.classList.toggle(
+"hidden",
+current === steps.length - 1
+);
+
+
+
+
+
+
+submitBtn.classList.toggle(
+"hidden",
+current !== steps.length - 1
+);
+
+
+
+
+
+
+
+if(current === steps.length - 1){
+
+remplirResume();
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function validerEtape(){
+
+
+const champs =
+steps[current].querySelectorAll(
+"input,select,textarea"
+);
+
+
+
+
+
+for(let champ of champs){
+
+
+
+if(champ.required){
+
+
+
+
+
+if(champ.type === "radio"){
+
+
+let radios =
+steps[current].querySelectorAll(
+`input[name="${champ.name}"]`
+);
+
+
+
+let choisi=false;
+
+
+
+radios.forEach(r=>{
+
+
+if(r.checked){
+
+choisi=true;
+
+}
+
+});
+
+
+
+
+
+if(!choisi){
+
+alert(
+"Veuillez sélectionner une option."
+);
+
+return false;
+
+}
+
+
+
+}
+
+
+
+
+
+else if(
+champ.value.trim()===""
+){
+
+
+champ.focus();
+
+alert(
+"Veuillez remplir ce champ."
+);
+
+return false;
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+return true;
+
+
+}
+
+
+
+
+
+
+
+
+
+nextBtn.onclick = ()=>{
+
+
+if(!validerEtape()) return;
+
+
+
+if(current < steps.length-1){
+
+
+current++;
+
+displayStep();
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+prevBtn.onclick = ()=>{
+
+
+if(current>0){
+
+
+current--;
+
+displayStep();
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+function valeur(name){
+
+
+let champ =
+document.querySelector(
+`[name="${name}"]`
+);
+
+
+
+return champ ? champ.value : "";
+
+
+}
+
+
+
+
+
+
+
+
+function radioValeur(name){
+
+
+let radio =
+document.querySelector(
+`input[name="${name}"]:checked`
+);
+
+
+
+return radio ? radio.value : "";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function remplirResume(){
+
+
+
+document.getElementById(
+"resumeResponsable"
+).innerHTML =
+
+valeur("prenom")
++" "
++valeur("nom");
+
+
+
+
+
+
+document.getElementById(
+"resumeTelephone"
+).innerHTML =
+
+"+225 "
++valeur("telephone");
+
+
+
+
+
+
+document.getElementById(
+"resumeEmail"
+).innerHTML =
+
+valeur("email");
+
+
+
+
+
+
+document.getElementById(
+"resumeEntreprise"
+).innerHTML =
+
+valeur("entreprise");
+
+
+
+
+
+
+document.getElementById(
+"resumeObjet"
+).innerHTML =
+
+valeur("objet_sci");
+
+
+
+
+
+
+document.getElementById(
+"resumeType"
+).innerHTML =
+
+valeur("type_sci");
+
+
+
+
+
+
+document.getElementById(
+"resumeAssocies"
+).innerHTML =
+
+valeur("nombre_associes");
+
+
+
+
+
+
+document.getElementById(
+"resumeListeAssocies"
+).innerHTML =
+
+valeur("associes");
+
+
+
+
+
+
+document.getElementById(
+"resumeCapital"
+).innerHTML =
+
+valeur("capital_social")
++" FCFA";
+
+
+
+
+
+
+document.getElementById(
+"resumeGerant"
+).innerHTML =
+
+valeur("gerant");
+
+
+
+
+
+
+document.getElementById(
+"resumeVille"
+).innerHTML =
+
+valeur("ville");
+
+
+
+
+
+
+document.getElementById(
+"resumeSiege"
+).innerHTML =
+
+valeur("siege_social");
+
+
+
+}
+
+
+
+
+
+
+
+
+displayStep();
+
+
+
+</script>
+
+
+{% endblock %}

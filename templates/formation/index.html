@@ -9,37 +9,11 @@
 <section class="relative overflow-hidden text-white">
   
 
-    <!-- Image de fond -->
-    <div class="absolute inset-0">
-        <img src="/media/formations.jpg"
-             class="w-full h-full object-cover"
-             alt="Formations EliteBuro">
-    </div>
-
-    <!-- Dégradé transparent -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent"></div>
-
-    <div class="relative max-w-7xl mx-auto px-6 py-16 lg:py-20">
-
-        <span class="inline-flex items-center rounded-full bg-[#6B7280] px-4 py-2 text-sm font-semibold text-[#FF8000]">
-            🎓 Centre de Formation
-        </span>
-
-        <h1 class="mt-5 text-4xl lg:text-5xl font-black leading-tight max-w-3xl text-white">
-            Nos formations professionnelles
-        </h1>
-
-        <p class="mt-5 max-w-2xl text-lg leading-8 text-gray-100">
-            Développez vos compétences grâce à des formations pratiques,
-            certifiantes et animées par des experts.
-        </p>
-
-    </div>
 
 </section>
 
 <!-- FORMATIONS -->
-<section class="bg-slate-100 py-20">
+<section class="min-h-screen bg-gray-100 pt-32 pb-20">
   <a href="javascript:history.back()"
    class="inline-flex items-center gap-2 rounded-xl bg-gray-200 px-6 py-3 font-bold text-[#FF8000] hover:bg-gray-300 transition">
 
@@ -125,7 +99,7 @@
                 aux besoins de votre entreprise et de vos collaborateurs.
             </p>
 
-            <a href=""
+            <a href="{% url 'formation:devis_formation_create' %}"
                class="mt-8 inline-flex items-center rounded-xl bg-[#6B7280] px-8 py-3 font-semibold text-[#FF8000] transition duration-300 hover:scale-105 hover:shadow-lg">
 
                 Demander une formation sur mesure
