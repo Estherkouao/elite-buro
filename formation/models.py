@@ -519,7 +519,7 @@ class FormationReview(TimeStampedModel):
         verbose_name_plural = "Avis"
         constraints = [
             models.CheckConstraint(
-                condition=Q(note__gte=1, note__lte=5),
+                check=Q(note__gte=1, note__lte=5),
                 name="formation_review_note_range",
             ),
         ]
