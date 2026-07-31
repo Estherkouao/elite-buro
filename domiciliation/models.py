@@ -74,6 +74,7 @@ class DomiciliationRequest(models.Model):
 
     class TypeDemande(models.TextChoices):
 
+        DOMICILIATION = "DOMICILIATION", "Domiciliation simple"
         ENTREPRISE_INDIVIDUELLE = "EI", "Entreprise Individuelle"
         SARL = "SARL", "SARL"
         SARLU = "SARLU", "SARLU"
@@ -91,8 +92,8 @@ class DomiciliationRequest(models.Model):
     type_demande = models.CharField(
         max_length=50,
         choices=TypeDemande.choices,
-        default=TypeDemande.ENTREPRISE_INDIVIDUELLE
-    )    
+        default=TypeDemande.DOMICILIATION
+    )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
