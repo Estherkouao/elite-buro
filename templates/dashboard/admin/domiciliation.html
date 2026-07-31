@@ -148,21 +148,77 @@
                     </td>
                     <td>
 
-                            {% if req.type_domiciliation == "INDIVIDUELLE" %}
+                            {% if req.type_demande == "EI" %}
 
-                                <span class="status-badge">
-                                    Entreprise individuelle
+                                <span class="status-badge" style="background:#f3f4f6;color:#374151;">
+                                    Entreprise Individuelle
                                 </span>
 
-                            {% elif req.type_domiciliation == "DOMICILIATION" %}
+                            {% elif req.type_demande == "SARL" %}
 
-                                <span class="status-badge confirmed">
-                                    Domiciliation
+                                <span class="status-badge" style="background:#dbeafe;color:#1e40af;">
+                                    SARL
+                                </span>
+
+                            {% elif req.type_demande == "SARLU" %}
+
+                                <span class="status-badge" style="background:#e0e7ff;color:#3730a3;">
+                                    SARLU
+                                </span>
+
+                            {% elif req.type_demande == "SAS" %}
+
+                                <span class="status-badge" style="background:#f3e8ff;color:#6b21a8;">
+                                    SAS
+                                </span>
+
+                            {% elif req.type_demande == "SASU" %}
+
+                                <span class="status-badge" style="background:#fce7f3;color:#9d174d;">
+                                    SASU
+                                </span>
+
+                            {% elif req.type_demande == "ONG" %}
+
+                                <span class="status-badge" style="background:#d1fae5;color:#065f46;">
+                                    ONG
+                                </span>
+
+                            {% elif req.type_demande == "STARTUP" %}
+
+                                <span class="status-badge" style="background:#fef3c7;color:#92400e;">
+                                    Startup
+                                </span>
+
+                            {% elif req.type_demande == "SCI" %}
+
+                                <span class="status-badge" style="background:#e0f2fe;color:#075985;">
+                                    SCI
+                                </span>
+
+                            {% elif req.type_demande == "ASSOCIATION" %}
+
+                                <span class="status-badge" style="background:#ede9fe;color:#5b21b6;">
+                                    Association
+                                </span>
+
+                            {% elif req.type_demande == "FONDATION" %}
+
+                                <span class="status-badge" style="background:#fce7f3;color:#831843;">
+                                    Fondation
+                                </span>
+
+                            {% elif req.type_demande == "SCOOP" %}
+
+                                <span class="status-badge" style="background:#fef9c3;color:#713f12;">
+                                    SCOOP
                                 </span>
 
                             {% else %}
 
-                                Non défini
+                                <span class="status-badge" style="background:#f3f4f6;color:#6b7280;">
+                                    Non défini
+                                </span>
 
                             {% endif %}
 

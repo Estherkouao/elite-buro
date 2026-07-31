@@ -424,15 +424,31 @@ class AdminDomiciliationView(AdminBaseView):
 
 # --- Back-office Demandes (CRUD) ---
 class AdminDomiciliationRequestsListView(AdminBaseView):
+
     template_name = "dashboard/admin/domiciliation_requests.html"
 
+
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
-        context["requests"] = DomiciliationRequest.objects.select_related(
-            "entreprise",
-            "utilisateur",
-            "formule",
-        ).order_by("-date_creation")
+
+
+        context["requests"] = (
+            DomiciliationRequest.objects
+            .select_related(
+                "entreprise",
+                "utilisateur",
+                "formule",
+            )
+            .order_by("-date_creation")
+        )
+
+
+        context["types"] = (
+            DomiciliationRequest.TypeDemande.choices
+        )
+
+
         return context
 
 

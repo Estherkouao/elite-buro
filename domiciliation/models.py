@@ -72,6 +72,28 @@ class DomiciliationRequest(models.Model):
         ]
         ordering = ["-date_creation"]
 
+    class TypeDemande(models.TextChoices):
+
+        ENTREPRISE_INDIVIDUELLE = "EI", "Entreprise Individuelle"
+        SARL = "SARL", "SARL"
+        SARLU = "SARLU", "SARLU"
+        SAS = "SAS", "SAS"
+        SASU = "SASU", "SASU"
+        ONG = "ONG", "ONG"
+        STARTUP = "STARTUP", "Startup"
+        SCI = "SCI", "SCI"
+        ASSOCIATION = "ASSOCIATION", "Association"
+        FONDATION = "FONDATION", "Fondation"
+        SCOOP = "SCOOP", "SCOOP"
+
+
+
+    type_demande = models.CharField(
+        max_length=50,
+        choices=TypeDemande.choices,
+        default=TypeDemande.ENTREPRISE_INDIVIDUELLE
+    )    
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # Relations

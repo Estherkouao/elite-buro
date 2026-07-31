@@ -566,6 +566,8 @@ def creation_sarl(request: HttpRequest) -> HttpResponse:
             ""
         ).strip()
 
+        
+
 
         activite = request.POST.get(
             "activite",

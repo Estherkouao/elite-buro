@@ -373,6 +373,42 @@ class="btn-back">
 
 <div class="info-box">
 
+<strong>Type de demande</strong>
+
+<span>
+{% if demande.type_demande == "EI" %}
+    Entreprise Individuelle
+{% elif demande.type_demande == "SARL" %}
+    SARL
+{% elif demande.type_demande == "SARLU" %}
+    SARLU
+{% elif demande.type_demande == "SAS" %}
+    SAS
+{% elif demande.type_demande == "SASU" %}
+    SASU
+{% elif demande.type_demande == "ONG" %}
+    ONG
+{% elif demande.type_demande == "STARTUP" %}
+    Startup
+{% elif demande.type_demande == "SCI" %}
+    SCI
+{% elif demande.type_demande == "ASSOCIATION" %}
+    Association
+{% elif demande.type_demande == "FONDATION" %}
+    Fondation
+{% elif demande.type_demande == "SCOOP" %}
+    SCOOP
+{% else %}
+    Non défini
+{% endif %}
+</span>
+
+</div>
+
+
+
+<div class="info-box">
+
 <strong>Adresse</strong>
 
 <span>
