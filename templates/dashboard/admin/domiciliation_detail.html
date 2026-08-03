@@ -521,22 +521,30 @@ class="action-btn btn-danger">
 
 
 
-<a href=""
+<a href="{% url 'dashboard_admin:domiciliation_contract_view' request_id=demande.id %}"
+target="_blank"
 class="action-btn btn-warning">
 
-📄 Générer contrat
+📄 Voir le contrat
 
 </a>
 
 
 
+<form method="POST"
+      action="{% url 'dashboard_admin:domiciliation_contract_send' request_id=demande.id %}"
+      style="display:inline;">
 
-<a href=""
-class="action-btn btn-primary">
+    {% csrf_token %}
 
-💰 Créer facture
+    <button type="submit"
+            class="action-btn btn-primary">
 
-</a>
+        📧 Envoyer le contrat
+
+    </button>
+
+</form>
 
 
 

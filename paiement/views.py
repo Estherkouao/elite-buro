@@ -35,12 +35,14 @@ def indexpaiement(request: HttpRequest) -> HttpResponse:
 
     reservation_id = request.GET.get("reservation_id")
     inscription_id = request.GET.get("inscription_id")
+    domiciliation_id = request.GET.get("domiciliation_id")
 
     amount = Decimal("0")
     description = "Paiement Elite Buro"
 
     reservation = None
     inscription = None
+    demande = None
 
 
     # =========================
@@ -96,6 +98,28 @@ def indexpaiement(request: HttpRequest) -> HttpResponse:
             inscription_id = ""
 
 
+    # =========================
+    # PAIEMENT DOMICILIATION
+    # =========================
+
+    if domiciliation_id:
+        try:
+            from domiciliation.models import DomiciliationRequest
+
+            demande = DomiciliationRequest.objects.select_related(
+                "formule", "entreprise"
+            ).get(
+                id=domiciliation_id,
+                statut=DomiciliationRequest.Status.PAIEMENT_EN_ATTENTE,
+            )
+
+            amount = demande.formule.prix
+            description = f"Domiciliation {demande.numero_demande}"
+
+        except DomiciliationRequest.DoesNotExist:
+            domiciliation_id = ""
+
+
     context = {
 
         "providers": providers,
@@ -105,6 +129,9 @@ def indexpaiement(request: HttpRequest) -> HttpResponse:
 
         "inscription_id": inscription_id,
         "inscription": inscription,
+
+        "domiciliation_id": domiciliation_id,
+        "demande": demande,
 
         "amount": amount,
         "description": description,
@@ -143,7 +170,8 @@ def process_payment(request: HttpRequest) -> JsonResponse:
     """
     Traite un paiement via le provider sélectionné.
     Reçoit les données en JSON.
-    Supporte reservation_id (coworking) et inscription_id (formation).
+    Supporte reservation_id (coworking), inscription_id (formation) et
+    domiciliation_id (domiciliation).
     """
     try:
         data = json.loads(request.body)
@@ -160,6 +188,7 @@ def process_payment(request: HttpRequest) -> JsonResponse:
     description = data.get("description", "Paiement Elite Buro")
     reservation_id = data.get("reservation_id", "")
     inscription_id = data.get("inscription_id", "")
+    domiciliation_id = data.get("domiciliation_id", "")
 
     if not provider_code:
         return JsonResponse(
@@ -194,7 +223,11 @@ def process_payment(request: HttpRequest) -> JsonResponse:
             ) if reservation_id else (
                 request.build_absolute_uri(
                     f"/paiement/success/?inscription_id={inscription_id}"
-                ) if inscription_id else request.build_absolute_uri("/paiement/success/")
+                ) if inscription_id else (
+                    request.build_absolute_uri(
+                        f"/paiement/success/?domiciliation_id={domiciliation_id}"
+                    ) if domiciliation_id else request.build_absolute_uri("/paiement/success/")
+                )
             ),
             cancel_url=request.build_absolute_uri("/paiement/cancel/"),
             notify_url=request.build_absolute_uri("/paiement/notify/"),
@@ -213,14 +246,17 @@ def process_payment(request: HttpRequest) -> JsonResponse:
 @require_http_methods(["GET"])
 def payment_success(request: HttpRequest) -> HttpResponse:
     """Page de succès du paiement.
-    Supporte les réservations coworking et les inscriptions formation.
+    Supporte les réservations coworking, les inscriptions formation et
+    les domiciliations.
     """
     transaction_id = request.GET.get("transaction_id", "")
     reservation_id = request.GET.get("reservation_id", "")
     inscription_id = request.GET.get("inscription_id", "")
+    domiciliation_id = request.GET.get("domiciliation_id", "")
     transaction = None
     reservation = None
     inscription = None
+    demande = None
 
     if transaction_id:
         try:
@@ -402,6 +438,72 @@ L'équipe EliteBuro
             fail_silently=True,
         )
 
+    # ═══════════════════════════════════════════════
+    #  TRAITEMENT PAIEMENT DOMICILIATION
+    # ═══════════════════════════════════════════════
+    if domiciliation_id:
+        try:
+            from domiciliation.models import (
+                DomiciliationRequest,
+                DomiciliationLog,
+            )
+            from domiciliation.services import activer_domiciliation
+
+            demande = DomiciliationRequest.objects.select_related(
+                "formule", "entreprise", "utilisateur"
+            ).get(
+                id=domiciliation_id,
+                statut=DomiciliationRequest.Status.PAIEMENT_EN_ATTENTE,
+            )
+
+            # Marquer la facture comme payée si elle existe
+            facture = getattr(demande, "facture", None)
+            if facture:
+                facture.statut = DomiciliationInvoice.Status.PAYÉE
+                facture.save(update_fields=["statut"])
+
+            # Activer la domiciliation
+            activer_domiciliation(
+                demande=demande,
+                par=request.user if request.user.is_authenticated else demande.utilisateur,
+            )
+
+            # Notification email de confirmation
+            from notification.services import NotificationService
+            from notification.models import NotificationType
+
+            NotificationService.notify(
+                user=demande.utilisateur,
+                title="✅ Paiement confirmé - Domiciliation activée",
+                message=(
+                    f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
+                    f"Votre paiement de {demande.formule.prix} FCFA pour la domiciliation "
+                    f"{demande.numero_demande} a bien été reçu.\n\n"
+                    f"Votre domiciliation est désormais active jusqu'au "
+                    f"{demande.date_fin.strftime('%d/%m/%Y')}.\n\n"
+                    f"Merci de votre confiance.\nL'équipe EliteBuro"
+                ),
+                notification_type=NotificationType.EMAIL,
+            )
+
+            messages.success(
+                request,
+                "✅ Paiement effectué avec succès ! Votre domiciliation est active."
+            )
+
+            from django.shortcuts import redirect
+            from django.urls import reverse
+            return redirect(
+                reverse("domiciliation:request_detail", args=[str(demande.id)])
+            )
+
+        except DomiciliationRequest.DoesNotExist:
+            pass
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Erreur traitement paiement domiciliation: {e}")
+
     return render(
         request,
         "paiement/indexpaiement.html",
@@ -410,6 +512,7 @@ L'équipe EliteBuro
             "transaction": transaction,
             "reservation": reservation,
             "inscription": inscription,
+            "demande": demande,
             "providers": PaymentProvider.objects.filter(is_active=True),
         },
     )
@@ -502,4 +605,3 @@ def provider_config(request: HttpRequest, provider_code: str) -> JsonResponse:
         return JsonResponse({"success": True, "config": config})
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)}, status=400)
-

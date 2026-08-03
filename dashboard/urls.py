@@ -397,10 +397,20 @@ urlpatterns = [
         AdminDomiciliationPlanDeleteView.as_view(),
         name="domiciliation_plans_delete",
     ),
-    path(
+path(
         "domiciliation/<uuid:request_id>/",
         views.domiciliation_detail,
         name="domiciliation_detail"
+    ),
+    path(
+        "domiciliation/<uuid:request_id>/contract/",
+        views.domiciliation_contract_view,
+        name="domiciliation_contract_view",
+    ),
+    path(
+        "domiciliation/<uuid:request_id>/contract/send/",
+        views.domiciliation_contract_send,
+        name="domiciliation_contract_send",
     ),
 
 

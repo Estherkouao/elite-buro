@@ -1,5 +1,6 @@
 {% extends 'dashboard/base_member.html' %}
 {% load static %}
+{% load dashboard_filters %}
 
 
 {% block title %}
@@ -91,12 +92,14 @@ Mes demandes de domiciliation | EliteBuro
 
 
             <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 
-                        flex flex-col lg:flex-row 
-                        lg:items-center 
-                        lg:justify-between
+                        flex flex-col
                         gap-6
                         hover:shadow-xl
                         transition">
+
+
+
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 
 
 
@@ -180,7 +183,7 @@ Mes demandes de domiciliation | EliteBuro
 
 
 
-                    <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
+<a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
 
                        class="inline-flex items-center
                               rounded-xl
@@ -197,10 +200,116 @@ Mes demandes de domiciliation | EliteBuro
                     </a>
 
 
+                    {% if demande.statut == 'Paiement en attente' %}
+
+                    <a href="{% url 'paiement:index' %}?domiciliation_id={{ demande.id }}&amount={{ demande.formule.prix|floatformat:0 }}&description={{ demande.numero_demande }}"
+
+                       class="inline-flex items-center
+                              gap-2
+                              rounded-xl
+                              bg-green-600
+                              px-6 py-3
+                              text-white
+                              font-bold
+                              hover:bg-green-700
+                              transition">
+
+                        💳 Payer maintenant — {{ demande.formule.prix }} FCFA
+
+                    </a>
+
+{% endif %}
+
+
                 </div>
 
+                </div><!-- /.flex row -->
 
 
+
+
+                <!-- DOCUMENTS À FOURNIR -->
+                <div class="border-t border-gray-100 pt-6 mt-2">
+
+                    <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+
+                        <h4 class="text-lg font-bold text-[#163d72]">
+                            📄 Documents à fournir
+                        </h4>
+
+                        <span class="text-xs font-semibold text-gray-400">
+                            {{ demande.documents.all|length }} document(s) déposé(s)
+                        </span>
+
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+                        {% for type_value, type_label in document_types %}
+
+                        {% with docs=demande.documents.all|of_type:type_value %}
+
+                        <div class="rounded-2xl border p-4 flex flex-col gap-2
+                                    {% if docs %}border-green-200 bg-green-50{% else %}border-gray-200 bg-gray-50{% endif %}">
+
+                            <div class="flex items-center justify-between gap-2">
+
+                                <span class="text-sm font-bold text-gray-700">{{ type_label }}</span>
+
+                                {% if docs %}
+                                <span class="text-xs font-bold text-green-600 bg-green-100 rounded-full px-2 py-0.5">
+                                    ✅ Déposé
+                                </span>
+                                {% else %}
+                                <span class="text-xs font-bold text-gray-500 bg-gray-200 rounded-full px-2 py-0.5">
+                                    À fournir
+                                </span>
+                                {% endif %}
+
+                            </div>
+
+                            {% if docs %}
+                            <ul class="text-xs text-gray-500 space-y-1">
+                                {% for d in docs %}
+                                <li class="flex items-center gap-1">
+                                    <span>📎</span>
+                                    <span class="truncate">{{ d.fichier|filename }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+
+                            <form method="POST"
+                                  action="{% url 'domiciliation:documents' uuid=demande.id %}"
+                                  enctype="multipart/form-data"
+                                  class="mt-2 flex flex-col gap-2">
+
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <input type="hidden" name="type" value="{{ type_value }}">
+
+                                <input type="file"
+                                       name="fichiers"
+                                       multiple
+                                       required
+                                       class="block w-full text-xs text-gray-500 file:mr-3 file:rounded-lg file:border-0 file:bg-[#FF8000] file:px-3 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-[#163d72]">
+
+                                <button type="submit"
+                                        class="rounded-lg bg-[#FF8000] px-3 py-2 text-xs font-bold text-white hover:bg-[#163d72] transition">
+                                    {{ docs|yesno:"Ajouter,Envoyer" }} ce document
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                        {% endwith %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
 
             </div>
 

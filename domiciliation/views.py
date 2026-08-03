@@ -126,13 +126,14 @@ def domiciliation_from(request: HttpRequest) -> HttpResponse:
                     description=activite,
                 )
 
-                # 3. Créer la demande de domiciliation
+# 3. Créer la demande de domiciliation
                 numero = _generer_numero_demande()
                 demande = DomiciliationRequest.objects.create(
                     utilisateur=user,
                     entreprise=company,
                     formule=formule,
                     numero_demande=numero,
+                    type_demande="DOMICILIATION",
                     adresse_domiciliation="Cocody Riviera Palmeraie, Abidjan",
                     observations=message,
                     statut=DomiciliationRequest.Status.EN_ATTENTE,
@@ -284,6 +285,7 @@ def domiciliation_individuelle(request: HttpRequest) -> HttpResponse:
                     entreprise=company,
                     formule=DomiciliationPlan.objects.filter(actif=True).first(),
                     numero_demande=numero,
+                    type_demande="EI",
                     adresse_domiciliation=adresse,
                     observations=observations,
                     statut=DomiciliationRequest.Status.EN_ATTENTE,
@@ -373,9 +375,18 @@ def history_list(request: HttpRequest) -> HttpResponse:
     demandes = (
         DomiciliationRequest.objects.filter(utilisateur=request.user)
         .select_related("entreprise", "formule")
+        .prefetch_related("documents")
         .order_by("-date_creation")
     )
-    return render(request, "domiciliation/history.html", {"demandes": demandes})
+    document_types = DomiciliationDocument.Type.choices
+    return render(
+        request,
+        "domiciliation/history.html",
+        {
+            "demandes": demandes,
+            "document_types": document_types,
+        },
+    )
 
 
 @login_required
@@ -443,12 +454,19 @@ def upload_documents(request: HttpRequest, uuid: str) -> HttpResponse:
     demande = get_object_or_404(DomiciliationRequest, id=uuid)
     require_can_consulter_request(user=request.user, demande=demande)
 
+    # Retour par défaut : page de détail de la demande
+    next_url = request.POST.get("next") or request.GET.get("next") or reverse(
+        "domiciliation:request_detail", args=[str(demande.id)]
+    )
+
     if request.method == "POST":
         form = DocumentUploadForm(request.POST, request.FILES)
         if form.is_valid():
             doc_type = form.cleaned_data["type"]
             fichiers = form.cleaned_data["fichiers"]
             commentaire = form.cleaned_data.get("commentaire", "")
+            # (Ré)-upload autorisé : on ne supprime pas les documents existants du même type,
+            # on ajoute simplement les nouveaux fichiers pour ce type.
             created = []
             for f in fichiers:
                 doc = DomiciliationDocument.objects.create(
@@ -460,9 +478,13 @@ def upload_documents(request: HttpRequest, uuid: str) -> HttpResponse:
                 # assign file
                 doc.fichier.save(f.name, f, save=True)
                 created.append(doc)
-            return redirect(reverse("domiciliation:request_detail", args=[str(demande.id)]))
-    else:
-        form = DocumentUploadForm()
+            messages.success(
+                request,
+                f"✅ {len(created)} document(s) « {doc_type} » téléversé(s) avec succès.",
+            )
+            return redirect(next_url)
+        else:
+            messages.error(request, "❌ Une erreur est survenue lors de l'upload du document.")
 
     return render(
         request,
@@ -859,6 +881,8 @@ Adresse siège :
 
                     numero_demande=numero,
 
+                    type_demande="SARL",
+
                     adresse_domiciliation=adresse,
 
                     observations=observations,
@@ -1209,30 +1233,30 @@ def creation_sarlu(request: HttpRequest) -> HttpResponse:
 
                 observations = f"""
 
-Type :
-SARLU
+                Type :
+                SARLU
 
 
-Associé unique :
-{prenom} {nom}
+                Associé unique :
+                {prenom} {nom}
 
 
-Activité :
-{activite}
+                Activité :
+                {activite}
 
 
-Capital social :
-{capital_social} FCFA
+                Capital social :
+                {capital_social} FCFA
 
 
-Gérant :
-{gerant}
+                Gérant :
+                {gerant}
 
 
-Mode paiement :
-{mode_paiement}
+                Mode paiement :
+                {mode_paiement}
 
-"""
+                """
 
 
 
@@ -1255,6 +1279,9 @@ Mode paiement :
 
 
                     numero_demande=numero,
+
+
+                    type_demande="SARLU",
 
 
                     adresse_domiciliation=adresse,
@@ -1567,27 +1594,27 @@ def creation_sas(request: HttpRequest) -> HttpResponse:
 
 
                 observations=f"""
-Type : SAS
+                    Type : SAS
 
-Activité :
-{activite}
+                    Activité :
+                    {activite}
 
-Nombre actionnaires :
-{nombre_actionnaires}
+                    Nombre actionnaires :
+                    {nombre_actionnaires}
 
-Capital social :
-{capital_social} FCFA
+                    Capital social :
+                    {capital_social} FCFA
 
-Répartition actions :
-{repartition_actions}
+                    Répartition actions :
+                    {repartition_actions}
 
-Président :
-{president}
+                    Président :
+                    {president}
 
-Paiement :
-{mode_paiement}
+                    Paiement :
+                    {mode_paiement}
 
-"""
+                    """
 
 
 
@@ -1604,6 +1631,8 @@ Paiement :
 
                     numero_demande=numero,
 
+                    type_demande="SAS",
+
                     adresse_domiciliation=adresse,
 
                     observations=observations,
@@ -1618,7 +1647,7 @@ Paiement :
 
 
 
-                notification = NotificationService.notify(
+                notification = NotificationService.notify( 
 
                     user=user,
 
@@ -1629,9 +1658,7 @@ Paiement :
 
                     notification_type=
                     NotificationType.EMAIL
-
                 )
-
 
 
 

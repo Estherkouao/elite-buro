@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+@page{
+    size:A4;
+    margin:2cm;
+}
+
+body{
+    font-family: DejaVu Sans, sans-serif;
+    color:#222;
+    font-size:13px;
+    line-height:1.7;
+}
+
+h1,h2,h3{
+    margin:0;
+}
+
+.header{
+    border-bottom:3px solid #FF8000;
+    padding-bottom:15px;
+    margin-bottom:30px;
+}
+
+.logo{
+    text-align:center;
+}
+
+.logo img{
+    width:90px;
+    margin-bottom:10px;
+}
+
+.company-name{
+    font-size:26px;
+    color:#FF8000;
+    font-weight:bold;
+}
+
+.company-subtitle{
+    color:#666;
+    font-size:13px;
+}
+
+.contract-title{
+    margin-top:25px;
+    background:#FF8000;
+    color:white;
+    padding:15px;
+    text-align:center;
+    border-radius:8px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.section{
+    margin-top:30px;
+}
+
+.section-title{
+    background:#f4f4f4;
+    color:#FF8000;
+    padding:10px;
+    font-size:18px;
+    font-weight:bold;
+    border-left:6px solid #FF8000;
+    margin-bottom:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:10px;
+    vertical-align:top;
+}
+
+.label{
+    width:35%;
+    font-weight:bold;
+    background:#fafafa;
+}
+
+.article-title{
+    color:#FF8000;
+    font-size:18px;
+    font-weight:bold;
+    margin-top:30px;
+    margin-bottom:15px;
+}
+
+.orange{
+    color:#FF8000;
+    font-weight:bold;
+}
+
+.check{
+    color:#27ae60;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:40px;
+    font-size:11px;
+    color:#777;
+    text-align:center;
+}
+
+.box{
+    border:1px solid #DDD;
+    border-radius:8px;
+    padding:15px;
+    margin-top:15px;
+    background:#fcfcfc;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- EN-TETE -->
+<!-- ========================= -->
+
+<div class="header">
+
+    <div class="logo">
+
+        {% if logo %}
+        <img src="{{ logo }}">
+        {% endif %}
+
+        <div class="company-name">
+            ELITEBURO
+        </div>
+
+        <div class="company-subtitle">
+            Cabinet de Création d'Entreprise • Domiciliation • Assistance Administrative
+        </div>
+
+    </div>
+
+    <div class="contract-title">
+
+        CONTRAT DE PRESTATION DE SERVICES
+
+        <br>
+
+        CRÉATION D'ENTREPRISE ET / OU DOMICILIATION COMMERCIALE
+
+    </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- LES PARTIES -->
+<!-- ========================= -->
+
+<div class="section">
+
+<div class="section-title">
+
+IDENTIFICATION DES PARTIES
+
+</div>
+
+<table>
+
+<tr>
+
+<td class="label">
+
+Prestataire
+
+</td>
+
+<td>
+
+<strong>ELITEBURO</strong>
+
+<br>
+
+Adresse :
+
+{{ entreprise.adresse }}
+
+<br>
+
+Téléphone :
+
+{{ entreprise.telephone }}
+
+<br>
+
+Email :
+
+{{ entreprise.email }}
+
+<br>
+
+RCCM :
+
+{{ entreprise.rccm }}
+
+<br>
+
+CC :
+
+{{ entreprise.cc }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td class="label">
+
+Client
+
+</td>
+
+<td>
+
+<strong>
+
+{{ demande.utilisateur.first_name }}
+
+{{ demande.utilisateur.last_name }}
+
+</strong>
+
+<br>
+
+Téléphone :
+
+{{ demande.utilisateur.phone|default:"—" }}
+
+<br>
+
+Email :
+
+{{ demande.utilisateur.email|default:"—" }}
+
+<br>
+
+Adresse :
+
+{{ demande.adresse_domiciliation|default:"—" }}
+
+<br>
+
+Ville :
+
+{{ ville|default:"—" }}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- TYPE DE DEMANDE -->
+<!-- ========================= -->
+
+<div class="section">
+
+<div class="section-title">
+
+NATURE DE LA PRESTATION
+
+</div>
+
+<div class="box">
+
+<p>
+
+Le présent contrat concerne la prestation suivante :
+
+</p>
+
+<p>
+
+<strong>
+
+{{ type_demande_label }}
+
+</strong>
+
+</p>
+
+<table>
+
+<tr>
+
+<td>
+
+Domiciliation commerciale
+
+</td>
+
+<td>
+
+{% if demande.type_demande == "DOMICILIATION" %}✔{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Création d'entreprise individuelle
+
+</td>
+
+<td>
+
+{% if demande.type_demande == "EI" %}✔{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Création de société
+
+</td>
+
+<td>
+
+{% if demande.type_demande == "SARL" or demande.type_demande == "SARLU" or demande.type_demande == "SAS" or demande.type_demande == "SASU" or demande.type_demande == "SCI" or demande.type_demande == "SCOOP" or demande.type_demande == "STARTUP" %}✔{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Création ONG / Association / Fondation
+
+</td>
+
+<td>
+
+{% if demande.type_demande == "ONG" or demande.type_demande == "ASSOCIATION" or demande.type_demande == "FONDATION" %}✔{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Création + Domiciliation
+
+</td>
+
+<td>
+
+{% if demande.type_demande != "DOMICILIATION" %}✔{% endif %}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- ENTREPRISE -->
+<!-- ========================= -->
+
+<div class="section">
+
+<div class="section-title">
+
+INFORMATIONS SUR L'ENTREPRISE
+
+</div>
+
+<table>
+
+<tr>
+
+<td class="label">
+
+Nom de l'entreprise
+
+</td>
+
+<td>
+
+{{ demande.entreprise.company_name|default:"—" }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td class="label">
+
+Forme juridique
+
+</td>
+
+<td>
+
+{{ forme_juridique|default:"—" }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td class="label">
+
+Activité
+
+</td>
+
+<td>
+
+{{ demande.entreprise.description|default:"—" }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td class="label">
+
+Ville
+
+</td>
+
+<td>
+
+{{ ville|default:"—" }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td class="label">
+
+Adresse du siège
+
+</td>
+
+<td>
+
+{{ siege_social|default:"—" }}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 1 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 1 — OBJET DU CONTRAT
+
+</h2>
+
+<p>
+
+Le présent contrat a pour objet de définir les conditions dans lesquelles ELITEBURO accompagne le Client dans ses démarches administratives relatives à la création, à la domiciliation ou à la régularisation de son entreprise.
+
+Selon la prestation choisie, ELITEBURO assure la constitution du dossier, le suivi administratif, l'accompagnement auprès des administrations compétentes ainsi que la remise des documents officiels obtenus.
+
+Les prestations réalisées sont exclusivement celles commandées par le Client et mentionnées dans le présent contrat.
+
+</p>
+<!-- ========================= -->
+<!-- ARTICLE 2 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 2 — PRESTATIONS FOURNIES PAR ELITEBURO
+
+</h2>
+
+<p>
+
+Selon la nature de la demande formulée par le Client, ELITEBURO s'engage à réaliser les prestations nécessaires à la bonne exécution de sa mission.
+
+Les prestations peuvent comprendre notamment :
+
+</p>
+
+<ul>
+
+<li>✓ Analyse et vérification du dossier du Client ;</li>
+
+<li>✓ Constitution des pièces administratives ;</li>
+
+<li>✓ Assistance dans la préparation des documents ;</li>
+
+<li>✓ Dépôt du dossier auprès des administrations compétentes ;</li>
+
+<li>✓ Suivi administratif jusqu'à l'obtention des documents ;</li>
+
+<li>✓ Information régulière du Client sur l'avancement de son dossier ;</li>
+
+<li>✓ Mise à disposition des documents dans l'espace client EliteBuro ;</li>
+
+<li>✓ Assistance administrative après la création lorsque cela est prévu dans l'offre souscrite.</li>
+
+</ul>
+
+<p>
+
+Lorsque la prestation comprend une domiciliation commerciale, ELITEBURO met également à disposition une adresse de domiciliation conformément aux dispositions légales en vigueur.
+
+</p>
+
+
+
+<!-- ========================= -->
+<!-- ARTICLE 3 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 3 — DOCUMENTS REMIS AU CLIENT
+
+</h2>
+
+<p>
+
+Selon la prestation choisie et après validation des administrations compétentes, le Client recevra tout ou partie des documents suivants :
+
+</p>
+
+<table>
+
+<tr>
+
+<td>✔ Certificat d'Immatriculation (IDU)</td>
+
+<td>✔ RCCM</td>
+
+</tr>
+
+<tr>
+
+<td>✔ Déclaration Fiscale d'Existence (DFE)</td>
+
+<td>✔ Numéro de Compte Contribuable</td>
+
+</tr>
+
+<tr>
+
+<td>✔ Attestation d'existence</td>
+
+<td>✔ Statuts de la société (si applicable)</td>
+
+</tr>
+
+<tr>
+
+<td>✔ Contrat de domiciliation</td>
+
+<td>✔ Attestation de domiciliation</td>
+
+</tr>
+
+<tr>
+
+<td>✔ Facture</td>
+
+<td>✔ Reçu de paiement</td>
+
+</tr>
+
+<tr>
+
+<td>✔ Accès à l'espace client EliteBuro</td>
+
+<td>✔ Autres documents administratifs</td>
+
+</tr>
+
+</table>
+
+<p>
+
+La liste des documents effectivement remis dépend de la nature de la prestation commandée par le Client.
+
+</p>
+
+
+
+<!-- ========================= -->
+<!-- ARTICLE 4 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 4 — OBLIGATIONS D'ELITEBURO
+
+</h2>
+
+<p>
+
+ELITEBURO s'engage à :
+
+</p>
+
+<ul>
+
+<li>Mettre en œuvre tous les moyens nécessaires pour assurer le traitement du dossier.</li>
+
+<li>Respecter les délais administratifs dans la mesure où ceux-ci dépendent des administrations publiques.</li>
+
+<li>Informer régulièrement le Client de l'évolution de sa demande.</li>
+
+<li>Préserver la confidentialité des informations communiquées.</li>
+
+<li>Remettre au Client les documents obtenus dès leur disponibilité.</li>
+
+<li>Fournir une assistance professionnelle durant toute la durée de la mission.</li>
+
+</ul>
+
+<p>
+
+ELITEBURO est tenue à une obligation de moyens et non de résultat. Les délais administratifs restent exclusivement de la responsabilité des administrations concernées.
+
+</p>
+
+
+
+<!-- ========================= -->
+<!-- ARTICLE 5 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 5 — OBLIGATIONS DU CLIENT
+
+</h2>
+
+<p>
+
+Le Client s'engage à :
+
+</p>
+
+<ul>
+
+<li>Fournir des informations exactes et sincères.</li>
+
+<li>Transmettre l'ensemble des pièces demandées.</li>
+
+<li>Respecter les délais de transmission des documents.</li>
+
+<li>Informer ELITEBURO de toute modification concernant son dossier.</li>
+
+<li>Respecter les lois et règlements de la République de Côte d'Ivoire.</li>
+
+<li>Régler les frais prévus selon les modalités convenues.</li>
+
+</ul>
+
+<p>
+
+Le Client demeure seul responsable de l'authenticité des informations et des documents transmis.
+
+Toute fausse déclaration ou tout document falsifié pourra entraîner la suspension immédiate de la prestation sans remboursement des sommes déjà engagées.
+
+</p>
+
+
+
+<!-- ========================= -->
+<!-- ARTICLE 6 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 6 — DURÉE DU CONTRAT
+
+</h2>
+
+<p>
+
+Le présent contrat prend effet à compter de sa signature par les deux parties.
+
+</p>
+
+<p>
+
+Pour une prestation de création d'entreprise, le contrat prend fin à la remise de l'ensemble des documents administratifs prévus dans la commande.
+
+</p>
+
+<p>
+
+Pour une prestation de domiciliation commerciale, le contrat est conclu pour une durée de <strong>douze (12) mois</strong>, sauf disposition particulière mentionnée dans le devis ou la commande.
+
+</p>
+
+<p>
+
+À son échéance, le contrat pourra être renouvelé d'un commun accord entre les parties selon les conditions tarifaires en vigueur.
+
+</p>
+<!-- ========================= -->
+<!-- ARTICLE 7 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 7 — CONDITIONS FINANCIÈRES
+
+</h2>
+
+<p>
+
+Le Client s'engage à régler le montant correspondant à la prestation choisie conformément au devis, au bon de commande ou à la facture émis par ELITEBURO.
+
+</p>
+
+<p>
+
+Le règlement peut être effectué par :
+
+</p>
+
+<ul>
+
+<li>Paiement en ligne depuis l'espace client.</li>
+
+<li>Mobile Money.</li>
+
+<li>Virement bancaire.</li>
+
+<li>Espèces ou carte bancaire dans les bureaux d'ELITEBURO.</li>
+
+</ul>
+
+<p>
+
+En cas de retard de paiement, ELITEBURO se réserve le droit de suspendre le traitement du dossier jusqu'à régularisation complète.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 8 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 8 — CONFIDENTIALITÉ
+
+</h2>
+
+<p>
+
+Toutes les informations, données et documents transmis par le Client sont strictement confidentiels.
+
+</p>
+
+<p>
+
+ELITEBURO s'engage à ne communiquer aucune information à un tiers sans l'accord préalable du Client, sauf lorsque cette communication est exigée par une autorité administrative ou judiciaire compétente.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 9 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 9 — RESPONSABILITÉ
+
+</h2>
+
+<p>
+
+ELITEBURO est tenue à une obligation de moyens.
+
+</p>
+
+<p>
+
+Sa responsabilité ne pourra être engagée en cas de :
+
+</p>
+
+<ul>
+
+<li>Retard imputable à une administration publique.</li>
+
+<li>Informations inexactes communiquées par le Client.</li>
+
+<li>Documents incomplets ou falsifiés.</li>
+
+<li>Cas de force majeure.</li>
+
+</ul>
+
+<p>
+
+Le Client demeure seul responsable des déclarations effectuées auprès des administrations.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 10 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 10 — RÉSILIATION
+
+</h2>
+
+<p>
+
+Le présent contrat peut être résilié par l'une ou l'autre des parties en cas de manquement grave aux obligations contractuelles.
+
+</p>
+
+<p>
+
+Toute prestation déjà exécutée reste due.
+
+</p>
+
+<p>
+
+En cas de domiciliation commerciale, le Client devra accomplir toutes les formalités nécessaires au transfert de son siège social avant la fin du contrat.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 11 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 11 — FORCE MAJEURE
+
+</h2>
+
+<p>
+
+Aucune des parties ne pourra être tenue responsable d'un retard ou d'une inexécution résultant d'un événement indépendant de sa volonté, notamment :
+
+</p>
+
+<ul>
+
+<li>Catastrophe naturelle.</li>
+
+<li>Incendie.</li>
+
+<li>Pandémie.</li>
+
+<li>Grève.</li>
+
+<li>Décision administrative.</li>
+
+<li>Panne informatique majeure.</li>
+
+</ul>
+
+<p>
+
+L'exécution du contrat sera suspendue pendant toute la durée de l'événement.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 12 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 12 — PROTECTION DES DONNÉES
+
+</h2>
+
+<p>
+
+Les données personnelles du Client sont collectées uniquement pour l'exécution des prestations confiées à ELITEBURO.
+
+</p>
+
+<p>
+
+Elles sont conservées de manière sécurisée et ne sont utilisées qu'à des fins administratives et contractuelles.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ARTICLE 13 -->
+<!-- ========================= -->
+
+<h2 class="article-title">
+
+ARTICLE 13 — DROIT APPLICABLE ET LITIGES
+
+</h2>
+
+<p>
+
+Le présent contrat est soumis au droit de la République de Côte d'Ivoire.
+
+</p>
+
+<p>
+
+Les parties privilégient un règlement amiable de tout différend.
+
+À défaut d'accord amiable, les juridictions compétentes d'Abidjan seront seules compétentes.
+
+</p>
+
+
+<!-- ========================= -->
+<!-- ACCEPTATION -->
+<!-- ========================= -->
+
+<div class="section">
+
+<div class="section-title">
+
+DÉCLARATION DU CLIENT
+
+</div>
+
+<p>
+
+Le Client déclare avoir pris connaissance de l'ensemble des clauses du présent contrat.
+
+</p>
+
+<p>
+
+Il reconnaît avoir reçu toutes les informations nécessaires concernant les prestations commandées et accepte sans réserve les présentes conditions contractuelles.
+
+</p>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- SIGNATURES -->
+<!-- ========================= -->
+
+<div style="margin-top:70px;">
+
+<table style="width:100%; border:none;">
+
+<tr>
+
+<td style="width:48%; border:none; text-align:center;">
+
+<strong>
+
+ELITEBURO
+
+</strong>
+
+<br><br><br><br><br>
+
+Nom du représentant
+
+<br><br>
+
+............................................
+
+<br><br>
+
+Signature et cachet
+
+</td>
+
+<td style="border:none;"></td>
+
+<td style="width:48%; border:none; text-align:center;">
+
+<strong>
+
+LE CLIENT
+
+</strong>
+
+<br><br><br><br><br>
+
+{{ demande.utilisateur.first_name }}
+
+{{ demande.utilisateur.last_name }}
+
+<br><br>
+
+Signature précédée de la mention
+
+<br>
+
+« Lu et approuvé »
+
+<br><br>
+
+............................................
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- PIED -->
+<!-- ========================= -->
+
+<hr style="margin-top:60px;">
+
+<div class="footer">
+
+<strong>ELITEBURO</strong>
+
+<br>
+
+Cabinet de Création d'Entreprise • Domiciliation • Assistance Administrative
+
+<br>
+
+Adresse : {{ entreprise.adresse }}
+
+|
+
+Téléphone : {{ entreprise.telephone }}
+
+|
+
+Email : {{ entreprise.email }}
+
+<br><br>
+
+Contrat généré automatiquement depuis la plateforme ELITEBURO.
+
+Toute reproduction ou modification est interdite sans autorisation.
+
+</div>
+
+</body>
+
+</html>
+

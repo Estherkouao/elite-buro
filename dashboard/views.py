@@ -494,37 +494,60 @@ class AdminDomiciliationRequestValidateView(AdminBaseView):
     def post(self, request: HttpRequest, request_id: str, *args, **kwargs):
 
         from domiciliation.models import DomiciliationLog
+        from domiciliation.services import generer_facture_pour_demande
 
         obj = get_object_or_404(
             DomiciliationRequest,
             id=request_id
         )
 
-
-        obj.statut = DomiciliationRequest.Status.EN_VÉRIFICATION
-
-        obj.save(
-            update_fields=["statut"]
-        )
-
+        # Génère la facture et passe le statut à "Paiement en attente"
+        generer_facture_pour_demande(demande=obj)
 
         DomiciliationLog.objects.create(
             demande=obj,
             utilisateur=request.user,
             action="VALIDATION",
-            details="Demande validée et envoyée en vérification par l’administration.",
+            details="Demande acceptée. Prière de procéder au paiement.",
         )
 
+        # Envoie un email au demandeur l'invitant à payer
+        self._send_payment_request_email(obj)
 
         messages.success(
             request,
-            "La demande a été validée avec succès."
+            "La demande a été acceptée. Le demandeur a été invité à payer."
         )
-
 
         return redirect(
             "dashboard_admin:domiciliation_detail",
             request_id=obj.id
+        )
+
+    def _send_payment_request_email(self, demande):
+        """Envoie un email HTML au demandeur pour l'inviter à procéder au paiement."""
+        from django.conf import settings
+        from django.urls import reverse
+        from notification.services import send_html_email
+
+        paiement_url = (
+            f"{settings.SITE_URL}/paiement/"
+            f"?domiciliation_id={demande.id}"
+            f"&amount={demande.formule.prix}"
+            f"&description={demande.numero_demande}"
+        )
+
+        subject = f"💳 Paiement requis - Domiciliation {demande.numero_demande}"
+
+        send_html_email(
+            subject=subject,
+            recipient_email=demande.utilisateur.email,
+            template_name="emails/domiciliation_payment_request.html",
+            context={
+                "demande": demande,
+                "paiement_url": paiement_url,
+            },
+            fail_silently=True,
         )
 
 
@@ -1503,6 +1526,204 @@ def domiciliation_detail(request, request_id):
             "demande": demande
         }
     )
+
+
+def domiciliation_contract_view(request, request_id):
+    """Aperçu / téléchargement du contrat pour l'administrateur."""
+    from django.http import FileResponse, Http404
+
+    demande = get_object_or_404(DomiciliationRequest, id=request_id)
+    contract = getattr(demande, "contrat", None)
+    if not contract or not contract.fichier_pdf:
+        from django.contrib import messages
+        messages.error(request, "Aucun contrat généré pour cette demande.")
+        return redirect("dashboard_admin:domiciliation_detail", request_id=request_id)
+
+    response = FileResponse(
+        contract.fichier_pdf.open("rb"),
+        content_type="application/pdf",
+    )
+    response["Content-Disposition"] = f'inline; filename="{contract.numero}.pdf"'
+    return response
+
+
+def domiciliation_contract_send(request, request_id):
+    """Envoie le contrat de domiciliation par email à l'utilisateur."""
+    from django.contrib import messages
+    from django.core.mail import EmailMessage
+    from django.conf import settings
+
+    from notification.models import NotificationType
+    from notification.services import NotificationService
+
+    from domiciliation.models import DomiciliationContract, DomiciliationLog
+
+    demande = get_object_or_404(DomiciliationRequest, id=request_id)
+    contract = getattr(demande, "contrat", None)
+    if not contract or not contract.fichier_pdf:
+        messages.error(request, "Aucun contrat généré. Impossible d'envoyer.")
+        return redirect("dashboard_admin:domiciliation_detail", request_id=request_id)
+
+    # Lien vers l'espace membre
+    espace_url = (
+        f"{settings.SITE_URL}{reverse('domiciliation:request_detail', args=[str(demande.id)])}"
+    )
+
+    subject = f"📄 Votre contrat de domiciliation {demande.numero_demande}"
+    body = (
+        f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
+        f"Votre contrat de domiciliation est disponible en pièce jointe.\n"
+        f"Vous pouvez également le télécharger depuis votre espace client :\n"
+        f"{espace_url}\n\n"
+        f"Cordialement,\nL'équipe EliteBuro"
+    )
+
+    email = EmailMessage(
+        subject=subject,
+        body=body,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[demande.utilisateur.email],
+    )
+    # Pièce jointe PDF
+    email.attach(
+        f"{contract.numero}.pdf",
+        contract.fichier_pdf.read(),
+        "application/pdf",
+    )
+    email.send(fail_silently=False)
+
+    # Envoyer aussi une notification HTML (plus jolie)
+    NotificationService.notify(
+        user=demande.utilisateur,
+        title=subject,
+        message=(
+            f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
+            f"Votre contrat de domiciliation {demande.numero_demande} a été généré "
+            f"et vous est envoyé par email.\n"
+            f"Vous pouvez aussi le consulter dans votre espace client :\n{espace_url}"
+        ),
+        notification_type=NotificationType.EMAIL,
+    )
+
+    # Journaliser l'envoi
+    DomiciliationLog.objects.create(
+        demande=demande,
+        utilisateur=request.user,
+        action="CONTRAT_ENVOYE",
+        details="Contrat envoyé par email à l'utilisateur.",
+    )
+
+    # Passage du statut : contrat généré -> signature en attente
+    if demande.statut == DomiciliationRequest.Status.CONTRAT_GÉNÉRÉ:
+        demande.statut = DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE
+        demande.save(update_fields=["statut", "derniere_modification"])
+
+    messages.success(
+        request,
+        f"Le contrat a été envoyé à {demande.utilisateur.email}.",
+    )
+    return redirect("dashboard_admin:domiciliation_detail", request_id=request_id)
+
+
+from django.http import FileResponse, HttpResponse
+from django.core.mail import EmailMessage
+
+
+def domiciliation_contract_view(request, request_id):
+    """Génère (si nécessaire) puis affiche/retourne le contrat PDF de la demande.
+
+    L'admin clique sur « Contrat » depuis le détail de la demande : le fichier
+    est créé automatiquement s'il n'existe pas encore, puis ouvert (inline).
+    """
+    from domiciliation.services import generer_contrat_pour_demande
+
+    demande = get_object_or_404(
+        DomiciliationRequest.objects.select_related("utilisateur", "entreprise", "formule"),
+        id=request_id,
+    )
+
+    contract = generer_contrat_pour_demande(demande=demande)
+
+    if not contract.fichier_pdf:
+        messages.error(request, "Le contrat n'a pas pu être généré.")
+        return redirect("dashboard_admin:domiciliation_detail", request_id=demande.id)
+
+    response = FileResponse(
+        contract.fichier_pdf.open("rb"),
+        content_type="application/pdf",
+    )
+    response["Content-Disposition"] = (
+        f'inline; filename="{contract.numero}.pdf"'
+    )
+    return response
+
+
+def domiciliation_contract_send(request, request_id):
+    """Génère le contrat PDF puis l'envoie par email au demandeur (pièce jointe).
+
+    Déclenché par le bouton « Envoyer le contrat » dans le back-office.
+    """
+    from domiciliation.services import generer_contrat_pour_demande
+    from domiciliation.models import DomiciliationLog
+    from django.conf import settings
+    from django.urls import reverse
+
+    demande = get_object_or_404(
+        DomiciliationRequest.objects.select_related("utilisateur", "entreprise", "formule"),
+        id=request_id,
+    )
+
+    contract = generer_contrat_pour_demande(demande=demande)
+
+    if not contract.fichier_pdf:
+        messages.error(request, "Le contrat n'a pas pu être généré.")
+        return redirect("dashboard_admin:domiciliation_detail", request_id=demande.id)
+
+    # Lien vers l'espace membre
+    espace_url = request.build_absolute_uri(
+        reverse("domiciliation:request_detail", args=[str(demande.id)])
+    )
+
+    sujet = f"📄 Votre contrat de domiciliation {demande.numero_demande}"
+
+    corps = (
+        f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
+        f"Votre demande de domiciliation {demande.numero_demande} a été traitée.\n"
+        f"Veuillez trouver en pièce jointe votre contrat de prestation de services.\n\n"
+        f"Vous pouvez également le retrouver à tout moment dans votre espace membre :\n"
+        f"{espace_url}\n\n"
+        f"Cordialement,\nL'équipe EliteBuro"
+    )
+
+    email = EmailMessage(
+        subject=sujet,
+        body=corps,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[demande.utilisateur.email],
+    )
+
+    pdf_bytes = contract.fichier_pdf.read()
+    email.attach(
+        f"{contract.numero}.pdf",
+        pdf_bytes,
+        "application/pdf",
+    )
+
+    email.send(fail_silently=False)
+
+    DomiciliationLog.objects.create(
+        demande=demande,
+        utilisateur=request.user,
+        action="CONTRAT_ENVOYE",
+        details=f"Contrat {contract.numero} envoyé par email à {demande.utilisateur.email}",
+    )
+
+    messages.success(
+        request,
+        f"Le contrat a été envoyé à {demande.utilisateur.email}.",
+    )
+
+    return redirect("dashboard_admin:domiciliation_detail", request_id=demande.id)
 
 
 from django.shortcuts import get_object_or_404, redirect

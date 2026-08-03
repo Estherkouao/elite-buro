@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F7F7F2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 620px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 15px 40px rgba(13,43,85,0.12);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-family: Georgia, serif;
+            font-size: 34px;
+            font-weight: bold;
+            color: #C9A02C;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            color: #64748B;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        h2 {
+            color: #0D2B55;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        p {
+            color: #334155;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .highlight {
+            background: #FAFAF7;
+            border-left: 4px solid #C9A02C;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 35px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #0D2B55;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .btn:hover {
+            background: #C9A02C;
+        }
+        .btn-payment {
+            background: #27AE60;
+        }
+        .btn-payment:hover {
+            background: #219A52;
+        }
+        .details-card {
+            background: #F8FAFC;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .details-table td {
+            padding: 10px 5px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+        }
+        .details-table td:first-child {
+            color: #64748B;
+            font-weight: 500;
+            width: 40%;
+        }
+        .details-table td:last-child {
+            color: #0D2B55;
+            font-weight: 600;
+            text-align: right;
+        }
+        .details-table tr:last-child td {
+            border-bottom: none;
+        }
+        .total-row td {
+            font-size: 16px;
+            padding-top: 15px;
+            border-top: 2px solid #C9A02C;
+            border-bottom: none;
+        }
+        .total-row td:last-child {
+            color: #C9A02C;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .security {
+            background: #F8FAFC;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 25px;
+        }
+        .security strong {
+            color: #0D2B55;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #94A3B8;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .footer strong {
+            color: #C9A02C;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <div class="logo">EliteBuro</div>
+            <div class="subtitle">Coworking • Centre de Formation • Solutions professionnelles</div>
+        </div>
+
+        <h2>💳 Paiement requis pour votre demande de domiciliation</h2>
+
+        <p>Bonjour <strong>{{ demande.utilisateur.get_full_name|default:demande.utilisateur.email }}</strong>,</p>
+
+        <p>
+            Votre demande de domiciliation <strong>{{ demande.numero_demande }}</strong> a été acceptée par notre équipe.
+            Pour finaliser l'activation de votre domiciliation, veuillez procéder au paiement dès que possible.
+        </p>
+
+        <div class="details-card">
+            <table class="details-table">
+                <tr>
+                    <td>Demande</td>
+                    <td>{{ demande.numero_demande }}</td>
+                </tr>
+                <tr>
+                    <td>Entreprise</td>
+                    <td>{{ demande.entreprise.company_name }}</td>
+                </tr>
+                <tr>
+                    <td>Formule</td>
+                    <td>{{ demande.formule.nom }}</td>
+                </tr>
+                <tr>
+                    <td>Durée</td>
+                    <td>{{ demande.formule.durée }} mois</td>
+                </tr>
+                <tr>
+                    <td>Adresse de domiciliation</td>
+                    <td>{{ demande.adresse_domiciliation }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td><strong>Montant total</strong></td>
+                    <td><strong>{{ demande.formule.prix }} FCFA</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="btn-container">
+            <a href="{{ paiement_url }}" class="btn btn-payment">
+                💳 Payer maintenant — {{ demande.formule.prix }} FCFA
+            </a>
+        </div>
+
+        <div class="highlight">
+            <p>
+                <strong>⚠️ Important :</strong><br>
+                Ce lien de paiement est personnel et sécurisé. Une fois le paiement effectué,
+                votre demande de domiciliation sera définitivement confirmée et votre dossier
+                sera activé.
+            </p>
+        </div>
+
+        <div class="security">
+            <p><strong>🔒 Paiement sécurisé</strong></p>
+            <p>
+                Nous acceptons plusieurs moyens de paiement : Orange Money, MTN Mobile Money,
+                Moov Money, Wave, Carte bancaire (Visa/Mastercard), PayPal et CinetPay.
+                Vos transactions sont 100% sécurisées.
+            </p>
+        </div>
+
+        <p>
+            Si vous avez des questions concernant votre demande de domiciliation,
+            n'hésitez pas à contacter notre équipe support.
+        </p>
+
+        <p>
+            Cordialement,<br>
+            <strong>L'équipe EliteBuro</strong>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>
+            <strong>EliteBuro</strong><br>
+            L'espace qui accompagne votre réussite professionnelle.
+        </p>
+        <p>
+            Riviera Palmeraie, Abidjan<br>
+            Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+        </p>
+    </div>
+</div>
+</body>
+</html>
+

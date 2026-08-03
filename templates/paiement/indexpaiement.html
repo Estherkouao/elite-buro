@@ -483,11 +483,12 @@
     /* ═══════════════════════════════════════════
        PROVIDER CONFIGURATION
        ═══════════════════════════════════════════ */
-    const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
     const AMOUNT = parseFloat('{{ amount|default:"0" }}') || 125000;
     const CURRENCY = 'XOF';
     const RESERVATION_ID = '{{ reservation_id|default:"" }}';
     const INSCRIPTION_ID = '{{ inscription_id|default:"" }}';
+    const DOMICILIATION_ID = '{{ domiciliation_id|default:"" }}';
     const PROVIDERS = {
       {% for p in providers %}
       '{{ p.code }}': {

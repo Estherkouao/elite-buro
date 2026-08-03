@@ -2,12 +2,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from decimal import Decimal
+from pathlib import Path
 from typing import Any
 
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.template.loader import render_to_string
 from django.utils import timezone
 
 try:
@@ -16,6 +18,11 @@ try:
 except ModuleNotFoundError:  # pragma: no cover
     A4 = None  # type: ignore[assignment]
     canvas = None  # type: ignore[assignment]
+
+try:
+    from xhtml2pdf import pisa
+except Exception:  # pragma: no cover
+    pisa = None
 
 
 try:
@@ -79,14 +86,9 @@ def _generer_pdf_simple(titre: str, contenu: str) -> bytes:
 
 
 def generer_contrat_pdf_bytes(demande: DomiciliationRequest) -> bytes:
-    plan = demande.formule
-    contenu = (
-        f"Demande: {demande.numero_demande}\n"
-        f"Entreprise: {demande.entreprise}\n"
-        f"Formule: {plan.nom} ({plan.durée} mois)\n"
-        f"Adresse: {demande.adresse_domiciliation}"
-    )
-    return _generer_pdf_simple("Contrat de domiciliation", contenu)
+    """Génère le PDF du contrat depuis le template HTML contractpdf.html."""
+    from .contract_pdf import generer_contrat_pdf_bytes as _generer_contrat_html
+    return _generer_contrat_html(demande)
 
 
 def generer_facture_pdf_bytes(demande: DomiciliationRequest) -> bytes:
@@ -195,6 +197,30 @@ def generer_facture_pour_demande(*, demande: DomiciliationRequest) -> Domiciliat
         return invoice
 
 
+def valider_paiement_domiciliation(*, demande: DomiciliationRequest, par) -> ServiceResult:
+    """Marque la facture comme payée et active la domiciliation après paiement."""
+    with transaction.atomic():
+        # Marquer la facture comme payée
+        facture = getattr(demande, "facture", None)
+        if facture:
+            facture.statut = DomiciliationInvoice.Status.PAYÉE
+            facture.save(update_fields=["statut", "updated_at"])
+
+        # Activer la domiciliation (dates à partir d'aujourd'hui)
+        plan = demande.formule
+        debut = timezone.localdate()
+        fin = debut + timezone.timedelta(days=plan.durée * 30)
+
+        demande.date_debut = debut
+        demande.date_fin = fin
+        demande.statut = DomiciliationRequest.Status.ACTIVE
+        demande.save(update_fields=["date_debut", "date_fin", "statut", "derniere_modification"])
+
+        _log(demande=demande, utilisateur=par, action="PAIEMENT",
+             details="Paiement effectué avec succès. Domiciliation activée.")
+        return ServiceResult(ok=True, message="Paiement validé et domiciliation activée")
+
+
 def activer_domiciliation(*, demande: DomiciliationRequest, par) -> ServiceResult:
     with transaction.atomic():
         if demande.statut not in {DomiciliationRequest.Status.PAIEMENT_EN_ATTENTE, DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE}:
@@ -211,6 +237,83 @@ def activer_domiciliation(*, demande: DomiciliationRequest, par) -> ServiceResul
         demande.save(update_fields=["date_debut", "date_fin", "statut", "derniere_modification"])
         _log(demande=demande, utilisateur=par, action="activation", details="Domiciliation activée")
         return ServiceResult(ok=True, message="Domiciliation activée")
+
+
+def generer_facture_et_envoyer_paiement(*, demande: DomiciliationRequest, par) -> ServiceResult:
+    """Génère la facture, passe la demande en « Paiement en attente »
+    et envoie un email au demandeur pour l'inviter à payer."""
+    with transaction.atomic():
+        if demande.statut not in {
+            DomiciliationRequest.Status.EN_ATTENTE,
+            DomiciliationRequest.Status.DOCUMENTS_REÇUS,
+            DomiciliationRequest.Status.EN_VÉRIFICATION,
+            DomiciliationRequest.Status.CONTRAT_GÉNÉRÉ,
+        }:
+            raise ValidationError(
+                "Cette demande ne peut pas passer en paiement depuis son statut actuel."
+            )
+
+        # Génère la facture (passe le statut en PAIEMENT_EN_ATTENTE)
+        generer_facture_pour_demande(demande=demande)
+
+        _log(
+            demande=demande,
+            utilisateur=par,
+            action="PAIEMENT_ENVOYE",
+            details="Demande acceptée : paiement requis. Email envoyé au demandeur.",
+        )
+
+        # Envoyer l'email de demande de paiement au demandeur
+        _send_payment_request_email(demande, par)
+
+        return ServiceResult(ok=True, message="Demande acceptée, paiement requis.")
+
+
+def _send_payment_request_email(demande: DomiciliationRequest, admin_user) -> None:
+    """Envoie un email HTML au demandeur pour l'inviter à effectuer le paiement."""
+    from django.conf import settings
+    from django.urls import reverse
+    from notification.services import send_html_email
+
+    paiement_url = (
+        f"{settings.SITE_URL}/paiement/"
+        f"?domiciliation_id={demande.id}"
+        f"&amount={demande.formule.prix}"
+        f"&description={demande.numero_demande}"
+    )
+
+    subject = f"💳 Paiement requis - Domiciliation {demande.numero_demande}"
+
+    # Notification interne + email
+    from notification.services import NotificationService
+    from notification.models import NotificationType
+
+    NotificationService.notify(
+        user=demande.utilisateur,
+        title=subject,
+        message=(
+            f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
+            f"Votre demande de domiciliation {demande.numero_demande} a été acceptée "
+            f"par notre équipe.\n\n"
+            f"Pour finaliser votre inscription, veuillez procéder au paiement de "
+            f"{demande.formule.prix} FCFA via le lien ci-dessous :\n"
+            f"{paiement_url}\n\n"
+            f"Une fois le paiement effectué, votre domiciliation sera activée.\n\n"
+            f"Cordialement,\nL'équipe EliteBuro"
+        ),
+        notification_type=NotificationType.EMAIL,
+    )
+
+    send_html_email(
+        subject=subject,
+        recipient_email=demande.utilisateur.email,
+        template_name="emails/domiciliation_payment_request.html",
+        context={
+            "demande": demande,
+            "paiement_url": paiement_url,
+        },
+        fail_silently=True,
+    )
 
 
 def renouveler_domiciliation(*, demande: DomiciliationRequest, par, nouvelle_periode: int = 12) -> DomiciliationRenewal:
