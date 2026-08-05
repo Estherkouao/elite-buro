@@ -1,0 +1,4 @@
+PassengerEnabled On
+PassengerAppRoot /var/www/vhosts/trusting-wu.164-132-167-236.plesk.page/httpdocs
+PassengerStartupFile passenger_wsgi.py
+PassengerPython /usr/bin/python3
