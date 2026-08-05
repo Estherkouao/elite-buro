@@ -67,18 +67,16 @@ urlpatterns = [
         name="creation_scoop"
     ),
 
-
     path("request/", views.new_request, name="new_request"),
     path("history/", views.history_list, name="history_list"),
     path("<uuid:uuid>/", views.request_detail, name="request_detail"),
     path("<uuid:uuid>/edit/", views.request_edit, name="request_edit"),
     path("<uuid:uuid>/documents/", views.upload_documents, name="documents"),
+    path("<uuid:uuid>/soumettre/", views.submit_request, name="submit_request"),
     path("<uuid:uuid>/contract/", views.contract_view, name="contract"),
+    path("<uuid:uuid>/contract/sign/", views.sign_contract, name="sign_contract"),
     path("<uuid:uuid>/contract/download/", views.contract_download, name="contract_download"),
 
     path("<uuid:uuid>/history/", views.history, name="history"),
     path("<uuid:uuid>/renew/", views.renew, name="renew"),
-
 ]
-
-

@@ -201,7 +201,7 @@
                         <div class="kpi-content">
                             <p class="kpi-label">Disponibilité (aujourd'hui)</p>
                             <p class="kpi-value">{{ availability_summary|length|default:0 }}</p>
-                            <p class="kpi-change positive">Espaces affichés</p>
+                            <p class="kpi-change positive">Catégories d'espaces</p>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
 
 
                             <div class="availability-item">
-                                <span class="space-name">{{ item.espace__nom|default:"Espace" }}</span>
+                                <span class="space-name">{{ item.categorie__nom|default:"Espace" }}</span>
                                 <div class="progress-bar">
                                     <div class="progress-fill" style="width: {{ pct }}%;"></div>
                                 </div>

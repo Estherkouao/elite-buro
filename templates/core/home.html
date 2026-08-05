@@ -2124,10 +2124,19 @@ EliteBuro - Coworking & Formation à Abidjan
                 </div>
 
                 <div class="floating-card">
+                    {% if featured_workspace %}
+                    <div class="card-status">
+                        {% if featured_workspace.is_available %}🟢 Disponible{% elif featured_workspace.is_occupied %}🔴 Réservé{% elif featured_workspace.is_soon_free %}🟡 Bientôt libre{% else %}⚪ Maintenance{% endif %}
+                    </div>
+                    <h3>Bureau {{ featured_workspace.nom }}</h3>
+                    <p>{{ featured_workspace.superficie }} m² • {{ featured_workspace.capacite }} postes • {{ featured_workspace.etage|default:"—" }}</p>
+                    <strong>{{ featured_workspace.formatted_price|default:"—" }}</strong>
+                    {% else %}
                     <div class="card-status">🟢 Disponible</div>
                     <h3>Bureau Panorama 05</h3>
                     <p>20 m² • 4 postes • Étage 2</p>
                     <strong>22 000 FCFA / jour</strong>
+                    {% endif %}
                 </div>
 
             </div>
@@ -2764,7 +2773,7 @@ EliteBuro - Coworking & Formation à Abidjan
             <div class="contact-grid">
                 <div>
                     <div class="section-label">Nous trouver</div>
-                    <h2 class="section-title">Venez découvrir Elite Buro</h2>
+                    <h2 class="section-title"></h2>
                     
                     <div class="contact-items">
                         <div class="contact-item">
@@ -2913,6 +2922,7 @@ Sam : 09h–18h</div>
 
         <!-- Input Area -->
         <div class="chatbot-input-area">
+            {% csrf_token %}
             <div id="chatbot-suggestions" class="chatbot-suggestions">
                 <!-- Les suggestions rapides seront ajoutées ici -->
             </div>
@@ -3350,9 +3360,9 @@ Sam : 09h–18h</div>
         chatbotSuggestions.innerHTML = '';
 
         showTyping();
-        setTimeout(() => {
+        setTimeout(async () => {
             removeTyping();
-            const response = generateResponse(userText);
+            const response = await generateResponse(userText);
             addMessage('bot', response);
             showSuggestions();
         }, 800);
@@ -3370,19 +3380,40 @@ Sam : 09h–18h</div>
     }
 
     // Generate Response
-    function generateResponse(userText) {
+    async function generateResponse(userText) {
         const lowerText = userText.toLowerCase();
+        
+        const history = chatbotState.messages
+            .filter(m => m.sender === 'user' || m.sender === 'bot')
+            .slice(-20)
+            .map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
 
-        // Check each knowledge category
-        for (const [key, data] of Object.entries(chatbotKnowledge)) {
-            if (key === 'greetings') continue;
-            if (data.keywords && data.keywords.some(keyword => lowerText.includes(keyword))) {
-                return data.response;
+        try {
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+            const response = await fetch("{% url 'chatbot:chatbot_api' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    message: userText,
+                    history: history,
+                }),
+            });
+
+            if (!response.ok) throw new Error('API error');
+            const data = await response.json();
+            return data.response || "Je n'ai pas trouvé de réponse précise. Souhaitez-vous être mis en relation avec un conseiller EliteBuro ?";
+        } catch (e) {
+            for (const [key, data] of Object.entries(chatbotKnowledge)) {
+                if (key === 'greetings') continue;
+                if (data.keywords && data.keywords.some(keyword => lowerText.includes(keyword))) {
+                    return data.response;
+                }
             }
+            return "Je n'ai pas trouvé de réponse précise. Souhaitez-vous être mis en relation avec un conseiller EliteBuro ?";
         }
-
-        // Default response
-        return "Je ne suis pas sûr de comprendre votre demande. Pouvez-vous choisir parmi les options suivantes ou reformuler votre question ?";
     }
 
     // Initialize on Load

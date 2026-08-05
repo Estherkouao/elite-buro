@@ -67,27 +67,18 @@ def get_admin_stats() -> DashboardStats:
 
 
 def get_space_availability_summary(limit: int = 10) -> list[Dict[str, Any]]:
-    """Résumé “disponible” basé sur l’occupation réelle.
+    """Résumé des espaces disponibles par catégorie (bureau, salle de formation, etc.).
 
-    IMPORTANT : le KPI “disponible” doit refléter les espaces qui ne sont pas accupés.
-    Dans le projet actuel, le tableau `WorkspaceAvailability` peut être vide.
-    On se base donc sur le champ `Workspace.disponible`.
+    Le KPI “disponible” reflète les espaces par type, indépendamment des CoworkingSpaces.
+    On se base sur le champ `Workspace.disponible`.
     """
 
-    qs = (
-        Workspace.objects.select_related("espace", "categorie")
-        .values("id", "nom", "disponible")
-    )
-
-    # Calcul par workspace (chaque workspace est compté une fois)
     total = Workspace.objects.count()
     available = Workspace.objects.filter(disponible=True).count()
 
-    # On renvoie la liste attendue par le template : espace__nom, count, available_count
-    # Ici, on regroupe par espace (CoworkingSpace), pour afficher un top global.
     top = (
-        Workspace.objects.select_related("espace")
-        .values("espace__nom")
+        Workspace.objects.select_related("categorie")
+        .values("categorie__nom")
         .annotate(
             count=Count("id"),
             available_count=Count("id", filter=Q(disponible=True)),
@@ -95,7 +86,6 @@ def get_space_availability_summary(limit: int = 10) -> list[Dict[str, Any]]:
         .order_by("-available_count")[:limit]
     )
 
-    # Si jamais top est vide, on retourne une structure vide (template gère le cas).
     return list(top)
 
 

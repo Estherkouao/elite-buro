@@ -161,7 +161,7 @@ Suivi Demande | EliteBuro
 
                         <span>
 
-                            {{ demande.nom }}
+                            {{ demande.utilisateur.last_name|default:"—" }}
 
                         </span>
 
@@ -177,7 +177,7 @@ Suivi Demande | EliteBuro
 
                         <span>
 
-                            {{ demande.prenom }}
+                            {{ demande.utilisateur.first_name|default:"—" }}
 
                         </span>
 
@@ -193,7 +193,7 @@ Suivi Demande | EliteBuro
 
                         <span>
 
-                            {{ demande.telephone }}
+                            {{ demande.utilisateur.phone|default:"—" }}
 
                         </span>
 
@@ -209,7 +209,7 @@ Suivi Demande | EliteBuro
 
                         <span>
 
-                            {{ demande.email }}
+                            {{ demande.utilisateur.email|default:"—" }}
 
                         </span>
 
@@ -241,7 +241,7 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.entreprise }}
+                            {{ demande.entreprise.company_name|default:"—" }}
 
                         </strong>
 
@@ -257,7 +257,7 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.activite }}
+                            {{ demande.entreprise.description|default:"—" }}
 
                         </strong>
 
@@ -273,7 +273,7 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.ville }}
+                            {{ ville|default:"—" }}
 
                         </strong>
 
@@ -289,7 +289,7 @@ Suivi Demande | EliteBuro
 
                         <strong class="text-right">
 
-                            {{ demande.siege_social }}
+                            {{ siege_social|default:"—" }}
 
                         </strong>
 
@@ -305,7 +305,7 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.entreprise_existante }}
+                            {{ entreprise_existante|default:"—" }}
 
                         </strong>
 
@@ -321,7 +321,7 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.delai_idu }}
+                            {{ delai_idu|default:"—" }}
 
                         </strong>
 
@@ -346,7 +346,7 @@ Suivi Demande | EliteBuro
 
             <div class="mt-6 flex flex-wrap gap-4">
 
-            <a href="tel:+225XXXXXXXXXX"
+            <a href="tel:+2250141136717"
 
             class="bg-[#FF8000] text-white px-6 py-3 rounded-xl font-bold">
 
@@ -354,7 +354,7 @@ Suivi Demande | EliteBuro
 
             </a>
 
-            <a href="https://wa.me/225XXXXXXXXXX"
+            <a href="https://wa.me/2250141136717"
 
             class="bg-green-600 text-white px-6 py-3 rounded-xl font-bold">
 
@@ -531,7 +531,7 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.montant }} FCFA
+                            {{ montant|floatformat:0 }} FCFA
 
                         </strong>
 
@@ -543,13 +543,13 @@ Suivi Demande | EliteBuro
 
                         <strong>
 
-                            {{ demande.statut_paiement }}
+                            {{ statut_paiement }}
 
                         </strong>
 
                     </div>
 
-                    {% if demande.statut_paiement != "Payé" %}
+                    {% if statut_paiement != "Payée" %}
 
                     <a href="{% url 'paiement:index' %}?domiciliation_id={{ demande.id }}&amount={{ demande.formule.prix|floatformat:0 }}&description={{ demande.numero_demande }}"
 
@@ -609,14 +609,31 @@ Suivi Demande | EliteBuro
                         Actions disponibles
                     </h2>
 
-                    <div class="grid md:grid-cols-2 gap-5">
+<div class="grid md:grid-cols-2 gap-5">
 
+                        {% if demande.statut == 'Brouillon' %}
+                        <form method="POST"
+                              action="{% url 'domiciliation:submit_request' uuid=demande.id %}">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="w-full rounded-xl bg-blue-600 text-white text-center py-4 font-bold hover:bg-blue-700 transition">
+                                📤 Soumettre à l'admin
+                            </button>
+                        </form>
+                        {% endif %}
+
+                        {% if contrat_envoye %}
                         <a href="{% url 'domiciliation:contract' uuid=demande.id %}"
                         class="rounded-xl bg-[#FF8000] text-white text-center py-4 font-bold hover:bg-orange-600 transition">
 
                             ✍️ Signer le contrat
 
                         </a>
+                        {% else %}
+                        <div class="rounded-xl bg-gray-100 text-gray-500 text-center py-4 font-bold">
+                            📩 Contrat en attente d'envoi
+                        </div>
+                        {% endif %}
 
                         <a href="{% url 'domiciliation:history_list' %}"
                         class="rounded-xl bg-gray-200 text-gray-700 text-center py-4 font-bold hover:bg-gray-300 transition">

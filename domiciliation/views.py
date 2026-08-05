@@ -29,6 +29,7 @@ from .forms import (
 from .models import (
     DomiciliationContract,
     DomiciliationDocument,
+    DomiciliationLog,
     DomiciliationPlan,
     DomiciliationRequest,
 )
@@ -55,60 +56,133 @@ def _generer_numero_demande() -> str:
     return f"DOM-{ts}-{alea}"
 
 
+
 @csrf_protect
 def domiciliation_from(request: HttpRequest) -> HttpResponse:
-    """Formulaire public d'inscription + demande de domiciliation en 7 étapes.
-
-    Crée automatiquement un compte utilisateur, une entreprise et une demande.
     """
+    Formulaire public d'inscription + demande de domiciliation.
+
+    Crée automatiquement :
+    - un compte utilisateur membre
+    - une entreprise
+    - une demande de domiciliation
+    - envoie les identifiants par email
+    - connecte automatiquement le membre
+    """
+
     if request.method == "POST":
-        # Récupération des champs du formulaire
+
+        # ==========================
+        # Récupération des données
+        # ==========================
+
         nom = request.POST.get("nom", "").strip()
         prenom = request.POST.get("prenom", "").strip()
         email = request.POST.get("email", "").strip()
         telephone = request.POST.get("telephone", "").strip()
+
         entreprise_nom = request.POST.get("entreprise", "").strip()
         activite = request.POST.get("activite", "").strip()
-        formule_nom = request.POST.get("formule", "").strip()
-        message = request.POST.get("message", "").strip()
 
-        # Validation basique
+        formule_nom = request.POST.get("formule", "").strip()
+        message_client = request.POST.get("message", "").strip()
+
+
+        # ==========================
+        # Validation
+        # ==========================
+
         erreurs = []
+
         if not nom:
             erreurs.append("Le nom est obligatoire.")
+
         if not prenom:
             erreurs.append("Le prénom est obligatoire.")
+
         if not email:
             erreurs.append("L'email est obligatoire.")
+
         if not telephone:
             erreurs.append("Le téléphone est obligatoire.")
+
         if not entreprise_nom:
             erreurs.append("Le nom de l'entreprise est obligatoire.")
+
         if not formule_nom:
             erreurs.append("La formule est obligatoire.")
 
-        # Vérifier si l'email existe déjà
-        if email and User.objects.filter(email=email).exists():
-            erreurs.append("Cet email est déjà utilisé. Veuillez vous connecter.")
 
-        # Récupérer la formule
+        if email and User.objects.filter(email=email).exists():
+            erreurs.append(
+                "Cet email est déjà utilisé. Veuillez vous connecter."
+            )
+
+
+        if telephone and User.objects.filter(phone=telephone).exists():
+            erreurs.append(
+                "Ce numéro de téléphone est déjà utilisé."
+            )
+
+
+        # ==========================
+        # Recherche formule
+        # ==========================
+
         formule = None
+
         if formule_nom:
+
             try:
-                formule = DomiciliationPlan.objects.get(nom__iexact=formule_nom, actif=True)
+
+                formule = DomiciliationPlan.objects.get(
+                    nom__iexact=formule_nom,
+                    actif=True
+                )
+
             except DomiciliationPlan.DoesNotExist:
-                erreurs.append(f"La formule '{formule_nom}' n'existe pas.")
+
+                erreurs.append(
+                    f"La formule '{formule_nom}' n'existe pas."
+                )
+
 
         if erreurs:
-            for err in erreurs:
-                messages.error(request, err)
-            plans = DomiciliationPlan.objects.filter(actif=True).order_by("ordre", "nom")
-            return render(request, "domiciliation/domiciliation.from.html", {"plans": plans})
+
+            for erreur in erreurs:
+                messages.error(request, erreur)
+
+
+            plans = DomiciliationPlan.objects.filter(
+                actif=True
+            ).order_by(
+                "ordre",
+                "nom"
+            )
+
+
+            return render(
+                request,
+                "domiciliation/domiciliation.from.html",
+                {
+                    "plans": plans
+                }
+            )
+
 
         try:
+
+            # ==========================
+            # Création en base
+            # ==========================
+
             with transaction.atomic():
-                # 1. Créer l'utilisateur
+
+                # 1. Création utilisateur
+
                 mot_de_passe = _generer_mot_de_passe()
+
+
                 user = User.objects.create_user(
                     email=email,
                     password=mot_de_passe,
@@ -119,68 +193,226 @@ def domiciliation_from(request: HttpRequest) -> HttpResponse:
                     is_active=True,
                 )
 
-                # 2. Créer l'entreprise
+
+                # 2. Création entreprise
+
                 company = Company.objects.create(
+
                     owner=user,
+
                     company_name=entreprise_nom,
+
                     description=activite,
+
                 )
 
-# 3. Créer la demande de domiciliation
+
+                # 3. Création demande
+
+
                 numero = _generer_numero_demande()
+
+
                 demande = DomiciliationRequest.objects.create(
+
                     utilisateur=user,
+
                     entreprise=company,
+
                     formule=formule,
+
                     numero_demande=numero,
+
                     type_demande="DOMICILIATION",
-                    adresse_domiciliation="Cocody Riviera Palmeraie, Abidjan",
-                    observations=message,
-                    statut=DomiciliationRequest.Status.EN_ATTENTE,
-                    date_creation=timezone.now(),
-                )
 
-# 4. Envoyer l'email de bienvenue avec les identifiants
-                NotificationService.notify(
-                    user=user,
-                    title="Bienvenue chez EliteBuro — Vos identifiants de connexion",
-                    message=(
-                        f"Bonjour {prenom} {nom},\n\n"
-                        f"Merci d'avoir souscrit à la domiciliation d'entreprise EliteBuro.\n\n"
-                        f"Votre demande a été enregistrée sous le numéro : {numero}\n\n"
-                        f"Voici vos identifiants pour accéder à votre espace membre :\n"
-                        f"   📧 Email : {email}\n"
-                        f"   🔑 Mot de passe : {mot_de_passe}\n\n"
-                        f"Lien de connexion : {request.build_absolute_uri(reverse('accounts:login'))}\n\n"
-                        f"Nous vous recommandons de changer votre mot de passe après votre première connexion.\n\n"
-                        f"L'équipe EliteBuro"
+                    adresse_domiciliation=(
+                        "Cocody Riviera Palmeraie, Abidjan"
                     ),
+
+                    observations=message_client,
+
+                    statut=(
+                        DomiciliationRequest.Status.EN_ATTENTE
+                    ),
+
+                    date_creation=timezone.now(),
+
+                )
+
+
+                # 4. Création notification
+
+                notification = NotificationService.notify(
+
+                    user=user,
+
+                    title=(
+                        "Bienvenue chez EliteBuro "
+                        "— Vos identifiants de connexion"
+                    ),
+
+                    message=(
+
+                        f"Votre demande {numero} "
+                        "a été enregistrée."
+
+                    ),
+
                     notification_type=NotificationType.EMAIL,
+
                 )
 
-                # 5. Connecter automatiquement l'utilisateur
-                login(request, user)
 
-                # 5. Message de bienvenue avec identifiants
-                messages.success(
-                    request,
-                    f"✅ Votre demande de domiciliation a été enregistrée !\n"
-                    f"Vos identifiants :\n"
-                    f"   Email : {email}\n"
-                    f"   Mot de passe : {mot_de_passe}\n"
-                    f"Veuillez conserver ces informations."
+            # ==========================
+            # Envoi email HTML
+            # ==========================
+
+
+            NotificationService.send_html_notification(
+
+                notification,
+
+                "emails/bienvenue_identifiants.html",
+
+                {
+
+                    "prenom": prenom,
+
+                    "nom": nom,
+
+                    "numero": numero,
+
+                    "email": email,
+
+                    "mot_de_passe": mot_de_passe,
+
+                    "login_url": request.build_absolute_uri(
+
+                        reverse("accounts:login")
+
+                    ),
+
+                }
+
+            )
+
+
+            # ==========================
+            # Connexion automatique
+            # ==========================
+
+
+            login(
+
+                request,
+
+                user,
+
+                backend="django.contrib.auth.backends.ModelBackend"
+
+            )
+
+
+            # ==========================
+            # Message succès
+            # ==========================
+
+
+            messages.success(
+
+                request,
+
+                "Votre demande de domiciliation "
+                "a été enregistrée avec succès. "
+                "Vos identifiants vous ont été envoyés "
+                "par email."
+
+            )
+
+
+            return redirect(
+
+                reverse(
+
+                    "domiciliation:request_detail",
+
+                    args=[str(demande.id)]
+
                 )
 
-                return redirect(reverse("domiciliation:request_detail", args=[str(demande.id)]))
+            )
+
 
         except Exception as e:
-            messages.error(request, f"Une erreur est survenue : {str(e)}")
-            plans = DomiciliationPlan.objects.filter(actif=True).order_by("ordre", "nom")
-            return render(request, "domiciliation/domiciliation.from.html", {"plans": plans})
 
-    # GET : afficher le formulaire
-    plans = DomiciliationPlan.objects.filter(actif=True).order_by("ordre", "nom")
-    return render(request, "domiciliation/domiciliation.from.html", {"plans": plans})
+
+            messages.error(
+
+                request,
+
+                f"Une erreur est survenue : {str(e)}"
+
+            )
+
+
+            plans = DomiciliationPlan.objects.filter(
+
+                actif=True
+
+            ).order_by(
+
+                "ordre",
+
+                "nom"
+
+            )
+
+
+            return render(
+
+                request,
+
+                "domiciliation/domiciliation.from.html",
+
+                {
+
+                    "plans": plans
+
+                }
+
+            )
+
+
+    # ==========================
+    # Affichage formulaire
+    # ==========================
+
+    plans = DomiciliationPlan.objects.filter(
+
+        actif=True
+
+    ).order_by(
+
+        "ordre",
+
+        "nom"
+
+    )
+
+
+    return render(
+
+        request,
+
+        "domiciliation/domiciliation.from.html",
+
+        {
+
+            "plans": plans
+
+        }
+
+    )
 
 
 @csrf_protect
@@ -391,6 +623,62 @@ def history_list(request: HttpRequest) -> HttpResponse:
 
 @login_required
 @csrf_protect
+def submit_request(request: HttpRequest, uuid: str) -> HttpResponse:
+    """Soumet une demande en brouillon à l'admin (passe en « En attente »)."""
+    demande = get_object_or_404(DomiciliationRequest, id=uuid)
+    require_can_consulter_request(user=request.user, demande=demande)
+
+    if request.method != "POST":
+        return redirect("domiciliation:request_detail", uuid=demande.id)
+
+    if demande.statut != DomiciliationRequest.Status.BROUILLON:
+        messages.info(
+            request,
+            "Cette demande a déjà été soumise ou ne peut plus être soumise.",
+        )
+        return redirect("domiciliation:history_list")
+
+    with transaction.atomic():
+        demande.statut = DomiciliationRequest.Status.EN_ATTENTE
+        demande.save(update_fields=["statut", "derniere_modification"])
+
+        DomiciliationLog.objects.create(
+            demande=demande,
+            utilisateur=request.user,
+            action="SOUMISSION",
+            details="Demande soumise à l'administration par le membre.",
+        )
+
+        # Notifier les administrateurs / gestionnaires
+        from accounts.models import User
+        from notification.models import NotificationType
+
+        admins = User.objects.filter(
+            role__in=[User.Role.ADMIN, User.Role.MANAGER]
+        )
+        for admin in admins:
+            NotificationService.notify(
+                user=admin,
+                title="📩 Nouvelle demande de domiciliation soumise",
+                message=(
+                    f"Le membre {demande.utilisateur.get_full_name()} "
+                    f"a soumis la demande {demande.numero_demande} "
+                    f"pour {demande.entreprise.company_name}."
+                ),
+                notification_type=NotificationType.SYSTEM,
+                priority="HIGH",
+            )
+
+    messages.success(
+        request,
+        "✅ Votre demande a été soumise à l'administration. "
+        "Vous pourrez suivre son évolution ici.",
+    )
+    return redirect("domiciliation:history_list")
+
+
+@login_required
+@csrf_protect
 def new_request(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form = DomiciliationRequestForm(request.POST, user=request.user)
@@ -418,9 +706,44 @@ def request_detail(request: HttpRequest, uuid: str) -> HttpResponse:
     )
     require_can_consulter_request(user=request.user, demande=demande)
 
-    # Prefetch documents/contract
     documents = demande.documents.all().order_by("created_at")
     contract = getattr(demande, "contrat", None)
+
+    observations = demande.observations or ""
+    entreprise_existante = ""
+    delai_idu = ""
+    ville = ""
+    siege_social = ""
+
+    if demande.type_demande == demande.TypeDemande.ENTREPRISE_INDIVIDUELLE:
+        for line in observations.split("\n"):
+            if line.startswith("Entreprise existante :"):
+                entreprise_existante = line.split(":", 1)[1].strip() if ":" in line else ""
+            elif line.startswith("Délai certificat IDU :"):
+                delai_idu = line.split(":", 1)[1].strip() if ":" in line else ""
+            elif line.startswith("Ville :"):
+                ville = line.split(":", 1)[1].strip() if ":" in line else ""
+
+    adresse_parts = [p.strip() for p in demande.adresse_domiciliation.split(",") if p.strip()]
+    if not siege_social and adresse_parts:
+        siege_social = adresse_parts[0]
+    if not ville and len(adresse_parts) > 1:
+        ville = adresse_parts[1]
+
+    montant = demande.formule.prix if demande.formule else None
+    facture = getattr(demande, "facture", None)
+    statut_paiement = facture.statut if facture else "En attente"
+    contrat_envoye = demande.statut in {
+        DomiciliationRequest.Status.CONTRAT_ENVOYÉ,
+        DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE,
+        DomiciliationRequest.Status.PAIEMENT_EN_ATTENTE,
+        DomiciliationRequest.Status.ACTIVE,
+    }
+    is_admin = getattr(request.user, "role", None) in {
+        getattr(User.Role, "ADMIN", "ADMIN"),
+        getattr(User.Role, "MANAGER", "MANAGER"),
+    }
+
     return render(
         request,
         "domiciliation/tracking.html",
@@ -428,6 +751,14 @@ def request_detail(request: HttpRequest, uuid: str) -> HttpResponse:
             "demande": demande,
             "documents": documents,
             "contract": contract,
+            "entreprise_existante": entreprise_existante,
+            "delai_idu": delai_idu,
+            "ville": ville,
+            "siege_social": siege_social,
+            "montant": montant,
+            "statut_paiement": statut_paiement,
+            "contrat_envoye": contrat_envoye,
+            "is_admin": is_admin,
         },
     )
 
@@ -499,21 +830,88 @@ def contract_view(request: HttpRequest, uuid: str) -> HttpResponse:
     demande = get_object_or_404(DomiciliationRequest, id=uuid)
     require_can_consulter_request(user=request.user, demande=demande)
 
+    if demande.statut not in {
+        DomiciliationRequest.Status.CONTRAT_ENVOYÉ,
+        DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE,
+        DomiciliationRequest.Status.PAIEMENT_EN_ATTENTE,
+        DomiciliationRequest.Status.ACTIVE,
+    }:
+        messages.error(request, "Le contrat n'est pas encore disponible.")
+        return redirect("domiciliation:request_detail", uuid=demande.id)
+
     contract = getattr(demande, "contrat", None)
-    return render(request, "domiciliation/contract.html", {"demande": demande, "contract": contract})
+    return render(request, "domiciliation/contract.html", {
+        "demande": demande,
+        "contract": contract,
+        "peut_signer": demande.statut in {
+            DomiciliationRequest.Status.CONTRAT_ENVOYÉ,
+            DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE,
+        },
+    })
+
+
+@login_required
+@csrf_protect
+def sign_contract(request: HttpRequest, uuid: str) -> HttpResponse:
+    demande = get_object_or_404(DomiciliationRequest, id=uuid)
+    require_can_consulter_request(user=request.user, demande=demande)
+
+    if request.method != "POST":
+        return redirect("domiciliation:contract", uuid=demande.id)
+
+    if demande.statut not in {
+        DomiciliationRequest.Status.CONTRAT_ENVOYÉ,
+        DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE,
+    }:
+        messages.error(request, "Le contrat n'est pas encore disponible pour signature.")
+        return redirect("domiciliation:request_detail", uuid=demande.id)
+
+    contract = getattr(demande, "contrat", None)
+    if not contract:
+        messages.error(request, "Aucun contrat disponible pour cette demande.")
+        return redirect("domiciliation:request_detail", uuid=demande.id)
+
+    if contract.signé:
+        messages.info(request, "Ce contrat est déjà signé.")
+        return redirect("domiciliation:request_detail", uuid=demande.id)
+
+    with transaction.atomic():
+        contract.signé = True
+        contract.date_signature = timezone.now()
+        contract.signature_docuseal = f"DOCUSEAL-{demande.id.hex}-{contract.id}"
+        contract.save(update_fields=["signé", "date_signature", "signature_docuseal"])
+
+        demande.statut = DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE
+        demande.save(update_fields=["statut", "derniere_modification"])
+
+        DomiciliationLog.objects.create(
+            demande=demande,
+            utilisateur=request.user,
+            action="contrat_signé",
+            details=f"Contrat {contract.numero} signé électroniquement.",
+        )
+
+    messages.success(request, "✅ Contrat signé avec succès.")
+    return redirect("domiciliation:request_detail", uuid=demande.id)
 
 
 @login_required
 def contract_download(request: HttpRequest, uuid: str) -> HttpResponse:
     demande = get_object_or_404(DomiciliationRequest, id=uuid)
-    # “Tout le monde peut” => même règle que la consultation du dossier
     require_can_consulter_request(user=request.user, demande=demande)
+
+    if demande.statut not in {
+        DomiciliationRequest.Status.CONTRAT_ENVOYÉ,
+        DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE,
+        DomiciliationRequest.Status.PAIEMENT_EN_ATTENTE,
+        DomiciliationRequest.Status.ACTIVE,
+    }:
+        raise Http404("Contrat non disponible.")
 
     contract = getattr(demande, "contrat", None)
     if not contract or not contract.fichier_pdf:
         raise Http404("Contrat introuvable.")
 
-    # FileResponse gère stream + headers.
     response = FileResponse(contract.fichier_pdf.open("rb"), content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename=\"{contract.numero}.pdf\""
     return response

@@ -46,124 +46,98 @@ Signature Contrat | EliteBuro
 
             </p>
 
-
-
-            <!-- ZONE SIGNATURE -->
-
-            <div class="relative h-[500px] rounded-3xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden">
-
-
-                <div class="text-center">
-
-                    <div class="text-6xl mb-5">
-                        ✍️
-                    </div>
-
-
-                    <p class="text-slate-500 font-medium">
-
-                        Interface de signature électronique
-
-                    </p>
-
-
-                    <p class="text-sm text-slate-400 mt-2">
-
-                        Docuseal sera intégré ici
-
-                    </p>
-
-
+            {% if messages %}
+            <div class="mb-8 space-y-3">
+                {% for message in messages %}
+                <div class="rounded-xl px-5 py-3 text-sm font-medium
+                            {% if message.tags == 'success' %}bg-green-50 text-green-700 border border-green-200{% endif %}
+                            {% if message.tags == 'error' %}bg-red-50 text-red-700 border border-red-200{% endif %}
+                            {% if message.tags == 'info' %}bg-blue-50 text-blue-700 border border-blue-200{% endif %}">
+                    {{ message }}
                 </div>
-
-
-
-                <!-- MESSAGE BAS -->
-
-                <div class="absolute bottom-5 left-1/2 -translate-x-1/2 w-[85%] bg-white rounded-2xl shadow-lg p-5 text-center">
-
-
-                    <p class="text-sm text-slate-600">
-
-                        En signant ce document, vous acceptez les conditions générales
-                        de domiciliation d'EliteBuro.
-
-                    </p>
-
-
-                </div>
-
-
+                {% endfor %}
             </div>
+            {% endif %}
 
+            {% if contract and contract.signé %}
+            <div class="rounded-3xl bg-green-50 border border-green-200 p-10 text-center mb-8">
+                <div class="text-6xl mb-5">✅</div>
+                <h2 class="text-2xl font-bold text-green-700 mb-3">Contrat signé</h2>
+                <p class="text-slate-600">
+                    Votre contrat <strong>{{ contract.numero }}</strong> a été signé électroniquement
+                    le {{ contract.date_signature|date:"d/m/Y H:i" }}.
+                </p>
+            </div>
+            {% else %}
 
-
-
-            <!-- ACTIONS -->
-
-            <div class="mt-10 flex flex-wrap justify-between gap-5">
-
-
-                <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
-
-                   class="px-8 py-3 rounded-xl border border-[#FF8000] text-[#FF8000] font-bold hover:bg-[#FF8000] hover:text-white transition">
-
-                    ← Retour au suivi
-
-                </a>
-
-
+            <div class="rounded-3xl bg-slate-50 border border-slate-200 p-8 mb-8">
+                <h2 class="text-xl font-bold text-slate-800 mb-4">📄 Contrat n° {{ contract.numero|default:"—" }}</h2>
+                <p class="text-slate-600 mb-6">
+                    Veuillez télécharger et lire attentivement le contrat avant de le signer.
+                    En signant, vous confirmez avoir lu et accepté l'ensemble des conditions générales
+                    de domiciliation d'EliteBuro.
+                </p>
 
                 <div class="flex flex-wrap gap-4">
-
-
                     {% if contract and contract.fichier_pdf %}
-
                     <a href="{% url 'domiciliation:contract_download' uuid=demande.id %}"
-
-                       class="px-8 py-3 rounded-xl bg-slate-200 text-[#FF8000] font-bold hover:bg-slate-300 transition">
-
-                        📄 Télécharger le contrat
-
+                       target="_blank"
+                       class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#FF8000] text-white font-bold hover:bg-orange-600 transition">
+                        📄 Télécharger le contrat PDF
                     </a>
-
-
                     {% else %}
-
-
-                    <span class="px-8 py-3 rounded-xl bg-slate-200 text-slate-400 font-bold">
-
+                    <span class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-200 text-slate-400 font-bold">
                         Contrat indisponible
-
                     </span>
-
-
                     {% endif %}
-
-
-
-
-                    <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
-
-                       class="px-8 py-3 rounded-xl bg-[#6B7280] text-[#FF8000] font-bold hover:scale-105 transition">
-
-                        J'ai signé ✓
-
-                    </a>
-
-
                 </div>
-
-
             </div>
 
+            {% if peut_signer %}
+            <form method="post" action="{% url 'domiciliation:sign_contract' uuid=demande.id %}" class="space-y-6">
+                {% csrf_token %}
 
+                <div class="rounded-3xl bg-orange-50 border border-orange-200 p-8">
+                    <label class="flex items-start gap-4 cursor-pointer">
+                        <input type="checkbox" name="accept_terms" required
+                               class="mt-1 w-5 h-5 rounded border-gray-300 text-[#FF8000] focus:ring-[#FF8000]">
+                        <span class="text-sm text-slate-700 leading-relaxed">
+                            Je reconnais avoir pris connaissance du contrat de domiciliation,
+                            en avoir compris l'ensemble des clauses et conditions, et je confirme
+                            ma signature électronique pour le contrat n°
+                            <strong>{{ contract.numero|default:"—" }}</strong>.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="flex flex-wrap justify-between gap-5">
+                    <a href="{% url 'domiciliation:request_detail' uuid=demande.id %}"
+                       class="px-8 py-3 rounded-xl border border-[#FF8000] text-[#FF8000] font-bold hover:bg-[#FF8000] hover:text-white transition">
+                        ← Retour au suivi
+                    </a>
+
+                    <button type="submit"
+                            class="px-8 py-3 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition">
+                        ✍️ Signer le contrat
+                    </button>
+                </div>
+            </form>
+            {% else %}
+            <div class="rounded-3xl bg-blue-50 border border-blue-200 p-8 text-center">
+                <div class="text-5xl mb-4">📩</div>
+                <h3 class="text-xl font-bold text-blue-700 mb-2">Contrat en cours d'envoi</h3>
+                <p class="text-slate-600">
+                    Votre contrat a été généré et sera envoyé à votre adresse email très prochainement.
+                    Vous pourrez le signer une fois reçu.
+                </p>
+            </div>
+            {% endif %}
+
+            {% endif %}
 
         </div>
 
-
     </div>
-
 
 </section>
 

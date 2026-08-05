@@ -54,6 +54,7 @@ class DomiciliationRequest(models.Model):
         DOCUMENTS_REÇUS = "Documents reçus", "Documents reçus"
         EN_VÉRIFICATION = "En vérification", "En vérification"
         CONTRAT_GÉNÉRÉ = "Contrat généré", "Contrat généré"
+        CONTRAT_ENVOYÉ = "Contrat envoyé", "Contrat envoyé"
         SIGNATURE_EN_ATTENTE = "Signature en attente", "Signature en attente"
         PAIEMENT_EN_ATTENTE = "Paiement en attente", "Paiement en attente"
         ACTIVE = "Active", "Active"

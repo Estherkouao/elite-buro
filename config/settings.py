@@ -445,3 +445,9 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ==================================================
+# CHATBOT CLAUDE
+# ==================================================
+
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")

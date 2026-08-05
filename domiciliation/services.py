@@ -141,15 +141,70 @@ def generer_contrat_pour_demande(*, demande: DomiciliationRequest) -> Domiciliat
         contract.signature_docuseal = ""
         contract.save(update_fields=["fichier_pdf", "signature_docuseal"])
 
-        demande.statut = DomiciliationRequest.Status.CONTRAT_GÉNÉRÉ
-        demande.save(update_fields=["statut", "derniere_modification"])
         return contract
+
+
+def envoyer_contrat(*, demande: DomiciliationRequest, par) -> ServiceResult:
+    with transaction.atomic():
+        if not hasattr(demande, "contrat"):
+            raise ValidationError("Aucun contrat associé à cette demande.")
+        
+        contract = demande.contrat
+        if not contract.fichier_pdf:
+            raise ValidationError("Le contrat PDF n'est pas encore disponible.")
+
+        demande.statut = DomiciliationRequest.Status.CONTRAT_ENVOYÉ
+        demande.save(update_fields=["statut", "derniere_modification"])
+        
+        _log(demande=demande, utilisateur=par, action="contrat_envoye", details=f"Contrat {contract.numero} envoyé au client.")
+        
+        try:
+            from django.urls import reverse
+            from notification.models import NotificationType
+            from notification.services import NotificationService, send_html_email
+            
+            contrat_url = (
+                f"{settings.SITE_URL}"
+                f"{reverse('domiciliation:contract', args=[str(demande.id)])}"
+            )
+            
+            NotificationService.notify(
+                user=demande.utilisateur,
+                title="📄 Votre contrat de domiciliation est prêt",
+                message=(
+                    f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
+                    f"Nous avons le plaisir de vous informer que votre contrat de prestation de services "
+                    f"n° {demande.numero_demande} a été généré et est disponible pour signature.\n\n"
+                    f"Veuillez consulter votre espace client pour :\n"
+                    f"  • Lire et télécharger le contrat PDF.\n"
+                    f"  • Signer le contrat (mention « Lu et approuvé »).\n\n"
+                    f"Lien direct : {contrat_url}\n\n"
+                    f"L'équipe EliteBuro"
+                ),
+                notification_type=NotificationType.EMAIL,
+            )
+            
+            send_html_email(
+                subject=f"📄 Votre contrat ELITEBURO — {demande.numero_demande}",
+                recipient_email=demande.utilisateur.email,
+                template_name="emails/domiciliation_contract.html",
+                context={
+                    "demande": demande,
+                    "contract": contract,
+                    "contrat_url": contrat_url,
+                },
+                fail_silently=True,
+            )
+        except Exception:
+            pass
+
+    return ServiceResult(ok=True, message="Contrat envoyé au client.")
 
 
 def envoyer_en_signature(*, demande: DomiciliationRequest, par) -> ServiceResult:
     with transaction.atomic():
-        if demande.statut != DomiciliationRequest.Status.CONTRAT_GÉNÉRÉ:
-            raise ValidationError("Le contrat doit d’abord être généré avant l’envoi en signature.")
+        if demande.statut != DomiciliationRequest.Status.CONTRAT_ENVOYÉ:
+            raise ValidationError("Le contrat doit d’abord être envoyé au client avant la signature.")
         if not hasattr(demande, "contrat"):
             raise ValidationError("Aucun contrat associé.")
 
@@ -247,7 +302,7 @@ def generer_facture_et_envoyer_paiement(*, demande: DomiciliationRequest, par) -
             DomiciliationRequest.Status.EN_ATTENTE,
             DomiciliationRequest.Status.DOCUMENTS_REÇUS,
             DomiciliationRequest.Status.EN_VÉRIFICATION,
-            DomiciliationRequest.Status.CONTRAT_GÉNÉRÉ,
+            DomiciliationRequest.Status.CONTRAT_ENVOYÉ,
         }:
             raise ValidationError(
                 "Cette demande ne peut pas passer en paiement depuis son statut actuel."

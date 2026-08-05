@@ -183,6 +183,11 @@ def home(request):
     hot_desk_available = sum(1 for w in hot_desks if w.is_available)
     meeting_room_count = len(meeting_rooms_qs)
 
+    # ── Bureau vedette pour la carte flottante ───
+    featured_workspace = next((w for w in private_offices if w.is_available), None)
+    if featured_workspace is None and private_offices:
+        featured_workspace = private_offices[0]
+
     # ── Équipements pour salles de réunion ──────
     meeting_rooms_data = []
     for w in meeting_rooms_qs:
@@ -232,6 +237,7 @@ def home(request):
         "upcoming_ids": upcoming_ids,
         "domiciliation_plans": domiciliation_plans,
         "testimonials": approved_testimonials,
+        "featured_workspace": featured_workspace,
     }
 
     return render(request, "core/home.html", context)

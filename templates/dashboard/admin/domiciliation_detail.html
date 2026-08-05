@@ -488,6 +488,119 @@ class="btn-back">
 
 
 
+<div class="detail-card">
+
+
+<h3 class="section-title">
+📄 Documents soumis par le membre
+</h3>
+
+
+{% if documents %}
+
+<div class="info-grid">
+
+{% for doc in documents %}
+
+<div class="info-box">
+
+<strong>{{ doc.type }}</strong>
+
+<span class="doc-meta">
+
+{% if doc.validé %}
+    ✅ Validé
+{% else %}
+    ⏳ En attente de vérification
+{% endif %}
+
+</span>
+
+<a href="{{ doc.fichier.url }}"
+   target="_blank"
+   class="doc-download">
+
+    📎 Télécharger
+
+</a>
+
+{% if doc.commentaire %}
+<p class="doc-commentaire">
+    {{ doc.commentaire }}
+</p>
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="observation" style="background:#f9fafb; color:#6b7280;">
+
+Aucun document n'a encore été soumis par le membre pour cette demande.
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+
+
+
+<style>
+
+.doc-meta{
+
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:10px;
+    color:#6b7280;
+
+}
+
+
+.doc-download{
+
+    display:inline-block;
+    margin-top:6px;
+    background:#FF8000;
+    color:white;
+    padding:8px 16px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:13px;
+    text-decoration:none;
+    transition:.3s;
+
+}
+
+
+.doc-download:hover{
+
+    background:#163d72;
+    transform:translateY(-2px);
+
+}
+
+
+.doc-commentaire{
+
+    margin-top:10px;
+    font-size:13px;
+    color:#444;
+    background:#fff7ed;
+    border-radius:8px;
+    padding:8px 12px;
+
+}
+
+</style>
 
 
 

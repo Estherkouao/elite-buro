@@ -16,6 +16,7 @@ from .services import (
     activer_domiciliation,
     generer_contrat_pour_demande,
     generer_facture_pour_demande,
+    envoyer_contrat,
     envoyer_en_signature,
     refuser_demande,
     valider_demande,
@@ -73,6 +74,7 @@ class DomiciliationRequestAdmin(admin.ModelAdmin):
         "action_refuser",
         "action_generer_contrat",
         "action_generer_facture",
+        "action_envoyer_contrat",
         "action_envoyer_signature",
         "action_activer",
         "action_renouveler",
@@ -150,6 +152,16 @@ class DomiciliationRequestAdmin(admin.ModelAdmin):
                 messages.success(request, f"Facture générée pour {demande.numero_demande}.")
             except Exception as exc:
                 messages.error(request, f"Impossible de générer la facture pour {demande.numero_demande}: {exc}")
+
+    @admin.action(description="Envoyer le contrat au client")
+    def action_envoyer_contrat(self, request, queryset: QuerySet):
+        queryset = _get_selected_queryset(self, request, queryset)
+        for demande in queryset:
+            try:
+                envoyer_contrat(demande=demande, par=request.user)
+                messages.success(request, f"Contrat envoyé pour {demande.numero_demande}.")
+            except Exception as exc:
+                messages.error(request, f"Impossible d'envoyer le contrat pour {demande.numero_demande}: {exc}")
 
     @admin.action(description="Envoyer en signature Docuseal")
     def action_envoyer_signature(self, request, queryset: QuerySet):

@@ -1519,11 +1519,14 @@ def domiciliation_detail(request, request_id):
         id=request_id
     )
 
+    documents = demande.documents.all().order_by("created_at")
+
     return render(
         request,
         "dashboard/admin/domiciliation_detail.html",
         {
-            "demande": demande
+            "demande": demande,
+            "documents": documents,
         }
     )
 
@@ -1613,10 +1616,8 @@ def domiciliation_contract_send(request, request_id):
         details="Contrat envoyé par email à l'utilisateur.",
     )
 
-    # Passage du statut : contrat généré -> signature en attente
-    if demande.statut == DomiciliationRequest.Status.CONTRAT_GÉNÉRÉ:
-        demande.statut = DomiciliationRequest.Status.SIGNATURE_EN_ATTENTE
-        demande.save(update_fields=["statut", "derniere_modification"])
+    demande.statut = DomiciliationRequest.Status.CONTRAT_ENVOYÉ
+    demande.save(update_fields=["statut", "derniere_modification"])
 
     messages.success(
         request,
@@ -1658,64 +1659,114 @@ def domiciliation_contract_view(request, request_id):
     return response
 
 
-def domiciliation_contract_send(request, request_id):
-    """Génère le contrat PDF puis l'envoie par email au demandeur (pièce jointe).
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
+from django.urls import reverse
 
-    Déclenché par le bouton « Envoyer le contrat » dans le back-office.
+
+def domiciliation_contract_send(request, request_id):
     """
+    Génère le contrat PDF puis l'envoie par email au demandeur.
+    Le corps du mail est généré à partir du template HTML :
+    templates/emails/domiciliation_contract.html
+    """
+
     from domiciliation.services import generer_contrat_pour_demande
     from domiciliation.models import DomiciliationLog
-    from django.conf import settings
-    from django.urls import reverse
 
     demande = get_object_or_404(
-        DomiciliationRequest.objects.select_related("utilisateur", "entreprise", "formule"),
+        DomiciliationRequest.objects.select_related(
+            "utilisateur",
+            "entreprise",
+            "formule",
+        ),
         id=request_id,
     )
 
+    # Génération du contrat
     contract = generer_contrat_pour_demande(demande=demande)
 
     if not contract.fichier_pdf:
-        messages.error(request, "Le contrat n'a pas pu être généré.")
-        return redirect("dashboard_admin:domiciliation_detail", request_id=demande.id)
+        messages.error(
+            request,
+            "Le contrat n'a pas pu être généré."
+        )
+        return redirect(
+            "dashboard_admin:domiciliation_detail",
+            request_id=demande.id,
+        )
 
-    # Lien vers l'espace membre
+    # URL de l'espace membre
     espace_url = request.build_absolute_uri(
-        reverse("domiciliation:request_detail", args=[str(demande.id)])
+        reverse(
+            "domiciliation:request_detail",
+            args=[demande.id],
+        )
     )
 
-    sujet = f"📄 Votre contrat de domiciliation {demande.numero_demande}"
-
-    corps = (
-        f"Bonjour {demande.utilisateur.get_full_name()},\n\n"
-        f"Votre demande de domiciliation {demande.numero_demande} a été traitée.\n"
-        f"Veuillez trouver en pièce jointe votre contrat de prestation de services.\n\n"
-        f"Vous pouvez également le retrouver à tout moment dans votre espace membre :\n"
-        f"{espace_url}\n\n"
-        f"Cordialement,\nL'équipe EliteBuro"
+    sujet = (
+        f"📄 Votre contrat de domiciliation "
+        f"{demande.numero_demande}"
     )
+
+    # ==========================
+    # Email HTML
+    # ==========================
+
+    html_message = render_to_string(
+        "emails/domiciliation_contract.html",
+        {
+            "demande": demande,
+            "contract": contract,
+            "espace_url": espace_url,
+            "entreprise": demande.entreprise,
+        },
+    )
+
+    # Version texte (pour Outlook, Gmail...)
+    text_message = strip_tags(html_message)
 
     email = EmailMessage(
         subject=sujet,
-        body=corps,
+        body=text_message,
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=[demande.utilisateur.email],
     )
 
-    pdf_bytes = contract.fichier_pdf.read()
+    # Remplacer le corps par le HTML
+    email.content_subtype = "html"
+    email.body = html_message
+
+    # ==========================
+    # Pièce jointe PDF
+    # ==========================
+
+    contract.fichier_pdf.open("rb")
+
     email.attach(
         f"{contract.numero}.pdf",
-        pdf_bytes,
+        contract.fichier_pdf.read(),
         "application/pdf",
     )
 
+    contract.fichier_pdf.close()
+
+    # Envoi
     email.send(fail_silently=False)
 
+    # Journalisation
     DomiciliationLog.objects.create(
         demande=demande,
         utilisateur=request.user,
         action="CONTRAT_ENVOYE",
-        details=f"Contrat {contract.numero} envoyé par email à {demande.utilisateur.email}",
+        details=(
+            f"Contrat {contract.numero} envoyé "
+            f"à {demande.utilisateur.email}"
+        ),
     )
 
     messages.success(
@@ -1723,7 +1774,10 @@ def domiciliation_contract_send(request, request_id):
         f"Le contrat a été envoyé à {demande.utilisateur.email}.",
     )
 
-    return redirect("dashboard_admin:domiciliation_detail", request_id=demande.id)
+    return redirect(
+        "dashboard_admin:domiciliation_detail",
+        request_id=demande.id,
+    )
 
 
 from django.shortcuts import get_object_or_404, redirect

@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #F7F7F2;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 620px;
+        max-width: 95%;
+        margin: auto;
+        padding: 30px 15px;
+    }
+    .card {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(13,43,85,0.12);
+    }
+    .header {
+        background: linear-gradient(135deg, #111111, #FF8000);
+        padding: 35px 30px;
+        text-align: center;
+    }
+    .logo {
+        font-family: Georgia, serif;
+        font-size: 34px;
+        font-weight: bold;
+        color: #FF8000;
+        letter-spacing: 1px;
+    }
+    .logo span {
+        color: #ffffff;
+    }
+    .subtitle {
+        color: #E5E7EB;
+        font-size: 13px;
+        margin-top: 8px;
+    }
+    .content {
+        padding: 35px 40px;
+        color: #334155;
+        line-height: 1.8;
+    }
+    h2 {
+        color: #111111;
+        font-size: 22px;
+        text-align: center;
+        margin: 0 0 25px 0;
+    }
+    p {
+        color: #334155;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+    .badge {
+        display: inline-block;
+        background: #FFF3E6;
+        color: #FF8000;
+        font-weight: 700;
+        font-size: 13px;
+        padding: 6px 16px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+    }
+    .details-card {
+        background: #F8FAFC;
+        border-radius: 16px;
+        padding: 8px 25px;
+        margin: 25px 0;
+    }
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .details-table td {
+        padding: 12px 5px;
+        border-bottom: 1px solid #E2E8F0;
+        font-size: 14px;
+    }
+    .details-table td:first-child {
+        color: #64748B;
+        font-weight: 500;
+        width: 45%;
+    }
+    .details-table td:last-child {
+        color: #111111;
+        font-weight: 600;
+        text-align: right;
+    }
+    .details-table tr:last-child td {
+        border-bottom: none;
+    }
+    .highlight {
+        background: #FFF3E6;
+        border-left: 4px solid #FF8000;
+        padding: 15px 20px;
+        margin: 25px 0;
+        border-radius: 8px;
+    }
+    .highlight p {
+        margin: 0;
+        color: #7C4A0A;
+    }
+    .btn-container {
+        text-align: center;
+        margin: 30px 0;
+    }
+    .btn {
+        display: inline-block;
+        background: #FF8000;
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 15px 35px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+    }
+    .btn-secondary {
+        display: inline-block;
+        background: #111111;
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 13px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+    .steps {
+        margin: 25px 0;
+        padding: 0;
+        list-style: none;
+    }
+    .steps li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 14px;
+        font-size: 14px;
+        color: #334155;
+    }
+    .step-num {
+        flex-shrink: 0;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #FF8000;
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .footer {
+        background: #111111;
+        color: #94A3B8;
+        text-align: center;
+        padding: 25px;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+    .footer strong {
+        color: #FF8000;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+
+        <div class="header">
+            <div class="logo">Elite<span>Buro</span></div>
+            <div class="subtitle">Cabinet de Création d'Entreprise • Domiciliation • Assistance Administrative</div>
+        </div>
+
+        <div class="content">
+
+            <h2>📄 Votre contrat de domiciliation est prêt</h2>
+
+            <p>Bonjour <strong>{{ demande.utilisateur.get_full_name|default:demande.utilisateur.email }}</strong>,</p>
+
+            <p>
+                Nous avons le plaisir de vous informer que votre contrat de prestation de services
+                a été généré et est disponible pour signature.
+            </p>
+
+            <div style="text-align:center;">
+                <span class="badge">📑 Contrat n° {{ demande.numero_demande }}</span>
+            </div>
+
+            <div class="details-card">
+                <table class="details-table">
+                    <tr>
+                        <td>Entreprise</td>
+                        <td>{{ demande.entreprise.company_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Formule</td>
+                        <td>{{ demande.formule.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td>Durée</td>
+                        <td>{{ demande.formule.durée }} mois</td>
+                    </tr>
+                    <tr>
+                        <td>Adresse de domiciliation</td>
+                        <td>{{ demande.adresse_domiciliation }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="highlight">
+                <p>
+                    <strong>📌 Prochaines étapes :</strong><br>
+                    Votre contrat est prêt. Vous pouvez le consulter, le signer et finaliser
+                    le paiement pour activer votre domiciliation.
+                </p>
+            </div>
+
+            <ul class="steps">
+                <li>
+                    <span class="step-num">1</span>
+                    <span>Consultez votre contrat en ligne depuis votre espace client.</span>
+                </li>
+                <li>
+                    <span class="step-num">2</span>
+                    <span>Signez le contrat (mention « Lu et approuvé »).</span>
+                </li>
+                <li>
+                    <span class="step-num">3</span>
+                    <span>Procédez au paiement pour activer votre domiciliation.</span>
+                </li>
+            </ul>
+
+            <div class="btn-container">
+                <a href="{{ contrat_url }}" class="btn">📄 Consulter mon contrat</a><br>
+                <a href="{{ suivi_url }}" class="btn-secondary">📂 Suivre ma demande</a>
+            </div>
+
+            <p>
+                Si vous avez des questions, notre équipe reste à votre disposition.
+                Nous vous accompagnons à chaque étape de votre projet.
+            </p>
+
+            <p>
+                Cordialement,<br>
+                <strong>L'équipe EliteBuro</strong>
+            </p>
+
+        </div>
+
+        <div class="footer">
+            <strong>EliteBuro</strong><br>
+            Cabinet de Création d'Entreprise • Domiciliation • Assistance Administrative<br>
+            Riviera Palmeraie, Abidjan, Côte d'Ivoire<br>
+            <span style="color:#64748B;">Cet email a été envoyé automatiquement, merci de ne pas y répondre.</span>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
