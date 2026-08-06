@@ -19,34 +19,37 @@
    VARIABLES & PALETTE GRAPHIQUE
    ============================================ */
 
-            :root {
-                /* Couleurs Principales */
-                --navy-elite: #808080;           /* Navy Elite Buro - Couleur principale */
-                --gold-elite: #C9A02C;            /* Or Elite Buro - Accents premium */
-                --success-green: #0B6B39;         /* Vert succès - Disponible, confirmé */
-                --alert-red: #C0392B;             /* Rouge occupé - Occupé, urgent */
-                --warning-orange: #E67E22;        /* Orange option - Bientôt libre, avertissement */
-                --cream-bg: #FAFAF7;              /* Crème fond - Fond de page chaleureux */
-                
-                /* Couleurs Secondaires */
-                --navy-dark: #FF8000;             /* Navy plus foncé */
-                --navy-light: #FF8000;            /* Navy plus clair */
-                --gold-light: #E8C547;            /* Or clair */
-                --gold-dark: #A67C1A;             /* Or foncé */
-                
-                /* Neutres */
+:root {
+                /* Palette identique à la page de connexion */
+                --primary: #808080;
+                --primary-dark: #081C38;
+                --gold: #111111;
+                --success-green: #0B6B39;
+                --alert-red: #C0392B;
+                --warning-orange: #E67E22;
+                --cream-bg: #FAFAF7;
                 --white: #FFFFFF;
+                --text: #2F3640;
+                --border: #E5E5E5;
+
+                /* Variables de compatibilité (dépréciées mais conservées) */
+                --navy-elite: #808080;
+                --gold-elite: #111111;
+                --navy-dark: #FF8000;
+                --navy-light: #FF8000;
+                --gold-light: #111111;
+                --gold-dark: #111111;
                 --gray-light: #F5F5F3;
-                --gray-medium: #D4D4D0;
-                --gray-dark: #4A4A47;
+                --gray-medium: #E5E5E5;
+                --gray-dark: #2F3640;
                 --black: #1A1A1A;
-                
+
                 /* Ombres */
                 --shadow-sm: 0 2px 4px rgba(13, 43, 85, 0.1);
                 --shadow-md: 0 4px 12px rgba(13, 43, 85, 0.15);
                 --shadow-lg: 0 8px 24px rgba(13, 43, 85, 0.2);
                 --shadow-xl: 0 12px 36px rgba(13, 43, 85, 0.25);
-                
+
                 /* Transitions */
                 --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
@@ -71,18 +74,34 @@
                 background:var(--cream-bg);
                 color:var(--gray-dark);
             }
-            .signup-container{
-                width:1200px;
-                max-width:95%;
-                margin:50px auto;
-                min-height:760px;
-                display:grid;
-                grid-template-columns:45% 55%;
-                background:#fff;
-                border-radius:20px;
-                overflow:hidden;
-                box-shadow:0 25px 60px rgba(0,0,0,.12);
-            }
+             .signup-container{
+                 width:100%;
+                 max-width:1200px;
+                 margin:50px auto;
+                 min-height:760px;
+                 display:grid;
+                 grid-template-columns:45% 55%;
+                 background:#fff;
+                 border-radius:20px;
+                 overflow:hidden;
+                 box-shadow:0 25px 60px rgba(0,0,0,.12);
+             }
+
+             @media (max-width: 992px) {
+                 .signup-container {
+                     grid-template-columns:1fr;
+                     max-width: 700px;
+                     margin: 30px auto;
+                 }
+             }
+
+             @media (max-width: 480px) {
+                 .signup-container {
+                     margin: 15px auto;
+                     border-radius: 12px;
+                     min-height: auto;
+                 }
+             }
             /* ============================================
             TYPOGRAPHIE
             ============================================ */
@@ -799,300 +818,11 @@
                 animation: pulse 2s infinite;
             }
 
-            /* ==============================
-            SIGNUP LAYOUT
-            =================================*/
-
-            .signup-container{
-                width:1200px;
-                max-width:95%;
-                min-height:760px;
-                display:grid;
-                grid-template-columns:45% 55%;
-                background:#fff;
-                border-radius:20px;
-                overflow:hidden;
-                box-shadow:0 25px 60px rgba(0,0,0,.12);
-            }
-
-            .signup-brand{
-                background:linear-gradient(135deg,#111111,#FF8000);
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                padding:60px;
-            }
-
-            .brand-content{
-                max-width:420px;
-                display:flex;
-                flex-direction:column;
-                align-items:center;
-                text-align:center;
-            }
-            .brand-logo{
-                font-family:"Playfair Display",serif;
-                font-size:46px;
-                font-weight:700;
-                color:#fff;
-                margin-bottom:10px;
-            }
-
-            .brand-subtitle{
-                color:#E5E7EB;
-                font-size:18px;
-                margin-bottom:50px;
-            }
-
-            .brand-features{
-                display:flex;
-                flex-direction:column;
-                gap:30px;
-            }
-
-            .feature{
-                display:flex;
-                gap:18px;
-                align-items:flex-start;
-            }
-
-            .feature-icon{
-                width:60px;
-                height:60px;
-                border-radius:15px;
-                background:rgba(255,255,255,.12);
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:28px;
-            }
-
-            .feature-text h4{
-                color:white;
-                margin-bottom:8px;
-            }
-
-            .feature-text p{
-                color:#d9d9d9;
-                line-height:1.6;
-            }
-
-            /* ==============================
-            FORM
-            =================================*/
-
-            .signup-form-section{
-                padding:60px;
-                display:flex;
-                justify-content:center;
-                flex-direction:column;
-            }
-
-            .form-header{
-                margin-bottom:35px;
-            }
-
-            .form-header h1{
-                margin-bottom:10px;
-            }
-
-            .form-header p{
-                color:#666;
-            }
-
-            .form-row{
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap:20px;
-            }
-
-            .form-group{
-                margin-bottom:22px;
-            }
-
-            .form-group input,
-            .form-group select{
-                width:100%;
-            }
-
-            /* ==============================
-            PASSWORD
-            =================================*/
-
-            .password-strength{
-                display:flex;
-                gap:8px;
-                margin-top:10px;
-            }
-
-            .strength-bar{
-                flex:1;
-                height:6px;
-                background:#ddd;
-                border-radius:10px;
-                transition:.3s;
-            }
-
-            .strength-bar.weak{
-                background:#dc3545;
-            }
-
-            .strength-bar.medium{
-                background:#E67E22;
-            }
-
-            .strength-bar.strong{
-                background:#0B6B39;
-            }
-
-            .strength-text{
-                margin-top:8px;
-                font-size:13px;
-                color:#777;
-            }
-
-            /* ==============================
-            TERMS
-            =================================*/
-
-            .terms-conditions{
-                display:flex;
-                align-items:flex-start;
-                gap:10px;
-                margin:25px 0;
-            }
-
-            .terms-text{
-                font-size:14px;
-                line-height:1.6;
-                color:#555;
-            }
-
-            .terms-text a{
-                color:#C9A02C;
-            }
-
-            /* ==============================
-            BUTTON
-            =================================*/
-
-            .btn-signup{
-                width:100%;
-                border:none;
-                padding:16px;
-                border-radius:10px;
-                background:#808080;
-                color:white;
-                font-size:15px;
-                font-weight:700;
-                cursor:pointer;
-                transition:.3s;
-            }
-
-            .btn-signup:hover{
-                background:#111111;
-            }
-
-            /* ==============================
-            DIVIDER
-            =================================*/
-
-            .divider{
-                display:flex;
-                align-items:center;
-                gap:15px;
-                margin:35px 0;
-            }
-
-            .divider::before,
-            .divider::after{
-                content:"";
-                flex:1;
-                height:1px;
-                background:#ddd;
-            }
-
-            .divider span{
-                color:#888;
-                font-size:14px;
-            }
-
-            /* ==============================
-            SOCIAL
-            =================================*/
-
-            .social-signup{
-                display:flex;
-                justify-content:center;
-                gap:15px;
-            }
-
-            .social-btn{
-                width:55px;
-                height:55px;
-                border-radius:50%;
-                border:1px solid #ddd;
-                background:white;
-                cursor:pointer;
-                font-size:22px;
-                transition:.3s;
-            }
-
-            .social-btn:hover{
-                border-color:#C9A02C;
-                transform:translateY(-3px);
-            }
-
-            /* ==============================
-            LOGIN
-            =================================*/
-
-            .login-link{
-                margin-top:35px;
-                text-align:center;
-                color:#666;
-            }
-
-            .login-link a{
-                color:#0D2B55;
-                font-weight:700;
-            }
-
-            /* ==============================
-            RESPONSIVE
-            =================================*/
-
-            @media(max-width:992px){
-
-            .signup-container{
-                grid-template-columns:1fr;
-            }
-
-            .signup-brand{
-                background:linear-gradient(135deg,#111111,#FF8000);
-                color:#fff;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                padding:60px;
-                text-align:center;
-            }
-
-            .signup-form-section{
-                padding:35px;
-            }
-
-            .form-row{
-                grid-template-columns:1fr;
-            }
-
-            }
             /* ============================================
-            LOGO ELITEBURO
-            ============================================ */
+             LOGO ELITEBURO
+             ============================================ */
 
-            .logo-link{
+.logo-link{
                 display:flex;
                 justify-content:center;
                 align-items:center;
@@ -1106,6 +836,287 @@
                 height:auto;
                 display:block;
                 object-fit:contain;
+            }
+
+            /* ============================================
+             PAGE D'INSCRIPTION - LAYOUT & STYLES
+             ============================================ */
+
+/* Colonne gauche : branding */
+            .signup-brand {
+                background: linear-gradient(
+                    135deg,
+                    #FF8000 0%,
+                    #111111 55%,
+                    #111111 100%
+                );
+                color: var(--white);
+                padding: 50px 45px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .brand-content {
+                width: 100%;
+                position: relative;
+                z-index: 2;
+            }
+
+.signup-brand .brand-subtitle {
+                font-family: 'Playfair Display', Georgia, serif;
+                font-size: 22px;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.82);
+                text-align: center;
+                margin-bottom: 35px;
+                line-height: 1.4;
+            }
+
+            .brand-features {
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .feature {
+                display: flex;
+                align-items: flex-start;
+                gap: 16px;
+                padding: 18px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 12px;
+                transition: var(--transition);
+            }
+
+            .feature:hover {
+                background: rgba(255, 255, 255, 0.14);
+                transform: translateY(-3px);
+            }
+
+.feature-icon {
+                width: 40px;
+                height: 40px;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(201, 160, 44, 0.18);
+                border: 1px solid rgba(201, 160, 44, 0.35);
+                color: var(--gold);
+                border-radius: 8px;
+                font-size: 20px;
+            }
+
+            .feature-text h4 {
+                color: var(--white);
+                font-size: 17px;
+                margin-bottom: 4px;
+            }
+
+            .feature-text p {
+                color: rgba(255, 255, 255, 0.75);
+                font-size: 13px;
+                margin: 0;
+                line-height: 1.5;
+            }
+
+            /* Colonne droite : formulaire */
+            .signup-form-section {
+                padding: 50px 45px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .form-header {
+                margin-bottom: 30px;
+            }
+
+.form-header h1 {
+                font-size: 34px;
+                color: #1a1a2e;
+                margin-bottom: 6px;
+            }
+
+            .form-header p {
+                color: #666;
+                font-size: 15px;
+                margin: 0;
+            }
+
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+.btn-signup {
+                width: 100%;
+                padding: 15px;
+                margin-top: 8px;
+                background: var(--primary);
+                color: var(--white);
+                border: none;
+                border-radius: 10px;
+                font-family: 'Inter', Arial, sans-serif;
+                font-size: 15px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                cursor: pointer;
+                transition: var(--transition);
+                box-shadow: 0 10px 25px rgba(13, 43, 85, 0.25);
+            }
+
+            .btn-signup:hover {
+                background: var(--gold);
+                color: var(--primary);
+                transform: translateY(-3px);
+            }
+
+            .btn-signup:active {
+                transform: translateY(0);
+            }
+
+            /* Conditions d'utilisation */
+            .terms-conditions {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                margin: 18px 0;
+            }
+
+.terms-conditions input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                margin-top: 3px;
+                accent-color: #0f3460;
+                cursor: pointer;
+            }
+
+            .terms-text {
+                font-size: 13px;
+                color: #666;
+                text-transform: none;
+                letter-spacing: normal;
+                font-weight: 400;
+                margin: 0;
+                line-height: 1.5;
+            }
+
+            .terms-text a {
+                color: #0f3460;
+                font-weight: 700;
+            }
+
+            .terms-text a:hover {
+                color: #16213e;
+                text-decoration: underline;
+            }
+
+            /* Lien de connexion */
+            .login-link {
+                text-align: center;
+                margin-top: 22px;
+                font-size: 13px;
+                color: #666;
+            }
+
+            .login-link a {
+                color: #0f3460;
+                font-weight: 700;
+            }
+
+            .login-link a:hover {
+                color: #16213e;
+                text-decoration: underline;
+            }
+
+            /* Indicateur de force du mot de passe */
+            .password-strength {
+                display: flex;
+                gap: 6px;
+                margin-top: 10px;
+            }
+
+            .strength-bar {
+                flex: 1;
+                height: 5px;
+                border-radius: 10px;
+                background-color: var(--gray-light);
+                transition: background-color 0.3s ease;
+            }
+
+            .strength-bar.weak {
+                background-color: var(--alert-red);
+            }
+
+            .strength-bar.medium {
+                background-color: var(--warning-orange);
+            }
+
+            .strength-bar.strong {
+                background-color: var(--success-green);
+            }
+
+            .strength-text {
+                font-size: 12px;
+                color: var(--gray-dark);
+                margin-top: 8px;
+            }
+
+            /* Boutons de connexion sociale (si utilisés) */
+            .social-signup {
+                display: flex;
+                gap: 12px;
+                margin-top: 22px;
+            }
+
+            .social-signup button {
+                flex: 1;
+                padding: 12px;
+                border-radius: 8px;
+                border: 2px solid var(--gray-medium);
+                background: var(--white);
+                color: var(--gray-dark);
+                font-family: 'Inter', Arial, sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+            .social-signup button:hover {
+                border-color: var(--gold-elite);
+                color: var(--gold-dark);
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .signup-brand {
+                    padding: 35px 25px;
+                }
+
+                .signup-form-section {
+                    padding: 35px 25px;
+                }
+
+                .form-row {
+                    grid-template-columns: 1fr;
+                    gap: 0;
+                }
+
+                .form-header h1 {
+                    font-size: 28px;
+                }
+
+                .brand-subtitle {
+                    font-size: 18px;
+                }
             }
 
     </style>

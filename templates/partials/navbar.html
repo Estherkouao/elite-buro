@@ -1,13 +1,13 @@
 <nav class="nav-blur fixed top-0 left-0 w-full z-50 
             bg-white/80 backdrop-blur-xl 
             border-b border-slate-200/60 
-            px-6 lg:px-12 py-4 
+            px-4 lg:px-12 py-3 
             flex items-center justify-between">
 
-    <a href="{% url 'core:home' %}">
+    <a href="{% url 'core:home' %}" class="flex-shrink-0">
         <img src="/media/ELITE BURO LOG1.png" 
              alt="EliteBuro"
-             class="h-24 lg:h-23 w-auto">
+             class="h-16 sm:h-20 lg:h-23 w-auto">
     </a>
 
     <!-- Menu desktop -->
@@ -118,9 +118,53 @@
 
     </div>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-lg xl:hidden">
+        <div class="flex flex-col p-4 gap-3 max-h-[70vh] overflow-y-auto">
+            <a href="{% url 'reservation:landing' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Coworking</a>
+            <a href="{% url 'conciergerie:home' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Conciergerie</a>
+            
+            <div class="mobile-dropdown">
+                <button class="mobile-dropdown-toggle w-full flex items-center justify-between py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">
+                    Domiciliation
+                    <span class="text-xs">▼</span>
+                </button>
+                <div class="hidden pl-4 mt-1 flex flex-col gap-1">
+                    <a href="{% url 'domiciliation:index' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Home</a>
+                    <a href="{% url 'domiciliation:creation_entreprise' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Création d'entreprise</a>
+                    <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Gestion d'entreprise</a>
+                    <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Accompagnement</a>
+                    <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Ressources</a>
+                </div>
+            </div>
 
-    <!-- Actions -->
-    <div class="flex items-center gap-4">
+            <a href="{% url 'formation:home' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Formation</a>
+            <a href="{% url 'formation:devis_formation_create' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Devis Formation</a>
+            <a href="{% url 'blog:list' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Blog</a>
+            <a href="{% url 'core:contact' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Contact</a>
+            <a href="{% url 'core:a_propos' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">À propos</a>
+            <a href="{% url 'core:faq' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">FAQ</a>
+            <a href="{% url 'core:mentions_legales' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Mentions</a>
+            <a href="{% url 'core:politique_confidentialite' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Confidentialité</a>
+            <a href="{% url 'core:conditions_utilisation' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Conditions</a>
+            
+            <div class="pt-3 border-t border-slate-200 mt-2">
+                <button 
+                onclick="window.location.href='{% url 'accounts:login' %}'"
+                class="w-full flex items-center justify-center gap-2 
+                       bg-[#000000] text-white 
+                       px-5 py-3 rounded-full 
+                       text-sm font-semibold
+                       shadow-lg">
+                    <span>👤</span>
+                    Espace membre
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions desktop -->
+    <div class="hidden xl:flex items-center gap-4">
 
         <button 
         onclick="window.location.href='{% url 'accounts:login' %}'"
@@ -139,18 +183,11 @@
             Espace membre
         </button>
 
-
-        <!-- Mobile -->
-        <button class="menu-toggle xl:hidden
-                       w-11 h-11 rounded-full
-                       bg-slate-100
-                       text-slate-800
-                       text-xl
-                       hover:bg-yellow-500
-                       transition">
-            ☰
-        </button>
-
     </div>
+
+    <!-- Mobile menu toggle -->
+    <button id="menu-toggle" class="xl:hidden flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 text-slate-800 hover:bg-orange-500 hover:text-white transition">
+        ☰
+    </button>
 
 </nav>

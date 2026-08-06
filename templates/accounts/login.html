@@ -40,15 +40,33 @@
         }
 
        .login-container{
-            background:white;
-            border-radius:18px;
-            box-shadow:0 20px 60px rgba(13,43,85,.15);
-            display:flex;
-            max-width:1000px;
-            width:100%;
-            overflow:hidden;
-            animation:slideIn 0.6s ease-out;
-        }
+             background:white;
+             border-radius:18px;
+             box-shadow:0 20px 60px rgba(13,43,85,.15);
+             display:flex;
+             flex-direction: row;
+             max-width:1000px;
+             width:100%;
+             margin: 0 auto;
+             overflow:hidden;
+             animation:slideIn 0.6s ease-out;
+         }
+
+         @media (max-width: 768px) {
+             .login-container {
+                 flex-direction: column;
+                 max-width: 100%;
+                 margin: 15px;
+                 border-radius: 16px;
+             }
+         }
+
+         @media (max-width: 480px) {
+             .login-container {
+                 margin: 10px;
+                 border-radius: 12px;
+             }
+         }
 
         
 
@@ -63,23 +81,36 @@
             }
         }
 
-        /* Section gauche - Branding */
-        .login-brand{
-            flex:1;
-            background:linear-gradient(
-                135deg,
-                #FF8000 0%,
-                #111111 55%,
-                #111111 100%
-            );
-            color:white;
-            padding:80px 65px;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            position:relative;
-            overflow:hidden;
-        }
+         /* Section gauche - Branding */
+         .login-brand{
+             flex:1;
+             background:linear-gradient(
+                 135deg,
+                 #FF8000 0%,
+                 #111111 55%,
+                 #111111 100%
+             );
+             color:white;
+             padding:80px 65px;
+             display:flex;
+             justify-content:center;
+             align-items:center;
+             position:relative;
+             overflow:hidden;
+         }
+
+         @media (max-width: 768px) {
+             .login-brand {
+                 padding: 40px 30px;
+                 min-height: auto;
+             }
+         }
+
+         @media (max-width: 480px) {
+             .login-brand {
+                 padding: 30px 20px;
+             }
+         }
 
         .brand-content{
             position:relative;
@@ -144,9 +175,15 @@
             font-size:15px;
         }
 
-        .brand-features {
-            margin-top: 50px;
-        }
+         .brand-features {
+             margin-top: 50px;
+         }
+
+         @media (max-width: 480px) {
+             .brand-features {
+                 display: none;
+             }
+         }
 
         .feature {
             display: flex;
@@ -198,36 +235,58 @@
             line-height: 1.4;
         }
 
-        /* Section droite - Formulaire */
-        .login-form-section {
-            flex: 1;
-            padding: 60px 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+         /* Section droite - Formulaire */
+         .login-form-section {
+             flex: 1;
+             padding: 60px 50px;
+             display: flex;
+             flex-direction: column;
+             justify-content: center;
+         }
 
-        .form-header h1{
-            font-family:'Playfair Display',Georgia,serif;
-            color:var(--primary);
-            font-size:34px;
-        }
+         @media (max-width: 768px) {
+             .login-form-section {
+                 padding: 40px 30px;
+             }
+         }
 
-        .form-header p{
-            color:#666;
-        }
+         @media (max-width: 480px) {
+             .login-form-section {
+                 padding: 30px 20px;
+             }
+         }
 
-        .form-header h1 {
-            font-size: 28px;
-            color: #1a1a2e;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
+         .form-header h1{
+             font-family:'Playfair Display',Georgia,serif;
+             color:var(--primary);
+             font-size:34px;
+         }
 
-        .form-header p {
-            font-size: 14px;
-            color: #666;
-        }
+         .form-header p{
+             color:#666;
+         }
+
+         .form-header h1 {
+             font-size: 28px;
+             color: #1a1a2e;
+             margin-bottom: 10px;
+             font-weight: 700;
+         }
+
+         .form-header p {
+             font-size: 14px;
+             color: #666;
+         }
+
+         @media (max-width: 480px) {
+             .form-header h1 {
+                 font-size: 22px;
+             }
+
+             .form-header p {
+                 font-size: 13px;
+             }
+         }
 
         .form-group {
             margin-bottom: 25px;
@@ -433,6 +492,12 @@
             color: var(--gold);
         }
 
+        @media (max-width: 480px) {
+            .back-home-link {
+                font-size: 13px;
+            }
+        }
+
         .signup-link {
             text-align: center;
             font-size: 13px;
@@ -449,6 +514,12 @@
         .signup-link a:hover {
             color: #16213e;
             text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .signup-link {
+                font-size: 12px;
+            }
         }
 
         /* Responsive Design */
@@ -556,16 +627,47 @@
                 display: none;
             }
         }
-        .logo-link{
-            display:flex;
-            align-items:center;
-            margin-bottom:20px;
-        }
-
         .elite-logo{
             width:180px;
             height:auto;
             object-fit:contain;
+        }
+
+        @media (max-width: 480px) {
+            .elite-logo {
+                width: 150px;
+            }
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper button {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+        }
+
+        @media (max-width: 480px) {
+            .password-wrapper button {
+                font-size: 18px;
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -639,21 +741,15 @@
 
                 <div class="form-group">
                     <label for="password">Mot de Passe</label>
-                    <div class="password-wrapper" style="position: relative;">
+                    <div class="password-wrapper">
                         <input
                             type="password"
                             id="password"
                             name="password"
                             placeholder="••••••••"
                             required
-                            style="padding-right: 50px;"
                         >
-                        <button type="button" id="togglePassword"
-                            style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-                                   background: none; border: none; cursor: pointer; font-size: 20px;
-                                   color: #999; width: 44px; height: 44px;
-                                   display: flex; align-items: center; justify-content: center;
-                                   padding: 0; line-height: 1;">
+                        <button type="button" id="togglePassword" aria-label="Afficher le mot de passe">
                             👁️
                         </button>
                     </div>

@@ -567,8 +567,141 @@ textarea:focus {
 
 
 
-.nav-blur {
+ .nav-blur {
 
-    box-shadow:0 10px 30px rgba(26,26,26,.05);
+     box-shadow:0 10px 30px rgba(26,26,26,.05);
 
-}
+ }
+
+
+ /* =========================
+    RESPONSIVE - NAVBAR
+    ========================= */
+
+ @media (max-width: 1023px) {
+     .nav-blur {
+         padding: 10px 15px;
+     }
+ }
+
+
+ @media (max-width: 1279px) {
+     .nav-link {
+         font-size: 0.8rem;
+     }
+ }
+
+
+ /* =========================
+    RESPONSIVE - FOOTER
+    ========================= */
+
+ @media (max-width: 768px) {
+     .footer-container {
+         grid-template-columns: 1fr;
+         gap: 30px;
+         padding: 0 15px 40px;
+     }
+
+     .footer-brand {
+         grid-column: 1;
+         text-align: center;
+     }
+
+     .footer-title::after {
+         left: 50%;
+         transform: translateX(-50%);
+     }
+
+     .footer-social {
+         justify-content: center;
+     }
+
+     .footer-bottom-content {
+         flex-direction: column;
+         text-align: center;
+         gap: 10px;
+     }
+
+     .footer-bottom-links {
+         justify-content: center;
+         flex-wrap: wrap;
+         gap: 10px;
+     }
+
+     .contact-card {
+         min-width: auto;
+     }
+ }
+
+
+ @media (max-width: 480px) {
+     .footer {
+         padding-top: 50px;
+         margin-top: 60px;
+     }
+
+     .footer-container {
+         gap: 25px;
+         padding: 0 10px 30px;
+     }
+
+     .footer-title {
+         font-size: 18px;
+         margin-bottom: 15px;
+     }
+
+     .footer-link {
+         font-size: 14px;
+     }
+
+     .footer-copyright {
+         font-size: 12px;
+     }
+
+     .footer-bottom-link {
+         font-size: 12px;
+     }
+ }
+
+
+ /* =========================
+    RESPONSIVE - GENERAL
+    ========================= */
+
+ @media (max-width: 768px) {
+     .container {
+         padding: 15px;
+     }
+
+     h1 {
+         font-size: 1.75rem;
+     }
+
+     h2 {
+         font-size: 1.5rem;
+     }
+
+     h3 {
+         font-size: 1.25rem;
+     }
+ }
+
+
+ @media (max-width: 480px) {
+     .container {
+         padding: 10px;
+     }
+
+     h1 {
+         font-size: 1.5rem;
+     }
+
+     h2 {
+         font-size: 1.25rem;
+     }
+
+     h3 {
+         font-size: 1.1rem;
+     }
+ }
