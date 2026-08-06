@@ -1,53 +1,53 @@
 <header class="fixed top-0 left-0 w-full z-50 bg-[#555555] shadow-xl">
 
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
 
         <!-- LOGO -->
         <div>
             <div class="flex items-center">
                 <img src="/media/logo1.png" 
                     alt="EliteBuro"
-                    class="h-12 w-auto">
+                    class="h-10 sm:h-12 w-auto">
             </div>
 
-            <p class="text-xs text-white">
+            <p class="text-xs text-white hidden sm:block">
                 Mon Espace
             </p>
         </div>
 
 
-        <!-- NAVIGATION -->
-        <nav class="flex gap-6">
+        <!-- NAVIGATION DESKTOP -->
+        <nav class="hidden lg:flex gap-4 xl:gap-6">
 
             <a href="{% url 'accounts:dashboard' %}"
-               class="text-white font-semibold hover:text-[#C9A02C] transition">
+               class="text-white font-semibold hover:text-[#C9A02C] transition text-sm xl:text-base">
                 Dashboard
             </a>
 
             <a href="{% url 'reservation:list' %}"
-               class="text-white font-semibold hover:text-[#C9A02C] transition">
+               class="text-white font-semibold hover:text-[#C9A02C] transition text-sm xl:text-base">
                 Réservations
             </a>
 
             <a href="{% url 'formation:my_courses' %}"
-               class="text-white font-semibold hover:text-[#C9A02C] transition">
+               class="text-white font-semibold hover:text-[#C9A02C] transition text-sm xl:text-base">
                 Formations
             </a>
 
             <a href="{% url 'dashboard_admin:member_invoices' %}"
-               class="text-white font-semibold hover:text-[#C9A02C] transition">
+               class="text-white font-semibold hover:text-[#C9A02C] transition text-sm xl:text-base">
                 Factures
             </a>
 
 
             <a href="{% url 'reclamation:member_list' %}"
-               class="text-white font-semibold hover:text-[#C9A02C] transition">
+               class="text-white font-semibold hover:text-[#C9A02C] transition text-sm xl:text-base">
                 Réclamations
             </a>
 
 
             <a href="{% url 'domiciliation:history_list' %}"
-               class="text-white font-semibold hover:text-[#C9A02C] transition">
+               class="text-white font-semibold hover:text-[#C9A02C] transition text-sm xl:text-base">
                 Domiciliation
             </a>
 
@@ -56,15 +56,15 @@
 
 
         <!-- ACTIONS -->
-<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 sm:gap-4">
 
 
     <!-- NOTIFICATION -->
-    <button class="relative text-white text-xl">
+    <button class="relative text-white text-lg sm:text-xl hidden sm:block">
 
         🔔
 
-        <span class="absolute -top-2 -right-2 bg-[#C9A02C] text-[#0D2B55] text-xs font-bold rounded-full px-2">
+        <span class="absolute -top-2 -right-2 bg-[#C9A02C] text-[#0D2B55] text-xs font-bold rounded-full px-1.5 sm:px-2">
             3
         </span>
 
@@ -76,7 +76,7 @@
     <div class="relative group">
 
         <button
-            class="bg-[#C9A02C] text-[#0D2B55] w-10 h-10 rounded-full flex items-center justify-center font-bold">
+            class="bg-[#C9A02C] text-[#0D2B55] w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base">
 
             👤
 
@@ -85,20 +85,20 @@
 
 
         <!-- MENU -->
-        <div class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl 
+        <div class="absolute right-0 mt-3 w-48 sm:w-56 bg-white rounded-2xl shadow-xl 
                     opacity-0 invisible group-hover:opacity-100 
                     group-hover:visible transition duration-200 overflow-hidden">
 
 
             <a href="{% url 'accounts:profile' %}"
-               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+               class="block px-4 sm:px-5 py-2 sm:py-3 text-[#0D2B55] hover:bg-[#FAFAF7] text-sm">
 
                 👤 Mes informations
 
             </a>
 
             <a href="{% url 'formation:my_courses' %}"
-               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+               class="block px-4 sm:px-5 py-2 sm:py-3 text-[#0D2B55] hover:bg-[#FAFAF7] text-sm">
 
                 📚 Mes formations
 
@@ -106,18 +106,18 @@
 
 
 
-            <hr>
+            <hr class="my-1">
 
 
 
             <a href="{% url 'accounts:logout' %}"
-               class="block px-5 py-3 text-red-600 font-semibold hover:bg-red-50">
+               class="block px-4 sm:px-5 py-2 sm:py-3 text-red-600 font-semibold hover:bg-red-50 text-sm">
 
                 🚪 Déconnexion
 
             </a>
             <a href="{% url 'paiement:index' %}"
-               class="block px-5 py-3 text-[#0D2B55] hover:bg-[#FAFAF7]">
+               class="block px-4 sm:px-5 py-2 sm:py-3 text-[#0D2B55] hover:bg-[#FAFAF7] text-sm">
 
                 💳 Paiement
 
@@ -129,9 +129,32 @@
 
     </div>
 
+    <!-- MOBILE MENU TOGGLE -->
+    <button id="member-menu-toggle" class="lg:hidden flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+        ☰
+    </button>
 
 </div>
 
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="member-mobile-menu" class="hidden lg:hidden bg-[#555555] border-t border-white/10">
+        <div class="flex flex-col p-4 gap-2 max-h-[70vh] overflow-y-auto">
+            <a href="{% url 'accounts:dashboard' %}" class="mobile-nav-link py-2.5 px-4 rounded-lg hover:bg-white/10 text-white font-medium text-sm">Dashboard</a>
+            <a href="{% url 'reservation:list' %}" class="mobile-nav-link py-2.5 px-4 rounded-lg hover:bg-white/10 text-white font-medium text-sm">Réservations</a>
+            <a href="{% url 'formation:my_courses' %}" class="mobile-nav-link py-2.5 px-4 rounded-lg hover:bg-white/10 text-white font-medium text-sm">Formations</a>
+            <a href="{% url 'dashboard_admin:member_invoices' %}" class="mobile-nav-link py-2.5 px-4 rounded-lg hover:bg-white/10 text-white font-medium text-sm">Factures</a>
+            <a href="{% url 'reclamation:member_list' %}" class="mobile-nav-link py-2.5 px-4 rounded-lg hover:bg-white/10 text-white font-medium text-sm">Réclamations</a>
+            <a href="{% url 'domiciliation:history_list' %}" class="mobile-nav-link py-2.5 px-4 rounded-lg hover:bg-white/10 text-white font-medium text-sm">Domiciliation</a>
+            
+            <div class="pt-3 border-t border-white/10 mt-2">
+                <button class="relative text-white text-left w-full py-2.5 px-4 rounded-lg hover:bg-white/10 font-medium text-sm flex items-center gap-2">
+                    🔔 Notifications
+                    <span class="bg-[#C9A02C] text-[#0D2B55] text-xs font-bold rounded-full px-2 py-0.5">3</span>
+                </button>
+            </div>
+        </div>
     </div>
 
 </header>

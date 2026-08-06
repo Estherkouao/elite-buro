@@ -47,12 +47,33 @@
       {% include 'partials/header_member.html' %}
       {% include 'partials/messages.html' %}
 
-<main class="pt-24 w-full pb-12">
+<main class="pt-20 sm:pt-24 w-full pb-12 px-4 sm:px-6">
         {% block content %}{% endblock %}
       </main>
-     
+      
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('member-menu-toggle');
+      const mobileMenu = document.getElementById('member-mobile-menu');
+      
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function() {
+          mobileMenu.classList.toggle('hidden');
+          menuToggle.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+        });
+
+        document.querySelectorAll('#member-mobile-menu .mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            menuToggle.textContent = '☰';
+          });
+        });
+      }
+    });
+  </script>
 
 
 </body>
