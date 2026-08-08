@@ -278,7 +278,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
      "trusting-wu.164-132-167-236.plesk.page",
     "localhost",
-    "127.0.0.1",
     
 ]
 
