@@ -84,6 +84,7 @@
 </section>
 
 {% block extra_js %}
+{{ block.super }}
 <script type="module">
   const grid = document.getElementById('results-grid');
   if (!grid) return;

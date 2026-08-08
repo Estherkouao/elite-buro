@@ -183,6 +183,7 @@
 </section>
 
 {% block extra_js %}
+{{ block.super }}
 <script type="module">
   // Animation discrète au chargement des cartes
   const cards = document.querySelectorAll('#workspace-grid > *');

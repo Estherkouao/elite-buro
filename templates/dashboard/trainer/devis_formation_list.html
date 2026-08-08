@@ -108,6 +108,7 @@
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
 <script>
   const devisData = {};
   {% for devis in devis_list %}

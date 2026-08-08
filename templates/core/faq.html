@@ -1040,6 +1040,7 @@
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
   <script>
     // ─── Intersection Observer pour animations au scroll ───
     const observer = new IntersectionObserver((entries) => {

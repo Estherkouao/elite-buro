@@ -104,6 +104,7 @@
 </section>
 
 {% block extra_js %}
+{{ block.super }}
 <script type="module">
   const track = document.querySelector('.gallery-track');
   const prev = document.querySelector('.gallery-prev');

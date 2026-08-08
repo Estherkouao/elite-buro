@@ -33,7 +33,37 @@
 
     {% include 'partials/footer.html' %}
 
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    menuToggle.textContent = mobileMenu.classList.contains('hidden') ? '☰' : '✕';
+                });
+
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuToggle.textContent = '☰';
+                    });
+                });
+            }
+
+            const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const dropdown = this.nextElementSibling;
+                    dropdown.classList.toggle('hidden');
+                    this.querySelector('span').textContent = dropdown.classList.contains('hidden') ? '▼' : '▲';
+                });
+            });
+        });
+    </script>
+    {% endblock %}
 </body>
 </html>
 

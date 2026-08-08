@@ -314,6 +314,7 @@
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
 <script type="module">
     // Scroll fluide (sécurité: ne dépend pas d'une lib)
     document.querySelectorAll('a[href^="#"]').forEach(link => {

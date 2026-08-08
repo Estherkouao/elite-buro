@@ -257,6 +257,7 @@
 </section>
 
 {% block extra_js %}
+{{ block.super }}
 <script type="module">
   const mainImage = document.getElementById('mainImage');
   if (mainImage) {

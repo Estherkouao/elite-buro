@@ -375,6 +375,7 @@
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
 <script>
   (function() {
     const filterButtons = document.querySelectorAll('#filterTags button');

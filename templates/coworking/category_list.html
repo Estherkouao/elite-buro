@@ -59,6 +59,7 @@
 </section>
 
 {% block extra_js %}
+{{ block.super }}
 <script type="module">
   const cards = document.querySelectorAll('[data-category-card]');
   cards.forEach((card, i) => {
