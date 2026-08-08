@@ -303,6 +303,7 @@ INSTALLED_APPS = [
     'reclamation',
     'chatbot',
     'conciergerie',
+    'prediction',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

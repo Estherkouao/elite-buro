@@ -46,19 +46,219 @@
             </a>
 
 
-            <a href="{% url 'domiciliation:creation_entreprise' %}"
-            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20">
-                
-                Création d'entreprise
+            <div class="relative group/creation">
 
-            </a>
+                <button
+                    class="w-full flex items-center justify-between
+                        px-6 py-4 text-black font-semibold
+                        hover:bg-[#FF8000]/20">
 
-            <a href="#"
-            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20">
-                
-                Gestion d'entreprise
+                    <span>Création d'entreprise</span>
 
-            </a>
+                    <span class="text-sm">▶</span>
+
+                </button>
+
+
+                <!-- SOUS-MENU CRÉATION D'ENTREPRISE -->
+
+                <div class="absolute left-full top-0 ml-2 w-72
+                            rounded-2xl bg-white shadow-xl
+                            opacity-0 invisible
+                            group-hover/creation:opacity-100
+                            group-hover/creation:visible
+                            transition-all duration-300 z-50">
+
+
+                    <a href="{% url 'domiciliation:creation_entreprise' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20 rounded-t-2xl">
+                        Création d'entreprise
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_sarl' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de SARL
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_sarlu' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de SARLU
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_sas' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de SAS
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_sasu' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de SASU
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_ong' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création d'ONG
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_startup' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de Startup
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_sci' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de SCI
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_association' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création d'association
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_fondation' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Création de fondation
+                    </a>
+
+
+                    <a href="{% url 'domiciliation:creation_scoop' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20 rounded-b-2xl">
+                        Création de SCOOP
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Gestion d'entreprise -->
+            <div class="relative group/gestion">
+
+                <button
+                    class="w-full flex items-center justify-between
+                        px-6 py-4 text-black font-semibold
+                        hover:bg-[#FF8000]/20">
+
+                    <span>Gestion d'entreprise</span>
+
+                    <span class="text-sm">▶</span>
+                </button>
+
+
+                <!-- SOUS-MENU GESTION D'ENTREPRISE -->
+                <div class="absolute left-full top-0 ml-2 w-72
+                            rounded-2xl bg-white shadow-xl
+                            opacity-0 invisible
+                            group-hover/gestion:opacity-100
+                            group-hover/gestion:visible
+                            transition-all duration-300 z-50">
+
+
+                    <!-- Modification d'entreprise -->
+                    <div class="relative group/modification">
+
+                        <button
+                            class="w-full flex items-center justify-between
+                                px-6 py-4 text-black font-semibold
+                                hover:bg-[#FF8000]/20">
+
+                            <span>Modification d'entreprise</span>
+
+                            <span class="text-sm">▶</span>
+
+                        </button>
+
+
+                        <!-- SOUS-MENU MODIFICATION -->
+                        <div class="absolute left-full top-0 ml-2 w-72
+                                    rounded-2xl bg-white shadow-xl
+                                    opacity-0 invisible
+                                    group-hover/modification:opacity-100
+                                    group-hover/modification:visible
+                                    transition-all duration-300 z-50">
+
+                            <a href="#"
+                            class="block px-6 py-4 text-black font-semibold
+                                    hover:bg-[#FF8000]/20 rounded-t-2xl">
+                                Changement de gerants
+                            </a>
+
+                            <a href="#"
+                            class="block px-6 py-4 text-black font-semibold
+                                    hover:bg-[#FF8000]/20">
+                                Cession de parts sociales
+                            </a>
+
+                            <a href="#"
+                            class="block px-6 py-4 text-black font-semibold
+                                    hover:bg-[#FF8000]/20">
+                                Modification d'activités
+                            </a>
+
+                            <a href="#"
+                            class="block px-6 py-4 text-black font-semibold
+                                    hover:bg-[#FF8000]/20 rounded-b-2xl">
+                                Changement de nom
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    
+                    <a href="#"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Recrouvement de créances
+                    </a>
+
+
+                    
+                    <a href="#"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Depot de marques
+                    </a>
+
+
+                    
+                    <a href="#"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20">
+                        Redaction de contrats
+                    </a>
+
+
+                    
+                    <a href="#"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20 rounded-b-2xl">
+                        Fermeture d'entreprise
+                    </a>
+
+                </div>
+
+            </div>
 
 
             <a href="#"
@@ -131,8 +331,156 @@
                 </button>
                 <div class="hidden pl-4 mt-1 flex flex-col gap-1">
                     <a href="{% url 'domiciliation:index' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Home</a>
-                    <a href="{% url 'domiciliation:creation_entreprise' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Création d'entreprise</a>
-                    <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Gestion d'entreprise</a>
+                    <div class="mobile-dropdown">
+
+                        <button
+                            class="mobile-dropdown-toggle w-full flex items-center justify-between
+                                py-2 px-4 rounded-lg hover:bg-orange-50
+                                text-slate-600 text-sm">
+
+                            <span>Création d'entreprise</span>
+
+                            <span class="text-xs transition-transform duration-300">
+                                ▼
+                            </span>
+
+                        </button>
+
+
+                        <div class="hidden pl-4 mt-1 flex flex-col gap-1">
+
+                            <a href="{% url 'domiciliation:creation_entreprise' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création d'entreprise</a>
+
+                            <a href="{% url 'domiciliation:creation_sarl' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SARL</a>
+
+                            <a href="{% url 'domiciliation:creation_sarlu' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SARLU</a>
+
+                            <a href="{% url 'domiciliation:creation_sas' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SAS</a>
+
+                            <a href="{% url 'domiciliation:creation_sasu' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SASU</a>
+
+                            <a href="{% url 'domiciliation:creation_ong' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création d'ONG</a>
+
+                            <a href="{% url 'domiciliation:creation_startup' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de Startup</a>
+
+                            <a href="{% url 'domiciliation:creation_sci' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SCI</a>
+
+                            <a href="{% url 'domiciliation:creation_association' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création d'association</a>
+
+                            <a href="{% url 'domiciliation:creation_fondation' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de fondation</a>
+
+                            <a href="{% url 'domiciliation:creation_scoop' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SCOOP</a>
+
+                        </div>
+
+                    </div>
+                    <!-- Gestion d'entreprise Mobile -->
+                    <div class="mobile-dropdown">
+
+                        <!-- Bouton Gestion d'entreprise -->
+                        <button
+                            class="mobile-dropdown-toggle w-full flex items-center justify-between
+                                py-2 px-4 rounded-lg hover:bg-orange-50
+                                text-slate-600 text-sm">
+
+                            <span>Gestion d'entreprise</span>
+
+                            <span class="text-xs transition-transform duration-300">
+                                ▼
+                            </span>
+
+                        </button>
+
+
+                        <!-- Sous-menu Gestion d'entreprise -->
+                        <div class="hidden pl-4 mt-1 flex flex-col gap-1">
+
+
+                            <!-- Modification d'entreprise -->
+                            <div class="mobile-dropdown">
+
+                                <button
+                                    class="mobile-dropdown-toggle w-full flex items-center justify-between
+                                        py-2 px-4 rounded-lg hover:bg-orange-50
+                                        text-slate-500 text-sm">
+
+                                    <span>Modification d'entreprise</span>
+
+                                    <span class="text-xs transition-transform duration-300">
+                                        ▼
+                                    </span>
+
+                                </button>
+
+
+                                <!-- Sous-menu Modification -->
+                                <div class="hidden pl-4 mt-1 flex flex-col gap-1">
+
+                                    <a href="#"
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
+                                        Modification des statuts
+                                    </a>
+
+                                    <a href="#"
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
+                                        Changement de siège social
+                                    </a>
+
+                                    <a href="#"
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
+                                        Changement de dirigeant
+                                    </a>
+
+                                    <a href="#"
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
+                                        Modification d'activité
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Gestion administrative -->
+                            <a href="#"
+                            class="nav-link-mobile py-2 px-4 rounded-lg
+                                    hover:bg-orange-50 text-slate-500 text-sm">
+                                Gestion administrative
+                            </a>
+
+
+                            <!-- Comptabilité -->
+                            <a href="#"
+                            class="nav-link-mobile py-2 px-4 rounded-lg
+                                    hover:bg-orange-50 text-slate-500 text-sm">
+                                Comptabilité
+                            </a>
+
+
+                            <!-- Gestion fiscale -->
+                            <a href="#"
+                            class="nav-link-mobile py-2 px-4 rounded-lg
+                                    hover:bg-orange-50 text-slate-500 text-sm">
+                                Gestion fiscale
+                            </a>
+
+
+                            <!-- Gestion juridique -->
+                            <a href="#"
+                            class="nav-link-mobile py-2 px-4 rounded-lg
+                                    hover:bg-orange-50 text-slate-500 text-sm">
+                                Gestion juridique
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    </div>
                     <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Accompagnement</a>
                     <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Ressources</a>
                 </div>

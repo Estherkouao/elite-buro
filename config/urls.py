@@ -44,6 +44,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('chatbot/', include('chatbot.urls')),
     path('conciergerie/', include('conciergerie.urls')),
+    path('prediction/', include('prediction.urls')),
 ]
 
 if settings.DEBUG:
