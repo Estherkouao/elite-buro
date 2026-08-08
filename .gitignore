@@ -1,2 +1,31 @@
+# Environnement Python
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+db.sqlite3
+db.sqlite3-*
+
+# Variables d'environnement
 .env
-.venv
+.env.*
+
+# Fichiers temporaires
+tmp/
+*.log
+
+# Fichiers générés
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+
+# Système
+.DS_Store
+Thumbs.db
