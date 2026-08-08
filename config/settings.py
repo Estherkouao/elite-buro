@@ -276,9 +276,18 @@ SECRET_KEY = 'django-insecure-v^p72(a913s)d*l0m7hxo#gb@md=ej29+c6vafhw1m@6x$(iv8
 DEBUG = True
 
 ALLOWED_HOSTS = [
-     "trusting-wu.164-132-167-236.plesk.page",
+    "trusting-wu.164-132-167-236.plesk.page",
+    "164.132.167.236",
     "localhost",
+    "127.0.0.1",
     
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://trusting-wu.164-132-167-236.plesk.page",
+    "http://trusting-wu.164-132-167-236.plesk.page",
+    "http://164.132.167.236",
+    "https://164.132.167.236",
 ]
 
 

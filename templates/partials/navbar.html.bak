@@ -319,23 +319,24 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-b border-gray-100 xl:hidden">
-        <div class="flex flex-col max-h-[70vh] overflow-y-auto">
-            <a href="{% url 'reservation:landing' %}" class="nav-link-mobile py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Coworking</a>
-            <a href="{% url 'conciergerie:home' %}" class="nav-link-mobile py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Conciergerie</a>
+    <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-lg xl:hidden">
+        <div class="flex flex-col p-4 gap-3 max-h-[70vh] overflow-y-auto">
+            <a href="{% url 'reservation:landing' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Coworking</a>
+            <a href="{% url 'conciergerie:home' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Conciergerie</a>
             
             <div class="mobile-dropdown">
-                <button class="mobile-dropdown-toggle w-full flex items-center justify-between py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">
+                <button class="mobile-dropdown-toggle w-full flex items-center justify-between py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">
                     Domiciliation
                     <span class="text-xs">▼</span>
                 </button>
-                <div class="hidden pl-4 flex flex-col gap-1 bg-gray-50/50">
-                    <a href="{% url 'domiciliation:index' %}" class="nav-link-mobile py-3 px-6 text-slate-600 text-sm hover:bg-orange-50 transition-colors">Home</a>
+                <div class="hidden pl-4 mt-1 flex flex-col gap-1">
+                    <a href="{% url 'domiciliation:index' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Home</a>
                     <div class="mobile-dropdown">
 
                         <button
                             class="mobile-dropdown-toggle w-full flex items-center justify-between
-                                py-3 px-6 text-slate-600 text-sm hover:bg-orange-50 transition-colors">
+                                py-2 px-4 rounded-lg hover:bg-orange-50
+                                text-slate-600 text-sm">
 
                             <span>Création d'entreprise</span>
 
@@ -346,29 +347,29 @@
                         </button>
 
 
-                        <div class="hidden pl-4 flex flex-col gap-1 bg-gray-50/50">
+                        <div class="hidden pl-4 mt-1 flex flex-col gap-1">
 
-                            <a href="{% url 'domiciliation:creation_entreprise' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création d'entreprise</a>
+                            <a href="{% url 'domiciliation:creation_entreprise' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création d'entreprise</a>
 
-                            <a href="{% url 'domiciliation:creation_sarl' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de SARL</a>
+                            <a href="{% url 'domiciliation:creation_sarl' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SARL</a>
 
-                            <a href="{% url 'domiciliation:creation_sarlu' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de SARLU</a>
+                            <a href="{% url 'domiciliation:creation_sarlu' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SARLU</a>
 
-                            <a href="{% url 'domiciliation:creation_sas' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de SAS</a>
+                            <a href="{% url 'domiciliation:creation_sas' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SAS</a>
 
-                            <a href="{% url 'domiciliation:creation_sasu' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de SASU</a>
+                            <a href="{% url 'domiciliation:creation_sasu' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SASU</a>
 
-                            <a href="{% url 'domiciliation:creation_ong' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création d'ONG</a>
+                            <a href="{% url 'domiciliation:creation_ong' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création d'ONG</a>
 
-                            <a href="{% url 'domiciliation:creation_startup' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de Startup</a>
+                            <a href="{% url 'domiciliation:creation_startup' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de Startup</a>
 
-                            <a href="{% url 'domiciliation:creation_sci' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de SCI</a>
+                            <a href="{% url 'domiciliation:creation_sci' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SCI</a>
 
-                            <a href="{% url 'domiciliation:creation_association' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création d'association</a>
+                            <a href="{% url 'domiciliation:creation_association' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création d'association</a>
 
-                            <a href="{% url 'domiciliation:creation_fondation' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de fondation</a>
+                            <a href="{% url 'domiciliation:creation_fondation' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de fondation</a>
 
-                            <a href="{% url 'domiciliation:creation_scoop' %}" class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">Création de SCOOP</a>
+                            <a href="{% url 'domiciliation:creation_scoop' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-500 text-sm">Création de SCOOP</a>
 
                         </div>
 
@@ -379,7 +380,8 @@
                         <!-- Bouton Gestion d'entreprise -->
                         <button
                             class="mobile-dropdown-toggle w-full flex items-center justify-between
-                                py-3 px-6 text-slate-600 text-sm hover:bg-orange-50 transition-colors">
+                                py-2 px-4 rounded-lg hover:bg-orange-50
+                                text-slate-600 text-sm">
 
                             <span>Gestion d'entreprise</span>
 
@@ -391,7 +393,7 @@
 
 
                         <!-- Sous-menu Gestion d'entreprise -->
-                        <div class="hidden pl-4 flex flex-col gap-1 bg-gray-50/50">
+                        <div class="hidden pl-4 mt-1 flex flex-col gap-1">
 
 
                             <!-- Modification d'entreprise -->
@@ -399,7 +401,8 @@
 
                                 <button
                                     class="mobile-dropdown-toggle w-full flex items-center justify-between
-                                        py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">
+                                        py-2 px-4 rounded-lg hover:bg-orange-50
+                                        text-slate-500 text-sm">
 
                                     <span>Modification d'entreprise</span>
 
@@ -411,25 +414,29 @@
 
 
                                 <!-- Sous-menu Modification -->
-                                <div class="hidden pl-4 flex flex-col gap-1 bg-gray-50/50">
+                                <div class="hidden pl-4 mt-1 flex flex-col gap-1">
 
                                     <a href="#"
-                                    class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
                                         Modification des statuts
                                     </a>
 
                                     <a href="#"
-                                    class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
                                         Changement de siège social
                                     </a>
 
                                     <a href="#"
-                                    class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
                                         Changement de dirigeant
                                     </a>
 
                                     <a href="#"
-                                    class="nav-link-mobile py-3 px-6 text-slate-500 text-sm hover:bg-orange-50 transition-colors">
+                                    class="nav-link-mobile py-2 px-4 rounded-lg
+                                            hover:bg-orange-50 text-slate-500 text-sm">
                                         Modification d'activité
                                     </a>
 
@@ -474,31 +481,29 @@
                     </div>
 
                     </div>
-                    <a href="#" class="nav-link-mobile py-3 px-6 text-slate-600 text-sm hover:bg-orange-50 transition-colors">Accompagnement</a>
-                    <a href="#" class="nav-link-mobile py-3 px-6 text-slate-600 text-sm hover:bg-orange-50 transition-colors">Ressources</a>
+                    <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Accompagnement</a>
+                    <a href="#" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-600 text-sm">Ressources</a>
                 </div>
             </div>
 
-            <div class="border-t border-gray-100">
-                <a href="{% url 'formation:home' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Formation</a>
-                <a href="{% url 'formation:devis_formation_create' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Devis Formation</a>
-                <a href="{% url 'blog:list' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Blog</a>
-                <a href="{% url 'core:contact' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Contact</a>
-                <a href="{% url 'core:a_propos' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">À propos</a>
-                <a href="{% url 'core:faq' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">FAQ</a>
-                <a href="{% url 'core:mentions_legales' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Mentions</a>
-                <a href="{% url 'core:politique_confidentialite' %}" class="nav-link-mobile block py-4 px-6 border-b border-gray-100 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Confidentialité</a>
-                <a href="{% url 'core:conditions_utilisation' %}" class="nav-link-mobile block py-4 px-6 text-slate-700 font-medium hover:bg-orange-50 transition-colors">Conditions</a>
-            </div>
+            <a href="{% url 'formation:home' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Formation</a>
+            <a href="{% url 'formation:devis_formation_create' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Devis Formation</a>
+            <a href="{% url 'blog:list' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Blog</a>
+            <a href="{% url 'core:contact' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Contact</a>
+            <a href="{% url 'core:a_propos' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">À propos</a>
+            <a href="{% url 'core:faq' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">FAQ</a>
+            <a href="{% url 'core:mentions_legales' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Mentions</a>
+            <a href="{% url 'core:politique_confidentialite' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Confidentialité</a>
+            <a href="{% url 'core:conditions_utilisation' %}" class="nav-link-mobile py-2 px-4 rounded-lg hover:bg-orange-50 text-slate-700 font-medium">Conditions</a>
             
-            <div class="pt-4 border-t border-gray-100 mt-2">
+            <div class="pt-3 border-t border-slate-200 mt-2">
                 <button 
                 onclick="window.location.href='{% url 'accounts:login' %}'"
                 class="w-full flex items-center justify-center gap-2 
                        bg-[#000000] text-white 
-                       px-5 py-3.5 rounded-xl 
+                       px-5 py-3 rounded-full 
                        text-sm font-semibold
-                       shadow-lg hover:bg-[#1A1A1A] transition duration-300 mx-6 mb-4">
+                       shadow-lg">
                     <span>👤</span>
                     Espace membre
                 </button>
