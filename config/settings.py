@@ -276,6 +276,9 @@ SECRET_KEY = 'django-insecure-v^p72(a913s)d*l0m7hxo#gb@md=ej29+c6vafhw1m@6x$(iv8
 DEBUG = True
 
 ALLOWED_HOSTS = [
+     "trusting-wu.164-132-167-236.plesk.page",
+    "localhost",
+    "127.0.0.1",
     
 ]
 
