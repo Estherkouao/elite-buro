@@ -19,17 +19,17 @@
   <!-- Header / Steps (fonctionnel via le formulaire Django inchangé) -->
   
 
-  <div class="mt-8 grid gap-6 lg:grid-cols-[1fr_1.05fr_1.35fr]">
+  <div class="mt-8 grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[1fr_1.05fr_1.35fr]">
     <!-- Left: Espaces disponibles -->
-    <div class="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+    <div class="rounded-2xl lg:rounded-3xl border border-navy/10 bg-white p-4 sm:p-6 shadow-sm">
       <div class="flex items-start justify-between gap-3">
         <div>
-          <h2 class="font-display text-2xl font-bold text-navy">Espaces disponibles</h2>
-          <p class="mt-2 text-sm text-gray-600">Cliquez sur un espace pour le sélectionner.</p>
+          <h2 class="font-display text-xl sm:text-2xl font-bold text-navy">Espaces disponibles</h2>
+          <p class="mt-2 text-xs sm:text-sm text-gray-600">Cliquez sur un espace pour le sélectionner.</p>
         </div>
-        <span class="rounded-full bg-gold/15 px-3 py-1 text-sm font-semibold text-gold">Places</span>
+        <span class="rounded-full bg-gold/15 px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold text-gold">Places</span>
       </div>
-      <div class="mt-4 space-y-3" style="max-height:500px; overflow-y:auto;">
+      <div class="mt-3 sm:mt-4 space-y-2 sm:space-y-3" style="max-height:400px; overflow-y:auto;">
         {% for ws in workspaces %}
         <div class="workspace-card cursor-pointer rounded-2xl border-2 border-transparent bg-cream p-4 transition-all hover:border-gold/50"
              onclick="selectWorkspaceMember('{{ ws.id }}', '{{ ws.nom|escapejs }}')"
@@ -55,22 +55,22 @@
     </div>
 
     <!-- Middle: Calendar -->
-    <div class="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+    <div class="rounded-2xl lg:rounded-3xl border border-navy/10 bg-white p-4 sm:p-6 shadow-sm">
       <div class="flex items-start justify-between gap-3">
         <div>
-          <h2 class="font-display text-2xl font-bold text-navy">Sélection rapide</h2>
-          <p class="mt-2 text-sm text-gray-600">Choisissez directement une date pour pré-remplir début et fin.</p>
+          <h2 class="font-display text-xl sm:text-2xl font-bold text-navy">Sélection rapide</h2>
+          <p class="mt-2 text-xs sm:text-sm text-gray-600">Choisissez directement une date pour pré-remplir début et fin.</p>
         </div>
-        <span class="rounded-full bg-gold/15 px-3 py-1 text-sm font-semibold text-gold">Calendrier</span>
+        <span class="rounded-full bg-gold/15 px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold text-gold">Calendrier</span>
       </div>
 
-      <div class="mt-6 rounded-2xl border border-navy/10 bg-cream p-4">
+      <div class="mt-4 sm:mt-6 rounded-2xl border border-navy/10 bg-cream p-3 sm:p-4">
         <div class="flex items-center justify-between">
-          <button type="button" id="prevMonthBtn" class="rounded-lg border border-navy/10 px-3 py-2 text-sm font-semibold text-navy hover:bg-white">←</button>
-          <div id="calendarTitle" class="text-sm font-semibold text-navy"></div>
-          <button type="button" id="nextMonthBtn" class="rounded-lg border border-navy/10 px-3 py-2 text-sm font-semibold text-navy hover:bg-white">→</button>
+          <button type="button" id="prevMonthBtn" class="rounded-lg border border-navy/10 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-navy hover:bg-white">←</button>
+          <div id="calendarTitle" class="text-xs sm:text-sm font-semibold text-navy"></div>
+          <button type="button" id="nextMonthBtn" class="rounded-lg border border-navy/10 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-navy hover:bg-white">→</button>
         </div>
-        <div class="mt-4 grid grid-cols-7 gap-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
+        <div class="mt-3 sm:mt-4 grid grid-cols-7 gap-1 sm:gap-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
           <div>Lu</div>
           <div>Ma</div>
           <div>Me</div>
@@ -79,46 +79,46 @@
           <div>Sa</div>
           <div>Di</div>
         </div>
-        <div id="calendarGrid" class="mt-3 grid grid-cols-7 gap-2"></div>
+        <div id="calendarGrid" class="mt-2 sm:mt-3 grid grid-cols-7 gap-1 sm:gap-2"></div>
       </div>
 
-      <p class="mt-4 text-sm text-gray-600">La date sélectionnée remplit automatiquement les champs de début et de fin.</p>
+      <p class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600">La date sélectionnée remplit automatiquement les champs de début et de fin.</p>
     </div>
 
     <!-- Right: Form -->
-    <div class="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
-      <h2 class="font-display text-2xl font-bold text-navy">Formulaire</h2>
-      <p class="mt-2 text-sm text-gray-600">Les disponibilités sont vérifiées avant la création.</p>
+    <div class="rounded-2xl lg:rounded-3xl border border-navy/10 bg-white p-4 sm:p-6 shadow-sm">
+      <h2 class="font-display text-xl sm:text-2xl font-bold text-navy">Formulaire</h2>
+      <p class="mt-2 text-xs sm:text-sm text-gray-600">Les disponibilités sont vérifiées avant la création.</p>
 
-      <form method="post" class="mt-6" id="reservationForm">
+      <form method="post" class="mt-4 sm:mt-6" id="reservationForm">
         {% csrf_token %}
 
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-3 sm:gap-4 md:grid-cols-2">
           {% for field in form %}
             <div class="{% if field.name in 'commentaire remise_commentaire' %}md:col-span-2{% endif %}">
-              <label class="mb-1 block text-sm font-semibold text-navy/90" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              <label class="mb-1 block text-xs sm:text-sm font-semibold text-navy/90" for="{{ field.id_for_label }}">{{ field.label }}</label>
               {{ field }}
               {% if field.errors %}
-                <div class="mt-1 text-sm text-red-600">{{ field.errors|striptags }}</div>
+                <div class="mt-1 text-xs sm:text-sm text-red-600">{{ field.errors|striptags }}</div>
               {% endif %}
             </div>
           {% endfor %}
         </div>
 
         {% if form.non_field_errors %}
-          <div class="mb-4 mt-4 text-sm text-red-600">{{ form.non_field_errors }}</div>
+          <div class="mb-3 sm:mb-4 mt-3 sm:mt-4 text-xs sm:text-sm text-red-600">{{ form.non_field_errors }}</div>
         {% endif %}
 
-        <div class="mt-6 flex flex-wrap items-center gap-3">
-          <button type="submit" class="inline-flex items-center rounded-xl bg-navy px-5 py-2 font-semibold text-white transition hover:bg-navy/90">
+        <div class="mt-4 sm:mt-6 flex flex-col sm:flex-wrap sm:items-center gap-2 sm:gap-3">
+          <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-navy px-5 py-2.5 sm:py-2 font-semibold text-white transition hover:bg-navy/90">
             Confirmer
           </button>
-          <a href="{% url 'reservation:list' %}" class="inline-flex items-center rounded-xl border border-navy/20 px-5 py-2 font-semibold text-navy transition hover:bg-navy/5">
+          <a href="{% url 'reservation:list' %}" class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-navy/20 px-5 py-2.5 sm:py-2 font-semibold text-navy transition hover:bg-navy/5">
             Annuler
           </a>
         </div>
 
-        <div class="mt-6" id="calculationSummary" aria-live="polite"></div>
+        <div class="mt-4 sm:mt-6" id="calculationSummary" aria-live="polite"></div>
       </form>
     </div>
   </div>
