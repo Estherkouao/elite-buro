@@ -289,24 +289,34 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             gap: 1rem;
-        }
-
-        @media (max-width: 480px) {
-            .hero-stats {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
+            flex-wrap: wrap;
         }
 
         .stat-box {
+            width: 120px;
+
             border-radius: 0.75rem;
             padding: 0.75rem;
+
             background-color: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.1);
+
             text-align: center;
+        }
+        @media (max-width: 480px) {
+            .hero-stats {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-box {
+                width: 100%;
+            }
         }
 
         .stat-value {
@@ -329,6 +339,7 @@ EliteBuro - Coworking & Formation à Abidjan
         .live-indicator {
             margin-top: 0.75rem;
             font-size: 0.75rem;
+            justify-content: center;
             color: #444444;
             display: flex;
             align-items: center;
@@ -407,13 +418,25 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .section-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-weight: 500;
-            color: var(--accent);
-            font-family: 'DM Mono', monospace;
-            margin-bottom: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            background: #f5f5f0;
+            border: 1px solid #e5e2d8;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #0D2B55;
+            letter-spacing: 0.5px;
+        }
+
+        .section-label-dot {
+            width: 7px;
+            height: 7px;
+            background: #C9A02C;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .section-title {
@@ -505,8 +528,8 @@ EliteBuro - Coworking & Formation à Abidjan
             padding: 0.375rem 0.75rem;
             border-radius: 9999px;
             font-size: 0.75rem;
-            background-color: rgba(11, 107, 57, 0.2);
-            color: #7FD6A8;
+            background-color: #ffffff;
+            color: #000000;
             border: 1px solid rgba(11, 107, 57, 0.4);
         }
 
@@ -1247,7 +1270,7 @@ EliteBuro - Coworking & Formation à Abidjan
 
         /* Testimonials Section */
         #testimonials {
-            background-color: var(--bg-secondary);
+            background-color: var(--bg-light);
         }
 
         .testimonials-header {
@@ -1268,10 +1291,37 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .testimonial-card {
-            border-radius: 1rem;
-            padding: 1.5rem;
-            background-color: white;
-            border: 1px solid var(--border-color);
+            width: 320px;
+            height: 320px;
+
+            padding: 3rem;
+
+            margin: 0 auto;
+
+            background: #ffffff;
+
+            border: 1px solid rgba(13, 43, 85, 0.08);
+
+            border-radius: 50%;
+
+            box-shadow: 0 10px 30px rgba(13, 43, 85, 0.08);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px) scale(1.02);
+
+            box-shadow: 0 18px 40px rgba(13, 43, 85, 0.15);
+
+            border-color: rgba(201, 160, 44, 0.4);
         }
 
         .stars {
@@ -1288,10 +1338,17 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .testimonial-text {
-            font-size: 0.875rem;
+            max-width: 210px;
+
+            margin: 1rem auto;
+
+            color: #475569;
+
+            font-size: 0.85rem;
+
             line-height: 1.6;
-            color: #3D5070;
-            margin-bottom: 1.5rem;
+
+            text-align: center;
         }
 
         .testimonial-author {
@@ -1712,7 +1769,7 @@ EliteBuro - Coworking & Formation à Abidjan
 
         .hero-title-overlay .badge {
             margin-bottom: 1.5rem;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: #ffffff;
             color: #000000;
             border: 1px solid rgba(0, 0, 0, 0.2);
         }
@@ -1968,6 +2025,341 @@ EliteBuro - Coworking & Formation à Abidjan
             gap: 1rem;
             margin-top: 2rem;
         }
+        /* ================================
+            SECTION TÉMOIGNAGES COMPACTE
+            ================================ */
+
+            #testimonials {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+
+
+            /* Header */
+
+            #testimonials .testimonials-header {
+                margin-bottom: 1.5rem;
+            }
+
+
+            /* Grille */
+
+            #testimonials .testimonials-grid {
+                gap: 1rem;
+            }
+
+
+            /* Cartes */
+
+            #testimonials .testimonial-card {
+                padding: 1.25rem;
+                min-height: 240px;
+            }
+
+
+            /* Étoiles */
+
+            #testimonials .stars {
+                margin-bottom: 0.5rem;
+            }
+
+
+            /* Commentaire */
+
+            #testimonials .testimonial-text {
+                margin: 0.5rem 0;
+                line-height: 1.5;
+            }
+
+
+            /* Auteur */
+
+            #testimonials .testimonial-author {
+                margin-top: 0.75rem;
+                padding-top: 0.75rem;
+            }
+
+
+            /* Footer */
+
+            #testimonials .testimonial-footer {
+                margin-top: 0.5rem;
+            }
+            
+            /* =========================================================
+            DOMICILIATION — VERSION COMPACTE
+            ========================================================= */
+
+            #domiciliation {
+                padding: 55px 0;
+            }
+
+            /* ---------- HEADER ---------- */
+
+            .domiciliation-header {
+                margin-bottom: 30px;
+            }
+
+            .domiciliation-header .section-label {
+                margin-bottom: 8px;
+                font-size: 12px;
+            }
+
+            .domiciliation-header .section-title {
+                margin-bottom: 10px;
+                line-height: 1.15;
+            }
+
+            .domiciliation-header p {
+                margin: 0;
+                max-width: 760px;
+                line-height: 1.5;
+                font-size: 14px;
+            }
+
+
+            /* ---------- PLANS ---------- */
+
+            .plans-grid {
+                gap: 18px;
+            }
+
+            .plan-card {
+                position: relative;
+            }
+
+            .plan-content {
+                padding: 22px;
+            }
+
+            .plan-label {
+                font-size: 11px;
+                margin-bottom: 5px;
+            }
+
+            .plan-name {
+                font-size: 20px;
+                line-height: 1.2;
+                margin-bottom: 8px;
+            }
+
+            .plan-price {
+                margin-bottom: 15px;
+            }
+
+            .plan-amount {
+                font-size: 27px;
+                line-height: 1;
+            }
+
+            .plan-currency {
+                font-size: 11px;
+            }
+
+            .plan-features {
+                gap: 7px;
+                margin-bottom: 18px;
+            }
+
+            .plan-feature {
+                font-size: 13px;
+                line-height: 1.3;
+            }
+
+            .plan-feature-icon {
+                width: 18px;
+                height: 18px;
+                min-width: 18px;
+                font-size: 11px;
+            }
+
+            .plan-cta {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+
+            /* ---------- BADGES ---------- */
+
+            .plan-tag {
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+
+
+            /* ---------- PROCESSUS ---------- */
+
+            .process-box {
+                margin-top: 28px;
+                padding: 20px 24px;
+            }
+
+            .process-title {
+                margin-bottom: 16px;
+                font-size: 17px;
+            }
+
+            .process-grid {
+                gap: 10px;
+            }
+
+            .process-step {
+                padding: 6px;
+            }
+
+            .process-icon {
+                font-size: 22px;
+                margin-bottom: 4px;
+            }
+
+            .process-number {
+                font-size: 10px;
+                margin-bottom: 3px;
+            }
+
+            .process-label {
+                font-size: 12px;
+                line-height: 1.3;
+            }
+
+
+            /* ---------- EMPTY STATE ---------- */
+
+            .plan-empty {
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 2rem;
+            }
+
+
+            /* =========================================================
+            RESPONSIVE
+            ========================================================= */
+
+            @media (max-width: 768px) {
+
+                #domiciliation {
+                    padding: 40px 0;
+                }
+
+                .domiciliation-header {
+                    margin-bottom: 24px;
+                }
+
+                .domiciliation-header .section-title {
+                    font-size: 28px;
+                }
+
+                .domiciliation-header p {
+                    font-size: 13px;
+                }
+
+                .plan-content {
+                    padding: 18px;
+                }
+
+                .process-box {
+                    padding: 18px;
+                    margin-top: 22px;
+                }
+
+                .process-title {
+                    font-size: 15px;
+                }
+
+                .process-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+
+            }
+
+
+            @media (max-width: 480px) {
+
+                #domiciliation {
+                    padding: 35px 0;
+                }
+
+                .domiciliation-header .section-title {
+                    font-size: 25px;
+                }
+
+                .process-grid {
+                    grid-template-columns: 1fr;
+                }
+
+            }
+            
+        
+            .domiciliation-header p {
+                text-align: center;
+                margin: 0 auto;
+                max-width: 750px;
+                line-height: 1.5;
+            }
+          
+            /* ==========================================
+            FORMATION — ESPACEMENT
+            ========================================== */
+
+            #formation .section-label {
+                margin-bottom: 15px;
+            }
+
+            #formation .section-title {
+                margin-bottom: 20px;
+                line-height: 1.2;
+            }
+
+            #formation .section-description {
+                margin-bottom: 30px;
+                line-height: 1.7;
+            }
+
+            /* Espacement entre les boutons */
+            #formation .formation-buttons {
+                display: flex;
+                gap: 15px;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+
+            /* Boutons */
+            #formation .formation-buttons button {
+                padding: 13px 22px;
+            }
+
+            /* ==========================================
+            MOBILE
+            ========================================== */
+
+            @media (max-width: 768px) {
+
+                #formation .section-title {
+                    margin-bottom: 15px;
+                }
+
+                #formation .section-description {
+                    margin-bottom: 25px;
+                    line-height: 1.6;
+                }
+
+                #formation .formation-buttons {
+                    gap: 12px;
+                    margin-top: 5px;
+                }
+
+                #formation .formation-buttons button {
+                    width: 100%;
+                }
+            }
+
+
+
+
+        
+
+
         
 
         
@@ -1990,7 +2382,7 @@ EliteBuro - Coworking & Formation à Abidjan
                         loop
                         playsinline
                         controls>
-                        <source src="/media/hero.mp4" type="video/mp4">
+                        <source src="/media/video2.mp4" type="video/mp4">
                     Votre navigateur ne supporte pas la vidéo.
                 </video>
 
@@ -2031,88 +2423,149 @@ EliteBuro - Coworking & Formation à Abidjan
 
         <section class="hero-content-section">
 
-            <!-- COLONNE GAUCHE : TEXTE -->
+            <!-- COLONNE GAUCHE : CONTENU -->
             <div class="hero-content-below">
 
+                <!-- Petit label -->
+                <div class="hero-eyebrow">
+                    <span class="eyebrow-dot"></span>
+                    ESPACE DE TRAVAIL PREMIUM · ABIDJAN
+                </div>
+
+
+                <!-- TITRE PRINCIPAL -->
+                <h1 class="hero-title">
+                    Votre espace professionnel,
+                    <span>pensé pour votre réussite.</span>
+                </h1>
+
+
+                <!-- DESCRIPTION -->
                 <p class="hero-description">
-                    SAS Elite Buro Coworking est une entreprise ivoirienne spécialisée dans les solutions d'accompagnement des entrepreneurs, des startups, des PME et des grandes entreprises. Située à Riviera Palmeraie, dans la commune de Cocody à Abidjan (Côte d'Ivoire), elle propose un environnement professionnel moderne favorisant la collaboration, l'innovation et le développement des activités économiques. Sous la direction de son Président, M. TCHERO Huidi, l'entreprise s'articule autour de trois principaux pôles d'activités : le coworking et la location d'espaces professionnels, la domiciliation d'entreprises ainsi que la formation et l'accompagnement des porteurs de projets. Grâce à une offre de services complète et adaptée aux besoins des professionnels, Elite Buro Coworking s'impose comme un partenaire de référence dans l'écosystème entrepreneurial ivoirien.
+                    Elite Buro accompagne les entrepreneurs, startups, PME et grandes
+                    entreprises dans un environnement professionnel moderne au cœur
+                    de Riviera Palmeraie, Cocody.
+                </p>
 
-                    <br><br>
-
-                    11 bureaux privatifs, salles de réunion configurables,
-                    domiciliation d'entreprise et centre de formation 
-                    tout en un seul lieu d'exception.
+                <p class="hero-description hero-description-secondary">
+                    Coworking, bureaux privés, salles de réunion, domiciliation,
+                    formation et accompagnement : tout ce dont votre activité a besoin,
+                    réuni dans un même lieu.
                 </p>
 
 
+                <!-- BOUTONS -->
                 <div class="hero-buttons">
 
-                    <button class="btn-primary"
-                    onclick="window.location.href='{% url 'reservation:landing' %}'">
-                        Réserver une salle de formation
-                    </button>
+                    <a href="{% url 'reservation:landing' %}"
+                    class="btn-primary">
+
+                        Réserver un espace
+                        <span class="btn-arrow">→</span>
+
+                    </a>
 
 
-                    <button class="btn-outline"
-                        onclick="window.location.href='{% url 'conciergerie:home' %}'">
-                        Conciergerie
-                    </button>
+                    <a href="{% url 'conciergerie:home' %}"
+                    class="btn-outline">
+
+                        Découvrir nos services
+
+                    </a>
 
                 </div>
 
 
-
+                <!-- STATISTIQUES -->
                 <div class="hero-stats">
 
+                    <!-- BUREAUX -->
                     <div class="stat-box">
+
                         <div class="stat-value">
-                            {{ available_offices|default:"6" }}/{{ total_offices|default:"11" }}
+                            {{ total_offices|default:"11" }}
                         </div>
+
                         <div class="stat-label">
-                            Bureaux libres
+                            Bureaux privés
                         </div>
+
                     </div>
 
 
+                    <!-- HOT DESKS -->
                     <div class="stat-box">
+
                         <div class="stat-value">
-                            {{ hot_desk_available|default:"1" }}/{{ hot_desk_total|default:"12" }}
+                            {{ hot_desk_available_today|default:"7" }}
                         </div>
+
                         <div class="stat-label">
                             Hot desks
                         </div>
+
                     </div>
 
 
+                    <!-- SALLES -->
                     <div class="stat-box">
+
                         <div class="stat-value">
                             {{ meeting_room_count|default:"3" }}
                         </div>
+
                         <div class="stat-label">
-                            Salles
+                            Salles professionnelles
                         </div>
+
                     </div>
 
                 </div>
 
 
+                <!-- DISPONIBILITÉ -->
                 <div class="live-indicator">
-                    <span class="live-dot"></span>
-                    Disponibilités mises à jour en temps réel
-                </div>
 
+                    <span class="live-dot"></span>
+
+                    <span>
+                        Disponibilités mises à jour en temps réel
+                    </span>
+
+                </div>
 
             </div>
 
 
-
-            <!-- COLONNE DROITE : NOUVELLE IMAGE -->
-
+            <!-- COLONNE DROITE : IMAGE -->
             <div class="hero-secondary-image">
 
-                <img 
-                src="/media/images3.jpeg"
-                alt="Espace Elite Buro">
+                <img
+                    src="/media/img.jpeg"
+                    alt="Espace professionnel Elite Buro"
+                >
+
+
+                <!-- CARTE FLOTTANTE -->
+                <div class="hero-image-card">
+
+                    <div class="hero-image-card-status">
+
+                        <span class="hero-image-card-dot"></span>
+
+                        DISPONIBLE AUJOURD'HUI
+
+                    </div>
+
+                    <div class="hero-image-card-title">
+                        Des espaces conçus pour travailler
+                    </div>
+
+                    <div class="hero-image-card-location">
+                        Riviera Palmeraie · Cocody
+                    </div>
+
+                </div>
 
             </div>
 
@@ -2125,11 +2578,29 @@ EliteBuro - Coworking & Formation à Abidjan
     <section id="coworking">
         <div class="container">
             <div class="section-header">
-                <div class="section-label">01 — Pôle Coworking & Conciergerie</div>
-                <h2 class="section-title">11 bureaux privatifs,<br>disponibilité en temps réel</h2>
-                <p class="section-description">Chaque espace est mis à jour instantanément dès confirmation d'une réservation. Choisissez, réservez, payez — en moins de 3 minutes.</p>
-            </div>
 
+                <div class="section-label">
+                    01 — COWORKING & CONCIERGERIE
+                </div>
+
+                <h2 class="section-title">
+                    Un espace professionnel
+                    <br>
+                    <span>adapté à votre ambition.</span>
+                </h2>
+
+                <p class="section-description">
+                    Découvrez nos bureaux privatifs et espaces de travail conçus
+                    pour offrir confort, flexibilité et efficacité aux entrepreneurs,
+                    startups, PME et professionnels.
+                </p>
+
+                <p class="section-description">
+                    Consultez les disponibilités en temps réel, choisissez votre espace
+                    et réservez simplement en quelques minutes.
+                </p>
+
+            </div>
 <div class="hotdesk-strip">
                 <div class="hotdesk-info">
                     <div class="hotdesk-icon">👥</div>
@@ -2140,7 +2611,9 @@ EliteBuro - Coworking & Formation à Abidjan
                 </div>
                 <div class="hotdesk-actions">
                     <div class="badge-realtime">● Temps réel</div>
-                    <button class="btn-reserve">Réserver un hot desk</button>
+                    <a href="{% url 'reservation:landing' %}" class="btn-reserve">
+                        Réserver un hot desk
+                    </a>
                 </div>
             </div>
 
@@ -2440,79 +2913,137 @@ EliteBuro - Coworking & Formation à Abidjan
         </div>
     </section>
 
-    <!-- Domiciliation Section -->
+   
     <section id="domiciliation">
         <div class="container">
+
             <div class="domiciliation-header">
                 <div class="section-label">02 — Domiciliation d'entreprise</div>
-                <h2 class="section-title">Une adresse prestige à Riviera Palmeraie</h2>
-                <p>Domiciliation commerciale autorisée par le CEPICI. Souscription 100% en ligne, contrat signé électroniquement, dossier validé en 48h.</p>
+
+                <h2 class="section-title">
+                    Une adresse prestige à Riviera Palmeraie
+                </h2>
+
+                <p>
+                    Domiciliation commerciale autorisée par le CEPICI.
+                    Souscription 100% en ligne, contrat signé électroniquement,
+                    dossier validé en 48h.
+                </p>
             </div>
 
+            <!-- FORMULES -->
             <div class="plans-grid">
+
                 {% for plan in domiciliation_plans %}
+
                 <div class="plan-card">
+
                     {% if forloop.counter == 2 %}
-                    <div class="plan-tag">★ Plus populaire</div>
+                        <div class="plan-tag">★ Plus populaire</div>
                     {% elif forloop.counter == 3 %}
-                    <div class="plan-tag">★ Tout inclus</div>
+                        <div class="plan-tag">★ Tout inclus</div>
                     {% endif %}
+
                     <div class="plan-content">
+
                         <div class="plan-label">Formule</div>
-                        <div class="plan-name">{{ plan.nom }}</div>
-                        <div class="plan-price">
-                            <span class="plan-amount">{{ plan.prix|floatformat:0|intcomma }}</span>
-                            <span class="plan-currency">F CFA / mois</span>
+
+                        <div class="plan-name">
+                            {{ plan.nom }}
                         </div>
+
+                        <div class="plan-price">
+                            <span class="plan-amount">
+                                {{ plan.prix|floatformat:0|intcomma }}
+                            </span>
+
+                            <span class="plan-currency">
+                                F CFA / mois
+                            </span>
+                        </div>
+
                         <div class="plan-features">
+
                             {% for avantage in plan.avantages %}
+
                             <div class="plan-feature">
                                 <span class="plan-feature-icon check">✓</span>
                                 <span>{{ avantage }}</span>
                             </div>
+
                             {% endfor %}
+
                         </div>
-                        <a href="{% url 'domiciliation:domiciliation_from' %}" class="plan-cta">
+
+                        <a href="{% url 'domiciliation:domiciliation_from' %}"
+                        class="plan-cta">
                             Souscrire en ligne
                         </a>
+
                     </div>
                 </div>
+
                 {% empty %}
-                <div class="plan-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+
+                <div class="plan-card plan-empty">
                     <div class="plan-content">
                         <p>Aucune formule disponible pour le moment.</p>
                     </div>
                 </div>
+
                 {% endfor %}
+
             </div>
 
+
+            <!-- PROCESSUS -->
             <div class="process-box">
-                <div class="process-title">Parcours de souscription 100% en ligne</div>
+
+                <div class="process-title">
+                    Parcours de souscription 100% en ligne
+                </div>
+
                 <div class="process-grid">
-                        <div class="process-step">
-                            <div class="process-icon">💳</div>
-                            <div class="process-number">01</div>
-                            <div class="process-label">Choisir votre formule & payer</div>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-icon">📄</div>
-                            <div class="process-number">02</div>
-                            <div class="process-label">Uploader vos pièces justificatives</div>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-icon">✓</div>
-                            <div class="process-number">03</div>
-                            <div class="process-label">Signer le contrat électroniquement</div>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-icon">🏆</div>
-                            <div class="process-number">04</div>
-                            <div class="process-label">Recevoir votre attestation CEPICI</div>
+
+                    <div class="process-step">
+                        <div class="process-icon">💳</div>
+                        <div class="process-number">01</div>
+                        <div class="process-label">
+                            Choisir votre formule & payer
                         </div>
                     </div>
+
+                    <div class="process-step">
+                        <div class="process-icon">📄</div>
+                        <div class="process-number">02</div>
+                        <div class="process-label">
+                            Uploader vos pièces justificatives
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-icon">✓</div>
+                        <div class="process-number">03</div>
+                        <div class="process-label">
+                            Signer le contrat électroniquement
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="process-icon">🏆</div>
+                        <div class="process-number">04</div>
+                        <div class="process-label">
+                            Recevoir votre attestation CEPICI
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </section>
+
+        </div>
+    </section>
+
+
 
         <!-- Formation Section -->
         <section id="formation">
@@ -2546,41 +3077,13 @@ EliteBuro - Coworking & Formation à Abidjan
                             <div class="quote-title">Formation qualifiantee</div>
                             <div class="quote-details">
                                 <span class="quote-location">Salle de formation inclus</span>
-                                <span class="quote-price">a moindre coup</span>
+                                <span class="quote-price">À moindre coût</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="configurations-box">
-                    <div class="configurations-title">Configurations de salle disponibles</div>
-                    <div class="config-grid">
-                        <div class="config-item">
-                            <div class="config-icon">▐▐▐▌</div>
-                            <div class="config-name">Théâtre</div>
-                            <div class="config-capacity">30 pers.</div>
-                        </div>
-                        <div class="config-item">
-                            <div class="config-icon">⊓</div>
-                        <div class="config-name">En U</div>
-                        <div class="config-capacity">20 pers.</div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-icon">≡≡</div>
-                        <div class="config-name">Classe</div>
-                        <div class="config-capacity">25 pers.</div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-icon">▭</div>
-                        <div class="config-name">Boardroom</div>
-                        <div class="config-capacity">16 pers.</div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-icon">⊞</div>
-                        <div class="config-name">Îlots</div>
-                        <div class="config-capacity">24 pers.</div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </section>
@@ -2590,7 +3093,7 @@ EliteBuro - Coworking & Formation à Abidjan
         <div class="container">
             <div class="testimonials-header">
                 <div class="section-label">Ils nous font confiance</div>
-                <h2 class="section-title">Ce que nos membres disent</h2>
+                <h2 class="section-title"></h2>
             </div>
 
             <div class="testimonials-grid">
@@ -2658,7 +3161,7 @@ EliteBuro - Coworking & Formation à Abidjan
         <div class="container">
             <div class="contact-grid">
                 <div>
-                    <div class="section-label">Nous trouver</div>
+                    
                     <h2 class="section-title"></h2>
                     
                     <div class="contact-items">
@@ -2668,11 +3171,8 @@ EliteBuro - Coworking & Formation à Abidjan
                                 <div class="contact-label">Adresse</div>
                                 <div class="contact-value">Riviera Palmeraie, Cocody
 Abidjan, Côte d'Ivoire</div>
-
                             </div>
                         </div>
-                        
-
                         <div class="contact-item">
                             <div class="contact-icon">🕐</div>
                             <div class="contact-details">

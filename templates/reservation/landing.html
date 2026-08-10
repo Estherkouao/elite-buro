@@ -109,7 +109,7 @@
 <!-- 2) HERO SECTION -->
 <section class="hero-section flex items-end justify-center">
 
-    <div class="absolute inset-0 overflow-hidden">
+   <div class="absolute top-0 left-0 w-full h-[70%] overflow-hidden">
         <video 
             class="w-full h-full object-cover"
             autoplay
@@ -117,26 +117,33 @@
             loop
             playsinline
             controls>
-            <source src="/media/elite buro.m4v" type="video/mp4">
+            <source src="/media/video1.mp4" type="video/mp4">
             Votre navigateur ne supporte pas la vidéo.
         </video>
     </div>
 
-    <div class="hero-content container mx-auto px-6 text-center pb-16">
+   <div class="flex justify-center">
+    <div class="inline-flex flex-col sm:flex-row gap-3 
+                bg-black/30 backdrop-blur-md 
+                border border-white/10 
+                rounded-full p-2">
 
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{% url 'reservation:create' %}" 
-               class="btn-gold px-8 py-4 rounded-full font-semibold text-lg">
-                Réserver maintenant
-            </a>
+        <a href="{% url 'reservation:create' %}" 
+           class="btn-gold px-7 py-3 rounded-full font-semibold text-base">
+            Réserver maintenant
+        </a>
 
-            <a href="#nos-espaces"
-               class="bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 px-8 py-4 rounded-full font-semibold text-lg text-white">
-                Voir les espaces
-            </a>
-        </div>
+        <a href="#nos-espaces"
+           class="bg-white/10 backdrop-blur-md 
+                  border border-white/30 
+                  hover:bg-white/20 
+                  px-7 py-3 rounded-full 
+                  font-semibold text-base text-white">
+            Voir les espaces
+        </a>
 
     </div>
+</div>
 
 </section>
 
