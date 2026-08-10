@@ -79,4 +79,80 @@ urlpatterns = [
 
     path("<uuid:uuid>/history/", views.history, name="history"),
     path("<uuid:uuid>/renew/", views.renew, name="renew"),
+
+    path(
+        "changement-gerant/",
+        views.changement_gerant,
+        name="changement_gerant"
+    ),
+
+    # Liste des demandes
+    path(
+        "changements-gerant/",
+        views.mes_changements_gerant,
+        name="mes_changements_gerant"
+    ),
+
+    # Détail d'une demande
+    path(
+        "changement-gerant/<int:pk>/",
+        views.detail_changement_gerant,
+        name="detail_changement_gerant"
+    ),
+    path(
+        "gestion-entreprise/",
+        views.gestion_entreprise,
+        name="gestion_entreprise"
+    ),
+    path(
+        "cession-parts-sociales/",
+        views.cession_parts_sociales,
+        name="cession_parts_sociales"
+    ),
+
+    path(
+        "cession-parts-sociales/<uuid:pk>/",
+        views.detail_cession_parts,
+        name="detail_cession_parts"
+    ),
+
+    path(
+        "mes-cessions-parts/",
+        views.mes_cessions_parts,
+        name="mes_cessions_parts"
+    ),
+    path(
+        "modification-activite/",
+        views.modification_activite,
+        name="modification_activite"
+    ),
+
+    path(
+        "modification-activite/<int:pk>/",
+        views.detail_modification_activite,
+        name="detail_modification_activite"
+    ),
+
+    path(
+        "mes-modifications-activite/",
+        views.mes_modifications_activite,
+        name="mes_modifications_activite"
+    ),
+    path(
+        "changement-nom/",
+        views.changement_nom_entreprise,
+        name="changement_nom"
+    ),
+
+    path(
+        "changement-nom/<int:pk>/",
+        views.detail_changement_nom,
+        name="detail_changement_nom"
+    ),
+
+    path(
+        "mes-changements-nom/",
+        views.mes_changements_nom,
+        name="mes_changements_nom"
+    ),
 ]

@@ -1,0 +1,131 @@
+{% extends "base_public.html" %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-12">
+
+    <div class="max-w-4xl mx-auto px-4">
+
+        <div class="mb-8">
+
+            <span class="text-sm font-semibold text-[#C9A02C]">
+                GESTION D'ENTREPRISE
+            </span>
+
+            <h1 class="text-3xl font-bold text-[#0D2B55] mt-2">
+                Demande de changement de gérant
+            </h1>
+
+        </div>
+
+
+        <div class="bg-white rounded-2xl border
+                    border-slate-200 shadow-sm p-8">
+
+            <div class="flex justify-between items-center mb-8">
+
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Numéro de demande
+                    </p>
+
+                    <p class="font-bold text-[#0D2B55]">
+                        #{{ demande.id }}
+                    </p>
+                </div>
+
+
+                <span class="px-4 py-2 rounded-full
+                             bg-yellow-100 text-yellow-700
+                             text-sm font-semibold">
+
+                    {{ demande.get_statut_display }}
+
+                </span>
+
+            </div>
+
+
+            <div class="border-t pt-6">
+
+                <h2 class="text-lg font-bold text-[#0D2B55] mb-4">
+                    Ancien gérant
+                </h2>
+
+                <p>
+                    <strong>Nom :</strong>
+                    {{ demande.ancien_nom }}
+                    {{ demande.ancien_prenoms }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Email :</strong>
+                    {{ demande.ancien_email|default:"Non renseigné" }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Téléphone :</strong>
+                    {{ demande.ancien_telephone|default:"Non renseigné" }}
+                </p>
+
+            </div>
+
+
+            <div class="border-t mt-8 pt-6">
+
+                <h2 class="text-lg font-bold text-[#0D2B55] mb-4">
+                    Nouveau gérant
+                </h2>
+
+                <p>
+                    <strong>Nom :</strong>
+                    {{ demande.nouveau_nom }}
+                    {{ demande.nouveau_prenoms }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Email :</strong>
+                    {{ demande.nouveau_email }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Téléphone :</strong>
+                    {{ demande.nouveau_telephone }}
+                </p>
+
+            </div>
+
+
+            <div class="border-t mt-8 pt-6">
+
+                <h2 class="text-lg font-bold text-[#0D2B55] mb-4">
+                    Motif
+                </h2>
+
+                <p class="text-slate-600">
+                    {{ demande.motif }}
+                </p>
+
+            </div>
+
+
+            <div class="mt-8">
+
+                <a
+                    href="{% url 'domiciliation:mes_changements_gerant' %}"
+                    class="inline-flex px-6 py-3 rounded-xl
+                           bg-[#0D2B55] text-white font-semibold">
+
+                    ← Mes demandes
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

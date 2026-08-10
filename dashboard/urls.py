@@ -66,6 +66,12 @@ from .views import (
     AdminConciergerieDetailView,
     AdminConciergerieValidateView,
     AdminConciergerieRefuseView,
+    # Changement de gérant
+    AdminChangementGerantListView,
+    AdminChangementGerantDetailView,
+    AdminChangementGerantValidateView,
+    AdminChangementGerantRefuseView,
+    AdminChangementGerantTerminateView,
 )
 
 from .member_dashboard import MemberDashboardView
@@ -528,6 +534,33 @@ path(
         "conciergerie/<int:demande_id>/refuse/",
         AdminConciergerieRefuseView.as_view(),
         name="conciergerie_refuse",
+    ),
+
+    # Changement de gérant
+    path(
+        "changement-gerant/",
+        AdminChangementGerantListView.as_view(),
+        name="changement_gerant_list",
+    ),
+    path(
+        "changement-gerant/<int:demande_id>/",
+        AdminChangementGerantDetailView.as_view(),
+        name="changement_gerant_detail",
+    ),
+    path(
+        "changement-gerant/<int:demande_id>/validate/",
+        AdminChangementGerantValidateView.as_view(),
+        name="changement_gerant_validate",
+    ),
+    path(
+        "changement-gerant/<int:demande_id>/refuse/",
+        AdminChangementGerantRefuseView.as_view(),
+        name="changement_gerant_refuse",
+    ),
+    path(
+        "changement-gerant/<int:demande_id>/terminate/",
+        AdminChangementGerantTerminateView.as_view(),
+        name="changement_gerant_terminate",
     ),
 
     path(

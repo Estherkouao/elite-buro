@@ -5348,4 +5348,514 @@ def creation_scoop(request: HttpRequest) -> HttpResponse:
     )
 
 
+@login_required
+def gestion_entreprise(request):
+    entreprises = request.user.companies.all()
 
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/gestion_entreprise.html",
+        {
+            "entreprises": entreprises,
+        }
+    )
+
+
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
+from .models import ChangementGerant
+
+
+@login_required
+@login_required
+@csrf_protect
+def changement_gerant(request):
+    """
+    Affiche et traite le formulaire de demande
+    de changement de gérant.
+    """
+
+    if request.method == "POST":
+        entreprise_id = request.POST.get("entreprise_id")
+
+        ancien_nom = request.POST.get("ancien_nom")
+        ancien_prenoms = request.POST.get("ancien_prenoms")
+        ancien_email = request.POST.get("ancien_email")
+        ancien_telephone = request.POST.get("ancien_telephone")
+
+        nouveau_nom = request.POST.get("nouveau_nom")
+        nouveau_prenoms = request.POST.get("nouveau_prenoms")
+        nouveau_email = request.POST.get("nouveau_email")
+        nouveau_telephone = request.POST.get("nouveau_telephone")
+
+        motif = request.POST.get("motif")
+
+        erreurs = []
+
+        if not entreprise_id:
+            erreurs.append("Veuillez sélectionner une entreprise.")
+
+        if not ancien_nom:
+            erreurs.append("Le nom de l'ancien gérant est obligatoire.")
+
+        if not ancien_prenoms:
+            erreurs.append("Les prénoms de l'ancien gérant sont obligatoires.")
+
+        if not nouveau_nom:
+            erreurs.append("Le nom du nouveau gérant est obligatoire.")
+
+        if not nouveau_prenoms:
+            erreurs.append("Les prénoms du nouveau gérant sont obligatoires.")
+
+        if not nouveau_email:
+            erreurs.append("L'email du nouveau gérant est obligatoire.")
+
+        if not nouveau_telephone:
+            erreurs.append("Le téléphone du nouveau gérant est obligatoire.")
+
+        if not motif:
+            erreurs.append("Le motif du changement est obligatoire.")
+
+        if erreurs:
+            for erreur in erreurs:
+                messages.error(request, erreur)
+
+            entreprises = request.user.companies.all()
+            context = {
+                "entreprises": entreprises,
+            }
+            return render(
+                request,
+                "domiciliation/gestion_entreprise/changement_gerant.html",
+                context
+            )
+
+        demande = ChangementGerant.objects.create(
+            entreprise_id=entreprise_id,
+            ancien_nom=ancien_nom,
+            ancien_prenoms=ancien_prenoms,
+            ancien_email=ancien_email,
+            ancien_telephone=ancien_telephone,
+            nouveau_nom=nouveau_nom,
+            nouveau_prenoms=nouveau_prenoms,
+            nouveau_email=nouveau_email,
+            nouveau_telephone=nouveau_telephone,
+            motif=motif,
+            demandeur=request.user,
+            statut="EN_ATTENTE",
+        )
+
+        messages.success(
+            request,
+            "Votre demande de changement de gérant a été enregistrée avec succès."
+        )
+
+        return redirect(
+            "gestion_entreprise:detail_changement_gerant",
+            pk=demande.pk
+        )
+
+    # Récupérer les entreprises du client
+
+    entreprises = request.user.companies.all()
+
+    context = {
+        "entreprises": entreprises,
+    }
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/changement_gerant.html",
+        context
+    )
+
+
+@login_required
+def detail_changement_gerant(request, pk):
+    """
+    Affiche le détail d'une demande de changement de gérant.
+    """
+
+    demande = ChangementGerant.objects.get(
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/detail_changement_gerant.html",
+        {
+            "demande": demande
+        }
+    )
+
+
+@login_required
+def mes_changements_gerant(request):
+    """
+    Liste les demandes de changement de gérant
+    du client connecté.
+    """
+
+    demandes = ChangementGerant.objects.filter(
+        demandeur=request.user
+    ).order_by("-date_creation")
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/mes_changements_gerant.html",
+        {
+            "demandes": demandes
+        }
+    )
+
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render, redirect
+
+from .models import CessionPartsSociales
+
+@login_required
+def cession_parts_sociales(request):
+
+    entreprises = request.user.companies.all()
+
+    if request.method == "POST":
+
+        entreprise_id = request.POST.get("entreprise_id")
+
+        entreprise = get_object_or_404(
+            entreprises,
+            id=entreprise_id
+        )
+
+        demande = CessionPartsSociales.objects.create(
+
+            demandeur=request.user,
+
+            entreprise=entreprise,
+
+            # Cédant
+            cedant_nom=request.POST.get("cedant_nom"),
+            cedant_prenoms=request.POST.get("cedant_prenoms"),
+            cedant_email=request.POST.get("cedant_email"),
+            cedant_telephone=request.POST.get("cedant_telephone"),
+
+            # Cessionnaire
+            cessionnaire_nom=request.POST.get("cessionnaire_nom"),
+            cessionnaire_prenoms=request.POST.get("cessionnaire_prenoms"),
+            cessionnaire_email=request.POST.get("cessionnaire_email"),
+            cessionnaire_telephone=request.POST.get(
+                "cessionnaire_telephone"
+            ),
+            cessionnaire_nationalite=request.POST.get(
+                "cessionnaire_nationalite"
+            ),
+            cessionnaire_adresse=request.POST.get(
+                "cessionnaire_adresse"
+            ),
+
+            # Parts
+            nombre_parts=request.POST.get("nombre_parts"),
+            valeur_nominale=request.POST.get("valeur_nominale"),
+            prix_cession=request.POST.get("prix_cession"),
+            date_cession=request.POST.get("date_cession") or None,
+
+            # Informations
+            motif=request.POST.get("motif"),
+            observations=request.POST.get("observations"),
+
+            # Documents
+            piece_identite_cedant=request.FILES.get(
+                "piece_identite_cedant"
+            ),
+            piece_identite_cessionnaire=request.FILES.get(
+                "piece_identite_cessionnaire"
+            ),
+            acte_cession=request.FILES.get(
+                "acte_cession"
+            ),
+            proces_verbal=request.FILES.get(
+                "proces_verbal"
+            ),
+            statuts=request.FILES.get(
+                "statuts"
+            ),
+            autres_documents=request.FILES.get(
+                "autres_documents"
+            ),
+
+            statut=CessionPartsSociales.Statut.EN_ATTENTE,
+        )
+
+        messages.success(
+            request,
+            "Votre demande de cession de parts sociales "
+            "a été enregistrée avec succès."
+        )
+
+        return redirect(
+            "domiciliation:detail_cession_parts",
+            pk=demande.pk
+        )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/cession_parts_sociales.html",
+        {
+            "entreprises": entreprises,
+        }
+    )
+
+@login_required
+def detail_cession_parts(request, pk):
+
+    demande = get_object_or_404(
+        CessionPartsSociales,
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/detail_cession_parts.html",
+        {
+            "demande": demande
+        }
+    )
+@login_required
+def mes_cessions_parts(request):
+
+    demandes = CessionPartsSociales.objects.filter(
+        demandeur=request.user
+    ).select_related(
+        "entreprise"
+    ).order_by("-date_creation")
+
+    return render(
+        request,
+        "domiciliation/mes_cessions_parts.html",
+        {
+            "demandes": demandes
+        }
+    )
+
+
+@login_required
+def modification_activite(request):
+
+    entreprises = request.user.companies.all()
+
+    if request.method == "POST":
+
+        entreprise_id = request.POST.get("entreprise_id")
+
+        entreprise = get_object_or_404(
+            entreprises,
+            id=entreprise_id
+        )
+
+        demande = ModificationActivite.objects.create(
+
+            demandeur=request.user,
+
+            entreprise=entreprise,
+
+            activite_actuelle=request.POST.get(
+                "activite_actuelle"
+            ),
+
+            nouvelle_activite=request.POST.get(
+                "nouvelle_activite"
+            ),
+
+            motif=request.POST.get("motif"),
+
+            observations=request.POST.get(
+                "observations"
+            ),
+
+            statuts=request.FILES.get("statuts"),
+
+            proces_verbal=request.FILES.get(
+                "proces_verbal"
+            ),
+
+            justificatif=request.FILES.get(
+                "justificatif"
+            ),
+
+            autres_documents=request.FILES.get(
+                "autres_documents"
+            ),
+
+            statut=ModificationActivite.Statut.EN_ATTENTE
+        )
+
+        messages.success(
+            request,
+            "Votre demande de modification d'activité "
+            "a été enregistrée avec succès."
+        )
+
+        return redirect(
+            "domiciliation:detail_modification_activite",
+            pk=demande.pk
+        )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/modification_activite.html",
+        {
+            "entreprises": entreprises
+        }
+    )
+
+@login_required
+def detail_modification_activite(request, pk):
+
+    demande = get_object_or_404(
+        ModificationActivite,
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/detail_modification_activite.html",
+        {
+            "demande": demande
+        }
+    )
+
+@login_required
+def mes_modifications_activite(request):
+
+    demandes = ModificationActivite.objects.filter(
+        demandeur=request.user
+    ).select_related(
+        "entreprise"
+    ).order_by("-date_creation")
+
+    return render(
+        request,
+        "domiciliation/mes_modifications_activite.html",
+        {
+            "demandes": demandes
+        }
+    )    
+
+
+@login_required
+def changement_nom_entreprise(request):
+
+    entreprises = request.user.companies.all()
+
+    if request.method == "POST":
+
+        entreprise_id = request.POST.get("entreprise_id")
+
+        entreprise = get_object_or_404(
+            entreprises,
+            id=entreprise_id
+        )
+
+        demande = ChangementNomEntreprise.objects.create(
+
+            demandeur=request.user,
+
+            entreprise=entreprise,
+
+            ancien_nom=request.POST.get(
+                "ancien_nom"
+            ),
+
+            nouveau_nom=request.POST.get(
+                "nouveau_nom"
+            ),
+
+            motif=request.POST.get(
+                "motif"
+            ),
+
+            observations=request.POST.get(
+                "observations"
+            ),
+
+            statuts=request.FILES.get(
+                "statuts"
+            ),
+
+            proces_verbal=request.FILES.get(
+                "proces_verbal"
+            ),
+
+            justificatif=request.FILES.get(
+                "justificatif"
+            ),
+
+            autres_documents=request.FILES.get(
+                "autres_documents"
+            ),
+
+            statut=ChangementNomEntreprise.Statut.EN_ATTENTE
+        )
+
+        messages.success(
+            request,
+            "Votre demande de changement de dénomination "
+            "a été enregistrée avec succès."
+        )
+
+        return redirect(
+            "domiciliation:detail_changement_nom",
+            pk=demande.pk
+        )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/changement_nom.html",
+        {
+            "entreprises": entreprises
+        }
+    )
+
+@login_required
+def detail_changement_nom(request, pk):
+
+    demande = get_object_or_404(
+        ChangementNomEntreprise,
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/detail_changement_nom.html",
+        {
+            "demande": demande
+        }
+    )
+
+@login_required
+def mes_changements_nom(request):
+
+    demandes = ChangementNomEntreprise.objects.filter(
+        demandeur=request.user
+    ).select_related(
+        "entreprise"
+    ).order_by("-date_creation")
+
+    return render(
+        request,
+        "domiciliation/mes_changements_nom.html",
+        {
+            "demandes": demandes
+        }
+    )        

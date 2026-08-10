@@ -308,3 +308,826 @@ class DomiciliationLog(models.Model):
     def __str__(self) -> str:
         return f"{self.action} - {self.demande.numero_demande}"  
 
+
+from django.conf import settings
+from django.db import models
+from django.utils import timezone
+
+
+class ChangementGerant(models.Model):
+
+    class Statut(models.TextChoices):
+        BROUILLON = "BROUILLON", "Brouillon"
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_VERIFICATION = "EN_VERIFICATION", "En vérification"
+        DOCUMENTS_MANQUANTS = "DOCUMENTS_MANQUANTS", "Documents manquants"
+        EN_TRAITEMENT = "EN_TRAITEMENT", "En traitement"
+        VALIDE = "VALIDE", "Validé"
+        REJETE = "REJETE", "Rejeté"
+        TERMINE = "TERMINE", "Terminé"
+
+    # ==========================================================
+    # CLIENT / DEMANDEUR
+    # ==========================================================
+
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="demandes_changement_gerant",
+        verbose_name="Demandeur"
+    )
+
+    # ==========================================================
+    # ENTREPRISE
+    # ==========================================================
+
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="changements_gerant",
+        verbose_name="Entreprise"
+    )
+
+    # ==========================================================
+    # ANCIEN GERANT
+    # ==========================================================
+
+    ancien_nom = models.CharField(
+        max_length=100,
+        verbose_name="Nom de l'ancien gérant"
+    )
+
+    ancien_prenoms = models.CharField(
+        max_length=150,
+        verbose_name="Prénoms de l'ancien gérant"
+    )
+
+    ancien_email = models.EmailField(
+        blank=True,
+        null=True,
+        verbose_name="Email de l'ancien gérant"
+    )
+
+    ancien_telephone = models.CharField(
+        max_length=30,
+        blank=True,
+        verbose_name="Téléphone de l'ancien gérant"
+    )
+
+    # ==========================================================
+    # NOUVEAU GERANT
+    # ==========================================================
+
+    nouveau_nom = models.CharField(
+        max_length=100,
+        verbose_name="Nom du nouveau gérant"
+    )
+
+    nouveau_prenoms = models.CharField(
+        max_length=150,
+        verbose_name="Prénoms du nouveau gérant"
+    )
+
+    nouveau_email = models.EmailField(
+        verbose_name="Email du nouveau gérant"
+    )
+
+    nouveau_telephone = models.CharField(
+        max_length=30,
+        verbose_name="Téléphone du nouveau gérant"
+    )
+
+    nouveau_date_naissance = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name="Date de naissance"
+    )
+
+    nouveau_lieu_naissance = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name="Lieu de naissance"
+    )
+
+    nouveau_nationalite = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Nationalité"
+    )
+
+    nouveau_adresse = models.TextField(
+        blank=True,
+        verbose_name="Adresse du nouveau gérant"
+    )
+
+    # ==========================================================
+    # INFORMATIONS SUR LE CHANGEMENT
+    # ==========================================================
+
+    date_prise_fonction = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name="Date de prise de fonction"
+    )
+
+    motif = models.TextField(
+        verbose_name="Motif du changement"
+    )
+
+    # ==========================================================
+    # DOCUMENTS
+    # ==========================================================
+
+    piece_identite_ancien = models.FileField(
+        upload_to="gestion_entreprise/changement_gerant/",
+        blank=True,
+        null=True,
+        verbose_name="Pièce d'identité ancien gérant"
+    )
+
+    piece_identite_nouveau = models.FileField(
+        upload_to="gestion_entreprise/changement_gerant/",
+        blank=True,
+        null=True,
+        verbose_name="Pièce d'identité nouveau gérant"
+    )
+
+    proces_verbal = models.FileField(
+        upload_to="gestion_entreprise/changement_gerant/",
+        blank=True,
+        null=True,
+        verbose_name="Procès-verbal"
+    )
+
+    statuts = models.FileField(
+        upload_to="gestion_entreprise/changement_gerant/",
+        blank=True,
+        null=True,
+        verbose_name="Statuts"
+    )
+
+    rccm = models.FileField(
+        upload_to="gestion_entreprise/changement_gerant/",
+        blank=True,
+        null=True,
+        verbose_name="RCCM"
+    )
+
+    autres_documents = models.FileField(
+        upload_to="gestion_entreprise/changement_gerant/",
+        blank=True,
+        null=True,
+        verbose_name="Autres documents"
+    )
+
+    # ==========================================================
+    # TRAITEMENT
+    # ==========================================================
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE,
+        verbose_name="Statut"
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True,
+        verbose_name="Commentaire administrateur"
+    )
+
+    # ==========================================================
+    # PAIEMENT
+    # ==========================================================
+
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        verbose_name="Montant"
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False,
+        verbose_name="Paiement effectué"
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name="Référence paiement"
+    )
+
+    # ==========================================================
+    # DATES
+    # ==========================================================
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Date de création"
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Dernière modification"
+    )
+
+    date_validation = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name="Date de validation"
+    )
+
+    date_terminaison = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name="Date de terminaison"
+    )
+
+    # ==========================================================
+    # METHODES
+    # ==========================================================
+
+    def __str__(self):
+        return (
+            f"Changement de gérant - "
+            f"{self.entreprise} - "
+            f"#{self.pk}"
+        )
+
+    def marquer_valide(self):
+        """
+        Valide la demande.
+        """
+
+        self.statut = self.Statut.VALIDE
+        self.date_validation = timezone.now()
+        self.save(
+            update_fields=[
+                "statut",
+                "date_validation",
+                "date_modification"
+            ]
+        )
+
+    def marquer_termine(self):
+        """
+        Termine le traitement de la demande.
+        """
+
+        self.statut = self.Statut.TERMINE
+        self.date_terminaison = timezone.now()
+
+        self.save(
+            update_fields=[
+                "statut",
+                "date_terminaison",
+                "date_modification"
+            ]
+        )
+
+    @property
+    def ancien_gerant_complet(self):
+        return f"{self.ancien_nom} {self.ancien_prenoms}"
+
+    @property
+    def nouveau_gerant_complet(self):
+        return f"{self.nouveau_nom} {self.nouveau_prenoms}"
+
+    class Meta:
+        verbose_name = "Changement de gérant"
+        verbose_name_plural = "Changements de gérant"
+        ordering = ["-date_creation"]
+
+
+class CessionPartsSociales(models.Model):
+
+    class Statut(models.TextChoices):
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_VERIFICATION = "EN_VERIFICATION", "En vérification"
+        DOCUMENTS_MANQUANTS = "DOCUMENTS_MANQUANTS", "Documents manquants"
+        EN_TRAITEMENT = "EN_TRAITEMENT", "En traitement"
+        VALIDE = "VALIDE", "Validé"
+        REJETE = "REJETE", "Rejeté"
+        TERMINE = "TERMINE", "Terminé"
+
+    # ==========================================================
+    # DEMANDEUR
+    # ==========================================================
+
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="demandes_cession_parts",
+        verbose_name="Demandeur"
+    )
+
+    # ==========================================================
+    # ENTREPRISE
+    # ==========================================================
+
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="cessions_parts",
+        verbose_name="Entreprise"
+    )
+
+    # ==========================================================
+    # CEDANT
+    # ==========================================================
+
+    cedant_nom = models.CharField(
+        max_length=100,
+        verbose_name="Nom du cédant"
+    )
+
+    cedant_prenoms = models.CharField(
+        max_length=150,
+        verbose_name="Prénoms du cédant"
+    )
+
+    cedant_email = models.EmailField(
+        blank=True,
+        verbose_name="Email du cédant"
+    )
+
+    cedant_telephone = models.CharField(
+        max_length=30,
+        blank=True,
+        verbose_name="Téléphone du cédant"
+    )
+
+    # ==========================================================
+    # CESSIONNAIRE
+    # ==========================================================
+
+    cessionnaire_nom = models.CharField(
+        max_length=100,
+        verbose_name="Nom du cessionnaire"
+    )
+
+    cessionnaire_prenoms = models.CharField(
+        max_length=150,
+        verbose_name="Prénoms du cessionnaire"
+    )
+
+    cessionnaire_email = models.EmailField(
+        blank=True,
+        verbose_name="Email du cessionnaire"
+    )
+
+    cessionnaire_telephone = models.CharField(
+        max_length=30,
+        blank=True,
+        verbose_name="Téléphone du cessionnaire"
+    )
+
+    cessionnaire_nationalite = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Nationalité"
+    )
+
+    cessionnaire_adresse = models.TextField(
+        blank=True,
+        verbose_name="Adresse du cessionnaire"
+    )
+
+    # ==========================================================
+    # PARTS SOCIALES
+    # ==========================================================
+
+    nombre_parts = models.PositiveIntegerField(
+        verbose_name="Nombre de parts cédées"
+    )
+
+    valeur_nominale = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        verbose_name="Valeur nominale d'une part"
+    )
+
+    prix_cession = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        verbose_name="Prix total de la cession"
+    )
+
+    date_cession = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name="Date prévue de la cession"
+    )
+
+    # ==========================================================
+    # INFORMATIONS
+    # ==========================================================
+
+    motif = models.TextField(
+        blank=True,
+        verbose_name="Motif de la cession"
+    )
+
+    observations = models.TextField(
+        blank=True,
+        verbose_name="Observations"
+    )
+
+    # ==========================================================
+    # DOCUMENTS
+    # ==========================================================
+
+    piece_identite_cedant = models.FileField(
+        upload_to="gestion_entreprise/cession_parts/",
+        blank=True,
+        null=True,
+        verbose_name="Pièce d'identité du cédant"
+    )
+
+    piece_identite_cessionnaire = models.FileField(
+        upload_to="gestion_entreprise/cession_parts/",
+        blank=True,
+        null=True,
+        verbose_name="Pièce d'identité du cessionnaire"
+    )
+
+    acte_cession = models.FileField(
+        upload_to="gestion_entreprise/cession_parts/",
+        blank=True,
+        null=True,
+        verbose_name="Acte de cession"
+    )
+
+    proces_verbal = models.FileField(
+        upload_to="gestion_entreprise/cession_parts/",
+        blank=True,
+        null=True,
+        verbose_name="Procès-verbal"
+    )
+
+    statuts = models.FileField(
+        upload_to="gestion_entreprise/cession_parts/",
+        blank=True,
+        null=True,
+        verbose_name="Statuts"
+    )
+
+    autres_documents = models.FileField(
+        upload_to="gestion_entreprise/cession_parts/",
+        blank=True,
+        null=True,
+        verbose_name="Autres documents"
+    )
+
+    # ==========================================================
+    # TRAITEMENT
+    # ==========================================================
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE,
+        verbose_name="Statut"
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True,
+        verbose_name="Commentaire administrateur"
+    )
+
+    # ==========================================================
+    # PAIEMENT
+    # ==========================================================
+
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        verbose_name="Montant de la prestation"
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False,
+        verbose_name="Paiement effectué"
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name="Référence paiement"
+    )
+
+    # ==========================================================
+    # DATES
+    # ==========================================================
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    date_validation = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    date_terminaison = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    # ==========================================================
+    # METHODES
+    # ==========================================================
+
+    def __str__(self):
+        return (
+            f"Cession de {self.nombre_parts} parts - "
+            f"{self.entreprise.company_name}"
+        )
+
+    @property
+    def cedant_complet(self):
+        return f"{self.cedant_nom} {self.cedant_prenoms}"
+
+    @property
+    def cessionnaire_complet(self):
+        return f"{self.cessionnaire_nom} {self.cessionnaire_prenoms}"
+
+    class Meta:
+        verbose_name = "Cession de parts sociales"
+        verbose_name_plural = "Cessions de parts sociales"
+        ordering = ["-date_creation"]
+
+
+class ModificationActivite(models.Model):
+
+    class Statut(models.TextChoices):
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_VERIFICATION = "EN_VERIFICATION", "En vérification"
+        DOCUMENTS_MANQUANTS = "DOCUMENTS_MANQUANTS", "Documents manquants"
+        EN_TRAITEMENT = "EN_TRAITEMENT", "En traitement"
+        VALIDE = "VALIDE", "Validé"
+        REJETE = "REJETE", "Rejeté"
+        TERMINE = "TERMINE", "Terminé"
+
+    # Demandeur
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="demandes_modification_activite",
+        verbose_name="Demandeur"
+    )
+
+    # Entreprise
+    # IMPORTANT : mets ici la vraie application qui contient Company.
+    # Si Company est dans core, utilise "core.Company".
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="modifications_activite",
+        verbose_name="Entreprise"
+    )
+
+    # Activité actuelle
+    activite_actuelle = models.TextField(
+        verbose_name="Activité actuelle"
+    )
+
+    # Nouvelle activité
+    nouvelle_activite = models.TextField(
+        verbose_name="Nouvelle activité"
+    )
+
+    # Motif
+    motif = models.TextField(
+        blank=True,
+        verbose_name="Motif de la modification"
+    )
+
+    observations = models.TextField(
+        blank=True,
+        verbose_name="Observations"
+    )
+
+    # Documents
+    statuts = models.FileField(
+        upload_to="gestion_entreprise/modification_activite/",
+        blank=True,
+        null=True,
+        verbose_name="Statuts"
+    )
+
+    proces_verbal = models.FileField(
+        upload_to="gestion_entreprise/modification_activite/",
+        blank=True,
+        null=True,
+        verbose_name="Procès-verbal"
+    )
+
+    justificatif = models.FileField(
+        upload_to="gestion_entreprise/modification_activite/",
+        blank=True,
+        null=True,
+        verbose_name="Justificatif"
+    )
+
+    autres_documents = models.FileField(
+        upload_to="gestion_entreprise/modification_activite/",
+        blank=True,
+        null=True,
+        verbose_name="Autres documents"
+    )
+
+    # Traitement
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE,
+        verbose_name="Statut"
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True,
+        verbose_name="Commentaire administrateur"
+    )
+
+    # Paiement
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    # Dates
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    date_validation = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    date_terminaison = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return (
+            f"Modification activité - "
+            f"{self.entreprise.company_name}"
+        )
+
+    class Meta:
+        verbose_name = "Modification d'activité"
+        verbose_name_plural = "Modifications d'activité"
+        ordering = ["-date_creation"]
+
+
+class ChangementNomEntreprise(models.Model):
+
+    class Statut(models.TextChoices):
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_VERIFICATION = "EN_VERIFICATION", "En vérification"
+        DOCUMENTS_MANQUANTS = "DOCUMENTS_MANQUANTS", "Documents manquants"
+        EN_TRAITEMENT = "EN_TRAITEMENT", "En traitement"
+        VALIDE = "VALIDE", "Validé"
+        REJETE = "REJETE", "Rejeté"
+        TERMINE = "TERMINE", "Terminé"
+
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="demandes_changement_nom",
+        verbose_name="Demandeur"
+    )
+
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="changements_nom",
+        verbose_name="Entreprise"
+    )
+
+    ancien_nom = models.CharField(
+        max_length=255,
+        verbose_name="Ancienne dénomination"
+    )
+
+    nouveau_nom = models.CharField(
+        max_length=255,
+        verbose_name="Nouvelle dénomination"
+    )
+
+    motif = models.TextField(
+        blank=True,
+        verbose_name="Motif du changement"
+    )
+
+    observations = models.TextField(
+        blank=True,
+        verbose_name="Observations"
+    )
+
+    statuts = models.FileField(
+        upload_to="gestion_entreprise/changement_nom/",
+        blank=True,
+        null=True,
+        verbose_name="Statuts"
+    )
+
+    proces_verbal = models.FileField(
+        upload_to="gestion_entreprise/changement_nom/",
+        blank=True,
+        null=True,
+        verbose_name="Procès-verbal"
+    )
+
+    justificatif = models.FileField(
+        upload_to="gestion_entreprise/changement_nom/",
+        blank=True,
+        null=True,
+        verbose_name="Justificatif"
+    )
+
+    autres_documents = models.FileField(
+        upload_to="gestion_entreprise/changement_nom/",
+        blank=True,
+        null=True,
+        verbose_name="Autres documents"
+    )
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE,
+        verbose_name="Statut"
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True,
+        verbose_name="Commentaire administrateur"
+    )
+
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    date_validation = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    date_terminaison = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return (
+            f"Changement de nom - "
+            f"{self.ancien_nom} → {self.nouveau_nom}"
+        )
+
+    class Meta:
+        verbose_name = "Changement de dénomination"
+        verbose_name_plural = "Changements de dénomination"
+        ordering = ["-date_creation"]

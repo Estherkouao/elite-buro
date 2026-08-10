@@ -1,0 +1,501 @@
+{% extends "dashboard/base_member.html" %}
+{% load static %}
+
+{% block title %}Cession de parts sociales | EliteBuro{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-12">
+
+    <div class="max-w-5xl mx-auto px-4">
+
+        <!-- HEADER -->
+
+        <div class="mb-8">
+
+            <span class="text-sm font-bold tracking-wider
+                         text-[#C9A02C] uppercase">
+                Gestion d'entreprise
+            </span>
+
+            <h1 class="text-3xl md:text-4xl font-bold
+                       text-[#0D2B55] mt-2">
+                Cession de parts sociales
+            </h1>
+
+            <p class="mt-3 text-slate-600 max-w-2xl">
+                Effectuez une demande de cession de parts sociales
+                de votre entreprise.
+            </p>
+
+        </div>
+
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              class="space-y-8">
+
+            {% csrf_token %}
+
+
+            <!-- ENTREPRISE -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm p-6 md:p-8">
+
+                <h2 class="text-xl font-bold text-[#0D2B55] mb-6">
+                    1. Entreprise concernée
+                </h2>
+
+                <label class="block text-sm font-semibold
+                              text-slate-700 mb-2">
+                    Sélectionnez votre entreprise *
+                </label>
+
+                <select
+                    name="entreprise_id"
+                    required
+                    class="w-full rounded-xl border border-slate-300
+                           px-4 py-3">
+
+                    <option value="">
+                        Sélectionnez une entreprise
+                    </option>
+
+                    {% for entreprise in entreprises %}
+
+                    <option value="{{ entreprise.id }}">
+                        {{ entreprise.company_name }}
+                        {% if entreprise.registration_number %}
+                            — {{ entreprise.registration_number }}
+                        {% endif %}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- CEDANT -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm p-6 md:p-8">
+
+                <h2 class="text-xl font-bold text-[#0D2B55] mb-2">
+                    2. Associé cédant
+                </h2>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    Personne qui cède ses parts sociales.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div>
+                        <label class="block text-sm font-semibold
+                                      mb-2">
+                            Nom *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cedant_nom"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold
+                                      mb-2">
+                            Prénoms *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cedant_prenoms"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold
+                                      mb-2">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            name="cedant_email"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold
+                                      mb-2">
+                            Téléphone
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="cedant_telephone"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CESSIONNAIRE -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm p-6 md:p-8">
+
+                <h2 class="text-xl font-bold text-[#0D2B55] mb-2">
+                    3. Nouveau détenteur des parts
+                </h2>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    Renseignez les informations du cessionnaire.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Nom *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cessionnaire_nom"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Prénoms *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cessionnaire_prenoms"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            name="cessionnaire_email"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Téléphone
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="cessionnaire_telephone"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Nationalité
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cessionnaire_nationalite"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Adresse
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cessionnaire_adresse"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PARTS -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm p-6 md:p-8">
+
+                <h2 class="text-xl font-bold text-[#0D2B55] mb-2">
+                    4. Parts sociales concernées
+                </h2>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    Indiquez les caractéristiques des parts faisant
+                    l'objet de la cession.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Nombre de parts *
+                        </label>
+
+                        <input
+                            type="number"
+                            name="nombre_parts"
+                            min="1"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Valeur nominale *
+                        </label>
+
+                        <input
+                            type="number"
+                            name="valeur_nominale"
+                            min="0"
+                            step="0.01"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Prix total de cession *
+                        </label>
+
+                        <input
+                            type="number"
+                            name="prix_cession"
+                            min="0"
+                            step="0.01"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Date prévue
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date_cession"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOTIF -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm p-6 md:p-8">
+
+                <h2 class="text-xl font-bold text-[#0D2B55] mb-6">
+                    5. Informations complémentaires
+                </h2>
+
+                <textarea
+                    name="motif"
+                    rows="4"
+                    placeholder="Décrivez le motif de la cession..."
+                    class="w-full rounded-xl border
+                           border-slate-300 px-4 py-3"></textarea>
+
+
+                <textarea
+                    name="observations"
+                    rows="4"
+                    placeholder="Observations supplémentaires..."
+                    class="w-full rounded-xl border
+                           border-slate-300 px-4 py-3 mt-4"></textarea>
+
+            </div>
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm p-6 md:p-8">
+
+                <h2 class="text-xl font-bold text-[#0D2B55] mb-2">
+                    6. Documents
+                </h2>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    Ajoutez les documents nécessaires à l'étude
+                    de votre dossier.
+                </p>
+
+                <div class="space-y-5">
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Pièce d'identité du cédant
+                        </label>
+
+                        <input
+                            type="file"
+                            name="piece_identite_cedant"
+                            class="w-full text-sm">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Pièce d'identité du cessionnaire
+                        </label>
+
+                        <input
+                            type="file"
+                            name="piece_identite_cessionnaire"
+                            class="w-full text-sm">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Acte de cession
+                        </label>
+
+                        <input
+                            type="file"
+                            name="acte_cession"
+                            class="w-full text-sm">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Procès-verbal
+                        </label>
+
+                        <input
+                            type="file"
+                            name="proces_verbal"
+                            class="w-full text-sm">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Statuts
+                        </label>
+
+                        <input
+                            type="file"
+                            name="statuts"
+                            class="w-full text-sm">
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">
+                            Autres documents
+                        </label>
+
+                        <input
+                            type="file"
+                            name="autres_documents"
+                            class="w-full text-sm">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="flex flex-col sm:flex-row
+                        justify-between gap-4">
+
+                <a
+                    href="{% url 'domiciliation:gestion_entreprise' %}"
+                    class="px-6 py-3 rounded-xl border
+                           border-slate-300 text-slate-700
+                           font-semibold text-center
+                           hover:bg-white">
+
+                    ← Retour
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="px-8 py-3 rounded-xl
+                           bg-[#0D2B55] text-white
+                           font-semibold
+                           hover:bg-[#091f3d]
+                           transition">
+
+                    Soumettre la demande →
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

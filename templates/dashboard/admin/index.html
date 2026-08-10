@@ -55,6 +55,13 @@
                 <span class="nav-icon">🏛️</span>
                 <span class="nav-label">Domiciliation</span>
             </a>
+            <a href="{% url 'dashboard_admin:changement_gerant_list' %}" class="nav-item" data-section="changement_gerant">
+                <span class="nav-icon">🔄</span>
+                <span class="nav-label">Changements Gérant</span>
+                {% if changement_gerant_count > 0 %}
+                    <span class="nav-badge badge-warning">{{ changement_gerant_count }}</span>
+                {% endif %}
+            </a>
             <a href="{% url 'dashboard_admin:formations' %}" class="nav-item" data-section="formations">
                 <span class="nav-icon">📚</span>
                 <span class="nav-label">Formations</span>

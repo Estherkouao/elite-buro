@@ -18,7 +18,7 @@ from coworking.forms import CategoryForm, EquipmentForm, WorkspaceForm, Workspac
 from formation.models import Formation, FormationSession, FormationRegistration
 
 from reservation.models import Reservation, ReservationLog
-from domiciliation.models import DomiciliationRequest
+from domiciliation.models import DomiciliationRequest, ChangementGerant
 from conciergerie.models import DemandeConciergerie
 
 from .permissions import is_admin_or_manager
@@ -64,6 +64,9 @@ class AdminBaseView(LoginRequiredMixin, TemplateView):
 
         # Nombre de nouvelles demandes conciergerie pour le badge sidebar
         context["nouvelle_count"] = DemandeConciergerie.objects.filter(statut="nouvelle").count()
+
+        # Nombre de changements de gérant en attente pour le badge sidebar
+        context["changement_gerant_count"] = ChangementGerant.objects.filter(statut="EN_ATTENTE").count()
 
         return context
 
@@ -3077,5 +3080,99 @@ def devis_formation_pdf(request, devis_id):
 
 
     return response
+
+
+# ============================================================
+#  CHANGEMENT DE GÉRANT — BACK-OFFICE ADMIN
+# ============================================================
+
+class AdminChangementGerantListView(AdminBaseView):
+    """Liste toutes les demandes de changement de gérant."""
+    template_name = "dashboard/admin/changement_gerant_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "changement_gerant"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = ChangementGerant.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = ChangementGerant.objects.count()
+        context["en_attente_count"] = ChangementGerant.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = ChangementGerant.Statut.choices
+        return context
+
+
+class AdminChangementGerantDetailView(AdminBaseView):
+    """Détail d'une demande de changement de gérant."""
+    template_name = "dashboard/admin/changement_gerant_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            ChangementGerant.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "changement_gerant",
+            }
+        )
+
+
+class AdminChangementGerantValidateView(AdminBaseView):
+    """Valide une demande de changement de gérant."""
+
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ChangementGerant, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ChangementGerant.Statut.VALIDE
+        demande.commentaire_admin = commentaire
+        demande.date_validation = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_validation", "date_modification"])
+
+        messages.success(request, f"Demande #{demande.pk} validée avec succès.")
+        return redirect("dashboard_admin:changement_gerant_list")
+
+
+class AdminChangementGerantRefuseView(AdminBaseView):
+    """Refuse une demande de changement de gérant."""
+
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ChangementGerant, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ChangementGerant.Statut.REJETE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Demande #{demande.pk} refusée.")
+        return redirect("dashboard_admin:changement_gerant_list")
+
+
+class AdminChangementGerantTerminateView(AdminBaseView):
+    """Termine le traitement d'une demande de changement de gérant."""
+
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ChangementGerant, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ChangementGerant.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.date_terminaison = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_terminaison", "date_modification"])
+
+        messages.success(request, f"Demande #{demande.pk} marquée comme terminée.")
+        return redirect("dashboard_admin:changement_gerant_list")
 
 

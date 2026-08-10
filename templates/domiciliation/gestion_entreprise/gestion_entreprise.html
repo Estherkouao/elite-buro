@@ -1,0 +1,617 @@
+{% extends "dashboard/base_member.html" %}
+
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 py-10">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <div class="mb-10">
+
+            
+
+            <h1 class="text-3xl md:text-4xl font-bold text-[#0D2B55]">
+                Gestion d'entreprise
+            </h1>
+
+            <p class="mt-3 text-slate-600 max-w-2xl">
+                Gérez facilement les principales modifications
+                administratives de votre entreprise depuis votre espace membre.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             ENTREPRISES DU MEMBRE
+        ====================================================== -->
+
+        {% if entreprises %}
+
+        <div class="mb-10">
+
+            <div class="flex flex-col md:flex-row
+                        md:items-center md:justify-between gap-4 mb-5">
+
+                <div>
+                    <h2 class="text-xl font-bold text-[#0D2B55]">
+                        Mes entreprises
+                    </h2>
+
+                    <p class="text-sm text-slate-500 mt-1">
+                        Sélectionnez l'entreprise concernée par votre démarche.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                {% for entreprise in entreprises %}
+
+                <div class="bg-white rounded-2xl border
+                            border-slate-200 shadow-sm
+                            p-5 hover:shadow-md transition">
+
+                    <div class="flex items-start gap-4">
+
+                        <!-- Logo -->
+
+                        <div class="w-14 h-14 rounded-xl
+                                    bg-[#0D2B55]/10
+                                    flex items-center justify-center
+                                    overflow-hidden flex-shrink-0">
+
+                            {% if entreprise.logo %}
+
+                                <img src="{{ entreprise.logo.url }}"
+                                     alt="{{ entreprise.company_name }}"
+                                     class="w-full h-full object-cover">
+
+                            {% else %}
+
+                                <span class="text-xl font-bold text-[#0D2B55]">
+                                    {{ entreprise.company_name|first|upper }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Informations -->
+
+                        <div class="min-w-0">
+
+                            <h3 class="font-bold text-[#0D2B55]
+                                       truncate">
+
+                                {{ entreprise.company_name }}
+
+                            </h3>
+
+                            {% if entreprise.legal_form %}
+
+                            <p class="text-sm text-slate-500 mt-1">
+                                {{ entreprise.legal_form }}
+                            </p>
+
+                            {% endif %}
+
+                            {% if entreprise.registration_number %}
+
+                            <p class="text-xs text-slate-400 mt-1">
+                                RCCM :
+                                {{ entreprise.registration_number }}
+                            </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- =====================================================
+             MODIFICATIONS JURIDIQUES
+        ====================================================== -->
+
+        <div class="mb-10">
+
+            <div class="mb-5">
+
+                <h2 class="text-xl font-bold text-[#0D2B55]">
+                    Modifications juridiques
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Effectuez les principales modifications liées à la vie
+                    juridique de votre entreprise.
+                </p>
+
+            </div>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2
+                        lg:grid-cols-3 gap-5">
+
+
+                <!-- CHANGEMENT DE GERANT -->
+
+                <a href="{% url 'domiciliation:changement_gerant' %}"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-blue-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            👤
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Changement de gérant
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Remplacez le gérant actuel de votre entreprise
+                        par un nouveau dirigeant.
+                    </p>
+
+                </a>
+
+
+
+                <!-- CHANGEMENT ADRESSE -->
+
+                <a href="{% url 'domiciliation:cession_parts_sociales' %}"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-amber-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            🏢
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Cession de parts sociales
+                    </h3>
+
+                    
+
+                </a>
+
+
+
+                <!-- TRANSFERT SIEGE -->
+
+                <a href="{% url 'domiciliation:modification_activite' %}"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-purple-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            🏢
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Modification de l'activité
+                    </h3>
+
+                    
+
+                </a>
+
+
+
+                <!-- OBJET SOCIAL -->
+
+                <a href="{% url 'domiciliation:changement_nom' %}"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-green-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            📋
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Changement de Nom
+                    </h3>
+
+                    
+
+                </a>
+
+
+
+                <!-- DENOMINATION -->
+
+                <a href="#"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-pink-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            ✏️
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Changement de dénomination
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Changez le nom ou la dénomination sociale
+                        de votre entreprise.
+                    </p>
+
+                </a>
+
+
+
+                <!-- CAPITAL -->
+
+                <a href="#"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-orange-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            💰
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Modification du capital
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Augmentez ou réduisez le capital social
+                        de votre entreprise.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             ASSOCIÉS ET DIRECTION
+        ====================================================== -->
+
+        <div class="mb-10">
+
+            <div class="mb-5">
+
+                <h2 class="text-xl font-bold text-[#0D2B55]">
+                    Associés et direction
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Gérez les informations relatives aux dirigeants
+                    et aux associés.
+                </p>
+
+            </div>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2
+                        lg:grid-cols-3 gap-5">
+
+
+                <!-- CESSION DE PARTS -->
+
+                <a href="#"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-indigo-50
+                                flex items-center justify-center
+                                text-2xl">
+
+                        🤝
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Cession de parts sociales
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Déclarez une cession ou une modification
+                        de la répartition des parts sociales.
+                    </p>
+
+                </a>
+
+
+
+                <!-- NOUVEL ASSOCIE -->
+
+                <a href="#"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-cyan-50
+                                flex items-center justify-center
+                                text-2xl">
+
+                        👥
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Modification des associés
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Ajoutez, retirez ou modifiez les informations
+                        relatives aux associés.
+                    </p>
+
+                </a>
+
+
+
+                <!-- STATUTS -->
+
+                <a href="#"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-rose-50
+                                flex items-center justify-center
+                                text-2xl">
+
+                        📑
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Modification des statuts
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Demandez une modification ou une mise à jour
+                        des statuts de votre société.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             SUIVI DES DEMANDES
+        ====================================================== -->
+
+        <div class="bg-[#0D2B55] rounded-3xl p-7 md:p-9
+                    text-white">
+
+            <div class="flex flex-col md:flex-row
+                        md:items-center
+                        md:justify-between gap-6">
+
+                <div>
+
+                    <div class="flex items-center gap-2 mb-3">
+
+                        <span class="w-2 h-2 rounded-full
+                                     bg-[#C9A02C]"></span>
+
+                        <span class="text-sm font-semibold
+                                     text-[#C9A02C]">
+                            SUIVI
+                        </span>
+
+                    </div>
+
+                    <h2 class="text-2xl font-bold">
+                        Suivez vos demandes
+                    </h2>
+
+                    <p class="mt-2 text-blue-100 max-w-xl">
+                        Consultez l'état d'avancement de vos démarches
+                        administratives et retrouvez vos documents.
+                    </p>
+
+                </div>
+
+
+                <a href="{% url 'domiciliation:mes_changements_gerant' %}"
+                   class="inline-flex items-center justify-center
+                          px-6 py-3 rounded-xl
+                          bg-[#C9A02C] text-white
+                          font-bold hover:bg-[#b58e24]
+                          transition whitespace-nowrap">
+
+                    Voir mes demandes
+                    <span class="ml-2">→</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             AIDE
+        ====================================================== -->
+
+        <div class="mt-8 text-center">
+
+            <p class="text-sm text-slate-500">
+                Besoin d'aide pour choisir une démarche ?
+            </p>
+
+            <a href="#"
+               class="inline-block mt-2 text-sm font-semibold
+                      text-[#0D2B55] hover:text-[#C9A02C]">
+                Contacter un conseiller →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
