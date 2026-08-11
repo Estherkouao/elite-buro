@@ -1695,29 +1695,36 @@ EliteBuro - Coworking & Formation à Abidjan
         HERO - IMAGE PLEIN ÉCRAN + TITRE DESSUS, CONTENU DESSOUS
         ========================== */
 
-.hero {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            background-color: var(--primary-light);
-        }
+        .hero {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    background-color: var(--primary-light);
+                }
 
         /* Image wrapper - prend toute la largeur */
         .hero-image-wrapper {
-            position: relative;
             width: 100%;
-            height: 100vh;
-            min-height: 600px;
+            height: 50px; /* hauteur contrôlée */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
-            background-color: var(--primary);
+            background: #000;
         }
 
-.hero-image {
+        .hero-video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center;
+            object-fit: contain; /* toute la vidéo reste visible */
+            display: block;
         }
+        .hero-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
 
 /* Vidéo en haut de section : pleine largeur, sans déformer
            (object-fit: cover recadre si nécessaire sans changer le ratio) */
@@ -1733,6 +1740,17 @@ EliteBuro - Coworking & Formation à Abidjan
         .hero-image-wrapper {
             height: 70vh;
             min-height: 450px;
+        }
+        @media (max-width: 768px) {
+            .hero-image-wrapper {
+                height: 260px;
+            }
+
+            .hero-video {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
         }
 
 /* Conteneur du titre + carte, sur fond ORANGE PUR (pleine largeur) */
@@ -2353,6 +2371,55 @@ EliteBuro - Coworking & Formation à Abidjan
                     width: 100%;
                 }
             }
+            /* ================================
+   CORRECTION VIDEO HERO
+================================ */
+
+.hero-image-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    background: #000 !important;
+}
+
+.hero-image-wrapper .hero-video {
+    width: 90% !important;
+    height: auto !important;
+
+    max-width: 90% !important;
+    max-height: none !important;
+
+    display: block !important;
+
+    object-fit: contain !important;
+    object-position: center center !important;
+}
+
+
+/* 📱 Téléphone */
+@media (max-width: 768px) {
+
+    .hero-image-wrapper {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .hero-image-wrapper .hero-video {
+        width: 100% !important;
+        height: auto !important;
+
+        max-width: 100% !important;
+        max-height: none !important;
+
+        object-fit: contain !important;
+        object-position: center center !important;
+    }
+}
 
 
 
