@@ -66,12 +66,43 @@ from .views import (
     AdminConciergerieDetailView,
     AdminConciergerieValidateView,
     AdminConciergerieRefuseView,
-    # Changement de gérant
+    # Gestion des entreprises
+    AdminGestionEntrepriseView,
     AdminChangementGerantListView,
     AdminChangementGerantDetailView,
     AdminChangementGerantValidateView,
     AdminChangementGerantRefuseView,
     AdminChangementGerantTerminateView,
+    AdminCessionPartsListView,
+    AdminCessionPartsDetailView,
+    AdminCessionPartsValidateView,
+    AdminCessionPartsRefuseView,
+    AdminCessionPartsTerminateView,
+    AdminModificationActiviteListView,
+    AdminModificationActiviteDetailView,
+    AdminModificationActiviteValidateView,
+    AdminModificationActiviteRefuseView,
+    AdminModificationActiviteTerminateView,
+    AdminChangementNomListView,
+    AdminChangementNomDetailView,
+    AdminChangementNomValidateView,
+    AdminChangementNomRefuseView,
+    AdminChangementNomTerminateView,
+    AdminDepotMarqueListView,
+    AdminDepotMarqueDetailView,
+    AdminDepotMarqueValidateView,
+    AdminDepotMarqueRefuseView,
+    AdminDepotMarqueTerminateView,
+    AdminRedactionContratListView,
+    AdminRedactionContratDetailView,
+    AdminRedactionContratValidateView,
+    AdminRedactionContratRefuseView,
+    AdminRedactionContratTerminateView,
+    AdminFermetureEntrepriseListView,
+    AdminFermetureEntrepriseDetailView,
+    AdminFermetureEntrepriseValidateView,
+    AdminFermetureEntrepriseRefuseView,
+    AdminFermetureEntrepriseTerminateView,
 )
 
 from .member_dashboard import MemberDashboardView
@@ -536,31 +567,186 @@ path(
         name="conciergerie_refuse",
     ),
 
-    # Changement de gérant
+    # Gestion des entreprises
     path(
-        "changement-gerant/",
+        "gestion-entreprise/",
+        AdminGestionEntrepriseView.as_view(),
+        name="gestion_entreprise",
+    ),
+    path(
+        "gestion-entreprise/changement-gerant/",
         AdminChangementGerantListView.as_view(),
         name="changement_gerant_list",
     ),
     path(
-        "changement-gerant/<int:demande_id>/",
+        "gestion-entreprise/changement-gerant/<int:demande_id>/",
         AdminChangementGerantDetailView.as_view(),
         name="changement_gerant_detail",
     ),
     path(
-        "changement-gerant/<int:demande_id>/validate/",
+        "gestion-entreprise/changement-gerant/<int:demande_id>/validate/",
         AdminChangementGerantValidateView.as_view(),
         name="changement_gerant_validate",
     ),
     path(
-        "changement-gerant/<int:demande_id>/refuse/",
+        "gestion-entreprise/changement-gerant/<int:demande_id>/refuse/",
         AdminChangementGerantRefuseView.as_view(),
         name="changement_gerant_refuse",
     ),
     path(
-        "changement-gerant/<int:demande_id>/terminate/",
+        "gestion-entreprise/changement-gerant/<int:demande_id>/terminate/",
         AdminChangementGerantTerminateView.as_view(),
         name="changement_gerant_terminate",
+    ),
+    path(
+        "gestion-entreprise/cession-parts/",
+        AdminCessionPartsListView.as_view(),
+        name="cession_parts_list",
+    ),
+    path(
+        "gestion-entreprise/cession-parts/<int:demande_id>/",
+        AdminCessionPartsDetailView.as_view(),
+        name="cession_parts_detail",
+    ),
+    path(
+        "gestion-entreprise/cession-parts/<int:demande_id>/validate/",
+        AdminCessionPartsValidateView.as_view(),
+        name="cession_parts_validate",
+    ),
+    path(
+        "gestion-entreprise/cession-parts/<int:demande_id>/refuse/",
+        AdminCessionPartsRefuseView.as_view(),
+        name="cession_parts_refuse",
+    ),
+    path(
+        "gestion-entreprise/cession-parts/<int:demande_id>/terminate/",
+        AdminCessionPartsTerminateView.as_view(),
+        name="cession_parts_terminate",
+    ),
+    path(
+        "gestion-entreprise/modification-activite/",
+        AdminModificationActiviteListView.as_view(),
+        name="modification_activite_list",
+    ),
+    path(
+        "gestion-entreprise/modification-activite/<int:demande_id>/",
+        AdminModificationActiviteDetailView.as_view(),
+        name="modification_activite_detail",
+    ),
+    path(
+        "gestion-entreprise/modification-activite/<int:demande_id>/validate/",
+        AdminModificationActiviteValidateView.as_view(),
+        name="modification_activite_validate",
+    ),
+    path(
+        "gestion-entreprise/modification-activite/<int:demande_id>/refuse/",
+        AdminModificationActiviteRefuseView.as_view(),
+        name="modification_activite_refuse",
+    ),
+    path(
+        "gestion-entreprise/modification-activite/<int:demande_id>/terminate/",
+        AdminModificationActiviteTerminateView.as_view(),
+        name="modification_activite_terminate",
+    ),
+    path(
+        "gestion-entreprise/changement-nom/",
+        AdminChangementNomListView.as_view(),
+        name="changement_nom_list",
+    ),
+    path(
+        "gestion-entreprise/changement-nom/<int:demande_id>/",
+        AdminChangementNomDetailView.as_view(),
+        name="changement_nom_detail",
+    ),
+    path(
+        "gestion-entreprise/changement-nom/<int:demande_id>/validate/",
+        AdminChangementNomValidateView.as_view(),
+        name="changement_nom_validate",
+    ),
+    path(
+        "gestion-entreprise/changement-nom/<int:demande_id>/refuse/",
+        AdminChangementNomRefuseView.as_view(),
+        name="changement_nom_refuse",
+    ),
+    path(
+        "gestion-entreprise/changement-nom/<int:demande_id>/terminate/",
+        AdminChangementNomTerminateView.as_view(),
+        name="changement_nom_terminate",
+    ),
+    path(
+        "gestion-entreprise/depot-marque/",
+        AdminDepotMarqueListView.as_view(),
+        name="depot_marque_list",
+    ),
+    path(
+        "gestion-entreprise/depot-marque/<int:demande_id>/",
+        AdminDepotMarqueDetailView.as_view(),
+        name="depot_marque_detail",
+    ),
+    path(
+        "gestion-entreprise/depot-marque/<int:demande_id>/validate/",
+        AdminDepotMarqueValidateView.as_view(),
+        name="depot_marque_validate",
+    ),
+    path(
+        "gestion-entreprise/depot-marque/<int:demande_id>/refuse/",
+        AdminDepotMarqueRefuseView.as_view(),
+        name="depot_marque_refuse",
+    ),
+    path(
+        "gestion-entreprise/depot-marque/<int:demande_id>/terminate/",
+        AdminDepotMarqueTerminateView.as_view(),
+        name="depot_marque_terminate",
+    ),
+    path(
+        "gestion-entreprise/redaction-contrat/",
+        AdminRedactionContratListView.as_view(),
+        name="redaction_contrat_list",
+    ),
+    path(
+        "gestion-entreprise/redaction-contrat/<int:demande_id>/",
+        AdminRedactionContratDetailView.as_view(),
+        name="redaction_contrat_detail",
+    ),
+    path(
+        "gestion-entreprise/redaction-contrat/<int:demande_id>/validate/",
+        AdminRedactionContratValidateView.as_view(),
+        name="redaction_contrat_validate",
+    ),
+    path(
+        "gestion-entreprise/redaction-contrat/<int:demande_id>/refuse/",
+        AdminRedactionContratRefuseView.as_view(),
+        name="redaction_contrat_refuse",
+    ),
+    path(
+        "gestion-entreprise/redaction-contrat/<int:demande_id>/terminate/",
+        AdminRedactionContratTerminateView.as_view(),
+        name="redaction_contrat_terminate",
+    ),
+    path(
+        "gestion-entreprise/fermeture-entreprise/",
+        AdminFermetureEntrepriseListView.as_view(),
+        name="fermeture_entreprise_list",
+    ),
+    path(
+        "gestion-entreprise/fermeture-entreprise/<int:demande_id>/",
+        AdminFermetureEntrepriseDetailView.as_view(),
+        name="fermeture_entreprise_detail",
+    ),
+    path(
+        "gestion-entreprise/fermeture-entreprise/<int:demande_id>/validate/",
+        AdminFermetureEntrepriseValidateView.as_view(),
+        name="fermeture_entreprise_validate",
+    ),
+    path(
+        "gestion-entreprise/fermeture-entreprise/<int:demande_id>/refuse/",
+        AdminFermetureEntrepriseRefuseView.as_view(),
+        name="fermeture_entreprise_refuse",
+    ),
+    path(
+        "gestion-entreprise/fermeture-entreprise/<int:demande_id>/terminate/",
+        AdminFermetureEntrepriseTerminateView.as_view(),
+        name="fermeture_entreprise_terminate",
     ),
 
     path(

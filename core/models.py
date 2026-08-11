@@ -24,3 +24,54 @@ class ContactMessage(models.Model):
 
 
 
+
+from django.db import models
+
+
+class Ressource(models.Model):
+
+    class Categorie(models.TextChoices):
+        CREATION = "CREATION", "Création d'entreprise"
+        GESTION = "GESTION", "Gestion d'entreprise"
+        DOMICILIATION = "DOMICILIATION", "Domiciliation"
+        JURIDIQUE = "JURIDIQUE", "Juridique"
+        FISCALITE = "FISCALITE", "Fiscalité"
+        BUSINESS = "BUSINESS", "Business"
+        AUTRE = "AUTRE", "Autres"
+
+    categorie = models.CharField(
+        max_length=30,
+        choices=Categorie.choices
+    )
+
+    question = models.CharField(
+        max_length=500
+    )
+
+    reponse = models.TextField()
+
+    ordre = models.PositiveIntegerField(
+        default=0
+    )
+
+    est_public = models.BooleanField(
+        default=True
+    )
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        ordering = ["categorie", "ordre", "date_creation"]
+        verbose_name = "Ressource"
+        verbose_name_plural = "Ressources"
+
+    def __str__(self):
+        return self.question
+
+

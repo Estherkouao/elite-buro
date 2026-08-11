@@ -1,0 +1,1025 @@
+
+{% extends "layouts/base_public.html" %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 pt-32 pb-20">
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- HEADER -->
+
+        <div class="text-center max-w-3xl mx-auto mb-14">
+
+            <span class="inline-block text-sm font-bold
+                         uppercase tracking-wider
+                         text-[#C9A02C] mb-3">
+                Centre de ressources
+            </span>
+
+            <h1 class="text-4xl md:text-5xl font-bold
+                       text-[#0D2B55]">
+                Questions & réponses
+            </h1>
+
+            <p class="mt-5 text-lg text-slate-600">
+                Retrouvez les réponses aux principales questions
+                concernant la création, la gestion et le développement
+                de votre entreprise.
+            </p>
+
+        </div>
+
+
+        <!-- RECHERCHE -->
+
+        <div class="bg-white rounded-2xl border
+                    border-slate-200 shadow-sm p-5 mb-12">
+
+            <div class="relative">
+
+                <input
+                    type="text"
+                    id="faqSearch"
+                    placeholder="Rechercher une question..."
+                    class="w-full rounded-xl border
+                           border-slate-300
+                           px-5 py-4 pr-12
+                           text-slate-700
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-[#C9A02C]">
+
+                <span class="absolute right-5 top-1/2
+                             -translate-y-1/2 text-xl">
+                    🔍
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- CREATION D'ENTREPRISE -->
+        <!-- ================================================= -->
+
+        <section class="faq-category mb-12">
+
+            <div class="flex items-center gap-4 mb-5">
+
+                <div class="w-12 h-12 rounded-xl
+                            bg-[#0D2B55]
+                            flex items-center justify-center
+                            text-xl">
+                    🏢
+                </div>
+
+                <div>
+                    <span class="text-xs font-bold uppercase
+                                 tracking-wider
+                                 text-[#C9A02C]">
+                        01
+                    </span>
+
+                    <h2 class="text-2xl font-bold
+                               text-[#0D2B55]">
+                        Création d'entreprise
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+
+                <!-- QUESTION 1 -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Comment créer une entreprise en Côte d'Ivoire ?
+                        </span>
+
+                        <span class="faq-icon text-xl
+                                     text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            La création d'une entreprise nécessite
+                            notamment de choisir une forme juridique,
+                            définir l'activité, préparer les documents
+                            nécessaires et effectuer les formalités
+                            d'immatriculation auprès des organismes
+                            compétents.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION 2 -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quelle forme juridique choisir pour mon entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl
+                                     text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Le choix dépend notamment du nombre
+                            d'associés, du niveau de responsabilité,
+                            du capital, du régime fiscal et de la
+                            nature de l'activité. Les formes courantes
+                            comprennent notamment l'entreprise
+                            individuelle, la SARL et la SAS.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION 3 -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quels documents sont nécessaires pour créer une entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl
+                                     text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Les documents dépendent de la forme juridique
+                            et de l'activité. Ils peuvent notamment
+                            comprendre les pièces d'identité, les statuts,
+                            les justificatifs liés au siège social et
+                            les documents nécessaires à l'immatriculation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- GESTION D'ENTREPRISE -->
+        <!-- ================================================= -->
+
+        <section class="faq-category mb-12">
+
+            <div class="flex items-center gap-4 mb-5">
+
+                <div class="w-12 h-12 rounded-xl
+                            bg-[#0D2B55]
+                            flex items-center justify-center
+                            text-xl">
+                    ⚙️
+                </div>
+
+                <div>
+                    <span class="text-xs font-bold uppercase
+                                 tracking-wider
+                                 text-[#C9A02C]">
+                        02
+                    </span>
+
+                    <h2 class="text-2xl font-bold
+                               text-[#0D2B55]">
+                        Gestion d'entreprise
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+
+                <!-- GERANT -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Comment effectuer un changement de gérant ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Le changement de gérant nécessite généralement
+                            une décision des associés, la préparation des
+                            documents correspondants et la mise à jour
+                            des informations légales de l'entreprise.
+                            Elite Buro peut vous accompagner dans la
+                            préparation et le suivi de cette démarche.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVITE -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Comment modifier l'activité de mon entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            La modification de l'activité consiste à
+                            mettre à jour l'objet ou les activités
+                            déclarées de l'entreprise. Selon la nature
+                            de la modification, des documents et
+                            formalités administratives peuvent être
+                            nécessaires.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NOM -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Comment changer le nom de mon entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Le changement de dénomination sociale nécessite
+                            généralement une décision conforme aux règles
+                            applicables à la société, une modification
+                            des documents concernés et la mise à jour
+                            des informations enregistrées auprès des
+                            organismes compétents.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PARTS SOCIALES -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Comment céder des parts sociales ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            La cession de parts sociales implique
+                            généralement un acte de cession, le respect
+                            des règles d'agrément prévues par les statuts
+                            et la réalisation des formalités permettant
+                            de mettre à jour la situation juridique de
+                            la société.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FERMETURE -->
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Comment procéder à la fermeture d'une entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            La fermeture d'une société implique plusieurs
+                            étapes, notamment la décision de dissolution,
+                            les formalités de liquidation lorsque celles-ci
+                            sont nécessaires, puis la radiation de
+                            l'entreprise conformément aux règles applicables.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- DOMICILIATION -->
+        <!-- ================================================= -->
+
+        <section class="faq-category mb-12">
+
+            <div class="flex items-center gap-4 mb-5">
+
+                <div class="w-12 h-12 rounded-xl
+                            bg-[#0D2B55]
+                            flex items-center justify-center
+                            text-xl">
+                    📍
+                </div>
+
+                <div>
+                    <span class="text-xs font-bold uppercase
+                                 tracking-wider
+                                 text-[#C9A02C]">
+                        03
+                    </span>
+
+                    <h2 class="text-2xl font-bold
+                               text-[#0D2B55]">
+                        Domiciliation
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Qu'est-ce que la domiciliation d'entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            La domiciliation permet à une entreprise de
+                            disposer d'une adresse administrative et
+                            juridique pour établir son siège social.
+                            Cette adresse peut également servir pour
+                            recevoir le courrier professionnel.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quels sont les avantages de la domiciliation ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            La domiciliation permet notamment de disposer
+                            d'une adresse professionnelle, de séparer
+                            l'adresse personnelle de l'activité
+                            professionnelle et de bénéficier de services
+                            complémentaires selon l'offre choisie.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quels documents sont nécessaires pour une domiciliation ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Les pièces demandées peuvent varier selon la
+                            situation du demandeur et le type de
+                            domiciliation. Elite Buro vous indique les
+                            documents nécessaires lors de votre demande.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- JURIDIQUE -->
+        <!-- ================================================= -->
+
+        <section class="faq-category mb-12">
+
+            <div class="flex items-center gap-4 mb-5">
+
+                <div class="w-12 h-12 rounded-xl
+                            bg-[#0D2B55]
+                            flex items-center justify-center
+                            text-xl">
+                    ⚖️
+                </div>
+
+                <div>
+                    <span class="text-xs font-bold uppercase
+                                 tracking-wider
+                                 text-[#C9A02C]">
+                        04
+                    </span>
+
+                    <h2 class="text-2xl font-bold
+                               text-[#0D2B55]">
+                        Juridique & contrats
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quelle est la différence entre un CDI et un CDD ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Le CDI est un contrat de travail conclu sans
+                            limitation de durée. Le CDD est conclu pour
+                            une durée déterminée et répond à des conditions
+                            particulières prévues par la réglementation
+                            applicable.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quels types de contrats peut-on rédiger ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Selon les besoins, il peut notamment s'agir
+                            de contrats de travail, de contrats de bail,
+                            de prestations de services, de partenariats
+                            ou d'autres conventions professionnelles.
+                            Le contenu doit être adapté à la situation
+                            et au droit applicable.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Pourquoi faire rédiger un contrat professionnel ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Un contrat permet de formaliser les engagements
+                            des parties, de préciser leurs droits et
+                            obligations et de réduire les risques de
+                            litiges en définissant clairement les
+                            conditions de la relation professionnelle.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- FISCALITE -->
+        <!-- ================================================= -->
+
+        <section class="faq-category mb-12">
+
+            <div class="flex items-center gap-4 mb-5">
+
+                <div class="w-12 h-12 rounded-xl
+                            bg-[#0D2B55]
+                            flex items-center justify-center
+                            text-xl">
+                    💰
+                </div>
+
+                <div>
+                    <span class="text-xs font-bold uppercase
+                                 tracking-wider
+                                 text-[#C9A02C]">
+                        05
+                    </span>
+
+                    <h2 class="text-2xl font-bold
+                               text-[#0D2B55]">
+                        Fiscalité
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Quelles sont les principales obligations fiscales d'une entreprise ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Les obligations fiscales dépendent notamment
+                            de la forme juridique, de l'activité et du
+                            régime fiscal de l'entreprise. Elles peuvent
+                            comprendre les déclarations fiscales, le
+                            paiement des impôts et la conservation des
+                            documents justificatifs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="faq-item bg-white rounded-xl
+                            border border-slate-200
+                            shadow-sm overflow-hidden">
+
+                    <button type="button"
+                            class="faq-question w-full
+                                   flex items-center justify-between
+                                   gap-5 px-6 py-5
+                                   text-left font-semibold
+                                   text-[#0D2B55]">
+
+                        <span>
+                            Pourquoi tenir correctement sa comptabilité ?
+                        </span>
+
+                        <span class="faq-icon text-xl text-[#C9A02C]">
+                            +
+                        </span>
+
+                    </button>
+
+                    <div class="faq-answer hidden px-6 pb-6">
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Une comptabilité correctement tenue permet
+                            notamment de suivre la situation financière
+                            de l'entreprise, de préparer les déclarations
+                            nécessaires et de disposer d'informations
+                            fiables pour prendre des décisions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        
+        <!-- BOUTON APPELEZ-NOUS -->
+
+        <div class="mt-16 flex justify-center">
+
+            <a href="tel:+2250141136717"
+            class="group relative inline-flex items-center gap-3
+                    px-8 py-4
+                    rounded-full
+                    bg-red-600
+                    text-white
+                    font-bold
+                    text-lg
+                    shadow-lg
+                    hover:bg-red-700
+                    transition-all duration-300
+                    animate-pulse">
+
+                <!-- Effet lumineux -->
+
+                <span class="absolute inset-0
+                            rounded-full
+                            bg-red-500
+                            opacity-40
+                            animate-ping">
+                </span>
+
+
+                <!-- Contenu -->
+
+                <span class="relative flex items-center gap-3">
+
+                    <span class="text-2xl">
+                        📞
+                    </span>
+
+                    <span>
+                        APPELEZ-NOUS
+                    </span>
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT FAQ -->
+<!-- ========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const questions =
+        document.querySelectorAll(".faq-question");
+
+    questions.forEach(function (question) {
+
+        question.addEventListener("click", function () {
+
+            const answer =
+                question.nextElementSibling;
+
+            const icon =
+                question.querySelector(".faq-icon");
+
+
+            // Fermer les autres réponses
+            questions.forEach(function (otherQuestion) {
+
+                if (otherQuestion !== question) {
+
+                    const otherAnswer =
+                        otherQuestion.nextElementSibling;
+
+                    const otherIcon =
+                        otherQuestion.querySelector(".faq-icon");
+
+                    otherAnswer.classList.add("hidden");
+
+                    otherIcon.textContent = "+";
+
+                }
+
+            });
+
+
+            // Ouvrir / fermer la réponse
+
+            answer.classList.toggle("hidden");
+
+            if (answer.classList.contains("hidden")) {
+
+                icon.textContent = "+";
+
+            } else {
+
+                icon.textContent = "×";
+
+            }
+
+        });
+
+    });
+
+
+    // RECHERCHE
+
+    const search =
+        document.getElementById("faqSearch");
+
+    search.addEventListener("input", function () {
+
+        const value =
+            search.value.toLowerCase().trim();
+
+        document.querySelectorAll(".faq-item")
+            .forEach(function (item) {
+
+                const text =
+                    item.textContent.toLowerCase();
+
+                if (text.includes(value)) {
+
+                    item.style.display = "";
+
+                } else {
+
+                    item.style.display = "none";
+
+                }
+
+            });
+
+
+        // Masquer les catégories vides
+        document.querySelectorAll(".faq-category")
+            .forEach(function (category) {
+
+                const visibleItems =
+                    category.querySelectorAll(
+                        ".faq-item:not([style*='display: none'])"
+                    );
+
+                if (visibleItems.length === 0) {
+
+                    category.style.display = "none";
+
+                } else {
+
+                    category.style.display = "";
+
+                }
+
+            });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}
+

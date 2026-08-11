@@ -1,0 +1,185 @@
+{% extends 'layouts/base_admin.html' %}
+{% load static %}
+
+{% block title %}Détail dépôt de marque #{{ demande.pk }} | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="section-header">
+        <div>
+            <h2>Dépôt de marque #{{ demande.pk }}</h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                Entreprise : {{ demande.entreprise.company_name|default:"—" }} — 
+                Date : {{ demande.date_creation|date:"d/m/Y H:i" }}
+            </p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:depot_marque_list' %}" class="btn-secondary">← Retour</a>
+            {% if demande.statut == 'EN_ATTENTE' or demande.statut == 'EN_VERIFICATION' or demande.statut == 'EN_TRAITEMENT' %}
+            <form method="post" action="{% url 'dashboard_admin:depot_marque_validate' demande_id=demande.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary" onclick="return confirm('Accepter cette demande ?')">✅ Accepter</button>
+            </form>
+            <form method="post" action="{% url 'dashboard_admin:depot_marque_refuse' demande_id=demande.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger" onclick="return confirm('Refuser cette demande ?')">❌ Refuser</button>
+            </form>
+            {% endif %}
+            {% if demande.statut == 'ACCEPTE' %}
+            <form method="post" action="{% url 'dashboard_admin:depot_marque_terminate' demande_id=demande.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-success" onclick="return confirm('Marquer cette demande comme terminée ?')">🏁 Terminer</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <!-- Colonne gauche -->
+        <div class="card">
+            <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+                Marque
+            </h3>
+            <table class="detail-table">
+                <tr><th>Nom</th><td>{{ demande.nom_marque }}</td></tr>
+                <tr><th>Type</th><td>{{ demande.get_type_marque_display }}</td></tr>
+                <tr><th>Slogan</th><td>{{ demande.slogan|default:"—" }}</td></tr>
+                <tr><th>Pays</th><td>{{ demande.pays_protection|default:"—" }}</td></tr>
+                <tr><th>Description</th><td style="white-space:pre-wrap;">{{ demande.description_marque|default:"—" }}</td></tr>
+                <tr><th>Marque déjà utilisée</th><td>{{ demande.marque_deja_utilisee|yesno:"Oui,Non" }}</td></tr>
+                <tr><th>Date première utilisation</th><td>{{ demande.date_premiere_utilisation|default:"—" }}</td></tr>
+            </table>
+        </div>
+
+        <!-- Colonne droite -->
+        <div class="card">
+            <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+                Titulaire
+            </h3>
+            <table class="detail-table">
+                <tr><th>Nom</th><td>{{ demande.titulaire_nom }} {{ demande.titulaire_prenoms|default:"" }}</td></tr>
+                <tr><th>Email</th><td>{{ demande.titulaire_email|default:"—" }}</td></tr>
+                <tr><th>Téléphone</th><td>{{ demande.titulaire_telephone|default:"—" }}</td></tr>
+                <tr><th>Adresse</th><td style="white-space:pre-wrap;">{{ demande.titulaire_adresse|default:"—" }}</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div style="margin-top:24px;" class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+            Classes et produits
+        </h3>
+        <table class="detail-table">
+            <tr><th>Classes de Nice</th><td>{{ demande.classes_nice }}</td></tr>
+            <tr><th>Produits et services</th><td style="white-space:pre-wrap;">{{ demande.produits_services }}</td></tr>
+        </table>
+    </div>
+
+    <div style="margin-top:24px;" class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+            Informations complémentaires
+        </h3>
+        <table class="detail-table">
+            <tr><th>Motif</th><td style="white-space:pre-wrap;">{{ demande.motif|default:"—" }}</td></tr>
+            <tr><th>Observations</th><td style="white-space:pre-wrap;">{{ demande.observations|default:"—" }}</td></tr>
+            <tr><th>Statut</th><td><span class="status-badge">{{ demande.get_statut_display }}</span></td></tr>
+            <tr><th>Montant</th><td>{{ demande.montant|default:"0" }} FCFA</td></tr>
+            <tr><th>Paiement effectué</th><td>{{ demande.paiement_effectue|yesno:"Oui,Non" }}</td></tr>
+            <tr><th>Référence paiement</th><td>{{ demande.reference_paiement|default:"—" }}</td></tr>
+            <tr><th>Commentaire admin</th><td style="white-space:pre-wrap;">{{ demande.commentaire_admin|default:"—" }}</td></tr>
+        </table>
+    </div>
+
+    <div style="margin-top:24px;" class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+            Documents
+        </h3>
+        <table class="detail-table">
+            <tr><th>Logo</th><td>{% if demande.logo_marque %}<a href="{{ demande.logo_marque.url }}" target="_blank">🖼 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Pièce d'identité</th><td>{% if demande.piece_identite %}<a href="{{ demande.piece_identite.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Justificatif entreprise</th><td>{% if demande.justificatif_entreprise %}<a href="{{ demande.justificatif_entreprise.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Document marque</th><td>{% if demande.document_marque %}<a href="{{ demande.document_marque.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Autres documents</th><td>{% if demande.autres_documents %}<a href="{{ demande.autres_documents.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+        </table>
+    </div>
+</div>
+
+<style>
+.card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.detail-table { width: 100%; border-collapse: collapse; }
+.detail-table th {
+    text-align: left;
+    padding: 10px 12px 10px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    width: 200px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border-light);
+}
+.detail-table td {
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--dark);
+    border-bottom: 1px solid var(--border-light);
+}
+.status-badge {
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #E3F2FD;
+    color: #1565C0;
+}
+.btn-secondary {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--dark);
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-primary {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: var(--gold);
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-danger {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: #DC2626;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-success {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: #2E7D32;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+</style>
+{% endblock %}

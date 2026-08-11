@@ -1,0 +1,183 @@
+{% extends 'layouts/base_admin.html' %}
+{% load static %}
+
+{% block title %}Détail fermeture d'entreprise #{{ demande.pk }} | EliteBuro{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="section-header">
+        <div>
+            <h2>Fermeture d'entreprise #{{ demande.pk }}</h2>
+            <p style="color:var(--text-light);font-size:14px;">
+                Entreprise : {{ demande.entreprise.company_name|default:"—" }} — 
+                Date : {{ demande.date_creation|date:"d/m/Y H:i" }}
+            </p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="{% url 'dashboard_admin:fermeture_entreprise_list' %}" class="btn-secondary">← Retour</a>
+            {% if demande.statut == 'EN_ATTENTE' or demande.statut == 'EN_VERIFICATION' or demande.statut == 'EN_TRAITEMENT' %}
+            <form method="post" action="{% url 'dashboard_admin:fermeture_entreprise_validate' demande_id=demande.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary" onclick="return confirm('Valider cette fermeture ?')">✅ Valider</button>
+            </form>
+            <form method="post" action="{% url 'dashboard_admin:fermeture_entreprise_refuse' demande_id=demande.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger" onclick="return confirm('Refuser cette demande ?')">❌ Refuser</button>
+            </form>
+            {% endif %}
+            {% if demande.statut == 'VALIDE' %}
+            <form method="post" action="{% url 'dashboard_admin:fermeture_entreprise_terminate' demande_id=demande.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-success" onclick="return confirm('Marquer cette demande comme terminée ?')">🏁 Terminer</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <!-- Colonne gauche -->
+        <div class="card">
+            <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+                Motif
+            </h3>
+            <table class="detail-table">
+                <tr><th>Motif</th><td>{{ demande.get_motif_display }}</td></tr>
+                <tr><th>Précisions</th><td style="white-space:pre-wrap;">{{ demande.motif_detail|default:"—" }}</td></tr>
+                <tr><th>Date cessation</th><td>{{ demande.date_cessation|default:"—" }}</td></tr>
+                <tr><th>Activité arrêtée</th><td>{{ demande.activite_arretee|yesno:"Oui,Non" }}</td></tr>
+            </table>
+        </div>
+
+        <!-- Colonne droite -->
+        <div class="card">
+            <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+                Situation
+            </h3>
+            <table class="detail-table">
+                <tr><th>Dettes en cours</th><td>{{ demande.dettes_en_cours|yesno:"Oui,Non" }}</td></tr>
+                <tr><th>Détails dettes</th><td style="white-space:pre-wrap;">{{ demande.dettes_details|default:"—" }}</td></tr>
+                <tr><th>Employés</th><td>{{ demande.employes|yesno:"Oui,Non" }}</td></tr>
+                <tr><th>Nombre employés</th><td>{{ demande.nombre_employes|default:"0" }}</td></tr>
+                <tr><th>Litiges en cours</th><td>{{ demande.litiges_en_cours|yesno:"Oui,Non" }}</td></tr>
+                <tr><th>Détails litiges</th><td style="white-space:pre-wrap;">{{ demande.litiges_details|default:"—" }}</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div style="margin-top:24px;" class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+            Liquidateur
+        </h3>
+        <table class="detail-table">
+            <tr><th>Nom</th><td>{{ demande.liquidateur_nom|default:"—" }}</td></tr>
+            <tr><th>Téléphone</th><td>{{ demande.liquidateur_telephone|default:"—" }}</td></tr>
+            <tr><th>Email</th><td>{{ demande.liquidateur_email|default:"—" }}</td></tr>
+            <tr><th>Adresse</th><td style="white-space:pre-wrap;">{{ demande.liquidateur_adresse|default:"—" }}</td></tr>
+        </table>
+    </div>
+
+    <div style="margin-top:24px;" class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+            Informations complémentaires
+        </h3>
+        <table class="detail-table">
+            <tr><th>Statut</th><td><span class="status-badge">{{ demande.get_statut_display }}</span></td></tr>
+            <tr><th>Montant</th><td>{{ demande.montant|default:"0" }} FCFA</td></tr>
+            <tr><th>Paiement effectué</th><td>{{ demande.paiement_effectue|yesno:"Oui,Non" }}</td></tr>
+            <tr><th>Référence paiement</th><td>{{ demande.reference_paiement|default:"—" }}</td></tr>
+            <tr><th>Commentaire admin</th><td style="white-space:pre-wrap;">{{ demande.commentaire_admin|default:"—" }}</td></tr>
+        </table>
+    </div>
+
+    <div style="margin-top:24px;" class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;">
+            Documents
+        </h3>
+        <table class="detail-table">
+            <tr><th>Pièce d'identité</th><td>{% if demande.piece_identite %}<a href="{{ demande.piece_identite.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Document entreprise</th><td>{% if demande.document_entreprise %}<a href="{{ demande.document_entreprise.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Décision fermeture</th><td>{% if demande.decision_fermeture %}<a href="{{ demande.decision_fermeture.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+            <tr><th>Autres documents</th><td>{% if demande.autres_documents %}<a href="{{ demande.autres_documents.url }}" target="_blank">📄 Voir</a>{% else %}—{% endif %}</td></tr>
+        </table>
+    </div>
+</div>
+
+<style>
+.card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.detail-table { width: 100%; border-collapse: collapse; }
+.detail-table th {
+    text-align: left;
+    padding: 10px 12px 10px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    width: 200px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border-light);
+}
+.detail-table td {
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--dark);
+    border-bottom: 1px solid var(--border-light);
+}
+.status-badge {
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #E3F2FD;
+    color: #1565C0;
+}
+.btn-secondary {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--dark);
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-primary {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: var(--gold);
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-danger {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: #DC2626;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-success {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: #2E7D32;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+</style>
+{% endblock %}

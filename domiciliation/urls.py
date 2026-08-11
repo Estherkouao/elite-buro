@@ -155,4 +155,55 @@ urlpatterns = [
         views.mes_changements_nom,
         name="mes_changements_nom"
     ),
+    path(
+        "depot-marque/",
+        views.depot_marque,
+        name="depot_marque"
+    ),
+
+    path(
+        "depot-marque/<int:pk>/",
+        views.detail_depot_marque,
+        name="detail_depot_marque"
+    ),
+
+    path(
+        "mes-depots-marque/",
+        views.mes_depots_marque,
+        name="mes_depots_marque"
+    ),
+    path(
+        "redaction-contrat/",
+        views.redaction_contrat,
+        name="redaction_contrat"
+    ),
+
+    path(
+        "redaction-contrat/<int:pk>/",
+        views.detail_redaction_contrat,
+        name="detail_redaction_contrat"
+    ),
+
+    path(
+        "mes-redactions-contrats/",
+        views.mes_redactions_contrats,
+        name="mes_redactions_contrats"
+    ),
+    path(
+        "fermeture-entreprise/",
+        views.fermeture_entreprise,
+        name="fermeture_entreprise"
+    ),
+
+    path(
+        "fermeture-entreprise/<int:pk>/",
+        views.detail_fermeture_entreprise,
+        name="detail_fermeture_entreprise"
+    ),
+
+    path(
+        "mes-fermetures-entreprise/",
+        views.mes_fermetures_entreprise,
+        name="mes_fermetures_entreprise"
+    ),
 ]

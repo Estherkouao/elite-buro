@@ -1131,3 +1131,729 @@ class ChangementNomEntreprise(models.Model):
         verbose_name = "Changement de dénomination"
         verbose_name_plural = "Changements de dénomination"
         ordering = ["-date_creation"]
+
+
+class DepotMarque(models.Model):
+
+    class Statut(models.TextChoices):
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_VERIFICATION = "EN_VERIFICATION", "En vérification"
+        DOCUMENTS_MANQUANTS = "DOCUMENTS_MANQUANTS", "Documents manquants"
+        EN_TRAITEMENT = "EN_TRAITEMENT", "En traitement"
+        DEPOSE = "DEPOSE", "Déposé"
+        ACCEPTE = "ACCEPTE", "Accepté"
+        REJETE = "REJETE", "Rejeté"
+        TERMINE = "TERMINE", "Terminé"
+
+    # ==========================================================
+    # DEMANDEUR
+    # ==========================================================
+
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="demandes_depot_marque",
+        verbose_name="Demandeur"
+    )
+
+    # ==========================================================
+    # ENTREPRISE
+    # ==========================================================
+
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="depots_marque",
+        verbose_name="Entreprise"
+    )
+
+    # ==========================================================
+    # INFORMATIONS DE LA MARQUE
+    # ==========================================================
+
+    nom_marque = models.CharField(
+        max_length=255,
+        verbose_name="Nom de la marque"
+    )
+
+    type_marque = models.CharField(
+        max_length=100,
+        choices=[
+            ("VERBALE", "Marque verbale"),
+            ("FIGURATIVE", "Marque figurative"),
+            ("MIXTE", "Marque mixte"),
+            ("SONORE", "Marque sonore"),
+            ("AUTRE", "Autre"),
+        ],
+        default="VERBALE",
+        verbose_name="Type de marque"
+    )
+
+    description_marque = models.TextField(
+        blank=True,
+        verbose_name="Description de la marque"
+    )
+
+    slogan = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Slogan"
+    )
+
+    # ==========================================================
+    # TITULAIRE
+    # ==========================================================
+
+    titulaire_nom = models.CharField(
+        max_length=150,
+        verbose_name="Nom du titulaire"
+    )
+
+    titulaire_prenoms = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Prénoms du titulaire"
+    )
+
+    titulaire_adresse = models.TextField(
+        blank=True,
+        verbose_name="Adresse du titulaire"
+    )
+
+    titulaire_email = models.EmailField(
+        blank=True,
+        verbose_name="Email du titulaire"
+    )
+
+    titulaire_telephone = models.CharField(
+        max_length=30,
+        blank=True,
+        verbose_name="Téléphone du titulaire"
+    )
+
+    # ==========================================================
+    # CLASSES / ACTIVITES
+    # ==========================================================
+
+    classes_nice = models.CharField(
+        max_length=255,
+        verbose_name="Classes de Nice"
+    )
+
+    produits_services = models.TextField(
+        verbose_name="Produits et services concernés"
+    )
+
+    # ==========================================================
+    # INFORMATIONS COMPLEMENTAIRES
+    # ==========================================================
+
+    pays_protection = models.CharField(
+        max_length=255,
+        default="Côte d'Ivoire",
+        verbose_name="Pays de protection"
+    )
+
+    marque_deja_utilisee = models.BooleanField(
+        default=False,
+        verbose_name="Marque déjà utilisée"
+    )
+
+    date_premiere_utilisation = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Date de première utilisation"
+    )
+
+    motif = models.TextField(
+        blank=True,
+        verbose_name="Informations complémentaires"
+    )
+
+    observations = models.TextField(
+        blank=True,
+        verbose_name="Observations"
+    )
+
+    # ==========================================================
+    # DOCUMENTS
+    # ==========================================================
+
+    logo_marque = models.ImageField(
+        upload_to="gestion_entreprise/depot_marque/logos/",
+        null=True,
+        blank=True,
+        verbose_name="Logo de la marque"
+    )
+
+    piece_identite = models.FileField(
+        upload_to="gestion_entreprise/depot_marque/",
+        null=True,
+        blank=True,
+        verbose_name="Pièce d'identité"
+    )
+
+    justificatif_entreprise = models.FileField(
+        upload_to="gestion_entreprise/depot_marque/",
+        null=True,
+        blank=True,
+        verbose_name="Justificatif de l'entreprise"
+    )
+
+    document_marque = models.FileField(
+        upload_to="gestion_entreprise/depot_marque/",
+        null=True,
+        blank=True,
+        verbose_name="Document de la marque"
+    )
+
+    autres_documents = models.FileField(
+        upload_to="gestion_entreprise/depot_marque/",
+        null=True,
+        blank=True,
+        verbose_name="Autres documents"
+    )
+
+    # ==========================================================
+    # TRAITEMENT
+    # ==========================================================
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE,
+        verbose_name="Statut"
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True,
+        verbose_name="Commentaire administrateur"
+    )
+
+    # ==========================================================
+    # PAIEMENT
+    # ==========================================================
+
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        verbose_name="Montant"
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    # ==========================================================
+    # DATES
+    # ==========================================================
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    date_depot = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    date_validation = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    # ==========================================================
+    # METHODES
+    # ==========================================================
+
+    def __str__(self):
+        return (
+            f"Dépôt de marque - {self.nom_marque} - "
+            f"{self.entreprise.company_name}"
+        )
+
+    class Meta:
+        verbose_name = "Dépôt de marque"
+        verbose_name_plural = "Dépôts de marque"
+        ordering = ["-date_creation"]
+
+
+class RedactionContrat(models.Model):
+
+    class TypeContrat(models.TextChoices):
+        CDI = "CDI", "Contrat CDI"
+        CDD = "CDD", "Contrat CDD"
+        BAIL = "BAIL", "Contrat de bail"
+        PRESTATION = "PRESTATION", "Contrat de prestation de services"
+        TRAVAIL = "TRAVAIL", "Contrat de travail"
+        PARTENARIAT = "PARTENARIAT", "Contrat de partenariat"
+        SOUS_TRAITANCE = "SOUS_TRAITANCE", "Contrat de sous-traitance"
+        VENTE = "VENTE", "Contrat de vente"
+        AUTRE = "AUTRE", "Autre contrat"
+
+    class Statut(models.TextChoices):
+        BROUILLON = "BROUILLON", "Brouillon"
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_REDACTION = "EN_REDACTION", "En rédaction"
+        A_VALIDER = "A_VALIDER", "À valider"
+        VALIDE = "VALIDE", "Validé"
+        TERMINE = "TERMINE", "Terminé"
+        ANNULE = "ANNULE", "Annulé"
+
+    # ==========================================================
+    # DEMANDEUR
+    # ==========================================================
+
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="redactions_contrats",
+        verbose_name="Demandeur"
+    )
+
+    # ==========================================================
+    # ENTREPRISE
+    # ==========================================================
+
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="redactions_contrats",
+        verbose_name="Entreprise"
+    )
+
+    # ==========================================================
+    # CONTRAT
+    # ==========================================================
+
+    type_contrat = models.CharField(
+        max_length=30,
+        choices=TypeContrat.choices,
+        verbose_name="Type de contrat"
+    )
+
+    objet = models.CharField(
+        max_length=255,
+        verbose_name="Objet du contrat"
+    )
+
+    description = models.TextField(
+        blank=True,
+        verbose_name="Description"
+    )
+
+    # ==========================================================
+    # PARTIE 1
+    # ==========================================================
+
+    partie_1_nom = models.CharField(
+        max_length=255,
+        verbose_name="Nom de la première partie"
+    )
+
+    partie_1_type = models.CharField(
+        max_length=100,
+        choices=[
+            ("PERSONNE", "Personne physique"),
+            ("ENTREPRISE", "Entreprise"),
+            ("ORGANISATION", "Organisation"),
+        ],
+        default="PERSONNE"
+    )
+
+    partie_1_adresse = models.TextField(
+        blank=True
+    )
+
+    partie_1_telephone = models.CharField(
+        max_length=30,
+        blank=True
+    )
+
+    partie_1_email = models.EmailField(
+        blank=True
+    )
+
+    # ==========================================================
+    # PARTIE 2
+    # ==========================================================
+
+    partie_2_nom = models.CharField(
+        max_length=255,
+        verbose_name="Nom de la deuxième partie"
+    )
+
+    partie_2_type = models.CharField(
+        max_length=100,
+        choices=[
+            ("PERSONNE", "Personne physique"),
+            ("ENTREPRISE", "Entreprise"),
+            ("ORGANISATION", "Organisation"),
+        ],
+        default="ENTREPRISE"
+    )
+
+    partie_2_adresse = models.TextField(
+        blank=True
+    )
+
+    partie_2_telephone = models.CharField(
+        max_length=30,
+        blank=True
+    )
+
+    partie_2_email = models.EmailField(
+        blank=True
+    )
+
+    # ==========================================================
+    # CONDITIONS
+    # ==========================================================
+
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    date_debut = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    date_fin = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    duree = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    conditions_particulieres = models.TextField(
+        blank=True
+    )
+
+    clauses_souhaitees = models.TextField(
+        blank=True
+    )
+
+    # ==========================================================
+    # DOCUMENTS
+    # ==========================================================
+
+    documents_fournis = models.FileField(
+        upload_to="gestion_entreprise/contrats/documents/",
+        null=True,
+        blank=True
+    )
+
+    contrat_final = models.FileField(
+        upload_to="gestion_entreprise/contrats/final/",
+        null=True,
+        blank=True
+    )
+
+    # ==========================================================
+    # STATUT
+    # ==========================================================
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True
+    )
+
+    # ==========================================================
+    # PAIEMENT
+    # ==========================================================
+
+    montant_prestation = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    # ==========================================================
+    # DATES
+    # ==========================================================
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    date_validation = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return (
+            f"{self.get_type_contrat_display()} - "
+            f"{self.objet} - "
+            f"{self.entreprise.company_name}"
+        )
+
+    class Meta:
+        verbose_name = "Rédaction de contrat"
+        verbose_name_plural = "Rédactions de contrats"
+        ordering = ["-date_creation"]
+
+
+
+class FermetureEntreprise(models.Model):
+
+    class Motif(models.TextChoices):
+        CESSATION_ACTIVITE = "CESSATION_ACTIVITE", "Cessation d'activité"
+        DISSOLUTION = "DISSOLUTION", "Dissolution"
+        LIQUIDATION = "LIQUIDATION", "Liquidation"
+        RETRAITE = "RETRAITE", "Départ à la retraite"
+        DIFFICULTES = "DIFFICULTES", "Difficultés financières"
+        AUTRE = "AUTRE", "Autre motif"
+
+    class Statut(models.TextChoices):
+        EN_ATTENTE = "EN_ATTENTE", "En attente"
+        EN_VERIFICATION = "EN_VERIFICATION", "En vérification"
+        DOCUMENTS_MANQUANTS = "DOCUMENTS_MANQUANTS", "Documents manquants"
+        EN_TRAITEMENT = "EN_TRAITEMENT", "En traitement"
+        TERMINE = "TERMINE", "Terminé"
+        REJETE = "REJETE", "Rejeté"
+        ANNULE = "ANNULE", "Annulé"
+
+    # ==========================================================
+    # DEMANDEUR
+    # ==========================================================
+
+    demandeur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="demandes_fermeture_entreprise",
+        verbose_name="Demandeur"
+    )
+
+    # ==========================================================
+    # ENTREPRISE
+    # ==========================================================
+
+    entreprise = models.ForeignKey(
+        "accounts.Company",
+        on_delete=models.CASCADE,
+        related_name="demandes_fermeture",
+        verbose_name="Entreprise"
+    )
+
+    # ==========================================================
+    # INFORMATIONS
+    # ==========================================================
+
+    motif = models.CharField(
+        max_length=50,
+        choices=Motif.choices,
+        verbose_name="Motif de fermeture"
+    )
+
+    motif_detail = models.TextField(
+        blank=True,
+        verbose_name="Précisions sur le motif"
+    )
+
+    date_cessation = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Date prévue de cessation"
+    )
+
+    activite_arretee = models.BooleanField(
+        default=False,
+        verbose_name="Activité déjà arrêtée"
+    )
+
+    # ==========================================================
+    # SITUATION
+    # ==========================================================
+
+    dettes_en_cours = models.BooleanField(
+        default=False,
+        verbose_name="Dettes en cours"
+    )
+
+    dettes_details = models.TextField(
+        blank=True,
+        verbose_name="Détails des dettes"
+    )
+
+    employes = models.BooleanField(
+        default=False,
+        verbose_name="Employés"
+    )
+
+    nombre_employes = models.PositiveIntegerField(
+        default=0,
+        blank=True,
+        verbose_name="Nombre d'employés"
+    )
+
+    litiges_en_cours = models.BooleanField(
+        default=False,
+        verbose_name="Litiges en cours"
+    )
+
+    litiges_details = models.TextField(
+        blank=True,
+        verbose_name="Détails des litiges"
+    )
+
+    # ==========================================================
+    # LIQUIDATION
+    # ==========================================================
+
+    liquidateur_nom = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Nom du liquidateur"
+    )
+
+    liquidateur_telephone = models.CharField(
+        max_length=30,
+        blank=True,
+        verbose_name="Téléphone du liquidateur"
+    )
+
+    liquidateur_email = models.EmailField(
+        blank=True,
+        verbose_name="Email du liquidateur"
+    )
+
+    liquidateur_adresse = models.TextField(
+        blank=True,
+        verbose_name="Adresse du liquidateur"
+    )
+
+    # ==========================================================
+    # DOCUMENTS
+    # ==========================================================
+
+    piece_identite = models.FileField(
+        upload_to="gestion_entreprise/fermeture/",
+        null=True,
+        blank=True,
+        verbose_name="Pièce d'identité"
+    )
+
+    document_entreprise = models.FileField(
+        upload_to="gestion_entreprise/fermeture/",
+        null=True,
+        blank=True,
+        verbose_name="Document de l'entreprise"
+    )
+
+    decision_fermeture = models.FileField(
+        upload_to="gestion_entreprise/fermeture/",
+        null=True,
+        blank=True,
+        verbose_name="Décision de fermeture"
+    )
+
+    autres_documents = models.FileField(
+        upload_to="gestion_entreprise/fermeture/",
+        null=True,
+        blank=True,
+        verbose_name="Autres documents"
+    )
+
+    # ==========================================================
+    # TRAITEMENT
+    # ==========================================================
+
+    statut = models.CharField(
+        max_length=30,
+        choices=Statut.choices,
+        default=Statut.EN_ATTENTE,
+        verbose_name="Statut"
+    )
+
+    commentaire_admin = models.TextField(
+        blank=True,
+        verbose_name="Commentaire administrateur"
+    )
+
+    # ==========================================================
+    # PAIEMENT
+    # ==========================================================
+
+    montant_prestation = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        verbose_name="Montant de la prestation"
+    )
+
+    paiement_effectue = models.BooleanField(
+        default=False
+    )
+
+    reference_paiement = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    # ==========================================================
+    # DATES
+    # ==========================================================
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    date_modification = models.DateTimeField(
+        auto_now=True
+    )
+
+    date_traitement = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    date_terminaison = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return (
+            f"Fermeture - {self.entreprise.company_name}"
+        )
+
+    class Meta:
+        verbose_name = "Fermeture d'entreprise"
+        verbose_name_plural = "Fermetures d'entreprises"
+        ordering = ["-date_creation"]

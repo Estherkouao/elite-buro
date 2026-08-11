@@ -18,7 +18,16 @@ from coworking.forms import CategoryForm, EquipmentForm, WorkspaceForm, Workspac
 from formation.models import Formation, FormationSession, FormationRegistration
 
 from reservation.models import Reservation, ReservationLog
-from domiciliation.models import DomiciliationRequest, ChangementGerant
+from domiciliation.models import (
+    DomiciliationRequest,
+    ChangementGerant,
+    CessionPartsSociales,
+    ModificationActivite,
+    ChangementNomEntreprise,
+    DepotMarque,
+    RedactionContrat,
+    FermetureEntreprise,
+)
 from conciergerie.models import DemandeConciergerie
 
 from .permissions import is_admin_or_manager
@@ -67,6 +76,14 @@ class AdminBaseView(LoginRequiredMixin, TemplateView):
 
         # Nombre de changements de gérant en attente pour le badge sidebar
         context["changement_gerant_count"] = ChangementGerant.objects.filter(statut="EN_ATTENTE").count()
+
+        # Nombre total de demandes de gestion d'entreprise en attente pour le badge sidebar
+        context["gestion_entreprise_count"] = (
+            context["changement_gerant_count"]
+            + CessionPartsSociales.objects.filter(statut="EN_ATTENTE").count()
+            + ModificationActivite.objects.filter(statut="EN_ATTENTE").count()
+            + ChangementNomEntreprise.objects.filter(statut="EN_ATTENTE").count()
+        )
 
         return context
 
@@ -3174,5 +3191,575 @@ class AdminChangementGerantTerminateView(AdminBaseView):
 
         messages.success(request, f"Demande #{demande.pk} marquée comme terminée.")
         return redirect("dashboard_admin:changement_gerant_list")
+
+
+# ============================================================
+#  GESTION DES ENTREPRISES — BACK-OFFICE ADMIN
+# ============================================================
+
+class AdminGestionEntrepriseView(AdminBaseView):
+    """Hub de gestion des demandes d'entreprise."""
+    template_name = "dashboard/admin/gestion_entreprise.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        context["counts"] = {
+            "changement_gerant": ChangementGerant.objects.count(),
+            "changement_gerant_en_attente": ChangementGerant.objects.filter(statut="EN_ATTENTE").count(),
+            "cession_parts": CessionPartsSociales.objects.count(),
+            "cession_parts_en_attente": CessionPartsSociales.objects.filter(statut="EN_ATTENTE").count(),
+            "modification_activite": ModificationActivite.objects.count(),
+            "modification_activite_en_attente": ModificationActivite.objects.filter(statut="EN_ATTENTE").count(),
+            "changement_nom": ChangementNomEntreprise.objects.count(),
+            "changement_nom_en_attente": ChangementNomEntreprise.objects.filter(statut="EN_ATTENTE").count(),
+            "depot_marque": DepotMarque.objects.count(),
+            "depot_marque_en_attente": DepotMarque.objects.filter(statut="EN_ATTENTE").count(),
+            "redaction_contrat": RedactionContrat.objects.count(),
+            "redaction_contrat_en_attente": RedactionContrat.objects.filter(statut="EN_ATTENTE").count(),
+            "fermeture_entreprise": FermetureEntreprise.objects.count(),
+            "fermeture_entreprise_en_attente": FermetureEntreprise.objects.filter(statut="EN_ATTENTE").count(),
+        }
+
+        context["recent_changements_gerant"] = ChangementGerant.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        context["recent_cessions"] = CessionPartsSociales.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        context["recent_modifications"] = ModificationActivite.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        context["recent_changements_nom"] = ChangementNomEntreprise.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        context["recent_depots_marque"] = DepotMarque.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        context["recent_redactions_contrat"] = RedactionContrat.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        context["recent_fermetures"] = FermetureEntreprise.objects.select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")[:5]
+
+        return context
+
+
+# ============================================================
+#  CESSION DE PARTS SOCIALES — ADMIN
+# ============================================================
+
+class AdminCessionPartsListView(AdminBaseView):
+    template_name = "dashboard/admin/cession_parts_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = CessionPartsSociales.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = CessionPartsSociales.objects.count()
+        context["en_attente_count"] = CessionPartsSociales.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = CessionPartsSociales.Statut.choices
+        return context
+
+
+class AdminCessionPartsDetailView(AdminBaseView):
+    template_name = "dashboard/admin/cession_parts_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            CessionPartsSociales.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "gestion_entreprise",
+            }
+        )
+
+
+class AdminCessionPartsValidateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(CessionPartsSociales, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = CessionPartsSociales.Statut.VALIDE
+        demande.commentaire_admin = commentaire
+        demande.date_validation = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_validation", "date_modification"])
+
+        messages.success(request, f"Cession de parts #{demande.pk} validée avec succès.")
+        return redirect("dashboard_admin:cession_parts_list")
+
+
+class AdminCessionPartsRefuseView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(CessionPartsSociales, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = CessionPartsSociales.Statut.REJETE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Cession de parts #{demande.pk} refusée.")
+        return redirect("dashboard_admin:cession_parts_list")
+
+
+class AdminCessionPartsTerminateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(CessionPartsSociales, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = CessionPartsSociales.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.date_terminaison = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_terminaison", "date_modification"])
+
+        messages.success(request, f"Cession de parts #{demande.pk} marquée comme terminée.")
+        return redirect("dashboard_admin:cession_parts_list")
+
+
+# ============================================================
+#  MODIFICATION D'ACTIVITÉ — ADMIN
+# ============================================================
+
+class AdminModificationActiviteListView(AdminBaseView):
+    template_name = "dashboard/admin/modification_activite_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = ModificationActivite.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = ModificationActivite.objects.count()
+        context["en_attente_count"] = ModificationActivite.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = ModificationActivite.Statut.choices
+        return context
+
+
+class AdminModificationActiviteDetailView(AdminBaseView):
+    template_name = "dashboard/admin/modification_activite_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            ModificationActivite.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "gestion_entreprise",
+            }
+        )
+
+
+class AdminModificationActiviteValidateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ModificationActivite, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ModificationActivite.Statut.VALIDE
+        demande.commentaire_admin = commentaire
+        demande.date_validation = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_validation", "date_modification"])
+
+        messages.success(request, f"Modification d'activité #{demande.pk} validée avec succès.")
+        return redirect("dashboard_admin:modification_activite_list")
+
+
+class AdminModificationActiviteRefuseView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ModificationActivite, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ModificationActivite.Statut.REJETE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Modification d'activité #{demande.pk} refusée.")
+        return redirect("dashboard_admin:modification_activite_list")
+
+
+class AdminModificationActiviteTerminateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ModificationActivite, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ModificationActivite.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.date_terminaison = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_terminaison", "date_modification"])
+
+        messages.success(request, f"Modification d'activité #{demande.pk} marquée comme terminée.")
+        return redirect("dashboard_admin:modification_activite_list")
+
+
+# ============================================================
+#  CHANGEMENT DE NOM — ADMIN
+# ============================================================
+
+class AdminChangementNomListView(AdminBaseView):
+    template_name = "dashboard/admin/changement_nom_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = ChangementNomEntreprise.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = ChangementNomEntreprise.objects.count()
+        context["en_attente_count"] = ChangementNomEntreprise.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = ChangementNomEntreprise.Statut.choices
+        return context
+
+
+class AdminChangementNomDetailView(AdminBaseView):
+    template_name = "dashboard/admin/changement_nom_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            ChangementNomEntreprise.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "gestion_entreprise",
+            }
+        )
+
+
+class AdminChangementNomValidateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ChangementNomEntreprise, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ChangementNomEntreprise.Statut.VALIDE
+        demande.commentaire_admin = commentaire
+        demande.date_validation = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_validation", "date_modification"])
+
+        messages.success(request, f"Changement de nom #{demande.pk} validé avec succès.")
+        return redirect("dashboard_admin:changement_nom_list")
+
+
+class AdminChangementNomRefuseView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ChangementNomEntreprise, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ChangementNomEntreprise.Statut.REJETE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Changement de nom #{demande.pk} refusé.")
+        return redirect("dashboard_admin:changement_nom_list")
+
+
+class AdminChangementNomTerminateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(ChangementNomEntreprise, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = ChangementNomEntreprise.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.date_terminaison = timezone.now()
+        demande.save(update_fields=["statut", "commentaire_admin", "date_terminaison", "date_modification"])
+
+        messages.success(request, f"Changement de nom #{demande.pk} marqué comme terminé.")
+        return redirect("dashboard_admin:changement_nom_list")
+
+
+# ============================================================
+#  DÉPÔT DE MARQUE — ADMIN
+# ============================================================
+
+class AdminDepotMarqueListView(AdminBaseView):
+    template_name = "dashboard/admin/depot_marque_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = DepotMarque.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = DepotMarque.objects.count()
+        context["en_attente_count"] = DepotMarque.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = DepotMarque.Statut.choices
+        return context
+
+
+class AdminDepotMarqueDetailView(AdminBaseView):
+    template_name = "dashboard/admin/depot_marque_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            DepotMarque.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "gestion_entreprise",
+            }
+        )
+
+
+class AdminDepotMarqueValidateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(DepotMarque, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = DepotMarque.Statut.ACCEPTE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.success(request, f"Dépôt de marque #{demande.pk} accepté avec succès.")
+        return redirect("dashboard_admin:depot_marque_list")
+
+
+class AdminDepotMarqueRefuseView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(DepotMarque, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = DepotMarque.Statut.REJETE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Dépôt de marque #{demande.pk} refusé.")
+        return redirect("dashboard_admin:depot_marque_list")
+
+
+class AdminDepotMarqueTerminateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(DepotMarque, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = DepotMarque.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.success(request, f"Dépôt de marque #{demande.pk} marqué comme terminé.")
+        return redirect("dashboard_admin:depot_marque_list")
+
+
+# ============================================================
+#  RÉDACTION DE CONTRAT — ADMIN
+# ============================================================
+
+class AdminRedactionContratListView(AdminBaseView):
+    template_name = "dashboard/admin/redaction_contrat_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = RedactionContrat.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = RedactionContrat.objects.count()
+        context["en_attente_count"] = RedactionContrat.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = RedactionContrat.Statut.choices
+        return context
+
+
+class AdminRedactionContratDetailView(AdminBaseView):
+    template_name = "dashboard/admin/redaction_contrat_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            RedactionContrat.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "gestion_entreprise",
+            }
+        )
+
+
+class AdminRedactionContratValidateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(RedactionContrat, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = RedactionContrat.Statut.VALIDE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.success(request, f"Rédaction de contrat #{demande.pk} validée avec succès.")
+        return redirect("dashboard_admin:redaction_contrat_list")
+
+
+class AdminRedactionContratRefuseView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(RedactionContrat, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = RedactionContrat.Statut.ANNULE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Rédaction de contrat #{demande.pk} refusée.")
+        return redirect("dashboard_admin:redaction_contrat_list")
+
+
+class AdminRedactionContratTerminateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(RedactionContrat, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = RedactionContrat.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.success(request, f"Rédaction de contrat #{demande.pk} marquée comme terminée.")
+        return redirect("dashboard_admin:redaction_contrat_list")
+
+
+# ============================================================
+#  FERMETURE D'ENTREPRISE — ADMIN
+# ============================================================
+
+class AdminFermetureEntrepriseListView(AdminBaseView):
+    template_name = "dashboard/admin/fermeture_entreprise_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_section"] = "gestion_entreprise"
+
+        statut_filter = self.request.GET.get("statut", "")
+        qs = FermetureEntreprise.objects.all().select_related(
+            "demandeur", "entreprise"
+        ).order_by("-date_creation")
+
+        if statut_filter:
+            qs = qs.filter(statut=statut_filter)
+
+        context["demandes"] = qs
+        context["total_count"] = FermetureEntreprise.objects.count()
+        context["en_attente_count"] = FermetureEntreprise.objects.filter(statut="EN_ATTENTE").count()
+        context["current_filter"] = statut_filter
+        context["statut_choices"] = FermetureEntreprise.Statut.choices
+        return context
+
+
+class AdminFermetureEntrepriseDetailView(AdminBaseView):
+    template_name = "dashboard/admin/fermeture_entreprise_detail.html"
+
+    def get(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(
+            FermetureEntreprise.objects.select_related("demandeur", "entreprise"),
+            id=demande_id
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "demande": demande,
+                "active_section": "gestion_entreprise",
+            }
+        )
+
+
+class AdminFermetureEntrepriseValidateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(FermetureEntreprise, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = FermetureEntreprise.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.success(request, f"Fermeture d'entreprise #{demande.pk} validée avec succès.")
+        return redirect("dashboard_admin:fermeture_entreprise_list")
+
+
+class AdminFermetureEntrepriseRefuseView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(FermetureEntreprise, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = FermetureEntreprise.Statut.REJETE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.warning(request, f"Fermeture d'entreprise #{demande.pk} refusée.")
+        return redirect("dashboard_admin:fermeture_entreprise_list")
+
+
+class AdminFermetureEntrepriseTerminateView(AdminBaseView):
+    def post(self, request, demande_id, *args, **kwargs):
+        demande = get_object_or_404(FermetureEntreprise, id=demande_id)
+        commentaire = (request.POST.get("commentaire_admin") or "").strip()
+
+        demande.statut = FermetureEntreprise.Statut.TERMINE
+        demande.commentaire_admin = commentaire
+        demande.save(update_fields=["statut", "commentaire_admin", "date_modification"])
+
+        messages.success(request, f"Fermeture d'entreprise #{demande.pk} marquée comme terminée.")
+        return redirect("dashboard_admin:fermeture_entreprise_list")
 
 

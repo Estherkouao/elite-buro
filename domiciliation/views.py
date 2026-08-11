@@ -32,6 +32,8 @@ from .models import (
     DomiciliationLog,
     DomiciliationPlan,
     DomiciliationRequest,
+    RedactionContrat,
+    FermetureEntreprise,
 )
 from .permissions import require_can_consulter_request, require_can_traiter_request
 from .services import (
@@ -5859,3 +5861,497 @@ def mes_changements_nom(request):
             "demandes": demandes
         }
     )        
+
+
+
+@login_required
+def depot_marque(request):
+
+    entreprises = request.user.companies.all()
+
+    if request.method == "POST":
+
+        entreprise_id = request.POST.get(
+            "entreprise_id"
+        )
+
+        entreprise = get_object_or_404(
+            entreprises,
+            id=entreprise_id
+        )
+
+        demande = DepotMarque.objects.create(
+
+            demandeur=request.user,
+
+            entreprise=entreprise,
+
+            # Marque
+            nom_marque=request.POST.get(
+                "nom_marque"
+            ),
+
+            type_marque=request.POST.get(
+                "type_marque"
+            ),
+
+            description_marque=request.POST.get(
+                "description_marque"
+            ),
+
+            slogan=request.POST.get(
+                "slogan"
+            ),
+
+            # Titulaire
+            titulaire_nom=request.POST.get(
+                "titulaire_nom"
+            ),
+
+            titulaire_prenoms=request.POST.get(
+                "titulaire_prenoms"
+            ),
+
+            titulaire_adresse=request.POST.get(
+                "titulaire_adresse"
+            ),
+
+            titulaire_email=request.POST.get(
+                "titulaire_email"
+            ),
+
+            titulaire_telephone=request.POST.get(
+                "titulaire_telephone"
+            ),
+
+            # Classes
+            classes_nice=request.POST.get(
+                "classes_nice"
+            ),
+
+            produits_services=request.POST.get(
+                "produits_services"
+            ),
+
+            # Informations
+            pays_protection=request.POST.get(
+                "pays_protection"
+            ),
+
+            marque_deja_utilisee=(
+                request.POST.get("marque_deja_utilisee")
+                == "oui"
+            ),
+
+            date_premiere_utilisation=(
+                request.POST.get(
+                    "date_premiere_utilisation"
+                ) or None
+            ),
+
+            motif=request.POST.get(
+                "motif"
+            ),
+
+            observations=request.POST.get(
+                "observations"
+            ),
+
+            # Documents
+            logo_marque=request.FILES.get(
+                "logo_marque"
+            ),
+
+            piece_identite=request.FILES.get(
+                "piece_identite"
+            ),
+
+            justificatif_entreprise=request.FILES.get(
+                "justificatif_entreprise"
+            ),
+
+            document_marque=request.FILES.get(
+                "document_marque"
+            ),
+
+            autres_documents=request.FILES.get(
+                "autres_documents"
+            ),
+
+            statut=DepotMarque.Statut.EN_ATTENTE
+        )
+
+        messages.success(
+            request,
+            "Votre demande de dépôt de marque "
+            "a été enregistrée avec succès."
+        )
+
+        return redirect(
+            "domiciliation:detail_depot_marque",
+            pk=demande.pk
+        )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/depot_marque.html",
+        {
+            "entreprises": entreprises
+        }
+    )
+
+@login_required
+def detail_depot_marque(request, pk):
+
+    demande = get_object_or_404(
+        DepotMarque,
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/detail_depot_marque.html",
+        {
+            "demande": demande
+        }
+    )
+
+@login_required
+def mes_depots_marque(request):
+
+    demandes = DepotMarque.objects.filter(
+        demandeur=request.user
+    ).select_related(
+        "entreprise"
+    ).order_by(
+        "-date_creation"
+    )
+
+    return render(
+        request,
+        "domiciliation/mes_depots_marque.html",
+        {
+            "demandes": demandes
+        }
+    )
+
+
+@login_required
+def redaction_contrat(request):
+
+    entreprises = request.user.companies.all()
+
+    if request.method == "POST":
+
+        entreprise = get_object_or_404(
+            entreprises,
+            id=request.POST.get("entreprise_id")
+        )
+
+        contrat = RedactionContrat.objects.create(
+
+            demandeur=request.user,
+
+            entreprise=entreprise,
+
+            type_contrat=request.POST.get(
+                "type_contrat"
+            ),
+
+            objet=request.POST.get(
+                "objet"
+            ),
+
+            description=request.POST.get(
+                "description"
+            ),
+
+            partie_1_nom=request.POST.get(
+                "partie_1_nom"
+            ),
+
+            partie_1_type=request.POST.get(
+                "partie_1_type"
+            ),
+
+            partie_1_adresse=request.POST.get(
+                "partie_1_adresse"
+            ),
+
+            partie_1_telephone=request.POST.get(
+                "partie_1_telephone"
+            ),
+
+            partie_1_email=request.POST.get(
+                "partie_1_email"
+            ),
+
+            partie_2_nom=request.POST.get(
+                "partie_2_nom"
+            ),
+
+            partie_2_type=request.POST.get(
+                "partie_2_type"
+            ),
+
+            partie_2_adresse=request.POST.get(
+                "partie_2_adresse"
+            ),
+
+            partie_2_telephone=request.POST.get(
+                "partie_2_telephone"
+            ),
+
+            partie_2_email=request.POST.get(
+                "partie_2_email"
+            ),
+
+            montant=request.POST.get(
+                "montant"
+            ) or None,
+
+            date_debut=request.POST.get(
+                "date_debut"
+            ) or None,
+
+            date_fin=request.POST.get(
+                "date_fin"
+            ) or None,
+
+            duree=request.POST.get(
+                "duree"
+            ),
+
+            conditions_particulieres=request.POST.get(
+                "conditions_particulieres"
+            ),
+
+            clauses_souhaitees=request.POST.get(
+                "clauses_souhaitees"
+            ),
+
+            documents_fournis=request.FILES.get(
+                "documents_fournis"
+            ),
+
+            statut=RedactionContrat.Statut.EN_ATTENTE
+        )
+
+        messages.success(
+            request,
+            "Votre demande de rédaction de contrat "
+            "a été enregistrée."
+        )
+
+        return redirect(
+            "domiciliation:detail_redaction_contrat",
+            pk=contrat.pk
+        )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/redaction_contrat.html",
+        {
+            "entreprises": entreprises,
+            "types_contrat": RedactionContrat.TypeContrat.choices
+        }
+    )
+
+
+@login_required
+def detail_redaction_contrat(request, pk):
+
+    contrat = get_object_or_404(
+        RedactionContrat,
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/detail_redaction_contrat.html",
+        {
+            "contrat": contrat
+        }
+    )
+
+@login_required
+def mes_redactions_contrats(request):
+
+    contrats = RedactionContrat.objects.filter(
+        demandeur=request.user
+    ).select_related(
+        "entreprise"
+    ).order_by(
+        "-date_creation"
+    )
+
+    return render(
+        request,
+        "domiciliation/mes_redactions_contrats.html",
+        {
+            "contrats": contrats
+        }
+    )    
+
+
+
+@login_required
+def fermeture_entreprise(request):
+
+    entreprises = request.user.companies.all()
+
+    if request.method == "POST":
+
+        entreprise = get_object_or_404(
+            entreprises,
+            id=request.POST.get("entreprise_id")
+        )
+
+        demande = FermetureEntreprise.objects.create(
+
+            demandeur=request.user,
+
+            entreprise=entreprise,
+
+            motif=request.POST.get(
+                "motif"
+            ),
+
+            motif_detail=request.POST.get(
+                "motif_detail"
+            ),
+
+            date_cessation=request.POST.get(
+                "date_cessation"
+            ) or None,
+
+            activite_arretee=(
+                request.POST.get(
+                    "activite_arretee"
+                ) == "oui"
+            ),
+
+            dettes_en_cours=(
+                request.POST.get(
+                    "dettes_en_cours"
+                ) == "oui"
+            ),
+
+            dettes_details=request.POST.get(
+                "dettes_details"
+            ),
+
+            employes=(
+                request.POST.get(
+                    "employes"
+                ) == "oui"
+            ),
+
+            nombre_employes=request.POST.get(
+                "nombre_employes"
+            ) or 0,
+
+            litiges_en_cours=(
+                request.POST.get(
+                    "litiges_en_cours"
+                ) == "oui"
+            ),
+
+            litiges_details=request.POST.get(
+                "litiges_details"
+            ),
+
+            liquidateur_nom=request.POST.get(
+                "liquidateur_nom"
+            ),
+
+            liquidateur_telephone=request.POST.get(
+                "liquidateur_telephone"
+            ),
+
+            liquidateur_email=request.POST.get(
+                "liquidateur_email"
+            ),
+
+            liquidateur_adresse=request.POST.get(
+                "liquidateur_adresse"
+            ),
+
+            piece_identite=request.FILES.get(
+                "piece_identite"
+            ),
+
+            document_entreprise=request.FILES.get(
+                "document_entreprise"
+            ),
+
+            decision_fermeture=request.FILES.get(
+                "decision_fermeture"
+            ),
+
+            autres_documents=request.FILES.get(
+                "autres_documents"
+            ),
+
+            statut=FermetureEntreprise.Statut.EN_ATTENTE
+        )
+
+        messages.success(
+            request,
+            "Votre demande de fermeture d'entreprise "
+            "a été enregistrée avec succès."
+        )
+
+        return redirect(
+            "domiciliation:detail_fermeture_entreprise",
+            pk=demande.pk
+        )
+
+    return render(
+        request,
+        "domiciliation/gestion_entreprise/fermeture_entreprise.html",
+        {
+            "entreprises": entreprises,
+            "motifs": FermetureEntreprise.Motif.choices,
+        }
+    )
+
+
+@login_required
+def detail_fermeture_entreprise(request, pk):
+
+    demande = get_object_or_404(
+        FermetureEntreprise,
+        pk=pk,
+        demandeur=request.user
+    )
+
+    return render(
+        request,
+        "domiciliation/detail_fermeture_entreprise.html",
+        {
+            "demande": demande
+        }
+    )
+
+@login_required
+def mes_fermetures_entreprise(request):
+
+    demandes = FermetureEntreprise.objects.filter(
+        demandeur=request.user
+    ).select_related(
+        "entreprise"
+    ).order_by(
+        "-date_creation"
+    )
+
+    return render(
+        request,
+        "domiciliation/mes_fermetures_entreprise.html",
+        {
+            "demandes": demandes
+        }
+    )    
+

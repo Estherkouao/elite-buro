@@ -232,7 +232,9 @@
                         Cession de parts sociales
                     </h3>
 
-                    
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Cédez vos parts sociales à un tiers et modifiez la composition de votre société.
+                    </p>
 
                 </a>
 
@@ -273,7 +275,10 @@
                         Modification de l'activité
                     </h3>
 
-                    
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Modifiez l'activité principale de votre entreprise
+                        et mettez à jour vos informations légales.
+                    </p>
 
                 </a>
 
@@ -314,7 +319,9 @@
                         Changement de Nom
                     </h3>
 
-                    
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Modifiez le nom de votre entreprise
+                    </p>
 
                 </a>
 
@@ -322,7 +329,7 @@
 
                 <!-- DENOMINATION -->
 
-                <a href="#"
+                <a href="{% url 'domiciliation:depot_marque' %}"
                    class="group bg-white rounded-2xl
                           border border-slate-200
                           p-6 shadow-sm
@@ -337,7 +344,7 @@
                                     flex items-center justify-center
                                     text-2xl">
 
-                            ✏️
+                            ™
 
                         </div>
 
@@ -352,12 +359,12 @@
                     </div>
 
                     <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
-                        Changement de dénomination
+                        Dépôt de marque
                     </h3>
 
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Changez le nom ou la dénomination sociale
-                        de votre entreprise.
+                        Déposez et suivez votre demande de protection
+                        de marque.
                     </p>
 
                 </a>
@@ -366,7 +373,7 @@
 
                 <!-- CAPITAL -->
 
-                <a href="#"
+                <a href="{% url 'domiciliation:redaction_contrat' %}"
                    class="group bg-white rounded-2xl
                           border border-slate-200
                           p-6 shadow-sm
@@ -381,7 +388,7 @@
                                     flex items-center justify-center
                                     text-2xl">
 
-                            💰
+                            📄
 
                         </div>
 
@@ -396,12 +403,55 @@
                     </div>
 
                     <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
-                        Modification du capital
+                        Rédaction de contrat
                     </h3>
 
                     <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Augmentez ou réduisez le capital social
-                        de votre entreprise.
+                        Rédigez un contrat sur mesure pour votre entreprise
+                        avec l'aide d'un expert juridique.
+                        
+                    </p>
+
+                </a>
+
+                <a href="{% url 'domiciliation:fermeture_entreprise' %}"
+                   class="group bg-white rounded-2xl
+                          border border-slate-200
+                          p-6 shadow-sm
+                          hover:shadow-lg
+                          hover:-translate-y-1
+                          transition duration-300">
+
+                    <div class="flex items-start justify-between">
+
+                        <div class="w-12 h-12 rounded-xl
+                                    bg-orange-50
+                                    flex items-center justify-center
+                                    text-2xl">
+
+                            📄
+
+                        </div>
+
+                        <span class="text-slate-300
+                                     group-hover:text-[#C9A02C]
+                                     transition text-xl">
+
+                            →
+
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
+                        Fermeture d'entreprise
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
+                        Déclarez la fermeture de votre entreprise
+                        et suivez les démarches administratives
+                        nécessaires.
+                        
                     </p>
 
                 </a>
@@ -412,127 +462,6 @@
 
 
 
-        <!-- =====================================================
-             ASSOCIÉS ET DIRECTION
-        ====================================================== -->
-
-        <div class="mb-10">
-
-            <div class="mb-5">
-
-                <h2 class="text-xl font-bold text-[#0D2B55]">
-                    Associés et direction
-                </h2>
-
-                <p class="text-sm text-slate-500 mt-1">
-                    Gérez les informations relatives aux dirigeants
-                    et aux associés.
-                </p>
-
-            </div>
-
-
-            <div class="grid grid-cols-1 sm:grid-cols-2
-                        lg:grid-cols-3 gap-5">
-
-
-                <!-- CESSION DE PARTS -->
-
-                <a href="#"
-                   class="group bg-white rounded-2xl
-                          border border-slate-200
-                          p-6 shadow-sm
-                          hover:shadow-lg
-                          hover:-translate-y-1
-                          transition">
-
-                    <div class="w-12 h-12 rounded-xl
-                                bg-indigo-50
-                                flex items-center justify-center
-                                text-2xl">
-
-                        🤝
-
-                    </div>
-
-                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
-                        Cession de parts sociales
-                    </h3>
-
-                    <p class="mt-2 text-sm text-slate-500">
-                        Déclarez une cession ou une modification
-                        de la répartition des parts sociales.
-                    </p>
-
-                </a>
-
-
-
-                <!-- NOUVEL ASSOCIE -->
-
-                <a href="#"
-                   class="group bg-white rounded-2xl
-                          border border-slate-200
-                          p-6 shadow-sm
-                          hover:shadow-lg
-                          hover:-translate-y-1
-                          transition">
-
-                    <div class="w-12 h-12 rounded-xl
-                                bg-cyan-50
-                                flex items-center justify-center
-                                text-2xl">
-
-                        👥
-
-                    </div>
-
-                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
-                        Modification des associés
-                    </h3>
-
-                    <p class="mt-2 text-sm text-slate-500">
-                        Ajoutez, retirez ou modifiez les informations
-                        relatives aux associés.
-                    </p>
-
-                </a>
-
-
-
-                <!-- STATUTS -->
-
-                <a href="#"
-                   class="group bg-white rounded-2xl
-                          border border-slate-200
-                          p-6 shadow-sm
-                          hover:shadow-lg
-                          hover:-translate-y-1
-                          transition">
-
-                    <div class="w-12 h-12 rounded-xl
-                                bg-rose-50
-                                flex items-center justify-center
-                                text-2xl">
-
-                        📑
-
-                    </div>
-
-                    <h3 class="mt-5 font-bold text-lg text-[#0D2B55]">
-                        Modification des statuts
-                    </h3>
-
-                    <p class="mt-2 text-sm text-slate-500">
-                        Demandez une modification ou une mise à jour
-                        des statuts de votre société.
-                    </p>
-
-                </a>
-
-            </div>
-
-        </div>
 
 
 

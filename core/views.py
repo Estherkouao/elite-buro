@@ -302,3 +302,18 @@ def contact(request):
         return redirect("core:contact")
 
     return render(request, "core/contact.html")
+
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
+
+from .models import Ressource
+
+
+
+
+
+def ressource(request):
+    return render(
+        request,
+        "core/resource.html"
+    )

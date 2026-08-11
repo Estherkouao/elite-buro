@@ -31,4 +31,10 @@ urlpatterns = [
         TemplateView.as_view(template_name="core/conditions_utilisation.html"),
         name="conditions_utilisation",
     ),
+
+    path(
+        "ressources/",
+        views.ressource,
+        name="ressources"
+    ),
 ]

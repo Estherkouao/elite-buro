@@ -1,0 +1,602 @@
+{% extends "dashboard/base_member.html" %}
+
+{% block content %}
+
+<div class="min-h-screen bg-slate-50 pt-32 pb-12">
+
+    <div class="max-w-5xl mx-auto px-4">
+
+        <!-- HEADER -->
+
+        <div class="mb-8">
+
+            <span class="text-sm font-bold tracking-wider
+                         text-[#C9A02C] uppercase">
+                Gestion d'entreprise
+            </span>
+
+            <h1 class="text-3xl md:text-4xl font-bold
+                       text-[#0D2B55] mt-2">
+                Dépôt de marque
+            </h1>
+
+            <p class="mt-3 text-slate-600 max-w-2xl">
+                Protégez votre marque en enregistrant votre
+                demande de dépôt auprès de l'organisme compétent.
+            </p>
+
+        </div>
+
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              class="space-y-8">
+
+            {% csrf_token %}
+
+
+            <!-- ENTREPRISE -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-6">
+                    1. Entreprise concernée
+                </h2>
+
+                <label class="block text-sm font-semibold
+                              text-slate-700 mb-2">
+                    Sélectionnez votre entreprise *
+                </label>
+
+                <select
+                    name="entreprise_id"
+                    required
+                    class="w-full rounded-xl border
+                           border-slate-300 px-4 py-3">
+
+                    <option value="">
+                        Sélectionnez une entreprise
+                    </option>
+
+                    {% for entreprise in entreprises %}
+
+                    <option value="{{ entreprise.id }}">
+                        {{ entreprise.company_name }}
+
+                        {% if entreprise.registration_number %}
+                            — {{ entreprise.registration_number }}
+                        {% endif %}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- MARQUE -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-6">
+                    2. Informations sur la marque
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Nom de la marque *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nom_marque"
+                            required
+                            placeholder="Ex : ELITE BURO"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Type de marque *
+                        </label>
+
+                        <select
+                            name="type_marque"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                            <option value="VERBALE">
+                                Marque verbale
+                            </option>
+
+                            <option value="FIGURATIVE">
+                                Marque figurative
+                            </option>
+
+                            <option value="MIXTE">
+                                Marque mixte
+                            </option>
+
+                            <option value="SONORE">
+                                Marque sonore
+                            </option>
+
+                            <option value="AUTRE">
+                                Autre
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Slogan
+                        </label>
+
+                        <input
+                            type="text"
+                            name="slogan"
+                            placeholder="Slogan de la marque"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Pays de protection
+                        </label>
+
+                        <input
+                            type="text"
+                            name="pays_protection"
+                            value="Côte d'Ivoire"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-6">
+
+                    <label class="block text-sm
+                                  font-semibold mb-2">
+                        Description de la marque
+                    </label>
+
+                    <textarea
+                        name="description_marque"
+                        rows="4"
+                        placeholder="Décrivez la marque..."
+                        class="w-full rounded-xl border
+                               border-slate-300 px-4 py-3"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- TITULAIRE -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-6">
+                    3. Titulaire de la marque
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Nom *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="titulaire_nom"
+                            required
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Prénoms
+                        </label>
+
+                        <input
+                            type="text"
+                            name="titulaire_prenoms"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            name="titulaire_email"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Téléphone
+                        </label>
+
+                        <input
+                            type="tel"
+                            name="titulaire_telephone"
+                            class="w-full rounded-xl border
+                                   border-slate-300 px-4 py-3">
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-6">
+
+                    <label class="block text-sm
+                                  font-semibold mb-2">
+                        Adresse
+                    </label>
+
+                    <textarea
+                        name="titulaire_adresse"
+                        rows="3"
+                        class="w-full rounded-xl border
+                               border-slate-300 px-4 py-3"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- CLASSES -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-2">
+                    4. Produits et services
+                </h2>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    Indiquez les classes et les produits ou services
+                    que la marque doit couvrir.
+                </p>
+
+                <div>
+
+                    <label class="block text-sm
+                                  font-semibold mb-2">
+                        Classes de Nice *
+                    </label>
+
+                    <input
+                        type="text"
+                        name="classes_nice"
+                        required
+                        placeholder="Ex : 35, 36, 41"
+                        class="w-full rounded-xl border
+                               border-slate-300 px-4 py-3">
+
+                </div>
+
+
+                <div class="mt-6">
+
+                    <label class="block text-sm
+                                  font-semibold mb-2">
+                        Produits et services concernés *
+                    </label>
+
+                    <textarea
+                        name="produits_services"
+                        rows="5"
+                        required
+                        placeholder="Décrivez les produits et services..."
+                        class="w-full rounded-xl border
+                               border-slate-300 px-4 py-3"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- UTILISATION -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-6">
+                    5. Utilisation de la marque
+                </h2>
+
+                <label class="block text-sm
+                              font-semibold mb-3">
+                    La marque est-elle déjà utilisée ?
+                </label>
+
+                <div class="flex gap-6">
+
+                    <label class="flex items-center gap-2">
+
+                        <input
+                            type="radio"
+                            name="marque_deja_utilisee"
+                            value="oui">
+
+                        <span>Oui</span>
+
+                    </label>
+
+
+                    <label class="flex items-center gap-2">
+
+                        <input
+                            type="radio"
+                            name="marque_deja_utilisee"
+                            value="non"
+                            checked>
+
+                        <span>Non</span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="mt-6">
+
+                    <label class="block text-sm
+                                  font-semibold mb-2">
+                        Date de première utilisation
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date_premiere_utilisation"
+                        class="w-full md:w-1/2 rounded-xl
+                               border border-slate-300
+                               px-4 py-3">
+
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-2">
+                    6. Documents
+                </h2>
+
+                <p class="text-sm text-slate-500 mb-6">
+                    Ajoutez les documents nécessaires au traitement
+                    de votre demande.
+                </p>
+
+                <div class="space-y-6">
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Logo de la marque
+                        </label>
+
+                        <input
+                            type="file"
+                            name="logo_marque"
+                            accept="image/*"
+                            class="w-full text-sm">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Pièce d'identité
+                        </label>
+
+                        <input
+                            type="file"
+                            name="piece_identite"
+                            class="w-full text-sm">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Justificatif de l'entreprise
+                        </label>
+
+                        <input
+                            type="file"
+                            name="justificatif_entreprise"
+                            class="w-full text-sm">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Document relatif à la marque
+                        </label>
+
+                        <input
+                            type="file"
+                            name="document_marque"
+                            class="w-full text-sm">
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm
+                                      font-semibold mb-2">
+                            Autres documents
+                        </label>
+
+                        <input
+                            type="file"
+                            name="autres_documents"
+                            class="w-full text-sm">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OBSERVATIONS -->
+
+            <div class="bg-white rounded-2xl border
+                        border-slate-200 shadow-sm
+                        p-6 md:p-8">
+
+                <h2 class="text-xl font-bold
+                           text-[#0D2B55] mb-6">
+                    7. Informations complémentaires
+                </h2>
+
+                <textarea
+                    name="motif"
+                    rows="4"
+                    placeholder="Informations complémentaires..."
+                    class="w-full rounded-xl border
+                           border-slate-300 px-4 py-3"></textarea>
+
+
+                <textarea
+                    name="observations"
+                    rows="4"
+                    placeholder="Observations..."
+                    class="w-full rounded-xl border
+                           border-slate-300 px-4 py-3 mt-4"></textarea>
+
+            </div>
+
+
+            <!-- INFORMATION -->
+
+            <div class="bg-blue-50 border border-blue-200
+                        rounded-2xl p-5">
+
+                <h3 class="font-bold text-blue-900">
+                    Vérification de la demande
+                </h3>
+
+                <p class="text-sm text-blue-800 mt-2">
+                    Après soumission, notre équipe vérifiera
+                    les informations fournies et les documents
+                    avant le traitement du dépôt.
+                </p>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="flex flex-col sm:flex-row
+                        justify-between gap-4">
+
+                <a
+                    href="{% url 'domiciliation:gestion_entreprise' %}"
+                    class="px-6 py-3 rounded-xl border
+                           border-slate-300 text-slate-700
+                           font-semibold text-center
+                           hover:bg-white">
+
+                    ← Retour
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="px-8 py-3 rounded-xl
+                           bg-[#0D2B55] text-white
+                           font-semibold
+                           hover:bg-[#091f3d]">
+
+                    Soumettre la demande →
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
