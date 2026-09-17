@@ -303,7 +303,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='formationreview',
-            constraint=models.CheckConstraint(check=models.Q(('note__gte', 1), ('note__lte', 5)), name='formation_review_note_range'),
+            constraint=models.CheckConstraint(condition=models.Q(('note__gte', 1), ('note__lte', 5)), name='formation_review_note_range'),
         ),
         migrations.AddIndex(
             model_name='formationregistration',

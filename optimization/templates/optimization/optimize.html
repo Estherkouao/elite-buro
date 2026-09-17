@@ -1,0 +1,38 @@
+{% extends "layouts/base_public.html" %}
+{% block title %}Optimisation — {{ workspace.nom }}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'coworking:workspace_detail' workspace.slug %}" class="btn btn-secondary mb-3">← Retour</a>
+  <h2>Optimisation de la gestion — {{ workspace.nom }}</h2>
+  <p class="text-muted">Prévisions horaires et décisions automatisées pour {{ workspace.nom }}.</p>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Créneau</th>
+        <th>Occupation prévue</th>
+        <th>Catégorie</th>
+        <th>Statut</th>
+        <th>Action</th>
+        <th>Énergie</th>
+        <th>Pricing</th>
+        <th>Maintenance</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for f in forecasts %}
+        <tr class="table-{% if f.decision.status == 'SATURATION' %}danger{% elif f.decision.status == 'SOUS_UTILISATION' %}warning{% else %}success{% endif %}">
+          <td>{{ f.hour }}</td>
+          <td>{{ f.occupancy_count_est }} / {{ workspace.capacite }} ({{ f.occupancy_rate|floatformat:2 }})</td>
+          <td>{{ f.category }}</td>
+          <td>{{ f.decision.status }}</td>
+          <td>{{ f.decision.action }}</td>
+          <td>{{ f.decision.energy }}</td>
+          <td>{{ f.decision.pricing }}</td>
+          <td>{{ f.decision.maintenance }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

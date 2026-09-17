@@ -8,6 +8,8 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <!-- EliteBuro Admin Dashboard (CSS/JS statiques) -->
 <link rel="stylesheet" href="{% static 'css/admin.css' %}">
 
@@ -17,6 +19,1129 @@
     .sidebar {
         background: #111111 !important;
     }
+  
+ /* ==========================================================
+   ELITEBURO — MODULE IA
+   PRÉVISION & OPTIMISATION INTELLIGENTE
+   ========================================================== */
+
+.ai-dashboard-section {
+    margin: 30px 0;
+    font-family: "Inter", "DM Sans", sans-serif;
+}
+
+
+/* ==========================================================
+   HEADER IA
+   ========================================================== */
+
+.ai-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 24px 28px;
+    margin-bottom: 18px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        #0D2B55 0%,
+        #163F70 100%
+    );
+
+    box-shadow: 0 8px 25px rgba(13, 43, 85, 0.14);
+}
+
+.ai-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ai-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    background: rgba(201, 160, 44, 0.16);
+
+    color: #D7B94C;
+
+    font-size: 22px;
+}
+
+.ai-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #D7B94C;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.ai-section-header h2 {
+    margin: 0;
+
+    color: #FFFFFF;
+
+    font-size: 20px;
+    font-weight: 750;
+}
+
+.ai-section-header p {
+    margin: 6px 0 0;
+
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 14px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.06);
+
+    color: #FFFFFF;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.ai-status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #35D07F;
+
+    box-shadow:
+        0 0 0 4px rgba(53, 208, 127, 0.12);
+}
+
+
+/* ==========================================================
+   KPI IA
+   ========================================================== */
+
+.ai-kpi-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.ai-kpi-card {
+    min-width: 0;
+
+    padding: 18px;
+
+    border: 1px solid #E8ECF1;
+    border-radius: 13px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0 3px 14px rgba(13, 43, 85, 0.045);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.ai-kpi-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #DDE4EB;
+
+    box-shadow: 0 8px 22px rgba(13, 43, 85, 0.08);
+}
+
+.ai-kpi-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.ai-kpi-label {
+    color: #8290A0;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.ai-kpi-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+}
+
+/* Icônes */
+
+.ai-kpi-icon.navy {
+    background: #EAF0F8;
+    color: #0D2B55;
+}
+
+.ai-kpi-icon.gold {
+    background: #FAF3E4;
+    color: #C9A02C;
+}
+
+.ai-kpi-icon.green {
+    background: #EAF6EF;
+    color: #0B6B39;
+}
+
+.ai-kpi-icon.purple {
+    background: #F0ECFA;
+    color: #7357A6;
+}
+
+
+/* Valeur */
+
+.ai-kpi-value {
+    margin-top: 13px;
+
+    color: #0D2B55;
+
+    font-size: 27px;
+    font-weight: 800;
+
+    line-height: 1.1;
+}
+
+.ai-kpi-value small {
+    color: #8995A3;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   BARRE DE PROGRESSION
+   ========================================================== */
+
+.ai-progress {
+    width: 100%;
+    height: 6px;
+
+    margin-top: 13px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #EDF1F5;
+}
+
+.ai-progress-bar {
+    height: 100%;
+
+    border-radius: inherit;
+
+    transition: width 0.5s ease;
+}
+
+.ai-progress-bar.navy {
+    background: #0D2B55;
+}
+
+.ai-progress-bar.gold {
+    background: #C9A02C;
+}
+
+.ai-progress-bar.green {
+    background: #0B6B39;
+}
+
+
+/* ==========================================================
+   FOOTER KPI
+   ========================================================== */
+
+.ai-kpi-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 9px;
+
+    color: #8995A3;
+
+    font-size: 9px;
+}
+
+.ai-kpi-footer strong {
+    color: #0D2B55;
+}
+
+
+/* ==========================================================
+   VARIATION PRÉDITE
+   ========================================================== */
+
+.ai-prediction-change {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    margin-top: 8px;
+
+    color: #0B6B39;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.ai-prediction-change span {
+    color: #8995A3;
+
+    font-weight: 500;
+}
+
+.ai-prediction-change i {
+    font-size: 8px;
+}
+
+
+/* ==========================================================
+   CAPACITÉ
+   ========================================================== */
+
+.ai-capacity-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 10px;
+
+    color: #0B6B39;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.capacity-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #35D07F;
+
+    box-shadow:
+        0 0 0 3px rgba(53, 208, 127, 0.12);
+}
+
+
+/* ==========================================================
+   CONFIANCE DU MODÈLE
+   ========================================================== */
+
+.ai-confidence {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    margin-top: 9px;
+}
+
+.confidence-stars {
+    display: flex;
+    gap: 2px;
+
+    color: #C9A02C;
+
+    font-size: 8px;
+}
+
+.ai-confidence > span {
+    color: #0B6B39;
+
+    font-size: 8px;
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   GRILLE PRINCIPALE
+   ========================================================== */
+
+.ai-main-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.7fr)
+        minmax(300px, 0.8fr);
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+}
+
+
+/* ==========================================================
+   CARTE GRAPHIQUE
+   ========================================================== */
+
+.ai-chart-card {
+    min-width: 0;
+
+    padding: 20px;
+
+    border: 1px solid #E8ECF1;
+    border-radius: 14px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0 3px 14px rgba(13, 43, 85, 0.045);
+}
+
+.ai-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.ai-card-eyebrow {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #C9A02C;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.ai-card-header h3,
+.ai-recommendations-header h3 {
+    margin: 0;
+
+    color: #0D2B55;
+
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.ai-card-header p,
+.ai-recommendations-header p {
+    margin: 4px 0 0;
+
+    color: #85919E;
+
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.ai-horizon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #F8F3E4;
+
+    color: #987519;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   ZONE DU GRAPHIQUE
+   ========================================================== */
+
+.ai-chart-container {
+    position: relative;
+
+    width: 100%;
+    height: 290px;
+
+    margin-top: 15px;
+}
+
+.ai-chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* ==========================================================
+   LÉGENDE
+   ========================================================== */
+
+.ai-chart-legend {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    margin-top: 7px;
+
+    color: #84909D;
+
+    font-size: 9px;
+}
+
+.legend-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 4px;
+
+    border-radius: 50%;
+}
+
+.legend-dot.actual {
+    background: #0D2B55;
+}
+
+.legend-dot.prediction {
+    background: #C9A02C;
+}
+
+
+/* ==========================================================
+   ÉTAT VIDE
+   ========================================================== */
+
+.ai-empty-state {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 10px;
+
+    border-radius: 50%;
+
+    background: #F3F6F9;
+
+    color: #8B98A6;
+
+    font-size: 18px;
+}
+
+.ai-empty-state h4 {
+    margin: 0;
+
+    color: #0D2B55;
+
+    font-size: 11px;
+}
+
+.ai-empty-state p {
+    max-width: 250px;
+
+    margin: 6px 0 0;
+
+    color: #8A96A3;
+
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================
+   CARTE ANALYSE IA
+   ========================================================== */
+
+.ai-analysis-card {
+    min-width: 0;
+
+    padding: 20px;
+
+    border: 1px solid #E8ECF1;
+    border-radius: 14px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0 3px 14px rgba(13, 43, 85, 0.045);
+}
+
+.ai-analysis-header {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.analysis-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #F0F4F8;
+
+    color: #0D2B55;
+
+    font-size: 13px;
+}
+
+.ai-analysis-header span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #8995A3;
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.ai-analysis-header h3 {
+    margin: 0;
+
+    color: #0D2B55;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================================
+   SITUATION DÉTECTÉE
+   ========================================================== */
+
+.ai-analysis-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    margin-top: 20px;
+    padding: 14px;
+
+    border-radius: 11px;
+
+    background: #F7FAFC;
+}
+
+.analysis-status-icon {
+    width: 31px;
+    height: 31px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #EAF6EF;
+
+    color: #0B6B39;
+
+    font-size: 12px;
+}
+
+.ai-analysis-status strong {
+    display: block;
+
+    color: #0D2B55;
+
+    font-size: 11px;
+}
+
+.ai-analysis-status p {
+    margin: 4px 0 0;
+
+    color: #7D8997;
+
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================
+   DÉTAILS ANALYSE
+   ========================================================== */
+
+.ai-analysis-details {
+    margin-top: 18px;
+
+    border-top: 1px solid #EDF0F3;
+    border-bottom: 1px solid #EDF0F3;
+}
+
+.analysis-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #F1F3F5;
+}
+
+.analysis-row:last-child {
+    border-bottom: none;
+}
+
+.analysis-row span {
+    color: #8B97A4;
+
+    font-size: 9px;
+}
+
+.analysis-row strong {
+    color: #0D2B55;
+
+    font-size: 10px;
+}
+
+.gold-text {
+    color: #C9A02C !important;
+}
+
+.danger-text {
+    color: #C0392B !important;
+}
+
+
+/* ==========================================================
+   INFORMATIONS DU MODÈLE
+   ========================================================== */
+
+.ai-model-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    margin-top: 14px;
+}
+
+.ai-model-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ai-model-info span {
+    color: #8A96A3;
+
+    font-size: 7px;
+    font-weight: 700;
+}
+
+.ai-model-info strong {
+    color: #0D2B55;
+
+    font-size: 9px;
+}
+
+
+/* ==========================================================
+   RECOMMANDATIONS IA
+   ========================================================== */
+
+.ai-recommendations-card {
+    padding: 20px;
+
+    border: 1px solid #E8ECF1;
+    border-radius: 14px;
+
+    background: #FFFFFF;
+
+    box-shadow: 0 3px 14px rgba(13, 43, 85, 0.045);
+}
+
+.ai-recommendations-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.recommendation-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #F8F3E4;
+
+    color: #987519;
+
+    font-size: 8px;
+    font-weight: 800;
+}
+
+
+/* ==========================================================
+   GRILLE RECOMMANDATIONS
+   ========================================================== */
+
+.recommendations-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 13px;
+}
+
+.recommendation-card {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    min-width: 0;
+
+    padding: 16px;
+
+    border: 1px solid #EDF0F3;
+    border-radius: 11px;
+
+    background: #FAFBFC;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #DDE4EB;
+
+    box-shadow: 0 6px 16px rgba(13, 43, 85, 0.05);
+}
+
+
+/* ==========================================================
+   ICÔNES RECOMMANDATIONS
+   ========================================================== */
+
+.recommendation-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #EAF0F8;
+
+    color: #0D2B55;
+
+    font-size: 13px;
+}
+
+.recommendation-card.hvac .recommendation-icon {
+    background: #EAF6EF;
+    color: #0B6B39;
+}
+
+.recommendation-card.alert .recommendation-icon {
+    background: #FAF0ED;
+    color: #C0392B;
+}
+
+
+/* ==========================================================
+   CONTENU RECOMMANDATION
+   ========================================================== */
+
+.recommendation-content {
+    min-width: 0;
+
+    flex: 1;
+}
+
+.recommendation-content > span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #82909E;
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+}
+
+.recommendation-content h4 {
+    margin: 0;
+
+    color: #0D2B55;
+
+    font-size: 10px;
+    font-weight: 750;
+
+    line-height: 1.4;
+}
+
+.recommendation-content p {
+    margin: 6px 0 0;
+
+    color: #7E8A97;
+
+    font-size: 8px;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================
+   FLÈCHE
+   ========================================================== */
+
+.recommendation-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #F0F3F6;
+
+    color: #8793A0;
+
+    font-size: 9px;
+}
+
+
+/* ==========================================================
+   STATUT RECOMMANDATION
+   ========================================================== */
+
+.recommendation-status {
+    align-self: flex-start;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    background: #EAF6EF;
+
+    color: #0B6B39;
+
+    font-size: 7px;
+    font-weight: 800;
+}
+
+
+/* ==========================================================
+   RESPONSIVE — TABLETTE
+   ========================================================== */
+
+@media (max-width: 1100px) {
+
+    .ai-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ai-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ==========================================================
+   RESPONSIVE — MOBILE
+   ========================================================== */
+
+@media (max-width: 700px) {
+
+    .ai-dashboard-section {
+        margin: 20px 0;
+    }
+
+    .ai-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding: 20px;
+    }
+
+    .ai-title-wrapper {
+        align-items: flex-start;
+    }
+
+    .ai-section-header h2 {
+        font-size: 17px;
+    }
+
+    .ai-section-header p {
+        font-size: 10px;
+    }
+
+    .ai-status {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .ai-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-chart-card,
+    .ai-analysis-card,
+    .ai-recommendations-card {
+        padding: 16px;
+    }
+
+    .ai-card-header {
+        flex-direction: column;
+    }
+
+    .ai-horizon {
+        align-self: flex-start;
+    }
+
+    .ai-chart-container {
+        height: 230px;
+    }
+
+    .ai-recommendations-header {
+        flex-direction: column;
+    }
+
+    .recommendation-badge {
+        align-self: flex-start;
+    }
+
+    .recommendation-card {
+        padding: 14px;
+    }
+}
+
+
+/* ==========================================================
+   PETITS ÉCRANS
+   ========================================================== */
+
+@media (max-width: 450px) {
+
+    .ai-title-wrapper {
+        gap: 11px;
+    }
+
+    .ai-icon {
+        width: 44px;
+        height: 44px;
+
+        font-size: 18px;
+    }
+
+    .ai-kpi-value {
+        font-size: 24px;
+    }
+
+    .ai-chart-container {
+        height: 210px;
+    }
+
+    .ai-chart-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .ai-model-info {
+        flex-direction: column;
+    }
+}
 
 </style>
 
@@ -213,6 +1338,317 @@
                     </div>
                 </div>
 
+                <!-- ==========================================================
+                    MODULE INTELLIGENCE ARTIFICIELLE
+                    ========================================================== -->
+                <section class="ai-dashboard-section">
+
+                    <!-- En-tête IA -->
+                    <div class="ai-section-header">
+                        <div class="ai-title-wrapper">
+                            <div class="ai-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <span class="ai-label">INTELLIGENCE ARTIFICIELLE</span>
+                                <h2>Prévision &amp; Optimisation intelligente</h2>
+                                <p>Analyse prédictive de l'occupation et recommandations automatiques pour optimiser les espaces de coworking.</p>
+                            </div>
+                        </div>
+                        <div class="ai-status">
+                            <span class="ai-status-dot"></span>
+                            Modèle actif
+                        </div>
+                    </div>
+
+                    <!-- KPI IA -->
+                    <div class="ai-kpi-grid">
+                        <div class="ai-kpi-card">
+                            <div class="ai-kpi-top">
+                                <span class="ai-kpi-label">Occupation actuelle</span>
+                                <div class="ai-kpi-icon navy"><i class="fas fa-users"></i></div>
+                            </div>
+                            <div class="ai-kpi-value">{{ current_occupancy|default:0 }}%</div>
+                            <div class="ai-progress">
+                                <div class="ai-progress-bar navy" style="width: {{ current_occupancy|default:0 }}%;"></div>
+                            </div>
+                            <div class="ai-kpi-footer">
+                                <span>{{ current_occupants|default:0 }} utilisateurs</span>
+                                <span>/ {{ total_capacity|default:0 }}</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-kpi-card">
+                            <div class="ai-kpi-top">
+                                <span class="ai-kpi-label">Prévision +15 min</span>
+                                <div class="ai-kpi-icon gold"><i class="fas fa-chart-line"></i></div>
+                            </div>
+                            <div class="ai-kpi-value">{{ predicted_occupancy|default:0 }}%</div>
+                            <div class="ai-prediction-change">
+                                {% if occupancy_trend == "hausse" %}
+                                <i class="fas fa-arrow-up"></i>
+                                {% elif occupancy_trend == "baisse" %}
+                                <i class="fas fa-arrow-down"></i>
+                                {% else %}
+                                <i class="fas fa-minus"></i>
+                                {% endif %}
+                                {{ variation_rate|default:"+0%" }} <span>prévu</span>
+                            </div>
+                            <div class="ai-kpi-footer">
+                                <span>Horizon</span>
+                                <strong>T + 15 min</strong>
+                            </div>
+                        </div>
+
+                        <div class="ai-kpi-card">
+                            <div class="ai-kpi-top">
+                                <span class="ai-kpi-label">Capacité utilisée</span>
+                                <div class="ai-kpi-icon green"><i class="fas fa-building"></i></div>
+                            </div>
+                            <div class="ai-kpi-value">
+                                {{ current_occupants|default:0 }} <small>/ {{ total_capacity|default:0 }}</small>
+                            </div>
+                            <div class="ai-capacity-status">
+                                <span class="capacity-dot"></span>
+                                {{ available_places|default:0 }} places disponibles
+                            </div>
+                        </div>
+
+                        <div class="ai-kpi-card">
+                            <div class="ai-kpi-top">
+                                <span class="ai-kpi-label">Confiance du modèle</span>
+                                <div class="ai-kpi-icon purple"><i class="fas fa-robot"></i></div>
+                            </div>
+                            <div class="ai-kpi-value">{{ model_confidence|default:0 }}%</div>
+                            <div class="ai-confidence">
+                                <div class="confidence-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Fiabilité élevée</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Graphique + Analyse -->
+                    <div class="ai-main-grid">
+                        <div class="ai-chart-card">
+                            <div class="ai-card-header">
+                                <div>
+                                    <span class="ai-card-eyebrow">ANALYSE PRÉDICTIVE</span>
+                                    <h3>Évolution de l'occupation</h3>
+                                    <p>Occupation réelle et prévisionnelle</p>
+                                </div>
+                                <div class="ai-horizon"><i class="fas fa-clock"></i> +15 min</div>
+                            </div>
+                            <div class="ai-chart-container">
+                                {% if latest_prediction %}
+                                    <canvas id="occupancyPredictionChart"></canvas>
+                                {% else %}
+                                    <div class="ai-empty-state">
+                                        <div class="empty-icon"><i class="fas fa-chart-area"></i></div>
+                                        <h4>Données prédictives indisponibles</h4>
+                                        <p>Le moteur IA n'a pas encore généré de prédiction pour cette période.</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="ai-chart-legend">
+                                <span><i class="legend-dot actual"></i> Occupation réelle</span>
+                                <span><i class="legend-dot prediction"></i> Prévision IA</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-analysis-card">
+                            <div class="ai-analysis-header">
+                                <div class="analysis-icon"><i class="fas fa-microchip"></i></div>
+                                <div>
+                                    <span>ANALYSE DU MODÈLE</span>
+                                    <h3>Situation détectée</h3>
+                                </div>
+                            </div>
+                            <div class="ai-analysis-status">
+                                {% if occupancy_trend == "hausse" %}
+                                <div class="analysis-status-icon"><i class="fas fa-arrow-trend-up"></i></div>
+                                <div>
+                                    <strong>Hausse d'occupation prévue</strong>
+                                    <p>Le modèle prévoit une augmentation de l'occupation dans les prochaines minutes.</p>
+                                </div>
+                                {% elif occupancy_trend == "baisse" %}
+                                <div class="analysis-status-icon"><i class="fas fa-arrow-trend-down"></i></div>
+                                <div>
+                                    <strong>Baisse d'occupation prévue</strong>
+                                    <p>Le modèle prévoit une diminution de l'occupation dans les prochaines minutes.</p>
+                                </div>
+                                {% else %}
+                                <div class="analysis-status-icon"><i class="fas fa-minus"></i></div>
+                                <div>
+                                    <strong>Occupation stable prévue</strong>
+                                    <p>Le modèle prévoit une occupation stable dans les prochaines minutes.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="ai-analysis-details">
+                                <div class="analysis-row">
+                                    <span>Niveau actuel</span>
+                                    <strong>{{ current_occupancy|default:0 }}%</strong>
+                                </div>
+                                <div class="analysis-row">
+                                    <span>Prévision</span>
+                                    <strong class="gold-text">{{ predicted_occupancy|default:0 }}%</strong>
+                                </div>
+                                <div class="analysis-row">
+                                    <span>Variation</span>
+                                    <strong class="{% if occupancy_trend == 'hausse' %}danger-text{% elif occupancy_trend == 'baisse' %}success-text{% endif %}">{{ variation_rate|default:"+0%" }}</strong>
+                                </div>
+                                <div class="analysis-row">
+                                    <span>Horizon</span>
+                                    <strong>15 minutes</strong>
+                                </div>
+                            </div>
+                            <div class="ai-model-info">
+                                <div>
+                                    <span>Modèle</span>
+                                    <strong>{{ model_name|default:"Random Forest" }}</strong>
+                                </div>
+                                <div>
+                                    <span>Dernière inférence</span>
+                                    <strong>
+                                        {% if latest_prediction %}
+                                            {{ latest_prediction.created_at|date:"H:i" }}
+                                        {% else %}
+                                            --:--
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommandations IA -->
+                    <div class="ai-recommendations-card">
+                        <div class="ai-recommendations-header">
+                            <div>
+                                <span class="ai-card-eyebrow">DÉCISIONS INTELLIGENTES</span>
+                                <h3>Recommandations générées par l'IA</h3>
+                                <p>Actions proposées automatiquement à partir des prévisions d'occupation.</p>
+                            </div>
+                            <div class="recommendation-badge"><i class="fas fa-wand-magic-sparkles"></i> IA</div>
+                        </div>
+                        <div class="recommendations-grid">
+                            <div class="recommendation-card allocation">
+                                <div class="recommendation-icon"><i class="fas fa-chair"></i></div>
+                                <div class="recommendation-content">
+                                    <span>ALLOCATION DES ESPACES</span>
+                                    <h4>{{ recommendation.allocation_action|default:"Préparer des postes supplémentaires" }}</h4>
+                                    <p>L'IA recommande d'anticiper la hausse d'occupation afin d'éviter la saturation des espaces.</p>
+                                </div>
+                                <div class="recommendation-arrow"><i class="fas fa-arrow-right"></i></div>
+                            </div>
+                            <div class="recommendation-card hvac">
+                                <div class="recommendation-icon"><i class="fas fa-temperature-half"></i></div>
+                                <div class="recommendation-content">
+                                    <span>OPTIMISATION HVAC</span>
+                                    <h4>{{ recommendation.hvac_status|default:"Adapter la ventilation à la demande" }}</h4>
+                                    <p>Ajuster automatiquement la régulation HVAC en fonction de l'occupation prévue.</p>
+                                </div>
+                                <div class="recommendation-arrow"><i class="fas fa-arrow-right"></i></div>
+                            </div>
+                            <div class="recommendation-card alert">
+                                <div class="recommendation-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                                <div class="recommendation-content">
+                                    <span>NIVEAU D'ALERTE</span>
+                                    <h4>{{ recommendation.alert_level|default:"Situation normale" }}</h4>
+                                    <p>Surveillance automatique de la capacité et détection des risques de saturation.</p>
+                                </div>
+                                <div class="recommendation-status">{{ recommendation.zone_status|default:"Nominal" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Script d'initialisation de Chart.js -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const canvas = document.getElementById("occupancyPredictionChart");
+                        if (!canvas) return;
+                        const labels = JSON.parse('{{ chart_labels_json|escapejs }}');
+                        const dataValues = JSON.parse('{{ chart_values_json|escapejs }}');
+                        const dataRates = JSON.parse('{{ chart_rates_json|escapejs }}');
+                        new Chart(canvas, {
+                            type: "line",
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: "Occupation prédite",
+                                        data: dataValues,
+                                        borderColor: "#0D2B55",
+                                        backgroundColor: "rgba(13, 43, 85, 0.08)",
+                                        borderWidth: 3,
+                                        pointRadius: 3,
+                                        pointHoverRadius: 6,
+                                        fill: true,
+                                        tension: 0.4,
+                                        yAxisID: "occupants"
+                                    },
+                                    {
+                                        label: "Taux d'occupation",
+                                        data: dataRates,
+                                        borderColor: "#C9A02C",
+                                        backgroundColor: "rgba(201, 160, 44, 0.05)",
+                                        borderWidth: 2,
+                                        borderDash: [6, 5],
+                                        pointRadius: 2,
+                                        fill: false,
+                                        tension: 0.4,
+                                        yAxisID: "rate"
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                interaction: { mode: "index", intersect: false },
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: {
+                                        backgroundColor: "#0D2B55",
+                                        titleColor: "#ffffff",
+                                        bodyColor: "#ffffff",
+                                        padding: 12,
+                                        cornerRadius: 8
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        grid: { display: false },
+                                        ticks: { color: "#718096", font: { size: 11 } }
+                                    },
+                                    occupants: {
+                                        type: "linear",
+                                        position: "left",
+                                        beginAtZero: true,
+                                        title: { display: true, text: "Utilisateurs" },
+                                        grid: { color: "rgba(13,43,85,0.06)" }
+                                    },
+                                    rate: {
+                                        type: "linear",
+                                        position: "right",
+                                        min: 0,
+                                        max: 100,
+                                        title: { display: true, text: "Occupation (%)" },
+                                        grid: { drawOnChartArea: false }
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+
                 <!-- Charts Row -->
                 <div class="charts-grid">
                     <div class="chart-card">
@@ -319,36 +1755,7 @@
                 </div>
             </section>
 
-            <!-- Derniers messages de contact -->
-            <section class="activity-section">
-                <div class="section-header">
-                    <h3>Derniers messages de contact</h3>
-                    <a href="{% url 'dashboard_admin:contact_messages' %}" class="btn-link">Voir tout →</a>
-                </div>
-                <div class="activity-list">
-                    {% for msg in contact_messages %}
-                        <div class="activity-item {% if not msg.lu %}unread{% endif %}">
-                            <div class="activity-icon">✉️</div>
-                            <div class="activity-content">
-                                <p class="activity-title">
-                                    <strong>{{ msg.nom }}</strong> — {{ msg.sujet|truncatechars:40 }}
-                                </p>
-                                <p class="activity-desc">{{ msg.message|truncatechars:80 }}</p>
-                                <p class="activity-time">{{ msg.created_at|date:"d/m/Y H:i" }}</p>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <div class="activity-item">
-                            <div class="activity-icon">📭</div>
-                            <div class="activity-content">
-                                <p class="activity-title">Aucun message</p>
-                                <p class="activity-desc">—</p>
-                                <p class="activity-time">—</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+            
         </div>
     </div>
 </div>

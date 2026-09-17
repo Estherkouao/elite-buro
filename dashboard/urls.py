@@ -191,6 +191,7 @@ from formation.views import DevisFormationDetailView
 app_name = "dashboard_admin"
 
 urlpatterns = [
+    
     path("member-dashboard/", MemberDashboardView.as_view(), name="member_dashboard"),
     path("member-invoices/", MemberPaymentsView.as_view(), name="member_invoices"),
 

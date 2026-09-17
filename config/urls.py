@@ -29,8 +29,6 @@ urlpatterns = [
 
     path('blog/', include('blog.urls')),
     path('coworking/', include('coworking.urls')),
-    # Les pages institutionnelles (core/) sont déjà incluses à la racine
-    # via path('', include('core.urls')).
     path('dashboard/', include('dashboard.urls')),
     path('dashboard/trainer/', include((dashboard_trainer_urls, 'dashboard'), namespace='dashboard_trainer')),
     path('domiciliation/', include('domiciliation.urls')),
@@ -39,12 +37,12 @@ urlpatterns = [
     path('paiement/', include('paiement.urls')),
     path('reservation/', include('reservation.urls')),
     path('reclamation/', include('reclamation.urls')),
-    # URLs membres pour les réclamations (espace membre)
     path('reclamation/membre/', include((member_urlpatterns, 'reclamation'), namespace='reclamation')),
     path('accounts/', include('allauth.urls')),
     path('chatbot/', include('chatbot.urls')),
     path('conciergerie/', include('conciergerie.urls')),
-    path('prediction/', include('prediction.urls')),
+    path('optimization/', include('optimization.urls')),
+    path("api/forecasting/", include('forecasting.urls')),
 ]
 
 if settings.DEBUG:

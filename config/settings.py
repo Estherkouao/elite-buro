@@ -315,6 +315,8 @@ INSTALLED_APPS = [
     'chatbot',
     'conciergerie',
     'prediction',
+    'optimization',
+    'forecasting',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

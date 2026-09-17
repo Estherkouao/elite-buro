@@ -48,7 +48,7 @@ class Ressource(models.Model):
         max_length=500
     )
 
-    reponse = models.TextField()
+    question = models.TextField(blank=True, null=True)
 
     ordre = models.PositiveIntegerField(
         default=0
