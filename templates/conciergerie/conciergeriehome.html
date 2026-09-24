@@ -9,18 +9,18 @@
        RESET & VARIABLES — Charte Elite Bureau
        ═══════════════════════════════════════════ */
     :root {
-      --navy: #FF8000; --navy-light: #FF8000; --navy-dark: #FF8000;
-      --gold: #808080; --gold-light: #808080; --gold-pale: rgba(185,150,70,0.10);
-      --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C;
-      --text-muted: #5C5C5C; --text-light: #8A8A8A;
-      --white: #FFFFFF; --border: #D8D0C2; --border-light: rgba(0,0,0,0.06);
+      --navy: #111111; --navy-light: #232323; --navy-dark: #000000;
+      --gold: #FF7A00; --gold-light: #FF9A3D; --gold-pale: rgba(255,122,0,0.10);
+      --ivory: #F7F7F5; --cream: #EFEFEC; --dark: #171717;
+      --text-muted: #63666B; --text-light: #94969C;
+      --white: #FFFFFF; --border: #D9D9D6; --border-light: rgba(0,0,0,0.07);
       --success: #2E7D32;
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body: 'Source Sans 3', system-ui, sans-serif;
-      --radius: 8px; --radius-lg: 12px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --radius: 10px; --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+      --shadow-lg: 0 20px 48px rgba(0,0,0,0.18);
     }
     body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dark); background: var(--ivory); -webkit-font-smoothing: antialiased; }
     a { text-decoration: none; color: var(--gold); font-weight: 500; }
@@ -29,87 +29,48 @@
     /* ═══════════════════════════════════════════
        HERO
        ═══════════════════════════════════════════ */
-    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white); padding: 60px 40px; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 260px; height: 260px; border-radius: 50%; background: rgba(185,150,70,0.10); }
-    .hero::after { content: ''; position: absolute; bottom: -70px; left: -30px; width: 180px; height: 180px; border-radius: 50%; background: rgba(185,150,70,0.06); }
-    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(185,150,70,0.15); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--gold); margin-bottom: 16px; position: relative; z-index: 1; letter-spacing: 0.04em; }
-    .hero h1 { font-family: var(--font-display); font-size: 36px; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; }
-    .hero p { font-size: 16px; color: rgba(255,255,255,0.7); position: relative; z-index: 1; max-width: 600px; margin: 0 auto; line-height: 1.7; }
-    .hero-stats { display: flex; align-items: center; justify-content: center; gap: 32px; margin-top: 28px; position: relative; z-index: 1; }
+    .hero { background: linear-gradient(135deg, #F2EBDD 0%, #EDE3D1 100%); color: var(--dark); padding: 90px 40px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: rgba(255,122,0,0.08); }
+    .hero::after { content: ''; position: absolute; bottom: -90px; left: -40px; width: 220px; height: 220px; border-radius: 50%; background: rgba(255,122,0,0.05); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px; background: rgba(255,122,0,0.12); border: 1px solid rgba(255,122,0,0.25); border-radius: 24px; font-size: 12px; font-weight: 600; color: #C06400; margin-bottom: 20px; position: relative; z-index: 1; letter-spacing: 0.08em; }
+    .hero h1 { font-family: var(--font-display); font-size: 44px; font-weight: 600; margin-bottom: 16px; position: relative; z-index: 1; letter-spacing: -0.01em; color: var(--navy); }
+    .hero p { font-size: 17px; color: var(--text-muted); position: relative; z-index: 1; max-width: 620px; margin: 0 auto; line-height: 1.75; }
+    .hero-stats { display: flex; align-items: center; justify-content: center; gap: 48px; margin-top: 40px; position: relative; z-index: 1; }
     .hero-stat { text-align: center; }
-    .hero-stat .num { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--gold); }
-    .hero-stat .label { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; letter-spacing: 0.04em; }
+    .hero-stat .num { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: #E07000; }
+    .hero-stat .label { font-size: 12px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* ═══════════════════════════════════════════
        PAGE CONTENT
        ═══════════════════════════════════════════ */
-    .page-content { padding: 50px 0 80px; }
-    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
-    .section-title { font-family: var(--font-display); font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 12px; }
-    .section-desc { font-size: 15px; color: var(--text-muted); max-width: 640px; line-height: 1.7; }
+    .page-content { padding: 60px 0 90px; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .section-title { font-family: var(--font-display); font-size: 30px; font-weight: 600; color: var(--navy); margin-bottom: 14px; letter-spacing: -0.01em; }
+    .section-desc { font-size: 15px; color: var(--text-muted); max-width: 640px; line-height: 1.75; }
 
     /* ═══════════════════════════════════════════
        SERVICES GRID
        ═══════════════════════════════════════════ */
-    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
-    .service-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; transition: all 0.3s ease; position: relative; }
-    .service-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
-    .service-card-accent { height: 4px; background: var(--gold); }
-    .service-card-body { padding: 28px; }
-    .service-card-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--gold-pale); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-    .service-card-icon svg { width: 24px; height: 24px; color: var(--gold); }
-    .service-card-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
-    .service-card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 40px; }
+    .service-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; transition: all 0.35s cubic-bezier(.2,.8,.2,1); position: relative; }
+    .service-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-6px); }
+    .service-card-accent { height: 4px; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%); }
+    .service-card-body { padding: 32px 28px; }
+    .service-card-icon { width: 52px; height: 52px; border-radius: 12px; background: var(--gold-pale); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 22px; }
+    .service-card-title { font-family: var(--font-display); font-size: 19px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+    .service-card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 18px; }
     .service-card-features { list-style: none; }
-    .service-card-features li { font-size: 13px; color: var(--dark); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .service-card-features li { font-size: 13px; color: var(--dark); padding: 6px 0; display: flex; align-items: center; gap: 9px; }
     .service-card-features li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
-    .service-card-price { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-light); display: flex; align-items: baseline; gap: 4px; }
-    .service-card-price .amount { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--navy); }
-    .service-card-price .unit { font-size: 13px; color: var(--text-light); }
 
     /* ═══════════════════════════════════════════
        FEATURES BANNER
        ═══════════════════════════════════════════ */
-    .features-banner { background: var(--navy); border-radius: var(--radius-lg); padding: 40px 48px; margin-top: 48px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .features-banner { background: #F2EBDD; border-radius: var(--radius-lg); padding: 44px 48px; margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
     .feature-item { text-align: center; }
-    .feature-item svg { width: 28px; height: 28px; color: var(--gold); margin-bottom: 10px; }
-    .feature-item h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
-    .feature-item p { font-size: 12px; color: rgba(255,255,255,0.5); }
-
-    /* ═══════════════════════════════════════════
-       PLANS / FORMULES
-       ═══════════════════════════════════════════ */
-    .plans-section { margin-top: 56px; }
-    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
-    .plan-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; transition: all 0.3s ease; position: relative; }
-    .plan-card:hover { box-shadow: var(--shadow-md); }
-    .plan-card.featured { border-color: var(--gold); box-shadow: var(--shadow-md); }
-    .plan-card.featured::before { content: 'Populaire'; position: absolute; top: 16px; right: -28px; background: var(--gold); color: var(--white); font-size: 11px; font-weight: 600; padding: 4px 32px; transform: rotate(45deg); letter-spacing: 0.04em; z-index: 1; }
-    .plan-header { padding: 28px 28px 0; }
-    .plan-name { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-    .plan-subtitle { font-size: 13px; color: var(--text-muted); }
-    .plan-price { padding: 16px 28px; }
-    .plan-amount { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--navy); }
-    .plan-period { font-size: 13px; color: var(--text-light); }
-    .plan-features { padding: 0 28px 28px; list-style: none; }
-    .plan-features li { font-size: 13px; color: var(--dark); padding: 8px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-light); }
-    .plan-features li:last-child { border-bottom: none; }
-    .plan-features li svg { width: 16px; height: 16px; color: var(--success); flex-shrink: 0; }
-    .plan-features li.disabled { color: var(--text-light); }
-    .plan-features li.disabled svg { color: var(--border); }
-    .plan-cta { padding: 0 28px 28px; }
-    .plan-cta .btn { width: 100%; justify-content: center; }
-
-    /* ═══════════════════════════════════════════
-       PROCESS SECTION
-       ═══════════════════════════════════════════ */
-    .process-section { margin-top: 56px; }
-    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 36px; }
-    .process-step { text-align: center; position: relative; }
-    .process-step:not(:last-child)::after { content: ''; position: absolute; top: 24px; right: -12px; width: 24px; height: 2px; background: var(--border); }
-    .process-step-num { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gold); margin: 0 auto 14px; background: var(--white); }
-    .process-step-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-    .process-step-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .feature-item svg { width: 28px; height: 28px; color: #C06400; margin-bottom: 12px; }
+    .feature-item h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; letter-spacing: 0.01em; }
+    .feature-item p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
 
     /* ═══════════════════════════════════════════
        TESTIMONIAL
@@ -127,30 +88,32 @@
     /* ═══════════════════════════════════════════
        CTA SECTION
        ═══════════════════════════════════════════ */
-    .cta-section { margin-top: 56px; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); border-radius: var(--radius-lg); padding: 48px; text-align: center; position: relative; overflow: hidden; }
-    .cta-section::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(185,150,70,0.08); }
-    .cta-section h2 { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--white); margin-bottom: 10px; position: relative; z-index: 1; }
-    .cta-section p { font-size: 14px; color: rgba(255,255,255,0.65); margin-bottom: 28px; position: relative; z-index: 1; }
+    .cta-section { margin-top: 56px; background: #F2EBDD; border-radius: var(--radius-lg); padding: 56px 48px; text-align: center; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; top: -40px; right: -40px; width: 220px; height: 220px; border-radius: 50%; background: rgba(255,122,0,0.08); }
+    .cta-section h2 { font-family: var(--font-display); font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 12px; position: relative; z-index: 1; }
+    .cta-section p { font-size: 14px; color: var(--text-muted); margin-bottom: 30px; position: relative; z-index: 1; }
     .cta-buttons { display: flex; align-items: center; justify-content: center; gap: 16px; position: relative; z-index: 1; }
 
     /* ═══════════════════════════════════════════
        BUTTONS
        ═══════════════════════════════════════════ */
-    .btn { padding: 12px 28px; border-radius: 6px; font-family: var(--font-body); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; transition: all 0.2s; border: none; display: inline-flex; align-items: center; gap: 8px; }
+    .btn { padding: 13px 30px; border-radius: 8px; font-family: var(--font-body); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; transition: all 0.2s; border: none; display: inline-flex; align-items: center; gap: 8px; }
     .btn:active { transform: scale(0.97); }
     .btn-primary { background: var(--navy); color: var(--white); }
     .btn-primary:hover { background: var(--navy-light); }
-    .btn-gold { background: var(--gold); color: var(--white); }
-    .btn-gold:hover { background: var(--gold-light); }
+    .btn-gold { background: var(--gold); color: var(--white); box-shadow: 0 6px 16px rgba(255,122,0,0.35); }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(255,122,0,0.4); }
     .btn-outline-light { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
     .btn-outline-light:hover { border-color: var(--white); }
-    .btn-lg { padding: 14px 36px; font-size: 15px; }
+    .btn-outline-dark { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .btn-outline-dark:hover { background: var(--navy); color: var(--white); }
+    .btn-lg { padding: 15px 38px; font-size: 15px; }
     .btn svg { width: 16px; height: 16px; }
 
     /* ═══════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════ */
-    .footer { background: #111111; padding: 48px 0 32px; }
+    .footer { background: #0B0F14; padding: 48px 0 32px; }
     .footer-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; }
     .footer-brand { display: flex; align-items: center; gap: 12px; }
     .footer-brand .footer-mark { width: 36px; height: 36px; background: var(--navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-display); font-weight: 700; font-size: 16px; }
@@ -166,29 +129,26 @@
        RESPONSIVE
        ═══════════════════════════════════════════ */
     @media (max-width: 1024px) {
-      .services-grid, .plans-grid { grid-template-columns: 1fr 1fr; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
       .features-banner { grid-template-columns: 1fr 1fr; }
-      .process-steps { grid-template-columns: 1fr 1fr; }
-      .process-step:not(:last-child)::after { display: none; }
     }
     @media (max-width: 768px) {
       .header { padding: 0 20px; }
       .nav { display: none; }
       .nav-toggle { display: block; }
-      .hero { padding: 40px 20px; }
-      .hero h1 { font-size: 26px; }
-      .hero-stats { flex-wrap: wrap; gap: 20px; }
-      .page-content { padding: 32px 0 60px; }
-      .services-grid, .plans-grid, .testimonial-grid { grid-template-columns: 1fr; }
+      .hero { padding: 48px 20px; }
+      .hero h1 { font-size: 28px; }
+      .hero-stats { flex-wrap: wrap; gap: 24px; }
+      .page-content { padding: 36px 0 60px; }
+      .services-grid, .testimonial-grid { grid-template-columns: 1fr; }
       .features-banner { grid-template-columns: 1fr 1fr; padding: 28px; }
-      .process-steps { grid-template-columns: 1fr; }
-      .cta-section { padding: 32px 20px; }
+      .cta-section { padding: 36px 20px; }
       .cta-buttons { flex-direction: column; }
     }
     /* Centrer le contenu de cette page uniquement */
     .page-content .container{
         width: 100%;
-        max-width: 1400px;   /* ajuste : 1200px, 1280px, 1400px... */
+        max-width: 1300px;
         margin: 0 auto;
         padding-left: 20px;
         padding-right: 20px;
@@ -205,17 +165,14 @@
       CENTRAGE CONTENU CONCIERGERIE
       ═══════════════════════════════════════════ */
 
-    /* Bouton de demande en haut */
     .page-content > .btn {
         display: flex;
         width: fit-content;
-        margin: 0 auto 40px auto;
+        margin: 0 auto 48px auto;
         justify-content: center;
         align-items: center;
     }
 
-
-    /* Toutes les sections principales */
     .page-content .reveal,
     .page-content .section-label,
     .page-content .section-title,
@@ -225,58 +182,40 @@
         margin-right: auto;
     }
 
-
-    /* Limite la largeur des textes */
     .page-content .section-desc {
         max-width: 700px;
     }
 
-
-    /* Grilles centrées */
     .services-grid,
-    .plans-grid,
-    .process-steps,
     .testimonial-grid {
         width: 100%;
         justify-content: center;
     }
 
-
-    /* Cartes bien alignées */
     .service-card,
-    .plan-card,
     .testimonial-card {
         margin-left: auto;
         margin-right: auto;
     }
 
-
-    /* Section concept */
     .page-content section.reveal {
         text-align: center;
     }
 
-
-    /* Features banner */
     .features-banner {
         align-items: center;
         justify-content: center;
         text-align: center;
     }
 
-
-    /* CTA */
     .cta-section {
         text-align: center;
     }
-
 
     .cta-buttons {
         justify-content: center;
     }
 
-
-    /* Responsive mobile */
     @media(max-width:768px){
 
         .page-content > .btn {
@@ -298,17 +237,13 @@
       ═══════════════════════════════════════ */
 
     .hero {
-        margin-top: 90px; /* hauteur du header */
+        margin-top: 90px;
     }
 
-
-    /* Si le header est fixe */
     body {
         padding-top: 0;
     }
 
-
-    /* Adaptation mobile */
     @media(max-width:768px){
 
         .hero {
@@ -368,7 +303,7 @@
     </div>
 
 </section>
-  
+
 
   <!-- ═══════ CONTENT ═══════ -->
   <div class="page-content">
@@ -380,7 +315,7 @@
                     <line x1="8" y1="2" x2="8" y2="6"/>
                     <line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
-                faire la demande de conciegerie
+                Faire la demande de conciergerie
             </a>
             <section class="reveal" style="margin-top:60px">
 
@@ -566,175 +501,8 @@
 
 
               </div>
-      
 
-      
-      <!-- Features banner -->
-    
-
-      <!-- Formules / Plans -->
-      <div class="plans-section reveal">
-        <div class="section-label">Formules de domiciliation</div>
-        <div class="section-title">Choisissez votre formule</div>
-        <div class="section-desc">Trois formules adaptées à vos besoins, de la domiciliation simple à l'accompagnement complet de votre entreprise.</div>
-      </div>
-
-      <div class="plans-grid">
-        <!-- Plan 1 -->
-        <div class="plan-card reveal">
-          <div class="plan-header">
-            <div class="plan-name">Essentiel</div>
-            <div class="plan-subtitle">Pour les indépendants & auto-entrepreneurs</div>
-          </div>
-          <div class="plan-price">
-            <span class="plan-amount">25 000 F</span>
-            <span class="plan-period"> / mois</span>
-          </div>
-          <ul class="plan-features">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Adresse professionnelle
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Réception du courrier
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Notification par email
-            </li>
-            <li class="disabled">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              Redirection du courrier
-            </li>
-            <li class="disabled">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              Accueil de visiteurs
-            </li>
-            <li class="disabled">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              Gestion documentaire
-            </li>
-          </ul>
-          <div class="plan-cta">
-            <button class="btn btn-outline btn-primary" style="border-color:var(--border);">Choisir Essentiel</button>
-          </div>
-        </div>
-
-        <!-- Plan 2 — Featured -->
-        <div class="plan-card featured reveal">
-          <div class="plan-header">
-            <div class="plan-name">Business</div>
-            <div class="plan-subtitle">Pour les PME & startups en croissance</div>
-          </div>
-          <div class="plan-price">
-            <span class="plan-amount">55 000 F</span>
-            <span class="plan-period"> / mois</span>
-          </div>
-          <ul class="plan-features">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Adresse professionnelle
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Réception du courrier
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Notification par email
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Redirection du courrier
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Accueil de 5 visiteurs/mois
-            </li>
-            <li class="disabled">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              Gestion documentaire complète
-            </li>
-          </ul>
-          <div class="plan-cta">
-            <button class="btn btn-gold">Choisir Business</button>
-          </div>
-        </div>
-
-        <!-- Plan 3 -->
-        <div class="plan-card reveal">
-          <div class="plan-header">
-            <div class="plan-name">Premium</div>
-            <div class="plan-subtitle">Pour les entreprises exigeantes</div>
-          </div>
-          <div class="plan-price">
-            <span class="plan-amount">95 000 F</span>
-            <span class="plan-period"> / mois</span>
-          </div>
-          <ul class="plan-features">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Adresse professionnelle
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Réception du courrier
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Notification par email & SMS
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Redirection du courrier
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Accueil visiteurs illimité
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-              Gestion documentaire complète
-            </li>
-          </ul>
-          <div class="plan-cta">
-            <button class="btn btn-outline btn-primary" style="border-color:var(--border);">Choisir Premium</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Process -->
-      <div class="process-section reveal">
-        <div class="section-label">Comment ça marche</div>
-        <div class="section-title">Rejoindre Elite Bureau en 4 étapes</div>
-        <div class="section-desc">Un processus simple et digitalisé pour commencer à travailler dans un environnement professionnel premium.</div>
-      </div>
-
-      <div class="process-steps">
-        <div class="process-step reveal">
-          <div class="process-step-num">1</div>
-          <div class="process-step-title">Visitez nos locaux</div>
-          <div class="process-step-desc">Découvrez nos espaces en personne ou réservez une visite virtuelle sur notre site.</div>
-        </div>
-        <div class="process-step reveal">
-          <div class="process-step-num">2</div>
-          <div class="process-step-title">Choisissez votre formule</div>
-          <div class="process-step-desc">Sélectionnez le bureau, le hot desk ou la formule de domiciliation qui vous convient.</div>
-        </div>
-        <div class="process-step reveal">
-          <div class="process-step-num">3</div>
-          <div class="process-step-title">Signez en ligne</div>
-          <div class="process-step-desc">Contrat digital, paiement Mobile Money ou carte. Votre espace est activé immédiatement.</div>
-        </div>
-        <div class="process-step reveal">
-          <div class="process-step-num">4</div>
-          <div class="process-step-title">Travaillez & prospérez</div>
-          <div class="process-step-desc">Accédez 24h/24, utilisez tous les services et faites partie de notre communauté d'entrepreneurs.</div>
-        </div>
-      </div>
-      <section class="features-banner">
-        
+      <section class="features-banner reveal">
 
 
         <div class="feature-item">
@@ -796,12 +564,12 @@
 
         </section>
 
-      
+
 
       <!-- CTA -->
       <div class="cta-section reveal">
         <h2>Prêt à rejoindre Elite Bureau ?</h2>
-        <p>Réservez votre bureau, votre hot desk ou votre formule de domiciliation dès aujourd'hui.</p>
+        <p>Confiez-nous vos démarches et gagnez du temps dès aujourd'hui.</p>
         <div class="cta-buttons">
           <a href="{% url 'conciergerie:conciergerie' %}" class="btn btn-gold btn-lg">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -810,9 +578,9 @@
                   <line x1="8" y1="2" x2="8" y2="6"/>
                   <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
-              faire la demande de conciegerie
+              Faire la demande de conciergerie
           </a>
-          <a href="tel:+2250141136717" class="btn btn-outline-light btn-lg">
+          <a href="tel:+2250141136717" class="btn btn-outline-dark btn-lg">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2
                   19.79 19.79 0 0 1-8.63-3.07

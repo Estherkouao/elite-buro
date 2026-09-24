@@ -101,7 +101,7 @@
       </div>
 
       <a
-        href="{% url 'coworking:workspace_detail' slug=workspace.slug %}"
+        href="{% url 'reservation:create' %}?espace={{ workspace.slug }}"
         class="inline-flex items-center justify-center rounded-xl bg-gold px-4 py-2.5 text-sm font-bold text-navy shadow-sm shadow-gold/20 transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
         itemprop="url"
       >

@@ -13,8 +13,8 @@
     }
 
     :root {
-      --navy: #17325C;
-      --navy-light: #23416F;
+      --navy: #080000;
+      --navy-light: #0b0d0f;
       --gold: #FF8000;
       --gold-light: #FF8000;
       --ivory: #F7F4EE;
@@ -204,7 +204,7 @@
 
     .about-image img {
       width: 100%;
-      height: 480px;
+      height: 550px;
       object-fit: cover;
     }
 
@@ -223,6 +223,7 @@
       color: var(--text-muted);
       line-height: 1.85;
       margin-bottom: 20px;
+      text-align: justify;
     }
 
     .about-text p:last-of-type {
@@ -320,7 +321,7 @@
 
     .poles-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 40px;
     }
 
@@ -407,6 +408,150 @@
       background: var(--gold);
       flex-shrink: 0;
       margin-top: 7px;
+    }
+
+    /* ═══════════════════════════════════════════
+       MOT DU PRÉSIDENT
+       ═══════════════════════════════════════════ */
+    .president-section {
+      padding: 80px 0 88px;
+      background: var(--cream);
+    }
+
+    .president-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .president-photo {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .president-photo img {
+      width: 100%;
+      height: 550px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .president-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(23, 50, 92, 0.9), transparent);
+      padding: 40px 28px 28px;
+    }
+
+    .president-name h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .president-name p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .president-tagline {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.95);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .president-tagline strong {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .president-message p {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    .president-message p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       MOT DE LA DIRECTRICE
+       ═══════════════════════════════════════════ */
+    .directrice-section {
+      padding: 80px 0 88px;
+      background: var(--ivory);
+    }
+
+    .directrice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .directrice-photo {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .directrice-photo img {
+      width: 100%;
+      height: 700px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .directrice-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(23, 50, 92, 0.9), transparent);
+      padding: 40px 28px 28px;
+    }
+
+    .directrice-name h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .directrice-name p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .directrice-message p {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    .directrice-message p:last-child {
+      margin-bottom: 0;
     }
 
     /* ═══════════════════════════════════════════
@@ -527,7 +672,7 @@
       }
 
       .poles-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
 
       .stats-grid {
@@ -558,7 +703,7 @@
       }
 
       .about-image img {
-        height: 320px;
+        height: 400px;
       }
 
       .footer-top {
@@ -598,11 +743,11 @@
 
         <div class="max-w-4xl mx-auto text-center">
 
-            <span class="inline-flex items-center rounded-full bg-[#C9A02C]/10 px-4 py-2 text-sm font-semibold text-[#C9A02C]">
+            <span class="inline-flex items-center rounded-full bg-[#FF8000]/10 px-4 py-2 text-sm font-semibold text-[#FF8000]">
                 ✦ À propos d'ELITEBURO
             </span>
 
-            <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#0D2B55] leading-tight">
+            <h1 class="mt-6 text-5xl lg:text-6xl font-black text-[#noir] leading-tight">
                 Un partenaire au service de votre réussite
             </h1>
 
@@ -626,20 +771,44 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-image reveal">
-          <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80" alt="Espace de coworking Elite Bureau" />
+          <img src="/media/eliteburo-banner-4k.jpg.jpeg" alt="EliteBuro - Espace de coworking professionnel" />
         </div>
         <div class="about-text reveal">
           <p class="label" style="font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 14px;">Notre histoire</p>
           <h2 style="font-family: var(--font-display); font-size: clamp(28px, 4vw, 38px); font-weight: 700; color: var(--navy); margin-bottom: 20px; line-height: 1.15;">Qui sommes-nous ?</h2>
           <div class="gold-divider" style="margin-bottom: 20px;"></div>
           <p>
-            <strong class="highlight">SAS Elite Buro Coworking</strong> est un groupe multi-pôles basé à Riviera Palmeraie, Cocody, Abidjan, en Côte d'Ivoire. Fondé sous l'impulsion de son président, <strong class="highlight">M. TCHERO Huidi</strong>, le groupe réunit autour d'une même vision trois pôles d'activité distincts et complémentaires.
+            <strong class="highlight">Elite Buro S.A.S.</strong> est un groupe multi-pôles basé à Riviera Palmeraie, Cocody, Abidjan, en Côte d'Ivoire. Fondé sous l'impulsion de son président, <strong class="highlight">M. TCHERO Huidi</strong>, le groupe réunit autour d'une même vision trois pôles d'activité distincts et complémentaires.
           </p>
           <p>
-            Notre mission est de créer un <strong class="highlight">écosystème professionnel premium</strong> qui met à disposition des entrepreneurs, des équipes et des institutions l'ensemble des ressources nécessaires pour travailler, se former et se développer — le tout dans un cadre d'excellence.
+            Notre vision est d'impacter positivement le secteur privé ivoirien en proposant une synergie de conciergerie pensée pour les entrepreneurs et les organisations. À travers la complémentarité de nos trois pôles, nous souhaitons faciliter l'accès aux espaces professionnels, aux services, à la formation et à la communication, afin de contribuer durablement au développement des activités et des talents.
           </p>
           <p>
-            Entre la <strong class="highlight">vitrine digitale</strong> et l'<strong class="highlight">outil opérationnel</strong>, notre plateforme eliteburo.com a été conçue pour refléter le positionnement haut de gamme de nos espaces et de nos services, tout en générant des leads qualifiés pour accompagner la croissance de nos membres.
+            C'est cet elen qui nous en memene a cpncevoir trois entité en une super concieregerie :
+          </p>
+          <p>
+            <strong class="highlight">Elite Buro Coworking</strong> — <em>Centre d'affaires, conciergerie d'entreprise, domiciliation et accompagnement à la création.</em>
+          </p>
+          <p>
+            <em>Mission :</em> Offrir des espaces de travail modernes et un soutien administratif/logistique complet pour faciliter le lancement, l'installation et la gestion quotidienne de votre entreprise.
+          </p>
+          <p>
+            <strong class="highlight">Elite Academy</strong> — Centre de formation continue et de développement des compétences.
+          </p>
+          <p>
+            <em>Mission :</em> Servir de levier moderne de montée en compétences, accessible à tous — étudiants, chercheurs d'emploi ou professionnels en activité — pour booster l'employabilité et la performance.
+          </p>
+          <p>
+            <strong class="highlight">Waouh Agency Côte d'Ivoire</strong> — Agence de communication et événementiel.
+          </p>
+          <p>
+            <em>Mission :</em> Sublimer l'image des marques et concevoir des événements marquants pour accroître la visibilité et l'impact commercial des entreprises.
+          </p>
+          <p>
+            Ensemble, ces trois pôles forment un écosystème complet : <strong class="highlight">Elite Buro Coworinkg</strong> structure et héberge votre activité, <strong class="highlight">Elite Academy</strong> renforce le capital humain de vos équipes, et <strong class="highlight">Waouh Agency Cote d'ivoire</strong> propulse votre notoriété sur le marché..
+          </p>
+          <p>
+            Entre la vitrine digitale et l'outil opérationnel, notre plateforme eliteburo.com a été conçue pour refléter nos mission et notre volonte profonde de vous accompagner dans vos projets.
           </p>
         </div>
       </div>
@@ -673,7 +842,7 @@
             <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
           <h3>Notre vision</h3>
-          <p>Devenir la référence incontournable de l'immobilier d'entreprise et de la formation professionnelle premium en Afrique de l'Ouest, en créant des ponts entre les talents et les opportunités.</p>
+          <p>Créer un tiers-lieu flexible et connecté qui rompt l'isolement des professionnels grâce à des infrastructures modernes tout-enclus. Ce projet repose sur la dynamisation d'une communauté active par le biais d'événements et de synergies d'affaires créatrices de valeur. Au final Offrir, un modèle économique agile et durable, accessible aux entrepreneurs sans contraintes classiques.</p>
         </div>
 
         <!-- Valeurs -->
@@ -683,6 +852,110 @@
           </div>
           <h3>Nos valeurs</h3>
           <p>Excellence dans chaque détail, innovation au service de nos membres, et création de liens durables entre les acteurs du monde professionnel ivoirien et international.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MOT DU PRÉSIDENT
+       ═══════════════════════════════════════════ -->
+  <section class="president-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Dirigeant</p>
+        <h2>Le mot du Président</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="president-grid">
+        <div class="president-photo reveal">
+          <img src="/media/le president.jpeg" alt="M. TCHERO Huidi, Président d'EliteBuro" />
+          <div class="president-name">
+            <h3>M. TCHERO Huidi</h3>
+            <p>Fondateur & Président</p>
+          </div>
+          <div class="president-tagline">
+            <strong>"Créateur de liens et de business"</strong>
+          </div>
+        </div>
+
+        <div class="president-message reveal">
+          <p>
+            Chers partenaires, collaborateurs et amis,
+          </p>
+          <p>
+            C'est avec une conviction profonde et une passion intacte que je m'adresse à vous. Depuis 2018 ; Nous avons pensé et façonné ce groupe comme une plate-forme d'opportunités, une passerelle d'avenir destinée à favoriser l'éclosion des talents entrepreneuriaux d'ici et d'ailleurs. Nous croyons fermement que l'Afrique est la terre d'élection de l'innovation et de l'audace. Pour libérer ce potentiel extraordinaire, il faut créer des synergies et offrir aux esprits entreprenants le cadre et le soutien nécessaires pour transformer leurs idées en succès durables.
+          </p>
+          <p>
+            Cette vision se résume dans ce qui est bien plus qu'un slogan pour nous, c'est notre ADN : <strong>Créateurs de liens et de business</strong>.
+          </p>
+          <p>
+            <strong>Créateurs de liens</strong>, parce que nous sommes convaincus qu'aucune réussite solide ne se fait en solo. Nous tissons des ponts solides entre les acteurs locaux et internationaux, entre la jeunesse audacieuse et les investisseurs chevronnés, entre les cultures et les savoir-faire.
+            <strong>Créateurs de business</strong>, parce que la création de valeur concrète est le plus puissant moteur de développement socio-économique pour notre pays et notre continent.
+          </p>
+          <p>
+            Merci de faire partie de cette belle aventure.
+          </p>
+          <p>
+            <strong>Docteur TCHERO Huidi</strong><br>
+            Président-Fondateur
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MOT DE LA DIRECTRICE GÉNÉRALE
+       ═══════════════════════════════════════════ -->
+  <section class="directrice-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Direction</p>
+        <h2>Mot de la Directrice Générale</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="directrice-grid">
+        <div class="directrice-photo reveal">
+          <img src="/media/la directrice.jpeg" alt="Mireille BOLI-BISSOUMA, Directrice Générale d'EliteBuro" />
+          <div class="directrice-name">
+            <h3>Mireille BOLI-BISSOUMA</h3>
+            <p>Directrice Générale du groupe ELITE BURO S.A.S</p>
+          </div>
+        </div>
+
+        <div class="directrice-message reveal">
+          <p>
+            Chers partenaires, futurs collaborateurs et clients,
+          </p>
+          <p>
+            C'est un réel plaisir de m'adresser à vous et de vous ouvrir de nouveau les portes d'ELITE BURO S.A.S.
+          </p>
+          <p>
+            Au cœur de notre philosophie réside une conviction profonde : les plus belles réussites sont avant tout le fruit de synergies sincères et de collaborations durables. C'est pourquoi nous plaçons la confiance, l'écoute et la proximité au centre de toutes nos relations.
+          </p>
+          <p>
+            C'est un honneur pour moi de vous faire découvrir de nouveau la conciergerie d'entreprise by ELITE BURO COWORKING, un honneur de parler formation et compétences avec vous à travers ELITE ACADEMY et surtout un immense privilège d'imaginer, de rêver et de créer avec vous via WAOUH AGENCE COTE d'IVOIRE.
+          </p>
+          <p>
+            Conscients que chaque projet est unique et porte en lui des enjeux spécifiques, nous tenons à vous apporter une garantie essentielle : chez ELITE BURO S.A.S, chaque accompagnement est entièrement personnalisé.
+          </p>
+          <p>
+            Nous refusons les solutions standardisées. De la première rencontre jusqu'à l'aboutissement de vos projets, nos équipes s'engagent à construire avec vous un projet, une stratégie, voire même un bureau sur-mesure, ajusté à vos besoins, votre rythme et vos ambitions. Notre objectif est simple : faire en sorte que chaque partenaire se sente écouté, soutenu et pleinement privilégié.
+          </p>
+          <p>
+            Que vous souhaitiez initier de nouveaux projets, relever de nouveaux défis ou donner un élan décisif à vos activités, sachez que nous sommes prêts à mettre toute notre expertise et notre enthousiasme au service de votre succès.
+          </p>
+          <p>
+            Je vous invite chaleureusement à venir échanger avec nous et à imaginer, ensemble, de magnifiques opportunités de collaboration.
+          </p>
+          <p>
+            Bien à vous,<br>
+            <strong>Mireille BOLI-BISSOUMA</strong><br>
+            Directrice Générale du groupe ELITE BURO S.A.S
+          </p>
         </div>
       </div>
     </div>
@@ -703,7 +976,7 @@
         <!-- Pôle 1 -->
         <div class="pole-card reveal">
           <div class="pole-card-img">
-            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80" alt="Espace de coworking" />
+            <img src="/media/logo coworkind.jpeg" alt="Espace de coworking" />
           </div>
           <div class="pole-card-body">
             <p class="pole-number">Pôle 1</p>
@@ -722,7 +995,7 @@
         <!-- Pôle 2 -->
         <div class="pole-card reveal">
           <div class="pole-card-img">
-            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80" alt="Centre de formation" />
+            <img src="/media/logo academi.jpeg" alt="Centre de formation" />
           </div>
           <div class="pole-card-body">
             <p class="pole-number">Pôle 2</p>
@@ -734,6 +1007,28 @@
               <li>Accompagnement des formateurs partenaires</li>
               <li>Module réservation en ligne dédié</li>
               <li>Suivi des participants et certifications</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pôle 3 -->
+        <div class="pole-card reveal">
+          <div class="pole-card-img">
+            <img src="/media/logo web.jpeg" alt="Communication et événementiel" />
+          </div>
+          <div class="pole-card-body">
+            <p class="pole-number">Pôle 3</p>
+            <h3>Waouh Agency Côte d'Ivoire</h3>
+            <p>Vous accompagne dans la promotion de votre image, de vos produits et services au près d'un public ciblé.</p>
+            <ul class="pole-features">
+              <li>Publicité</li>
+              <li>Plan de communication</li>
+              <li>Stratégie marketing</li>
+              <li>Branding</li>
+              <li>Identité visuelle</li>
+              <li>Communication digitale</li>
+              <li>Web studio</li>
+              <li>Relations publiques — Événementiel</li>
             </ul>
           </div>
         </div>
@@ -754,7 +1049,7 @@
 
       <div class="stats-grid">
         <div class="stat-item reveal">
-          <span class="stat-number">11</span>
+          <span class="stat-number">12</span>
           <span class="stat-label">Bureaux privatifs</span>
         </div>
         <div class="stat-item reveal">

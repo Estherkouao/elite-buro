@@ -10,6 +10,44 @@ EliteBuro - Coworking & Formation à Abidjan
 
 {% block extra_css %}
 
+<style>
+    /* Elite Banner - Localisation */
+    .elite-banner {
+        background: #FF8000;
+        padding: 8px 0;
+        font-size: 12px;
+        color: #000;
+    }
+    .elite-banner-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+    }
+    .elite-banner-tagline {
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+    .elite-banner-location {
+        font-weight: 400;
+        opacity: 0.9;
+    }
+    @media (min-width: 640px) {
+        .elite-banner {
+            padding: 6px 0;
+            font-size: 13px;
+        }
+        .elite-banner-content {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+</style>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -24,8 +62,8 @@ EliteBuro - Coworking & Formation à Abidjan
         :root {
             --primary: #FF8000;
             --primary-light: #FDE8D0;
-            --accent: #C9A02C;
-            --accent-light: rgba(201, 160, 44, 0.15);
+            --accent: #FF8000;
+            --accent-light: rgba(255, 128, 0, 0.15);
             --text-light: #FAFAF7;
             --text-muted: #5A6A85;
             --text-dark: #000000;
@@ -100,7 +138,7 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         nav button.active {
-            background-color: rgba(201, 160, 44, 0.1);
+            background-color: rgba(255, 128, 0, 0.1);
             color: var(--accent);
         }
 
@@ -189,7 +227,7 @@ EliteBuro - Coworking & Formation à Abidjan
             text-transform: uppercase;
             background-color: var(--accent-light);
             color: #000000;
-            border: 1px solid rgba(201, 160, 44, 0.3);
+            border: 1px solid rgba(255, 128, 0, 0.3);
             font-family: 'DM Mono', monospace;
             margin-bottom: 2rem;
             width: fit-content;
@@ -232,6 +270,7 @@ EliteBuro - Coworking & Formation à Abidjan
             margin-bottom: 2.5rem;
             max-width: 28rem;
             line-height: 1.6;
+            text-align: justify;
         }
 
         .hero-buttons {
@@ -434,7 +473,7 @@ EliteBuro - Coworking & Formation à Abidjan
         .section-label-dot {
             width: 7px;
             height: 7px;
-            background: #C9A02C;
+            background: #FF8000;
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -463,6 +502,7 @@ EliteBuro - Coworking & Formation à Abidjan
             color: var(--text-muted);
             max-width: 32rem;
             line-height: 1.8;
+            text-align: justify;
         }
 
         /* Coworking Section */
@@ -498,7 +538,7 @@ EliteBuro - Coworking & Formation à Abidjan
             width: 3rem;
             height: 3rem;
             border-radius: 0.75rem;
-            background-color: rgba(201, 160, 44, 0.2);
+            background-color: rgba(255, 128, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -961,9 +1001,9 @@ EliteBuro - Coworking & Formation à Abidjan
         }
 
         .plan-card .plan-cta {
-            background-color: rgba(201, 160, 44, 0.2);
+            background-color: rgba(255, 128, 0, 0.2);
             color: var(--accent);
-            border: 1px solid rgba(201, 160, 44, 0.4);
+            border: 1px solid rgba(255, 128, 0, 0.4);
         }
 
         .plan-card.selected .plan-cta {
@@ -1007,7 +1047,7 @@ EliteBuro - Coworking & Formation à Abidjan
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
-            background-color: rgba(201, 160, 44, 0.15);
+            background-color: rgba(255, 128, 0, 0.15);
             color: var(--accent);
             display: flex;
             align-items: center;
@@ -1019,7 +1059,7 @@ EliteBuro - Coworking & Formation à Abidjan
         .process-number {
             font-size: 0.75rem;
             font-family: 'DM Mono', monospace;
-            color: rgba(201, 160, 44, 0.6);
+            color: rgba(255, 128, 0, 0.6);
             margin-bottom: 0.25rem;
         }
 
@@ -1321,7 +1361,7 @@ EliteBuro - Coworking & Formation à Abidjan
 
             box-shadow: 0 18px 40px rgba(13, 43, 85, 0.15);
 
-            border-color: rgba(201, 160, 44, 0.4);
+            border-color: rgba(255, 128, 0, 0.4);
         }
 
         .stars {
@@ -1348,7 +1388,7 @@ EliteBuro - Coworking & Formation à Abidjan
 
             line-height: 1.6;
 
-            text-align: center;
+            text-align: justify;
         }
 
         .testimonial-author {
@@ -1418,7 +1458,7 @@ EliteBuro - Coworking & Formation à Abidjan
             letter-spacing: 0.1em;
             text-transform: uppercase;
             font-weight: 500;
-            color: rgba(201, 160, 44, 0.7);
+            color: rgba(255, 128, 0, 0.7);
             font-family: 'DM Mono', monospace;
             margin-bottom: 1rem;
         }
@@ -1686,9 +1726,9 @@ EliteBuro - Coworking & Formation à Abidjan
         .hero-buttons button:active {
             outline: none !important;
             box-shadow: none !important;
-            background-color: #C9A02C !important;
+            background-color: #FF8000 !important;
             color: #0D2B55 !important;
-            border-color: #C9A02C !important;
+            border-color: #FF8000 !important;
         }
 
         /* ==========================
@@ -2002,12 +2042,27 @@ EliteBuro - Coworking & Formation à Abidjan
             }
         }
 
-        .hero-secondary-image{
-            height:300px;
-            border-radius:1rem;
-            overflow:hidden;
-            box-shadow:0 20px 50px rgba(0,0,0,.15);
-        }
+                .hero-secondary-image{
+                    height:300px;
+                    border-radius:1rem;
+                    overflow:hidden;
+                    box-shadow:0 20px 50px rgba(0,0,0,.15);
+                }
+
+                .poles-home-grid {
+                    grid-template-columns: 1fr;
+                    gap: 32px;
+                    margin-bottom: 3rem;
+                }
+
+                .pole-home-img {
+                    height: 180px;
+                }
+
+                .formation-info-below {
+                    padding-top: 3rem;
+                }
+            }
 
         @media (min-width: 640px) {
             .hero-secondary-image{
@@ -2347,6 +2402,105 @@ EliteBuro - Coworking & Formation à Abidjan
                 padding: 13px 22px;
             }
 
+            /* === PÔLES HOME GRID === */
+
+            .poles-home-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+                margin-bottom: 4rem;
+            }
+
+            .pole-home-card {
+                background: var(--white);
+                border-radius: 1rem;
+                overflow: hidden;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                text-align: center;
+            }
+
+            .pole-home-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+            }
+
+            .pole-home-img {
+                height: 160px;
+                overflow: hidden;
+            }
+
+            .pole-home-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .pole-home-body {
+                padding: 24px 20px;
+            }
+
+            .pole-home-number {
+                font-size: 11px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--primary);
+                font-weight: 600;
+                font-family: 'DM Mono', monospace;
+                margin-bottom: 8px;
+            }
+
+            .pole-home-body h3 {
+                font-family: 'Playfair Display', Georgia, serif;
+                font-size: 1.375rem;
+                font-weight: 700;
+                color: var(--primary);
+                margin-bottom: 12px;
+                line-height: 1.2;
+            }
+
+            .pole-home-body > p {
+                font-size: 0.875rem;
+                color: var(--text-muted);
+                line-height: 1.6;
+                margin-bottom: 16px;
+                text-align: justify;
+            }
+
+            .pole-home-features {
+                list-style: none;
+                margin-bottom: 20px;
+                padding: 0;
+                text-align: left;
+            }
+
+            .pole-home-features li {
+                font-size: 0.8125rem;
+                color: var(--text-muted);
+                padding: 4px 0 4px 20px;
+                position: relative;
+                line-height: 1.4;
+            }
+
+            .pole-home-features li::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 9px;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--primary);
+            }
+
+            /* === FORMATION INFO BELOW === */
+
+            .formation-info-below {
+                border-top: 1px solid var(--border-color);
+                padding-top: 4rem;
+            }
+
             /* ==========================================
             MOBILE
             ========================================== */
@@ -2369,6 +2523,20 @@ EliteBuro - Coworking & Formation à Abidjan
 
                 #formation .formation-buttons button {
                     width: 100%;
+                }
+
+                .poles-home-grid {
+                    grid-template-columns: 1fr;
+                    gap: 32px;
+                    margin-bottom: 3rem;
+                }
+
+                .pole-home-img {
+                    height: 180px;
+                }
+
+                .formation-info-below {
+                    padding-top: 3rem;
                 }
             }
             /* ================================
@@ -2550,7 +2718,7 @@ EliteBuro - Coworking & Formation à Abidjan
                     <div class="stat-box">
 
                         <div class="stat-value">
-                            {{ total_offices|default:"11" }}
+                            {{ total_offices|default:"12" }}
                         </div>
 
                         <div class="stat-label">
@@ -2564,7 +2732,7 @@ EliteBuro - Coworking & Formation à Abidjan
                     <div class="stat-box">
 
                         <div class="stat-value">
-                            {{ hot_desk_available_today|default:"7" }}
+                            {{ hot_desk_available_today|default:"0" }}
                         </div>
 
                         <div class="stat-label">
@@ -2991,7 +3159,7 @@ EliteBuro - Coworking & Formation à Abidjan
                     Une adresse prestige à Riviera Palmeraie
                 </h2>
 
-                <p>
+                <p style="font-size: 1.125rem; color: var(--text-muted); max-width: 32rem; line-height: 1.8; text-align: justify; margin-bottom: 1.5rem;">
                     Domiciliation commerciale autorisée par le CEPICI.
                     Souscription 100% en ligne, contrat signé électroniquement,
                     dossier validé en 48h.
@@ -3112,48 +3280,112 @@ EliteBuro - Coworking & Formation à Abidjan
 
 
 
-        <!-- Formation Section -->
+        <!-- Formation — Nos 3 Pôles -->
         <section id="formation">
             <div class="container">
-                <div class="formation-grid">
-                    <div>
-                        <div class="section-label">03 — Centre de Formation Elite Buro Academy</div>
-                        <h2 class="section-title">Des espaces pensés pour la montée en compétences</h2>
-                        <p class="section-description">Salles modulables, équipements professionnels, programme clé en main. Formateurs indépendants et entreprises : un devis complet généré automatiquement en 60 secondes.</p>
-                        
-                    
+                <div class="section-header" style="text-align:center; margin-bottom:3rem;">
+                    <div class="section-label" style="margin:0 auto 15px;">03 — Nos 3 pôles d'activité</div>
+                    <h2 class="section-title">Un écosystème complet<br>pour votre réussite</h2>
+                    <p class="section-description" style="margin:0 auto;">Trois pôles complémentaires pour accompagner votre activité, votre formation et votre communication.</p>
+                </div>
 
-                        <div class="formation-buttons">
+                <!-- PÔLES GRID -->
+                <div class="poles-home-grid">
 
-                            <button class="btn-dark" onclick="window.location.href='{% url 'reservation:landing' %}'">
-                                Réserver une salle →
-                            </button>
-
-                            <button class="btn-outline-dark" onclick="window.location.href='{% url 'formation:devis_formation_create' %}'">
-                                📄 Obtenir un devis
-                            </button>
-
+                    <!-- Pôle 1 : Coworking -->
+                    <div class="pole-home-card reveal">
+                        <div class="pole-home-img">
+                            <img src="/media/logo coworkind.jpeg" alt="Elite Buro Coworking">
+                        </div>
+                        <div class="pole-home-body">
+                            <p class="pole-home-number">Pôle 1</p>
+                            <h3>Elite Buro Coworking</h3>
+                            <p>Espace de travail premium, conciergerie d'entreprise et domiciliation. Bureaux privatifs, hot desks et salles de réunion à Riviera Palmeraie.</p>
+                            <ul class="pole-home-features">
+                                <li>11 bureaux privatifs</li>
+                                <li>Hot desks & salles de réunion</li>
+                                <li>Domiciliation d'entreprise</li>
+                                <li>Réservation 24/7</li>
+                            </ul>
+                            <a href="{% url 'reservation:landing' %}" class="btn-dark">Découvrir →</a>
                         </div>
                     </div>
 
-                    <div class="formation-image">
-                        <img src="/media/formation.jpeg" alt="Salle de formation">
-                        <div class="formation-overlay"></div>
-                        <div class="formation-quote">
-                            <div class="quote-label">Devis automatique</div>
-                            <div class="quote-title">Formation qualifiantee</div>
-                            <div class="quote-details">
-                                <span class="quote-location">Salle de formation inclus</span>
-                                <span class="quote-price">À moindre coût</span>
+                    <!-- Pôle 2 : Academy -->
+                    <div class="pole-home-card reveal">
+                        <div class="pole-home-img">
+                            <img src="/media/logo academi.jpeg" alt="Elite Academy">
+                        </div>
+                        <div class="pole-home-body">
+                            <p class="pole-home-number">Pôle 2</p>
+                            <h3>Elite Academy</h3>
+                            <p>Centre de formation continue et développement des compétences. Salles équipées, programmes clés en main et accompagnement personnalisé.</p>
+                            <ul class="pole-home-features">
+                                <li>Salles de formation équipées</li>
+                                <li>Programmes clés en main</li>
+                                <li>Formateurs certifiés</li>
+                                <li>Devis automatique</li>
+                            </ul>
+                            <a href="{% url 'formation:devis_formation_create' %}" class="btn-dark">Découvrir →</a>
+                        </div>
+                    </div>
+
+                    <!-- Pôle 3 : Waouh Agency -->
+                    <div class="pole-home-card reveal">
+                        <div class="pole-home-img">
+                            <img src="/media/logo web.jpeg" alt="Waouh Agency Côte d'Ivoire">
+                        </div>
+                        <div class="pole-home-body">
+                            <p class="pole-home-number">Pôle 3</p>
+                            <h3>Waouh Agency</h3>
+                            <p>Agence de communication et événementiel. Promotion de votre image, stratégie marketing, branding et communication digitale.</p>
+                            <ul class="pole-home-features">
+                                <li>Stratégie & plan de com</li>
+                                <li>Branding & identité visuelle</li>
+                                <li>Web studio</li>
+                                <li>Événementiel</li>
+                            </ul>
+                            <a href="{% url 'conciergerie:home' %}" class="btn-dark">Découvrir →</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FORMATION INFO BELOW -->
+                <div class="formation-info-below">
+                    <div class="formation-grid">
+                        <div>
+                            <div class="section-label" style="margin-bottom:15px;">Centre de Formation</div>
+                            <h2 class="section-title" style="margin-bottom:20px;">Des espaces pensés pour la montée en compétences</h2>
+                            <p class="section-description" style="margin-bottom:30px;">Salles modulables, équipements professionnels, programme clé en main. Formateurs indépendants et entreprises : un devis complet généré automatiquement en 60 secondes.</p>
+
+                            <div class="formation-buttons">
+                                <button class="btn-dark" onclick="window.location.href='{% url 'reservation:landing' %}'">
+                                    Réserver une salle →
+                                </button>
+                                <button class="btn-outline-dark" onclick="window.location.href='{% url 'formation:devis_formation_create' %}'">
+                                    📄 Obtenir un devis
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="formation-image">
+                            <img src="/media/formation.jpeg" alt="Salle de formation">
+                            <div class="formation-overlay"></div>
+                            <div class="formation-quote">
+                                <div class="quote-label">Devis automatique</div>
+                                <div class="quote-title">Formation qualifiantee</div>
+                                <div class="quote-details">
+                                    <span class="quote-location">Salle de formation inclus</span>
+                                    <span class="quote-price">À moindre coût</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                
             </div>
-        </div>
-    </section>
+        </section>
 
     <!-- Testimonials Section -->
     <section id="testimonials">
@@ -3622,6 +3854,17 @@ Sam : 09h–18h</div>
         right:0;
     }
 }
+
+    /* Reveal animation au scroll */
+    .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>
 
 <!-- ========================================
@@ -3884,6 +4127,17 @@ Sam : 09h–18h</div>
         initChatbot();
     }
 </script>
+
+<script>
+    // Intersection Observer — animations au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
 {% endblock content %}
 
 {% block extra_js %}

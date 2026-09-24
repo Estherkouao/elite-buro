@@ -289,7 +289,8 @@ class ReservationInvoiceView(LoginRequiredMixin, View):
 
 
         pdf_path = export_reservation_invoice_pdf(
-            reservation=reservation
+            reservation=reservation,
+            user=request.user
         )
 
 

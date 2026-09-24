@@ -15,8 +15,10 @@
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
     :root {
-        --elite-navy: #FF8000;
-        --elite-gold: #1F2937;
+        --elite-navy: #17130F;
+        --elite-navy-light: #2A231C;
+        --elite-gold: #FF8000;
+        --elite-gold-light: #FF9E33;
         --elite-cream: #FAFAF7;
         --elite-text: #1F2937;
     }
@@ -36,30 +38,52 @@
     .bg-elite-gold { background-color: var(--elite-gold); }
     .text-elite-gold { color: var(--elite-gold); }
     .border-elite-gold { border-color: var(--elite-gold); }
-    
+
+    /* ===== BOUTONS ===== */
     .btn-gold {
-        background-color: var(--elite-gold);
-        color: white;
-        transition: all 0.3s ease;
+        background: var(--elite-gold);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: .01em;
+        box-shadow: 0 4px 12px rgba(255, 128, 0, 0.28);
+        transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+        border: none;
     }
     .btn-gold:hover {
-        background-color: #1F2937;
+        background: #E67300;
         transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(255, 128, 0, 0.35);
+    }
+    .btn-gold:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(255,128,0,.3); }
+
+    .btn-outline-white {
+        background: transparent;
+        border: 1.5px solid rgba(255,255,255,0.55);
+        color: #fff;
+        font-weight: 600;
+        transition: background .2s ease, border-color .2s ease;
+    }
+    .btn-outline-white:hover {
+        background: rgba(255,255,255,0.12);
+        border-color: #fff;
     }
 
     .hero-overlay {
         background: linear-gradient(rgba(13, 43, 85, 0.7), rgba(13, 43, 85, 0.7));
     }
 
+    /* ===== CARTES (coins carrés, pas arrondis) ===== */
     .card-premium {
         background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 4px;
+        border: 1px solid #EFEAE0;
+        box-shadow: 0 4px 20px rgba(13, 43, 85, 0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color .3s ease;
     }
     .card-premium:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transform: translateY(-6px);
+        box-shadow: 0 16px 34px rgba(13, 43, 85, 0.14);
+        border-color: var(--elite-gold);
     }
 
     .timeline-step::after {
@@ -73,43 +97,114 @@
         z-index: 0;
     }
     .timeline-step:last-child::after { display: none; }
-        .hero-title {
-            color: #000000;
-            text-shadow: none; /* ou 0 2px 8px rgba(255,255,255,.3) si tu veux une légère lisibilité */
-        }
+    .hero-title {
+        color: #ffffff;
+        text-shadow: 0 2px 10px rgba(0,0,0,.35);
+    }
+    .hero-text {
+        color: rgba(255,255,255,.9);
+    }
+    /* Décale le Hero sous le header */
+    .hero-section {
+        position: relative;
+        margin-top: 80px; /* hauteur de ton header */
+        height: calc(100vh - 80px);
+        overflow: hidden;
+    }
 
-        .hero-text {
-            color: rgba(255,255,255,.9);
-        }
-        /* Décale le Hero sous le header */
-        .hero-section {
-            position: relative;
-            margin-top: 80px; /* hauteur de ton header */
-            height: calc(100vh - 80px);
-            overflow: hidden;
-        }
+    /* Vidéo plein écran dans le Hero */
+    .hero-section video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-        /* Vidéo plein écran dans le Hero */
-        .hero-section video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    /* Le contenu reste au-dessus de la vidéo */
+    .hero-content {
+        position: relative;
+        z-index: 10;
+    }
 
-        /* Le contenu reste au-dessus de la vidéo */
-        .hero-content {
-            position: relative;
-            z-index: 10;
-        }
+    /* Voile dégradé bas du hero pour lisibilité des boutons */
+    .hero-fade {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 45%;
+        background: linear-gradient(to top, rgba(13,43,85,0.85) 0%, rgba(13,43,85,0) 100%);
+        z-index: 5;
+        pointer-events: none;
+    }
+
+    /* ===== SECTION AVANTAGES (wifi, clim, café...) ===== */
+    .advantage-card {
+        position: relative;
+        background: #fff;
+        border-radius: 4px;
+        border: 1px solid #EFEAE0;
+        padding: 2.25rem 1.75rem;
+        overflow: hidden;
+        transition: all .35s ease;
+    }
+    .advantage-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 4px; height: 100%;
+        background: linear-gradient(180deg, var(--elite-gold-light), var(--elite-gold));
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform .35s ease;
+    }
+    .advantage-card:hover::before { transform: scaleY(1); }
+    .advantage-card:hover {
+        box-shadow: 0 18px 36px rgba(13,43,85,0.12);
+        transform: translateY(-6px);
+        border-color: transparent;
+    }
+    .advantage-icon {
+        width: 64px; height: 64px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.75rem;
+        border-radius: 4px;
+        background: linear-gradient(135deg, var(--elite-navy) 0%, var(--elite-navy-light) 100%);
+        color: var(--elite-gold-light);
+        margin-bottom: 1.5rem;
+        box-shadow: 0 8px 18px rgba(13,43,85,0.25);
+        transition: transform .35s ease;
+    }
+    .advantage-card:hover .advantage-icon {
+        transform: scale(1.08) rotate(-4deg);
+    }
+
+    /* ===== TÉMOIGNAGES ===== */
+    .testimonial-card {
+        position: relative;
+        background: #ffffff;
+        border: 1px solid #E7E5E1;
+        border-top: 3px solid var(--elite-gold);
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(23,19,15,0.05);
+        text-align: left;
+    }
+    .testimonial-avatar {
+        width: 48px; height: 48px;
+        border-radius: 50%;
+        background: var(--elite-navy);
+        color: var(--elite-gold);
+        font-weight: 700;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.05rem;
+        flex-shrink: 0;
+    }
 </style>
 
 <!-- 2) HERO SECTION -->
 <section class="hero-section flex items-end justify-center">
 
-   <div class="absolute top-0 left-0 w-full h-[70%] overflow-hidden">
+   <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
         <video 
             class="w-full h-full object-cover"
             autoplay
@@ -122,28 +217,37 @@
         </video>
     </div>
 
-   <div class="flex justify-center">
-    <div class="inline-flex flex-col sm:flex-row gap-3 
-                bg-black/30 backdrop-blur-md 
-                border border-white/10 
-                rounded-full p-2">
+    <div class="hero-fade"></div>
 
-        <a href="{% url 'reservation:create' %}" 
-           class="btn-gold px-7 py-3 rounded-full font-semibold text-base">
-            Réserver maintenant
-        </a>
+    <div class="hero-content relative z-10 text-center px-6 pb-10 max-w-4xl mx-auto">
+        <h1 class="hero-title font-playfair font-bold text-4xl md:text-6xl mb-4">
+            Votre espace de travail d'exception
+        </h1>
+        <p class="hero-text text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+            Bureaux privés, salles de réunion et espaces premium à réserver en quelques clics.
+        </p>
 
-        <a href="#nos-espaces"
-           class="bg-white/10 backdrop-blur-md 
-                  border border-white/30 
-                  hover:bg-white/20 
-                  px-7 py-3 rounded-full 
-                  font-semibold text-base text-white">
-            Voir les espaces
-        </a>
+        <div class="flex justify-center">
+            <div class="inline-flex flex-col sm:flex-row gap-3">
 
+                <a href="{% url 'reservation:create' %}" 
+                   class="btn-gold px-8 py-3 rounded-md text-base">
+                    Réserver maintenant
+                </a>
+
+                <a href="#nos-espaces"
+                   class="btn-outline-white px-8 py-3 rounded-md text-base">
+                    Voir les espaces
+                </a>
+
+                <a href="{% url 'conciergerie:home' %}"
+                   class="btn-gold px-8 py-3 rounded-md text-base">
+                   En savoir plus sur la Conciergerie
+                </a>
+
+            </div>
+        </div>
     </div>
-</div>
 
 </section>
 
@@ -180,6 +284,7 @@
         </form>
     </div>
 </section>
+-->
 
 <!-- 4) SECTION "NOS ESPACES" -->
 <section id="nos-espaces" class="py-24 container mx-auto px-6">
@@ -210,7 +315,7 @@
                         <span class="text-xs text-gray-500">{{ space.workspaces.count }} espace(s)</span>
                         <span class="text-elite-gold font-bold">{{ space.workspaces.first.prix_journee|floatformat:0|default:"—" }} F/j</span>
                     </div>
-                    <a href="{% url 'reservation:create' %}?categorie={{ space.slug }}" class="block text-center py-2 border border-elite-gold text-elite-gold hover:bg-elite-gold hover:text-white rounded transition-colors font-semibold">
+                    <a href="{% url 'reservation:create' %}?categorie={{ space.slug }}" class="btn-gold block text-center py-2 rounded font-semibold">
                         Réserver
                     </a>
                 </div>
@@ -233,27 +338,27 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for advantage in advantages %}
-            <div class="p-8 border border-gray-100 rounded-2xl hover:border-elite-gold transition-colors group">
-                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform inline-block">{{ advantage.icon }}</div>
+            <div class="advantage-card">
+                <div class="advantage-icon">{{ advantage.icon }}</div>
                 <h3 class="text-xl font-bold text-elite-navy mb-3">{{ advantage.title }}</h3>
-                <p class="text-gray-600">{{ advantage.description }}</p>
+                <p class="text-gray-600 leading-relaxed">{{ advantage.description }}</p>
             </div>
             {% empty %}
             <!-- Default values as per requirements -->
-            <div class="p-8 border border-gray-100 rounded-2xl">
-                <div class="text-4xl mb-4">📶</div>
+            <div class="advantage-card">
+                <div class="advantage-icon">📶</div>
                 <h3 class="text-xl font-bold text-elite-navy mb-3">Wi-Fi Haut Débit</h3>
-                <p class="text-gray-600">Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
+                <p class="text-gray-600 leading-relaxed">Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
             </div>
-            <div class="p-8 border border-gray-100 rounded-2xl">
-                <div class="text-4xl mb-4">❄️</div>
+            <div class="advantage-card">
+                <div class="advantage-icon">❄️</div>
                 <h3 class="text-xl font-bold text-elite-navy mb-3">Climatisation</h3>
-                <p class="text-gray-600">Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
+                <p class="text-gray-600 leading-relaxed">Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
             </div>
-            <div class="p-8 border border-gray-100 rounded-2xl">
-                <div class="text-4xl mb-4">☕</div>
+            <div class="advantage-card">
+                <div class="advantage-icon">☕</div>
                 <h3 class="text-xl font-bold text-elite-navy mb-3">Café offert</h3>
-                <p class="text-gray-600">Une sélection de cafés et thés premium en libre-service pour nos membres.</p>
+                <p class="text-gray-600 leading-relaxed">Une sélection de cafés et thés premium en libre-service pour nos membres.</p>
             </div>
             {% endfor %}
         </div>
@@ -334,7 +439,7 @@
                          alt="{{ space.nom }}"
                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 {% endif %}
-                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-elite-navy">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 text-xs font-bold text-elite-navy">
                     {{ space.categorie.nom }}
                 </div>
             </div>
@@ -347,7 +452,7 @@
                     <span class="flex items-center gap-1">👥 {{ space.capacite }} pers.</span>
                     <span class="flex items-center gap-1">📐 {{ space.superficie }} m²</span>
                 </div>
-                <a href="{% url 'reservation:create' %}?espace={{ space.slug }}" class="btn-gold block text-center py-3 rounded-lg font-bold">
+                <a href="{% url 'reservation:create' %}?espace={{ space.slug }}" class="btn-gold block text-center py-3 rounded font-bold">
                     Réserver cet espace
                 </a>
             </div>
@@ -365,43 +470,88 @@
     </div>
 </section>
 
-<!-- 8) SECTION TÉMOIGNAGES -->
+<!-- 8) SECTION CONCIERGERIE -->
+<section class="py-24" style="background-color: var(--elite-cream);">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="inline-block text-elite-gold font-bold tracking-[0.2em] text-xs uppercase mb-3">Service premium</span>
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Notre Conciergerie</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Un assistant personnel pour vous libérer du temps. Gestion administrative, démarches et accompagnement sur mesure.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="p-8 rounded-2xl bg-white border border-gray-100 hover:border-elite-gold/30 hover:shadow-xl hover:shadow-gold/5 group transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-5 group-hover:bg-elite-navy group-hover:text-white group-hover:scale-105 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">Gestion administrative</h3>
+                <p class="text-gray-500 leading-relaxed">Classement documentaire, suivi de dossiers, préparation de documents et relances organisées pour gagner un temps précieux.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-white border border-gray-100 hover:border-elite-gold/30 hover:shadow-xl hover:shadow-gold/5 group transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-5 group-hover:bg-elite-navy group-hover:text-white group-hover:scale-105 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-4.486c-.465-1.956-2.135-3.426-3.951-3.426a4.5 4.5 0 00-4.49 4.488c-.034.54-.07.865-.206 1.233l-.436.726m0 0l-2.889 2.696m5.654-5.418l-2.89-2.696"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">Assistance personnelle</h3>
+                <p class="text-gray-500 leading-relaxed">Réservation de restaurants, organisation de déplacements, hôtels et gestion de rendez-vous pour simplifier votre quotidien.</p>
+            </div>
+            <div class="p-8 rounded-2xl bg-white border border-gray-100 hover:border-elite-gold/30 hover:shadow-xl hover:shadow-gold/5 group transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-5 group-hover:bg-elite-navy group-hover:text-white group-hover:scale-105 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-elite-navy mb-3">Conciergerie entreprise</h3>
+                <p class="text-gray-500 leading-relaxed">Accompagnement professionnel pour vos collaborateurs : accueil visiteurs, organisation de réunions et support aux équipes.</p>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'conciergerie:conciergerie' %}"
+               class="inline-flex items-center gap-2 bg-elite-gold hover:bg-navy px-8 py-4 rounded-xl font-semibold text-base text-white shadow-lg shadow-gold/25 hover:shadow-navy/30 transition-all duration-300 hover:-translate-y-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/></svg>
+                Faire une demande de conciergerie
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 9) SECTION TÉMOIGNAGES -->
 <section class="py-24 bg-white">
     <div class="container mx-auto px-6">
         <div class="text-center mb-16">
+            <span class="inline-block text-elite-gold font-bold tracking-[0.2em] text-xs uppercase mb-3">Avis vérifiés</span>
             <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Ce que disent nos clients</h2>
             <div class="w-20 h-1 bg-elite-gold mx-auto"></div>
         </div>
 
         <div id="testimonial-carousel" class="max-w-3xl mx-auto relative">
             {% for testimonial in testimonials %}
-            <div class="testimonial-slide text-center p-10 rounded-2xl border border-gray-100 {% if not forloop.first %}hidden{% endif %}">
-                <div class="mb-6">
-                    {% for i in "12345" %}
-                        {% if forloop.counter <= testimonial.note %}
-                            <span class="text-elite-gold text-2xl">★</span>
-                        {% else %}
-                            <span class="text-gray-300 text-2xl">★</span>
-                        {% endif %}
-                    {% endfor %}
+            <div class="testimonial-slide testimonial-card p-8 md:p-10 {% if not forloop.first %}hidden{% endif %}">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="testimonial-avatar">{{ testimonial.utilisateur.full_name|slice:":1" }}</div>
+                        <div>
+                            <h4 class="font-bold text-elite-navy leading-tight">
+                                {{ testimonial.utilisateur.full_name }}
+                            </h4>
+                            <p class="text-gray-500 text-sm">Membre EliteBuro</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-0.5">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.note %}
+                                <span class="text-elite-gold text-lg">★</span>
+                            {% else %}
+                                <span class="text-gray-300 text-lg">★</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
 
-                <p class="text-xl md:text-2xl italic text-gray-700 mb-8 leading-relaxed">
-                    "{{ testimonial.commentaire }}"
-                </p>
-
-                <div class="w-16 h-1 bg-elite-gold mx-auto mb-6"></div>
-
-                <h4 class="font-bold text-elite-navy text-lg mb-1">
-                    {{ testimonial.utilisateur.full_name }}
-                </h4>
-
-                <p class="text-elite-gold font-semibold text-sm">
-                    {{ testimonial.note }}/5 - Membre EliteBuro
+                <p class="text-gray-700 leading-relaxed">
+                    {{ testimonial.commentaire }}
                 </p>
             </div>
             {% empty %}
-            <div class="text-center py-16 text-gray-400 italic">
+            <div class="testimonial-card text-center py-16 text-gray-400 italic">
                 <div class="text-5xl mb-6">💬</div>
                 <p class="text-xl">Découvrez bientôt les avis de nos clients.</p>
             </div>
@@ -419,31 +569,31 @@
     </div>
 </section>
 
-<!-- 9) SECTION STATISTIQUES -->
+<!-- 10) SECTION STATISTIQUES -->
 <section class="py-20 bg-elite-navy text-white">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
             <div class="space-y-2">
                 <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="500">500+</div>
-                <p class="text-gray-300 uppercase tracking-widest text-sm">Réservations</p>
+                <p class="text-gray-300 uppercase tracking-widest text-sm">Réservations par années</p>
             </div>
             <div class="space-y-2">
-                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="120">120+</div>
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="120">50+</div>
                 <p class="text-gray-300 uppercase tracking-widest text-sm">Entreprises</p>
             </div>
             <div class="space-y-2">
-                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="98">98%</div>
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="98">100%</div>
                 <p class="text-gray-300 uppercase tracking-widest text-sm">Clients satisfaits</p>
             </div>
             <div class="space-y-2">
-                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="15">15</div>
-                <p class="text-gray-300 uppercase tracking-widest text-sm">Espaces disponibles</p>
+                <div class="text-4xl md:text-5xl font-playfair font-bold text-elite-gold" data-target="15">15+</div>
+                <p class="text-gray-300 uppercase tracking-widest text-sm">Espaces de reservation</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 10) SECTION CTA FINAL -->
+<!-- 11) SECTION CTA FINAL -->
 <section class="py-24 bg-elite-navy/95 relative overflow-hidden">
    <div class="absolute inset-0">
     <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=2000" 
@@ -459,7 +609,7 @@
         <p class="text-white/90 mb-12 max-w-xl mx-auto font-medium">
             Rejoignez la communauté EliteBuro et profitez d'un cadre de travail exceptionnel dès aujourd'hui.
         </p>
-        <a href="{% url 'reservation:create' %}" class="btn-gold px-12 py-5 rounded-full font-bold text-xl inline-block">
+        <a href="{% url 'reservation:create' %}" class="btn-gold px-12 py-4 rounded-md font-semibold text-xl inline-block">
             Réserver maintenant
         </a>
     </div>
@@ -514,4 +664,3 @@ document.addEventListener('DOMContentLoaded', function() {
 {% endblock %}
 
 {% endblock %}
-

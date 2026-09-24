@@ -486,8 +486,18 @@ def admin_finish_reservation(
 # =====================================================
 # EXPORT FACTURE PDF
 # =====================================================
+# EXPORT FACTURE PDF
+# =====================================================
 
-def export_reservation_invoice_pdf(reservation):
+try:
+    from reportlab.lib.pagesizes import A4
+    from reportlab.pdfgen import canvas
+except Exception:
+    A4 = None
+    canvas = None
+
+
+def export_reservation_invoice_pdf(reservation, user=None):
     """
     Génération simple du fichier PDF de facture.
     """
@@ -498,50 +508,124 @@ def export_reservation_invoice_pdf(reservation):
         None
     )
 
-
     if invoice is None:
+        invoice = create_invoice_for_reservation(reservation)
 
-        invoice = create_invoice_for_reservation(
-            reservation
-        )
+    # Generate proper PDF using reportlab
+    from django.conf import settings
+    from django.core.files.base import ContentFile
+    from pathlib import Path
+    from django.utils import timezone
+    import tempfile
 
+    if canvas is None or A4 is None:
+        # Fallback to text content if reportlab not available
+        content = f"""
+EliteBuro
+----------------------------
 
+Facture : {invoice.numero}
 
-    content = f"""
-    EliteBuro
-    ----------------------------
+Réservation :
+{reservation.reservation_number}
 
-    Facture : {invoice.numero}
+Client :
+{reservation.utilisateur}
 
-    Réservation :
-    {reservation.reservation_number}
+Espace :
+{reservation.espace}
 
-    Client :
-    {reservation.utilisateur}
+Date début :
+{reservation.date_debut}
 
-    Espace :
-    {reservation.espace}
-
-    Date début :
-    {reservation.date_debut}
-
-    Date fin :
-    {reservation.date_fin}
-
-
-    Montant total :
-    {reservation.montant_total} FCFA
-
-    ----------------------------
-    Merci pour votre confiance.
-    """.encode()
+Date fin :
+{reservation.date_fin}
 
 
+Montant total :
+{reservation.montant_total} FCFA
 
-    filename = (
-        f"{invoice.numero}.pdf"
-    )
+----------------------------
+Merci pour votre confiance.
+""".encode()
+    else:
+        # Create proper PDF
+        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as tmp:
+            tmp_path = Path(tmp.name)
 
+        c = canvas.Canvas(str(tmp_path), pagesize=A4)
+        width, height = A4
+        y = height - 60
+
+        # Header
+        c.setFont("Helvetica-Bold", 18)
+        c.setFillColorRGB(1, 0.5, 0)  # Orange
+        c.drawString(50, y, "EliteBuro")
+        y -= 25
+
+        c.setFont("Helvetica", 10)
+        c.setFillColorRGB(0.3, 0.3, 0.3)
+        c.drawString(50, y, "Créateur de liens et de business")
+        y -= 15
+        c.drawString(50, y, "Riviera Palmeraie · Cocody · Abidjan")
+        y -= 30
+
+        # Line
+        c.setStrokeColorRGB(0.8, 0.8, 0.8)
+        c.line(50, y, width - 50, y)
+        y -= 30
+
+        # Invoice info
+        c.setFont("Helvetica-Bold", 14)
+        c.setFillColorRGB(0, 0, 0)
+        c.drawString(50, y, f"Facture : {invoice.numero}")
+        y -= 30
+
+        # Details
+        c.setFont("Helvetica", 11)
+        details = [
+            ("Réservation :", str(reservation.reservation_number)),
+            ("Client :", str(reservation.utilisateur)),
+            ("Espace :", str(reservation.espace)),
+            ("Date début :", str(reservation.date_debut)),
+            ("Date fin :", str(reservation.date_fin)),
+        ]
+
+        for label, value in details:
+            c.setFont("Helvetica-Bold", 11)
+            c.drawString(50, y, label)
+            c.setFont("Helvetica", 11)
+            c.drawString(180, y, value)
+            y -= 22
+
+        y -= 10
+        c.setStrokeColorRGB(0.8, 0.8, 0.8)
+        c.line(50, y, width - 50, y)
+        y -= 25
+
+        # Total
+        c.setFont("Helvetica-Bold", 14)
+        c.setFillColorRGB(1, 0.5, 0)
+        c.drawString(50, y, f"Montant total : {reservation.montant_total} FCFA")
+        y -= 40
+
+        # Footer
+        c.setFont("Helvetica-Oblique", 10)
+        c.setFillColorRGB(0.5, 0.5, 0.5)
+        c.drawString(50, y, "Merci pour votre confiance.")
+        y -= 20
+        c.drawString(50, y, f"Document généré le {timezone.now().strftime('%d/%m/%Y à %H:%M')}")
+
+        c.showPage()
+        c.save()
+
+        content = tmp_path.read_bytes()
+        try:
+            tmp_path.unlink(missing_ok=True)
+        except Exception:
+            pass
+
+    filename = f"{invoice.numero}.pdf"
 
     invoice.pdf.save(
         filename,
@@ -549,11 +633,9 @@ def export_reservation_invoice_pdf(reservation):
         save=True
     )
 
-
     invoice.statut = (
         ReservationInvoice.InvoiceStatus.ISSUED
     )
-
 
     invoice.save(
         update_fields=[
@@ -562,17 +644,11 @@ def export_reservation_invoice_pdf(reservation):
         ]
     )
 
-
     ReservationLog.objects.create(
-
         reservation=reservation,
-
         action=ReservationLog.ActionType.EXPORTED,
         acteur=user,
-
         detail=f"Export facture {filename}"
-
     )
 
-
-    return filename    
+    return filename
