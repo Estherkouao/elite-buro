@@ -3,11 +3,14 @@
             border-b border-slate-200/60 
             px-4 lg:px-12 py-3 
             flex items-center justify-between">
+    <a href="{% url 'core:home' %}" class="flex-shrink-0 flex flex-col items-center">
+        <img src="/media/ELITE BURO LOG1.png"
+            alt="EliteBuro"
+            class="h-16 sm:h-20 lg:h-23 w-auto">
 
-    <a href="{% url 'core:home' %}" class="flex-shrink-0">
-        <img src="/media/ELITE BURO LOG1.png" 
-             alt="EliteBuro"
-             class="h-16 sm:h-20 lg:h-23 w-auto">
+        <span class="text-[8px] sm:text-[9px] text-[#FF8000] font-medium -mt-1 whitespace-nowrap">
+            Créateur de liens et de business
+        </span>
     </a>
 
     <!-- Menu desktop -->
@@ -15,12 +18,12 @@
                 text-sm font-semibold text-slate-700">
 
             <a href="{% url 'core:a_propos' %}" class="nav-link">
-            À propos
+            À propos de elite buro
         </a>                
 
             <a href="{% url 'reservation:landing' %}" 
             class="nav-link">
-                Coworking
+               Elite buro Coworking
             </a>
 
            
@@ -28,7 +31,7 @@
             <div class="relative group">
 
         <button class="nav-link flex items-center gap-2">
-            Domiciliation
+           Elite buro Domiciliation
             <span class="text-sm">▼</span>
         </button>
 
@@ -256,12 +259,15 @@
             </div>
 
 
-            <a href="{% url 'core:ressources' %}"
-            class="block px-6 py-4 text-black font-semibold hover:bg-[#FF8000]/20 rounded-b-2xl">
-                
-                Ressources
+                    
+          <!--  <a href="{% url 'core:ressources' %}"
+                    class="block px-6 py-4 text-black font-semibold
+                            hover:bg-[#FF8000]/20 rounded-b-2xl">
+                        
+                        Ressources
 
             </a>
+              -->
 
 
         </div>
@@ -269,7 +275,7 @@
     </div>
 
         <a href="{% url 'formation:home' %}" class="nav-link">
-            Formation
+           Elite Academie
         </a>
       
         
@@ -307,10 +313,10 @@
         <div class="flex flex-col max-h-[75vh] overflow-y-auto">
             <!-- Navigation principale -->
             <div class="px-4 py-3">
-                <a href="{% url 'core:a_propos' %}" class="block py-3 px-4 text-slate-600 text-sm hover:bg-orange-50 transition-colors rounded-lg">À propos</a>
+                <a href="{% url 'core:a_propos' %}" class="block py-3 px-4 text-slate-600 text-sm hover:bg-orange-50 transition-colors rounded-lg">À propos de Elite buro</a>
                 <a href="{% url 'reservation:landing' %}" class="flex items-center gap-3 py-3.5 px-4 rounded-xl text-slate-700 font-medium hover:bg-orange-50 transition-colors">
                     <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50 text-orange-600 text-sm font-bold">🏢</span>
-                    Coworking
+                    Elite buro Coworking
                 </a>
                 
                 
@@ -373,10 +379,11 @@
                     <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50 text-orange-600 text-sm font-bold">🤝</span>
                     Accompagnement
                 </a>
-                <a href="#" class="flex items-center gap-3 py-3.5 px-4 rounded-xl text-slate-600 text-sm font-medium hover:bg-orange-50 transition-colors">
+               <!--  <a href="#" class="flex items-center gap-3 py-3.5 px-4 rounded-xl text-slate-600 text-sm font-medium hover:bg-orange-50 transition-colors">
                     <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50 text-orange-600 text-sm font-bold">📚</span>
                     Ressources
                 </a>
+            -->
             </div>
 
             <!-- Séparateur -->
@@ -407,11 +414,6 @@
 
     <!-- Actions desktop -->
     <div class="hidden xl:flex items-center gap-4">
-
-        <div class="hidden sm:flex items-center gap-2 text-xs font-medium text-white px-3 py-1.5 rounded-full" style="background: #FF8000;">
-            <span class="font-semibold">✦</span>
-            <span>Créateur de liens et de business</span>
-        </div>
 
         <button 
         onclick="window.location.href='{% url 'accounts:login' %}'"

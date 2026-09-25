@@ -10,7 +10,7 @@
      ═══════════════════════════════════════════ */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --navy: #FF8000; --navy-light: #FF8000; --gold: #B99646; --gold-light: #d4b36a;
+    --navy: #1b8545; --navy-light: #2d9f5d; --gold: #000000; --gold-light: #333333;
     --ivory: #F7F4EE; --cream: #F0ECE3; --dark: #1C1C1C; --text-muted: #5C5C5C;
     --white: #FFFFFF; --border: #D8D0C2;
     --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -33,11 +33,20 @@
      HERO
      ═══════════════════════════════════════════ */
   .hero { min-height: 55vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 72px; background: var(--navy); position: relative; }
+  .hero-logo-watermark {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; height: 400px;
+    z-index: 1;
+    opacity: 0.30;
+    pointer-events: none;
+  }
   .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255,128,0,0.60);
+        background: rgba(27, 133, 69, 0.60);
       z-index: 1;
   }
  
@@ -104,7 +113,7 @@
      FORMATEURS
      ═══════════════════════════════════════════ */
   .formateurs { padding: 80px 0; background: var(--navy); position: relative; overflow: hidden; }
-  .formateurs::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(185, 150, 70, 0.08) 0%, transparent 60%); }
+  .formateurs::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(0, 0, 0, 0.08) 0%, transparent 60%); }
   .formateurs .section-header { text-align: center; margin-bottom: 48px; position: relative; z-index: 1; }
   .formateurs .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 12px; }
   .formateurs .section-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 36px); font-weight: 600; color: var(--white); margin-bottom: 16px; }
@@ -112,7 +121,7 @@
   .formateurs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
   .formateur-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 32px 24px; text-align: center; transition: background 0.3s; }
   .formateur-card:hover { background: rgba(255,255,255,0.1); }
-  .formateur-avatar { width: 64px; height: 64px; border-radius: 50%; background: rgba(185, 150, 70, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-family: var(--font-display); font-size: 22px; color: var(--gold); font-weight: 700; }
+  .formateur-avatar { width: 64px; height: 64px; border-radius: 50%; background: rgba(0, 0, 0, 0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-family: var(--font-display); font-size: 22px; color: var(--gold); font-weight: 700; }
   .formateur-card h4 { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
   .formateur-card .role { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
   .formateur-card p { font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.6; }
@@ -215,7 +224,7 @@
   }
 
   .formateurs .section-label {
-      color: #FF8000 !important;
+      color: #1b8545 !important;
   }
 
   .formateur-card {
@@ -233,8 +242,8 @@
   }
 
   .formateur-avatar {
-      background: rgba(255,128,0,0.12);
-      color: #FF8000;
+      background: rgba(27, 133, 69, 0.12);
+      color: #1b8545;
   }
 
   .formateur-card h4 {
@@ -242,7 +251,7 @@
   }
 
   .formateur-card .role {
-      color: #FF8000 !important;
+      color: #1b8545 !important;
   }
 
   .formateur-card p {
@@ -255,6 +264,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
+  <img src="/media/logo academi.jpeg" alt="Elite Academy logo" class="hero-logo-watermark" />
   <div class="hero-content">
     <h1>Elite Académie</h1>
     <p class="mt-6 text-5xl lg:text-6xl font-black leading-tight text-white">Un espace dédié à la montée en compétences, avec des salles équipées, des programmes clés en main et un accompagnement personnalisé des formateurs.</p>

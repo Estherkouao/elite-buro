@@ -8,19 +8,19 @@
     EliteBuro - Landing Page de Réservation
     Fichier : templates/reservation/landing.html
     Style : Premium, Professionnel, Moderne
-    Couleurs : #0D2B55 (Bleu Marine), #C9A02C (Doré), #FAFAF7 (Crème)
+    Couleurs : #0D2B55 (Bleu Marine), #0D2B55 (Boutons/Accents), #FAFAF7 (Crème)
 -->
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
     :root {
-        --elite-navy: #17130F;
-        --elite-navy-light: #2A231C;
-        --elite-gold: #FF8000;
-        --elite-gold-light: #FF9E33;
+        --elite-navy: #0D2B55;
+        --elite-navy-light: #5A9BD5;
+        --elite-gold: #0D2B55;
+        --elite-gold-light: #5A9BD5;
         --elite-cream: #FAFAF7;
-        --elite-text: #1F2937;
+        --elite-text: #0D2B55;
     }
 
     body {
@@ -45,16 +45,16 @@
         color: #fff;
         font-weight: 600;
         letter-spacing: .01em;
-        box-shadow: 0 4px 12px rgba(255, 128, 0, 0.28);
+        box-shadow: 0 4px 12px rgba(13, 43, 85, 0.40);
         transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
         border: none;
     }
     .btn-gold:hover {
-        background: #E67300;
+        background: #081F40;
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(255, 128, 0, 0.35);
+        box-shadow: 0 6px 16px rgba(13, 43, 85, 0.50);
     }
-    .btn-gold:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(255,128,0,.3); }
+    .btn-gold:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(13,43,85,.40); }
 
     .btn-outline-white {
         background: transparent;
@@ -179,14 +179,32 @@
         transform: scale(1.08) rotate(-4deg);
     }
 
-    /* ===== TÉMOIGNAGES ===== */
+    /* Override Tailwind gold (orange) utilities with blue theme */
+    .bg-gold { background-color: var(--elite-navy) !important; }
+    .bg-gold\/10 { background-color: rgba(13, 43, 85, 0.10) !important; }
+    .text-gold { color: var(--elite-navy) !important; }
+    .shadow-gold\/5 { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.05) !important; }
+    .shadow-gold\/25 { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.25) !important; }
+    .hover\:shadow-gold\/5:hover { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.10) !important; }
+    .hover\:border-gold\/30:hover { border-color: rgba(13, 43, 85, 0.30) !important; }
+    .hover\:shadow-gold\/25:hover { box-shadow: 0 20px 45px rgba(13, 43, 85, 0.25) !important; }
+
+    /* Override navy (black) to blue marine */
+    .bg-navy { background-color: var(--elite-navy) !important; }
+    .text-navy { color: var(--elite-navy) !important; }
+    .hover\:bg-navy:hover { background-color: var(--elite-navy) !important; }
+    .hover\:text-navy:hover { color: var(--elite-navy) !important; }
+    .shadow-navy\/30 { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.30) !important; }
+    .hover\:shadow-navy\/30:hover { box-shadow: 0 20px 45px rgba(13, 43, 85, 0.35) !important; }
+
+    /* ===== SECTION TÉMOIGNAGES ===== */
     .testimonial-card {
         position: relative;
         background: #ffffff;
         border: 1px solid #E7E5E1;
         border-top: 3px solid var(--elite-gold);
         border-radius: 4px;
-        box-shadow: 0 2px 10px rgba(23,19,15,0.05);
+        box-shadow: 0 2px 10px rgba(13,43,85,0.08);
         text-align: left;
     }
     .testimonial-avatar {
@@ -205,21 +223,21 @@
 <section class="hero-section flex items-end justify-center">
 
    <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
-        <video 
-            class="w-full h-full object-cover"
-            autoplay
-            muted
-            loop
-            playsinline
-            controls>
-            <source src="/media/video1.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la vidéo.
-        </video>
-    </div>
+         <video 
+             class="w-full h-full object-cover"
+             autoplay
+             muted
+             loop
+             playsinline
+             controls>
+             <source src="/media/video1.mp4" type="video/mp4">
+             Votre navigateur ne supporte pas la vidéo.
+         </video>
+     </div>
 
-    <div class="hero-fade"></div>
+     <div class="hero-fade"></div>
 
-    <div class="hero-content relative z-10 text-center px-6 pb-10 max-w-4xl mx-auto">
+     <div class="hero-content relative z-10 text-center px-6 pt-4 pb-24 max-w-4xl mx-auto">
         <h1 class="hero-title font-playfair font-bold text-4xl md:text-6xl mb-4">
             Votre espace de travail d'exception
         </h1>
@@ -230,20 +248,20 @@
         <div class="flex justify-center">
             <div class="inline-flex flex-col sm:flex-row gap-3">
 
-                <a href="{% url 'reservation:create' %}" 
-                   class="btn-gold px-8 py-3 rounded-md text-base">
-                    Réserver maintenant
-                </a>
+                 <a href="{% url 'reservation:create' %}" 
+                    class="btn-gold px-10 py-4 rounded-md text-lg md:text-xl">
+                     Réserver maintenant
+                 </a>
 
-                <a href="#nos-espaces"
-                   class="btn-outline-white px-8 py-3 rounded-md text-base">
-                    Voir les espaces
-                </a>
+                 <a href="#nos-espaces"
+                    class="btn-outline-white px-10 py-4 rounded-md text-lg md:text-xl">
+                     Voir les espaces
+                 </a>
 
-                <a href="{% url 'conciergerie:home' %}"
-                   class="btn-gold px-8 py-3 rounded-md text-base">
-                   En savoir plus sur la Conciergerie
-                </a>
+                 <a href="{% url 'conciergerie:home' %}"
+                    class="btn-gold px-10 py-4 rounded-md text-lg md:text-xl">
+                    En savoir plus sur la Conciergerie
+                 </a>
 
             </div>
         </div>

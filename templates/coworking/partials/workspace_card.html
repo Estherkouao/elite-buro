@@ -14,7 +14,7 @@
     {% with main_image=workspace.images.all|first %}
       <img
         class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-        src="{% if main_image %}{{ main_image.image.url }}{% else %}{% static 'img/placeholder.jpg' %}{% endif %}"
+        src="{% if main_image %}{{ main_image.image.url }}{% elif workspace.image_principale %}{{ workspace.image_principale.url }}{% else %}{% static 'img/placeholder.jpg' %}{% endif %}"
         alt="{{ workspace.nom }}"
         loading="lazy"
         itemprop="image"
