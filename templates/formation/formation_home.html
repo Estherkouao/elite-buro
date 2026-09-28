@@ -34,14 +34,16 @@
      ═══════════════════════════════════════════ */
   .hero { min-height: 55vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 72px; background: var(--navy); position: relative; }
   .hero-logo-watermark {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px; height: 400px;
-    z-index: 1;
-    opacity: 0.7;
-    pointer-events: none;
-    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.25));
+      position: absolute;
+      top: 20px;                  /* plus petit = plus haut */
+      left: 40px;
+      transform: none;            /* on enlève le centrage vertical */
+      width: 100px;               /* avant : 160px */
+      height: auto;
+      z-index: 2;
+      opacity: 1;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
   }
   .hero::before {
       content: '';
@@ -51,9 +53,35 @@
       z-index: 1;
   }
  
-  .hero-content { position: relative; z-index: 2; text-align: center; padding: 72px 24px; }
-  .hero-content h1 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 28px; }
-  .hero-content p { font-size: 17px; color: rgba(255,255,255,0.7); font-weight: 300; line-height: 1.7; max-width: 560px; margin: 0 auto; }
+  .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px 48px;
+      margin: 24px;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.25);   /* avant : 0.75 → plus bas = plus transparent */
+      backdrop-filter: none;                   /* on retire le flou */
+      -webkit-backdrop-filter: none;
+      border-radius: 12px;
+      box-shadow: none;                        /* on retire l'ombre */
+  }
+  .hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      color: #000000;   /* avant : var(--white) */
+      line-height: 1.1;
+      margin-bottom: 28px;
+  }
+  .hero-content p {
+      font-size: 17px;
+      color: #000000;   /* avant : rgba(255,255,255,0.7) */
+      font-weight: 500;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto;
+  }
   .hero-content .gold-divider-bottom { margin: 28px auto 0; }
 
   .hero-bg {
@@ -171,7 +199,7 @@
     .nav { display: none; }
     .nav-toggle { display: flex; }
     .hero { min-height: 40vh; }
-    .hero-content { padding: 48px 24px; }
+    .hero-content { padding: 28px 20px; margin: 16px; }
     .intro-grid { grid-template-columns: 1fr; gap: 32px; }
     .intro-image img { height: 260px; }
     .services-grid { grid-template-columns: 1fr; }
@@ -181,6 +209,11 @@
     .cta-buttons { flex-direction: column; align-items: center; }
     .footer-top { flex-direction: column; text-align: center; }
     .footer-info { text-align: center; }
+    .hero-logo-watermark {
+      left: 16px;
+      top: 14px;
+      width: 64px;
+  }
   }
   @media (max-width: 480px) {
     .avantages-grid { grid-template-columns: 1fr; }
@@ -277,7 +310,7 @@
   <div class="container">
     <div class="intro-grid">
       <div class="intro-image reveal">
-        <img src="/media/images5.jpeg" alt="Salle de formation Elite Bureau" />
+        <img src="/media/jeune-homme-afro-americain.jpg" alt="Salle de formation Elite Bureau" />
       </div>
       <div class="intro-text reveal">
         <p class="section-label">Notre offre</p>
@@ -294,6 +327,10 @@
         <a href="{% url 'formation:trainers' %}" class="btn btn-outline">
           <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
           Nos formateurs
+        </a>
+        <a href="{% url 'reservation:landing' %}" class="btn btn-primary">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Réserver une salle de formation
         </a>
       </div>
     </div>
@@ -494,9 +531,13 @@
           <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Voir le catalogue
         </a>
-        <a href="{% url 'formation:trainers' %}" class="btn btn-outline">
+          <a href="{% url 'formation:trainers' %}" class="btn btn-outline">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            Nos formateurs
+          </a>
+        <a href="{% url 'formation:devis_formation_create' %}" class="btn btn-outline">
           <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-          Nos formateurs
+          Demander un devis
         </a>
       </div>
     </div>

@@ -15,12 +15,12 @@
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
     :root {
-        --elite-navy: #0D2B55;
+        --elite-navy: #074cad;
         --elite-navy-light: #5A9BD5;
-        --elite-gold: #0D2B55;
+        --elite-gold: #074cad;
         --elite-gold-light: #5A9BD5;
         --elite-cream: #FAFAF7;
-        --elite-text: #0D2B55;
+        --elite-text: #074cad;
     }
 
     body {
@@ -45,14 +45,14 @@
         color: #fff;
         font-weight: 600;
         letter-spacing: .01em;
-        box-shadow: 0 4px 12px rgba(13, 43, 85, 0.40);
+        box-shadow: 0 4px 12px rgba(5, 5, 5, 0.4);
         transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
         border: none;
     }
     .btn-gold:hover {
-        background: #081F40;
+        background: #0a0a0a;
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(13, 43, 85, 0.50);
+        box-shadow: 0 6px 16px rgba(10, 10, 10, 0.5);
     }
     .btn-gold:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(13,43,85,.40); }
 
@@ -69,7 +69,7 @@
     }
 
     .hero-overlay {
-        background: linear-gradient(rgba(13, 43, 85, 0.7), rgba(13, 43, 85, 0.7));
+        background: linear-gradient(rgba(18, 18, 19, 0.7), rgba(8, 8, 8, 0.7));
     }
 
     /* ===== CARTES (coins carrés, pas arrondis) ===== */
@@ -133,7 +133,7 @@
         position: absolute;
         left: 0; right: 0; bottom: 0;
         height: 45%;
-        background: linear-gradient(to top, rgba(13,43,85,0.85) 0%, rgba(13,43,85,0) 100%);
+        background: linear-gradient(to top, rgba(64, 110, 196, 0.85) 0%, rgba(72, 106, 179, 0) 100%);
         z-index: 5;
         pointer-events: none;
     }
@@ -160,7 +160,7 @@
     }
     .advantage-card:hover::before { transform: scaleY(1); }
     .advantage-card:hover {
-        box-shadow: 0 18px 36px rgba(13,43,85,0.12);
+        box-shadow: 0 18px 36px rgba(8, 8, 8, 0.12);
         transform: translateY(-6px);
         border-color: transparent;
     }
@@ -172,7 +172,7 @@
         background: linear-gradient(135deg, var(--elite-navy) 0%, var(--elite-navy-light) 100%);
         color: var(--elite-gold-light);
         margin-bottom: 1.5rem;
-        box-shadow: 0 8px 18px rgba(13,43,85,0.25);
+        box-shadow: 0 8px 18px rgba(3, 3, 3, 0.25);
         transition: transform .35s ease;
     }
     .advantage-card:hover .advantage-icon {
@@ -181,21 +181,21 @@
 
     /* Override Tailwind gold (orange) utilities with blue theme */
     .bg-gold { background-color: var(--elite-navy) !important; }
-    .bg-gold\/10 { background-color: rgba(13, 43, 85, 0.10) !important; }
+    .bg-gold\/10 { background-color: rgba(13, 13, 14, 0.1) !important; }
     .text-gold { color: var(--elite-navy) !important; }
-    .shadow-gold\/5 { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.05) !important; }
-    .shadow-gold\/25 { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.25) !important; }
-    .hover\:shadow-gold\/5:hover { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.10) !important; }
-    .hover\:border-gold\/30:hover { border-color: rgba(13, 43, 85, 0.30) !important; }
-    .hover\:shadow-gold\/25:hover { box-shadow: 0 20px 45px rgba(13, 43, 85, 0.25) !important; }
+    .shadow-gold\/5 { box-shadow: 0 10px 30px rgba(8, 8, 8, 0.05) !important; }
+    .shadow-gold\/25 { box-shadow: 0 10px 30px rgba(8, 8, 8, 0.25) !important; }
+    .hover\:shadow-gold\/5:hover { box-shadow: 0 10px 30px rgba(2, 2, 2, 0.1) !important; }
+    .hover\:border-gold\/30:hover { border-color: rgba(8, 8, 8, 0.3) !important; }
+    .hover\:shadow-gold\/25:hover { box-shadow: 0 20px 45px rgba(5, 5, 5, 0.25) !important; }
 
     /* Override navy (black) to blue marine */
     .bg-navy { background-color: var(--elite-navy) !important; }
     .text-navy { color: var(--elite-navy) !important; }
     .hover\:bg-navy:hover { background-color: var(--elite-navy) !important; }
     .hover\:text-navy:hover { color: var(--elite-navy) !important; }
-    .shadow-navy\/30 { box-shadow: 0 10px 30px rgba(13, 43, 85, 0.30) !important; }
-    .hover\:shadow-navy\/30:hover { box-shadow: 0 20px 45px rgba(13, 43, 85, 0.35) !important; }
+    .shadow-navy\/30 { box-shadow: 0 10px 30px rgba(13, 13, 14, 0.3) !important; }
+    .hover\:shadow-navy\/30:hover { box-shadow: 0 20px 45px rgba(3, 3, 3, 0.35) !important; }
 
     /* ===== SECTION TÉMOIGNAGES ===== */
     .testimonial-card {
@@ -217,6 +217,169 @@
         font-size: 1.05rem;
         flex-shrink: 0;
     }
+    /* Logo en haut à gauche de la vidéo */
+    .hero-logo {
+        position: absolute;
+        top: 40px;   /* avant : 20px → plus grand = plus bas */
+        left: 60px;
+        z-index: 20;
+    }
+
+    .hero-logo img {
+        height: 85px;   /* avant : 48px → plus grand */
+        width: auto;
+        filter: drop-shadow(0 2px 6px rgba(0,0,0,.4));
+    }
+
+    @media (max-width: 768px) {
+        .hero-logo { top: 28px; left: 14px; }   /* avant : 14px */
+        .hero-logo img { height: 60px; }        /* avant : 36px */
+    }
+    .hero-panel {
+        background: rgba(121, 171, 236, 0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border-radius: 8px;
+        padding: 2rem 2rem 2.5rem;
+        margin-bottom: 3rem;   /* remonte le panneau du bas du hero */
+    }
+    /* ===== POURQUOI CHOISIR : LIGNE CENTRALE ===== */
+    /* ===== POURQUOI CHOISIR : TIMELINE PREMIUM ===== */
+    .why-timeline {
+        position: relative;
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 1rem 0;
+    }
+    .why-timeline::before {
+        content: '';
+        position: absolute;
+        top: 0; bottom: 0; left: 50%;
+        width: 3px;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, transparent, var(--elite-navy) 10%, var(--elite-navy-light) 90%, transparent);
+        border-radius: 2px;
+    }
+
+    .why-item {
+        position: relative;
+        width: 50%;
+        padding: 0 4.5rem 0 0;
+        margin-bottom: 2.75rem;
+    }
+    .why-item.right {
+        margin-left: 50%;
+        padding: 0 0 0 4.5rem;
+    }
+
+    /* Point central avec icône */
+    .why-node {
+        position: absolute;
+        top: 1rem; right: -28px;
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, var(--elite-navy), var(--elite-navy-light));
+        border: 4px solid #fff;
+        box-shadow: 0 8px 20px rgba(7, 76, 173, 0.35);
+        z-index: 2;
+        transition: transform .35s ease;
+    }
+    .why-item.right .why-node { right: auto; left: -28px; }
+    .why-item:hover .why-node { transform: scale(1.12) rotate(-6deg); }
+
+    /* Halo qui pulse */
+    .why-node::after {
+        content: '';
+        position: absolute; inset: -4px;
+        border-radius: 50%;
+        border: 2px solid var(--elite-navy-light);
+        opacity: 0;
+        animation: whyPulse 2.6s ease-out infinite;
+    }
+    @keyframes whyPulse {
+        0%   { transform: scale(1);   opacity: .6; }
+        100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* Trait de liaison point → carte */
+    .why-item::after {
+        content: '';
+        position: absolute;
+        top: calc(1rem + 27px);
+        right: 28px;
+        width: 44px; height: 2px;
+        background: linear-gradient(90deg, var(--elite-navy-light), var(--elite-navy));
+    }
+    .why-item.right::after {
+        right: auto; left: 28px;
+        background: linear-gradient(90deg, var(--elite-navy), var(--elite-navy-light));
+    }
+
+    /* Carte */
+    .why-card {
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #EFEAE0;
+        border-radius: 6px;
+        padding: 1.75rem 2rem;
+        box-shadow: 0 10px 30px rgba(7, 76, 173, 0.08);
+        transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    .why-card::before {
+        content: '';
+        position: absolute; top: 0; bottom: 0; right: 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--elite-navy-light), var(--elite-navy));
+    }
+    .why-item.right .why-card::before { right: auto; left: 0; }
+    .why-item:hover .why-card {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 44px rgba(7, 76, 173, 0.18);
+        border-color: rgba(7, 76, 173, 0.25);
+    }
+
+    /* Grand numéro en filigrane */
+    .why-num {
+        position: absolute;
+        top: -0.6rem; right: 1.25rem;
+        font-family: 'Playfair Display', serif;
+        font-size: 5.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: rgba(7, 76, 173, 0.07);
+        pointer-events: none;
+    }
+    .why-item.right .why-num { right: auto; left: 1.25rem; }
+
+    /* Apparition au scroll (activée seulement si le JS tourne) */
+    .why-anim .why-item { opacity: 0; transform: translateX(-50px); transition: opacity .7s ease, transform .7s ease; }
+    .why-anim .why-item.right { transform: translateX(50px); }
+    .why-anim .why-item.in-view { opacity: 1; transform: none; }
+
+    /* Mobile : ligne à gauche */
+    @media (max-width: 768px) {
+        .why-timeline::before { left: 22px; }
+        .why-item, .why-item.right {
+            width: 100%; margin-left: 0;
+            padding: 0 0 0 4.25rem;
+            margin-bottom: 2rem;
+        }
+        .why-node, .why-item.right .why-node {
+            left: 0; right: auto;
+            width: 44px; height: 44px; font-size: 1.2rem;
+            top: .75rem;
+        }
+        .why-item::after, .why-item.right::after {
+            left: 44px; right: auto; width: 20px;
+            top: calc(.75rem + 21px);
+        }
+        .why-card::before, .why-item.right .why-card::before { right: auto; left: 0; }
+        .why-num, .why-item.right .why-num { right: 1rem; left: auto; font-size: 4rem; }
+        .why-anim .why-item, .why-anim .why-item.right { transform: translateY(30px); }
+    }
 </style>
 
 <!-- 2) HERO SECTION -->
@@ -236,8 +399,12 @@
      </div>
 
      <div class="hero-fade"></div>
+     <!-- Logo sur la vidéo -->
+    <a href="/" class="hero-logo">
+        <img src="{% static 'images/logo coworkind.jpeg' %}" alt="EliteBuro">
+    </a>
 
-     <div class="hero-content relative z-10 text-center px-6 pt-4 pb-24 max-w-4xl mx-auto">
+     <div class="hero-content hero-panel relative z-10 text-center px-6 pt-4 pb-24 max-w-4xl mx-auto">
         <h1 class="hero-title font-playfair font-bold text-4xl md:text-6xl mb-4">
             Votre espace de travail d'exception
         </h1>
@@ -354,35 +521,45 @@
             <p class="text-gray-600 max-w-2xl mx-auto">L'excellence au service de votre productivité avec des équipements de pointe.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="why-timeline">
             {% for advantage in advantages %}
-            <div class="advantage-card">
-                <div class="advantage-icon">{{ advantage.icon }}</div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">{{ advantage.title }}</h3>
-                <p class="text-gray-600 leading-relaxed">{{ advantage.description }}</p>
+            <div class="why-item {% if forloop.counter|divisibleby:2 %}right{% endif %}">
+                <span class="why-node">{{ advantage.icon }}</span>
+                <div class="why-card">
+                    <span class="why-num">{{ forloop.counter|stringformat:"02d" }}</span>
+                    <h3 class="text-xl font-bold text-elite-navy mb-2">{{ advantage.title }}</h3>
+                    <p class="text-gray-600 leading-relaxed">{{ advantage.description }}</p>
+                </div>
             </div>
             {% empty %}
-            <!-- Default values as per requirements -->
-            <div class="advantage-card">
-                <div class="advantage-icon">📶</div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">Wi-Fi Haut Débit</h3>
-                <p class="text-gray-600 leading-relaxed">Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
+            <div class="why-item">
+                <span class="why-node">📶</span>
+                <div class="why-card">
+                    <span class="why-num">01</span>
+                    <h3 class="text-xl font-bold text-elite-navy mb-2">Wi-Fi Haut Débit</h3>
+                    <p class="text-gray-600 leading-relaxed">Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
+                </div>
             </div>
-            <div class="advantage-card">
-                <div class="advantage-icon">❄️</div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">Climatisation</h3>
-                <p class="text-gray-600 leading-relaxed">Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
+            <div class="why-item right">
+                <span class="why-node">❄️</span>
+                <div class="why-card">
+                    <span class="why-num">02</span>
+                    <h3 class="text-xl font-bold text-elite-navy mb-2">Climatisation</h3>
+                    <p class="text-gray-600 leading-relaxed">Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
+                </div>
             </div>
-            <div class="advantage-card">
-                <div class="advantage-icon">☕</div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">Café offert</h3>
-                <p class="text-gray-600 leading-relaxed">Une sélection de cafés et thés premium en libre-service pour nos membres.</p>
+            <div class="why-item">
+                <span class="why-node">☕</span>
+                <div class="why-card">
+                    <span class="why-num">03</span>
+                    <h3 class="text-xl font-bold text-elite-navy mb-2">Café offert</h3>
+                    <p class="text-gray-600 leading-relaxed">Une sélection de cafés et thés premium en libre-service pour nos membres.</p>
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
-
 <!-- 6) SECTION "COMMENT ÇA FONCTIONNE" -->
 <section class="py-24 overflow-hidden" style="background-color: var(--elite-cream);">
     <div class="container mx-auto px-6">
@@ -592,22 +769,22 @@
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-yellow-400" data-target="500">500+</div>
+            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="500">500+</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Réservations par années</p>
         </div>
 
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-yellow-400" data-target="120">50+</div>
+            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="120">50+</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Entreprises</p>
         </div>
 
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-yellow-400" data-target="98">100%</div>
+            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="98">100%</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Clients satisfaits</p>
         </div>
 
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-yellow-400" data-target="15">15+</div>
+            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="15">15+</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Espaces de reservation</p>
         </div>
     </div>
@@ -681,6 +858,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start auto-slide
     interval = setInterval(nextSlide, 5000);
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const timeline = document.querySelector('.why-timeline');
+    if (!timeline || !('IntersectionObserver' in window)) return;
+    timeline.classList.add('why-anim');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+        });
+    }, { threshold: 0.15 });
+    timeline.querySelectorAll('.why-item').forEach(el => io.observe(el));
+});
+
 </script>
 {% endblock %}
 
