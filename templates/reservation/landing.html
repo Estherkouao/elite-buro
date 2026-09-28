@@ -232,8 +232,19 @@
     }
 
     @media (max-width: 768px) {
-        .hero-logo { top: 28px; left: 14px; }   /* avant : 14px */
-        .hero-logo img { height: 60px; }        /* avant : 36px */
+        .hero-section {
+            margin-top: 64px;
+            height: calc(100vh - 64px);
+        }
+        .hero-logo { top: 20px; left: 12px; }
+        .hero-logo img { height: 50px; }
+        .hero-panel {
+            padding: 1rem 1rem 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .why-card {
+            padding: 1.5rem 1.25rem;
+        }
     }
     .hero-panel {
         background: rgba(121, 171, 236, 0.55);
@@ -401,7 +412,7 @@
      <div class="hero-fade"></div>
      <!-- Logo sur la vidéo -->
     <a href="/" class="hero-logo">
-        <img src="{% static 'images/logo coworkind.jpeg' %}" alt="EliteBuro">
+        <img src="/media/logo coworkind.jpeg" alt="EliteBuro">
     </a>
 
      <div class="hero-content hero-panel relative z-10 text-center px-6 pt-4 pb-24 max-w-4xl mx-auto">
@@ -769,22 +780,22 @@
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="500">500+</div>
+            <div class="text-3xl md:text-5xl font-playfair font-bold text-white" data-target="500">500+</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Réservations par années</p>
         </div>
 
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="120">50+</div>
+            <div class="text-3xl md:text-5xl font-playfair font-bold text-white" data-target="120">50+</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Entreprises</p>
         </div>
 
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="98">100%</div>
+            <div class="text-3xl md:text-5xl font-playfair font-bold text-white" data-target="98">100%</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Clients satisfaits</p>
         </div>
 
         <div class="space-y-2">
-            <div class="text-4xl md:text-5xl font-playfair font-bold text-white" data-target="15">15+</div>
+            <div class="text-3xl md:text-5xl font-playfair font-bold text-white" data-target="15">15+</div>
             <p class="text-gray-300 uppercase tracking-widest text-sm">Espaces de reservation</p>
         </div>
     </div>
@@ -801,10 +812,10 @@
 
 <div class="absolute inset-0 bg-elite-navy/80"></div>
     <div class="container mx-auto px-6 relative z-10 text-center">
-        <h2 class="text-3xl md:text-5xl font-playfair font-bold text-white mb-8">
+        <h2 class="text-3xl md:text-5xl font-playfair font-bold text-black mb-8">
             Prêt à réserver votre espace ?
         </h2>
-        <p class="text-white/90 mb-12 max-w-xl mx-auto font-medium">
+        <p class="text-black mb-12 max-w-xl mx-auto font-medium">
             Rejoignez la communauté EliteBuro et profitez d'un cadre de travail exceptionnel dès aujourd'hui.
         </p>
         <a href="{% url 'reservation:create' %}" class="btn-gold px-12 py-4 rounded-md font-semibold text-xl inline-block">
