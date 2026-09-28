@@ -15,6 +15,7 @@ urlpatterns = [
 
     # Pages institutionnelles
     path("a-propos/", TemplateView.as_view(template_name="core/a_propos.html"), name="a_propos"),
+    path("waouh-agency/", TemplateView.as_view(template_name="core/waouhagencyhome.html"), name="waouh_agency"),
     path("faq/", TemplateView.as_view(template_name="core/faq.html"), name="faq"),
     path(
         "mentions-legales/",

@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
-<title>Waouh! Agency Côte d'Ivoire – Agence de communication Elite Buro</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap">
+{% extends "layouts/base_public_landing.html" %}
+{% block title %}Waouh! Agency Côte d'Ivoire – Agence de communication Elite Buro{% endblock %}
+
+{% block extra_css %}
 <style>
 :root{--red:#E8262B;--coral:#F26B6D;--sun:#F9B233;--pink:#B8348F;--plum:#8E3670;--ink:#3A2634;--mute:#7A6875;--line:#EFE4EB;--shadow:0 12px 40px rgba(142,54,112,.10);
 color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -28,7 +24,7 @@ nav ul a:hover{background-size:100% 2px}
 .btn.ghost{background:#fff;color:var(--plum);box-shadow:inset 0 0 0 1.5px var(--plum)}
 .btn.ghost:hover{background:var(--plum);color:#fff}
 
-.hero{padding:70px 0 90px}
+.hero{padding:120px 0 90px}
 .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
 .hero h1{font-size:clamp(2.5rem,5.6vw,4.6rem);font-weight:300;color:var(--red);letter-spacing:-.02em}
 .hero h1 b{font-weight:700;color:var(--plum)}
@@ -162,17 +158,18 @@ footer{border-top:1px solid var(--line)}
 @media (max-width:900px){.grid.g3,.packs{grid-template-columns:1fr 1fr}.clients{grid-template-columns:repeat(3,1fr)}.event .wrap{grid-template-columns:1fr;gap:40px}}
 @media (max-width:560px){.grid.g3,.packs,.etypes{grid-template-columns:1fr}.clients{grid-template-columns:1fr 1fr}}
 </style>
-</head>
-<body>
+{% endblock extra_css %}
 
-<nav aria-label="Navigation principale">
- 
-</nav>
+{% block content %}
 
 <header class="hero" id="accueil">
- <div class="wrap">
+ <div class="wrap">   
   <div>
-   <span class="tag">Agence de communication et événementiel</span>
+    
+    <div class="flex items-center gap-2">
+      <img src="/media/logo web1.jpeg" alt="Waouh! Agency" class="h-12 w-auto">
+      <span class="tag">Agence de communication et événementiel</span>
+    </div>
    <h1>Donnez à votre marque un <b>waouh</b> qu'on n'oublie pas</h1>
    <p>Nous construisons l'image de votre entreprise et la faisons connaître : stratégie, création, réseaux sociaux et événements, du premier brief au résultat.</p>
    <div class="chips"><span style="--c:var(--red)">Promotion de votre image</span><span style="--c:var(--coral)">Stratégie marketing</span><span style="--c:var(--sun)">Branding</span><span style="--c:var(--pink)">Communication digitale</span></div>
@@ -223,8 +220,7 @@ footer{border-top:1px solid var(--line)}
 <section style="padding-top:20px"><div class="wrap">
  <div class="head"><h2>Des secteurs variés, une même exigence</h2><p>Nous accompagnons des entreprises et des institutions de tous horizons.</p></div>
  <div class="sectors"><span style="--c:var(--red)">Banque et finance</span><span style="--c:var(--coral)">Immobilier</span><span style="--c:var(--sun)">Restauration et hôtellerie</span><span style="--c:var(--pink)">Santé</span><span style="--c:var(--red)">Éducation</span><span style="--c:var(--coral)">Mode et beauté</span><span style="--c:var(--sun)">Télécoms et tech</span><span style="--c:var(--pink)">Institutions et ONG</span></div>
- <div class="head" style="margin-bottom:28px"><h2 style="font-size:1.5rem">Ils nous font confiance</h2></div>
- <div class="clients"><div>Client 1</div><div>Client 2</div><div>Client 3</div><div>Client 4</div><div>Client 5</div><div>Client 6</div></div>
+
 </div></section>
 
 <section id="methode" style="padding-top:20px">
@@ -316,6 +312,4 @@ footer{border-top:1px solid var(--line)}
  </div></div>
 </section>
 
-
-</body>
-</html>
+{% endblock content %}

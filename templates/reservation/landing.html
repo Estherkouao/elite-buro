@@ -824,6 +824,7 @@
     </div>
 </section>
 
+{% endblock %}
 {% block extra_js %}
 {{ block.super }}
 <script>
@@ -883,7 +884,5 @@ document.addEventListener('DOMContentLoaded', function () {
     timeline.querySelectorAll('.why-item').forEach(el => io.observe(el));
 });
 
-</script>
-{% endblock %}
-
+    </script>
 {% endblock %}

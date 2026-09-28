@@ -481,15 +481,44 @@
         }
 
         .back-home-link {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 14px;
-            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            padding: 11px 20px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #FF8000, #111111);
+            color: #fff;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .2px;
+            box-shadow: 0 8px 20px rgba(17,17,17,.18);
+            transition: all .3s ease;
         }
 
+        .back-home-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 26px rgba(17,17,17,.25);
+            background: linear-gradient(135deg, #111111, #FF8000);
+            color: #fff;
+        }
+
+        .back-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.18);
+            font-size: 16px;
+            transition: transform .3s ease;
+        }
+
+        .back-home-link:hover .back-icon {
+            transform: translateX(-4px);
+        }
         .back-home-link:hover {
             color: var(--gold);
         }
@@ -716,7 +745,10 @@
             <div class="form-header">
                 <h1>Bienvenue</h1>
                 <p>Connectez-vous à votre compte EliteBuro</p>
-                <a href="{% url 'core:home' %}" class="back-home-link">← Retour à l'accueil</a>
+                <a href="{% url 'core:home' %}" class="back-home-link">
+                    <span class="back-icon">←</span>
+                    <span>Retour à l'accueil</span>
+                </a>
             </div>
 
             <form method="POST">
