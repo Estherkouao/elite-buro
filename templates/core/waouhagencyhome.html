@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Waouh! Agency Côte d'Ivoire – Agence de communication Elite Buro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--red:#E8262B;--coral:#F26B6D;--sun:#F9B233;--pink:#B8348F;--plum:#8E3670;--ink:#3A2634;--mute:#7A6875;--line:#EFE4EB;--shadow:0 12px 40px rgba(142,54,112,.10);
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:90px;scroll-behavior:smooth;background:#fff}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:400 17px/1.7 'DM Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:'Comfortaa','DM Sans',sans-serif;line-height:1.15;margin:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:82px}
+nav img{height:60px;width:auto;display:block}
+nav ul{display:flex;gap:36px;list-style:none;margin:0;padding:0;font-weight:500}
+nav ul a{padding:6px 0;background:linear-gradient(var(--coral),var(--coral)) 0 100%/0 2px no-repeat;transition:background-size .3s}
+nav ul a:hover{background-size:100% 2px}
+.btn{display:inline-block;background:var(--red);color:#fff;font-weight:500;padding:14px 30px;border-radius:999px;box-shadow:0 8px 22px rgba(232,38,43,.22);transition:background .25s,transform .25s}
+.btn:hover{background:var(--plum);transform:translateY(-2px)}
+.btn.ghost{background:#fff;color:var(--plum);box-shadow:inset 0 0 0 1.5px var(--plum)}
+.btn.ghost:hover{background:var(--plum);color:#fff}
+
+.hero{padding:70px 0 90px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2.5rem,5.6vw,4.6rem);font-weight:300;color:var(--red);letter-spacing:-.02em}
+.hero h1 b{font-weight:700;color:var(--plum)}
+.hero p{max-width:31em;color:var(--mute);font-size:1.13rem;margin:26px 0 38px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.art{width:100%;height:auto;overflow:visible}
+.art .ring{fill:none;stroke:var(--red);stroke-width:9;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 1.8s .2s ease forwards}
+.art .r2{animation-delay:.5s}
+.art .solid{fill:var(--plum);opacity:0;animation:fade .8s 1.3s forwards}
+.art .sq{opacity:0;animation:fade .6s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+
+.strip{padding:34px 0;border-block:1px solid var(--line);text-align:center;font-family:'Comfortaa',sans-serif;color:var(--plum);font-size:1.08rem}
+.strip .wrap{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap}
+.strip i{display:inline-flex;gap:6px}
+.strip i s{width:12px;height:12px;border-radius:2px;display:block}
+
+section{padding:110px 0}
+.head{max-width:640px;margin:0 auto 56px;text-align:center}
+.head h2,.about h2,.final h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600;color:var(--plum)}
+.head p{color:var(--mute);margin:16px 0 0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{padding:34px 26px 36px;border-radius:14px;background:#fff;box-shadow:var(--shadow);border:1px solid var(--line);transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(142,54,112,.16)}
+.ico{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;margin-bottom:24px;background:color-mix(in srgb,var(--c) 14%,#fff)}
+.ico svg{width:30px;height:30px;stroke:var(--c);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:1.15rem;font-weight:700;color:var(--plum)}
+.card p{margin:12px 0 0;font-size:.97rem;color:var(--mute);line-height:1.6}
+.c1{--c:var(--red)}.c2{--c:var(--coral)}.c3{--c:#E9A11F}.c4{--c:var(--pink)}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:27px;height:2px;background:linear-gradient(90deg,var(--red),var(--coral),var(--sun),var(--pink));opacity:.45}
+.step{text-align:center;position:relative}
+.step b{width:54px;height:54px;margin:0 auto 20px;border-radius:50%;background:#fff;border:2px solid var(--c);color:var(--c);display:grid;place-items:center;font:700 1.15rem 'Comfortaa',sans-serif}
+.step h3{font-size:1.1rem;color:var(--plum)}
+.step p{margin:8px auto 0;max-width:15em;color:var(--mute);font-size:.95rem;line-height:1.55}
+
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about p{color:var(--mute);margin:20px 0 30px}
+.vals{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.val{padding:24px;border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--line);border-left:5px solid var(--c)}
+.val b{font-family:'Comfortaa',sans-serif;color:var(--plum)}
+.val span{display:block;color:var(--mute);font-size:.93rem;line-height:1.5;margin-top:6px}
+
+.final .box{text-align:center;padding:76px 24px;border-radius:24px;box-shadow:var(--shadow);border:1px solid var(--line);position:relative;overflow:hidden}
+.final .box::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:linear-gradient(90deg,var(--red) 0 25%,var(--coral) 0 50%,var(--sun) 0 75%,var(--pink) 0)}
+.final h2{font-weight:300;color:var(--red);font-size:clamp(2.2rem,5vw,3.6rem)}
+.final h2 b{font-weight:700;color:var(--plum)}
+.final p{max-width:30em;margin:18px auto 32px;color:var(--mute)}
+
+footer{padding:36px 0 44px;font-size:.93rem;color:var(--mute)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+footer img{height:46px}
+
+@media (max-width:900px){
+ nav ul{display:none}
+ .hero .wrap,.about .wrap{grid-template-columns:1fr;gap:40px}
+ .art{max-width:440px;margin:0 auto;order:-1}
+ .grid,.steps{grid-template-columns:1fr 1fr}.steps::before{display:none}
+}
+@media (max-width:560px){.grid,.steps,.vals{grid-template-columns:1fr}nav .btn{padding:10px 18px}nav img{height:48px}section{padding:76px 0}.hero{padding-top:36px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.art .ring{stroke-dashoffset:0}.art .solid,.art .sq{opacity:1}}
+
+.stats{padding:70px 0 20px}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;text-align:center}
+.stat b{display:block;font:300 clamp(2.4rem,4.5vw,3.6rem)/1 'Comfortaa',sans-serif;color:var(--c)}
+.stat span{display:block;margin-top:10px;color:var(--mute);font-size:.95rem}
+.card ul{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px solid var(--line);font-size:.92rem;color:var(--ink)}
+.card li{padding:3px 0 3px 18px;position:relative}
+.card li::before{content:"";position:absolute;left:0;top:.8em;width:8px;height:8px;border-radius:2px;background:var(--c)}
+.works{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.work{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#fff}
+.work svg{display:block;width:100%;height:auto;border-bottom:1px solid var(--line)}
+.work div{padding:22px 24px 26px}
+.work small{color:var(--c);font-weight:700;font-size:.85rem}
+.work h3{font-size:1.1rem;color:var(--plum);margin:6px 0 8px}
+.work p{margin:0;color:var(--mute);font-size:.94rem;line-height:1.55}
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.quote{padding:34px;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow);position:relative}
+.quote::before{content:"\\201C";position:absolute;top:8px;left:24px;font:700 4rem/1 'Comfortaa',sans-serif;color:var(--c);opacity:.5}
+.quote p{margin:22px 0 18px;font-size:1.05rem;color:var(--ink)}
+.quote b{color:var(--plum)}.quote span{display:block;color:var(--mute);font-size:.9rem}
+.faq{max-width:780px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line);padding:20px 4px}
+.faq summary{cursor:pointer;font:600 1.05rem 'Comfortaa',sans-serif;color:var(--plum);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--red);font-size:1.5rem;line-height:1;transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:14px 0 0;color:var(--mute)}
+.info{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;text-align:left}
+.info div{padding:20px;border-radius:12px;border:1px solid var(--line);background:#fff}
+.info b{display:block;color:var(--plum);font-family:'Comfortaa',sans-serif;font-size:.95rem;margin-bottom:4px}
+.info span{color:var(--mute);font-size:.93rem;line-height:1.5}
+footer{border-top:1px solid var(--line)}
+.fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:34px}
+.fcols h4{margin:0 0 12px;font-family:'Comfortaa',sans-serif;color:var(--plum);font-size:1rem}
+.fcols a,.fcols p{display:block;margin:0 0 8px;color:var(--mute)}
+.fcols a:hover{color:var(--red)}
+.fcols img{height:56px;margin-bottom:12px}
+.copy{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (max-width:900px){.stats .wrap,.info{grid-template-columns:1fr 1fr}.works{grid-template-columns:1fr}.quotes{grid-template-columns:1fr}.fcols{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.stats .wrap,.info,.fcols{grid-template-columns:1fr}}
+
+.tag{display:inline-block;margin-bottom:22px;padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);color:var(--plum);font:600 .92rem 'Comfortaa',sans-serif;box-shadow:var(--shadow)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 34px}
+.chips span{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:.93rem;font-weight:500}
+.chips span::before{content:"";width:10px;height:10px;border-radius:2px;background:var(--c)}
+.grid.g3{grid-template-columns:repeat(3,1fr)}
+.sectors{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:820px;margin:0 auto 54px}
+.sectors span{padding:10px 22px;border-radius:999px;border:1.5px solid var(--c);color:var(--plum);font-weight:500;font-size:.95rem}
+.clients{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.clients div{height:74px;border-radius:12px;border:1px dashed #DCC9D6;display:grid;place-items:center;color:#B39CAD;font:600 .85rem 'Comfortaa',sans-serif}
+.event .wrap{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.event h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600;color:var(--plum)}
+.event p{color:var(--mute);margin:18px 0 26px}
+.etypes{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin:0 0 32px;padding:0;list-style:none}
+.etypes li{display:flex;gap:12px;align-items:center;font-weight:500}
+.etypes li::before{content:"";flex:none;width:12px;height:12px;border-radius:3px;background:var(--c)}
+.event svg{width:100%;height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.pack{padding:38px 30px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;position:relative;border-top:5px solid var(--c)}
+.pack.hot{border:2px solid var(--plum);border-top-width:5px}
+.pack em{position:absolute;top:-14px;right:24px;background:var(--plum);color:#fff;font-style:normal;font-size:.8rem;font-weight:700;padding:4px 14px;border-radius:999px}
+.pack h3{font-size:1.3rem;color:var(--plum)}
+.pack>p{color:var(--mute);margin:10px 0 20px;font-size:.96rem}
+.pack ul{list-style:none;margin:0 0 28px;padding:0;flex:1}
+.pack li{padding:8px 0 8px 26px;position:relative;font-size:.95rem;border-bottom:1px solid var(--line)}
+.pack li::before{content:"✓";position:absolute;left:0;color:var(--c);font-weight:700}
+.pack .btn{text-align:center}
+@media (max-width:900px){.grid.g3,.packs{grid-template-columns:1fr 1fr}.clients{grid-template-columns:repeat(3,1fr)}.event .wrap{grid-template-columns:1fr;gap:40px}}
+@media (max-width:560px){.grid.g3,.packs,.etypes{grid-template-columns:1fr}.clients{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav aria-label="Navigation principale">
+ 
+</nav>
+
+<header class="hero" id="accueil">
+ <div class="wrap">
+  <div>
+   <span class="tag">Agence de communication et événementiel</span>
+   <h1>Donnez à votre marque un <b>waouh</b> qu'on n'oublie pas</h1>
+   <p>Nous construisons l'image de votre entreprise et la faisons connaître : stratégie, création, réseaux sociaux et événements, du premier brief au résultat.</p>
+   <div class="chips"><span style="--c:var(--red)">Promotion de votre image</span><span style="--c:var(--coral)">Stratégie marketing</span><span style="--c:var(--sun)">Branding</span><span style="--c:var(--pink)">Communication digitale</span></div>
+   <div class="cta">
+    <a class="btn" href="#contact">Lancer mon projet</a>
+    <a class="btn ghost" href="#services">Découvrir nos services</a>
+   </div>
+  </div>
+  <svg class="art" viewBox="0 0 520 420" aria-hidden="true">
+   <circle class="ring" cx="150" cy="190" r="118"/>
+   <circle class="ring r2" cx="300" cy="190" r="118"/>
+   <path class="solid" d="M440 40h56l-22 250h-12z"/>
+   <circle class="solid" cx="468" cy="350" r="30"/>
+   <g><rect class="sq" style="animation-delay:1.6s" x="70" y="375" width="34" height="34" rx="4" fill="#E8262B"/>
+   <rect class="sq" style="animation-delay:1.75s" x="114" y="375" width="34" height="34" rx="4" fill="#F26B6D"/>
+   <rect class="sq" style="animation-delay:1.9s" x="158" y="375" width="34" height="34" rx="4" fill="#F9B233"/>
+   <rect class="sq" style="animation-delay:2.05s" x="202" y="375" width="34" height="34" rx="4" fill="#B8348F"/></g>
+  </svg>
+ </div>
+</header>
+
+<div class="strip"><div class="wrap"><span>Waouh! Agency</span><i><s style="background:var(--red)"></s><s style="background:var(--coral)"></s><s style="background:var(--sun)"></s><s style="background:var(--pink)"></s></i><span>Elite Buro</span></div></div>
+
+<div class="stats"><div class="wrap">
+ <div class="stat" style="--c:var(--red)"><b>150+</b><span>projets réalisés</span></div>
+ <div class="stat" style="--c:var(--coral)"><b>60+</b><span>clients accompagnés</span></div>
+ <div class="stat" style="--c:#E9A11F"><b>8 ans</b><span>d'expérience</span></div>
+ <div class="stat" style="--c:var(--pink)"><b>6</b><span>expertises sous un même toit</span></div>
+</div></div>
+
+<section id="services">
+ <div class="wrap">
+  <div class="head">
+   <h2>Tout ce qu'il faut pour promouvoir votre image</h2>
+   <p>Agence de communication et événementiel à Abidjan, nous prenons en charge votre communication de bout en bout.</p>
+  </div>
+  <div class="grid g3">
+   <article class="card c1"><div class="ico"><svg viewBox="0 0 48 48"><path d="M6 20l30-12v32L6 28z"/><path d="M14 30l3 12h6l-3-10"/></svg></div><h3>Promotion de votre image</h3><p>Nous rendons votre entreprise visible et crédible auprès de votre public.</p><ul><li>Campagnes publicitaires</li><li>Relations presse et médias</li><li>Affichage et supports print</li></ul></article>
+   <article class="card c2"><div class="ico"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="1.5"/></svg></div><h3>Stratégie marketing</h3><p>Une feuille de route claire pour atteindre vos objectifs commerciaux.</p><ul><li>Audit et étude de marché</li><li>Plan de communication</li><li>Suivi des performances</li></ul></article>
+   <article class="card c3"><div class="ico"><svg viewBox="0 0 48 48"><path d="M24 5l6 13 14 2-10 10 3 14-13-7-13 7 3-14L4 20l14-2z"/></svg></div><h3>Branding et identité</h3><p>Une marque cohérente, reconnaissable et qui vous ressemble.</p><ul><li>Logo et charte graphique</li><li>Positionnement et storytelling</li><li>Packaging et signalétique</li></ul></article>
+   <article class="card c4"><div class="ico"><svg viewBox="0 0 48 48"><rect x="13" y="5" width="22" height="38" rx="5"/><path d="M21 37h6"/></svg></div><h3>Communication digitale</h3><p>Une présence en ligne active qui attire et fidélise vos clients.</p><ul><li>Réseaux sociaux et contenus</li><li>Publicité Facebook, Instagram, Google</li><li>Site web et référencement</li></ul></article>
+   <article class="card c1"><div class="ico"><svg viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="32" rx="4"/><path d="M6 20h36M16 5v10M32 5v10"/></svg></div><h3>Événementiel</h3><p>Des événements sur mesure qui marquent les esprits.</p><ul><li>Lancements et inaugurations</li><li>Conférences et séminaires</li><li>Soirées de gala et activations</li></ul></article>
+   <article class="card c2"><div class="ico"><svg viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="32" rx="3"/><path d="M13 17h14M13 24h22M13 31h22"/></svg></div><h3>Création de contenus</h3><p>Des visuels et des vidéos qui racontent votre histoire.</p><ul><li>Photo et vidéo institutionnelle</li><li>Motion design et spots</li><li>Rédaction et newsletters</li></ul></article>
+  </div>
+ </div>
+</section>
+
+<section style="padding-top:20px"><div class="wrap">
+ <div class="head"><h2>Des secteurs variés, une même exigence</h2><p>Nous accompagnons des entreprises et des institutions de tous horizons.</p></div>
+ <div class="sectors"><span style="--c:var(--red)">Banque et finance</span><span style="--c:var(--coral)">Immobilier</span><span style="--c:var(--sun)">Restauration et hôtellerie</span><span style="--c:var(--pink)">Santé</span><span style="--c:var(--red)">Éducation</span><span style="--c:var(--coral)">Mode et beauté</span><span style="--c:var(--sun)">Télécoms et tech</span><span style="--c:var(--pink)">Institutions et ONG</span></div>
+ <div class="head" style="margin-bottom:28px"><h2 style="font-size:1.5rem">Ils nous font confiance</h2></div>
+ <div class="clients"><div>Client 1</div><div>Client 2</div><div>Client 3</div><div>Client 4</div><div>Client 5</div><div>Client 6</div></div>
+</div></section>
+
+<section id="methode" style="padding-top:20px">
+ <div class="wrap">
+  <div class="head"><h2>Une méthode simple, du brief au résultat</h2></div>
+  <div class="steps">
+   <div class="step" style="--c:var(--red)"><b>1</b><h3>Écouter</h3><p>Nous cernons vos objectifs et votre public.</p></div>
+   <div class="step" style="--c:var(--coral)"><b>2</b><h3>Concevoir</h3><p>Nous bâtissons la stratégie et l'idée créative.</p></div>
+   <div class="step" style="--c:#E9A11F"><b>3</b><h3>Produire</h3><p>Nous réalisons visuels, contenus et supports.</p></div>
+   <div class="step" style="--c:var(--pink)"><b>4</b><h3>Diffuser</h3><p>Nous lançons, mesurons et ajustons.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="event" id="evenementiel"><div class="wrap">
+ <div>
+  <h2>Des événements qui font parler de vous</h2>
+  <p>De l'idée à la logistique, notre équipe conçoit et pilote votre événement : lieu, scénographie, animation, invitations, communication et couverture média.</p>
+  <ul class="etypes">
+   <li style="--c:var(--red)">Lancement de produit</li><li style="--c:var(--coral)">Conférence et séminaire</li>
+   <li style="--c:var(--sun)">Inauguration</li><li style="--c:var(--pink)">Soirée de gala</li>
+   <li style="--c:var(--red)">Activation de marque</li><li style="--c:var(--coral)">Salon et stand</li>
+  </ul>
+  <a class="btn" href="#contact">Organiser mon événement</a>
+ </div>
+ <svg viewBox="0 0 480 400" aria-hidden="true"><rect width="480" height="400" fill="#fff"/><circle cx="170" cy="190" r="110" fill="none" stroke="#E8262B" stroke-width="8"/><circle cx="310" cy="190" r="110" fill="none" stroke="#B8348F" stroke-width="8"/><path d="M228 110l28 45-28 45" fill="none" stroke="#8E3670" stroke-width="8" stroke-linecap="round"/><g><rect x="60" y="60" width="26" height="26" rx="4" fill="#F9B233"/><rect x="400" y="310" width="26" height="26" rx="4" fill="#F26B6D"/><rect x="380" y="50" width="20" height="20" rx="4" fill="#E8262B"/><rect x="70" y="320" width="20" height="20" rx="4" fill="#B8348F"/><circle cx="240" cy="345" r="9" fill="#8E3670"/></g></svg>
+</div></section>
+
+<section id="realisations" style="padding-top:20px"><div class="wrap">
+ <div class="head"><h2>Quelques exemples de projets</h2><p>Des campagnes pensées pour des secteurs très différents, avec le même souci du détail.</p></div>
+ <div class="works">
+  <article class="work" style="--c:var(--red)"><svg viewBox="0 0 400 240" aria-hidden="true"><circle cx="150" cy="120" r="70" fill="none" stroke="#E8262B" stroke-width="7"/><circle cx="250" cy="120" r="70" fill="none" stroke="#F26B6D" stroke-width="7"/></svg><div><small>Lancement de marque</small><h3>Une nouvelle enseigne à Abidjan</h3><p>Identité visuelle, campagne d'affichage et animation des réseaux sociaux.</p></div></article>
+  <article class="work" style="--c:var(--pink)"><svg viewBox="0 0 400 240" aria-hidden="true"><rect x="90" y="60" width="90" height="90" rx="6" fill="#B8348F"/><rect x="150" y="110" width="90" height="90" rx="6" fill="#F9B233" opacity=".85"/><rect x="230" y="50" width="70" height="70" rx="6" fill="none" stroke="#B8348F" stroke-width="6"/></svg><div><small>Campagne digitale</small><h3>Une offre promotionnelle en ligne</h3><p>Création de visuels, publicité ciblée et suivi hebdomadaire des résultats.</p></div></article>
+  <article class="work" style="--c:#E9A11F"><svg viewBox="0 0 400 240" aria-hidden="true"><path d="M190 40h40l-14 120h-12z" fill="#8E3670"/><circle cx="210" cy="195" r="18" fill="#8E3670"/><circle cx="110" cy="120" r="46" fill="none" stroke="#F26B6D" stroke-width="7"/><circle cx="310" cy="120" r="30" fill="none" stroke="#F26B6D" stroke-width="7"/></svg><div><small>Événementiel</small><h3>Une conférence d'entreprise</h3><p>Scénographie, supports de communication et couverture presse de l'événement.</p></div></article>
+ </div></div></section>
+
+<section id="offres" style="padding-top:20px"><div class="wrap">
+ <div class="head"><h2>Des formules adaptées à votre besoin</h2><p>Chaque projet fait l'objet d'un devis personnalisé.</p></div>
+ <div class="packs">
+  <div class="pack" style="--c:var(--coral)"><h3>Essentiel</h3><p>Pour poser les bases de votre image.</p><ul><li>Logo et charte graphique</li><li>Kit réseaux sociaux</li><li>Supports print de base</li></ul><a class="btn ghost" href="#contact">Demander un devis</a></div>
+  <div class="pack hot" style="--c:var(--red)"><em>Le plus demandé</em><h3>Croissance</h3><p>Pour accélérer votre visibilité.</p><ul><li>Stratégie marketing complète</li><li>Gestion mensuelle des réseaux</li><li>Campagnes publicitaires</li><li>Rapport de performance</li></ul><a class="btn" href="#contact">Demander un devis</a></div>
+  <div class="pack" style="--c:var(--pink)"><h3>Sur mesure</h3><p>Pour les grands projets et événements.</p><ul><li>Accompagnement 360°</li><li>Organisation d'événements</li><li>Relations presse</li><li>Équipe dédiée</li></ul><a class="btn ghost" href="#contact">Demander un devis</a></div>
+ </div>
+</div></section>
+
+<section class="about" id="agence">
+ <div class="wrap">
+  <div>
+   <h2>Une agence à taille humaine, des idées à grande échelle</h2>
+   <p>Née au sein d'Elite Buro, Waouh! Agency réunit stratèges, créatifs et spécialistes du digital installés à Abidjan. Nous connaissons le marché ivoirien et ses codes, et nous travaillons main dans la main avec vous.</p>
+   <a class="btn ghost" href="#contact">Rencontrer l'équipe</a>
+  </div>
+  <div class="vals">
+   <div class="val" style="--c:var(--red)"><b>Écoute</b><span>Vos objectifs passent avant nos idées.</span></div>
+   <div class="val" style="--c:var(--coral)"><b>Créativité</b><span>Des concepts originaux, pensés pour votre public.</span></div>
+   <div class="val" style="--c:var(--sun)"><b>Réactivité</b><span>Une équipe disponible et des délais tenus.</span></div>
+   <div class="val" style="--c:var(--pink)"><b>Résultats</b><span>Un suivi clair de l'impact de vos campagnes.</span></div>
+  </div>
+ </div>
+</section>
+
+<section style="padding-top:20px"><div class="wrap">
+ <div class="head"><h2>Ce que disent nos clients</h2></div>
+ <div class="quotes">
+  <div class="quote" style="--c:var(--red)"><p>Une équipe à l'écoute, rapide et créative. Notre lancement a dépassé nos attentes.</p><b>Nom du client</b><span>Directeur commercial, entreprise partenaire</span></div>
+  <div class="quote" style="--c:var(--pink)"><p>Nos réseaux sociaux ont pris une autre dimension depuis que Waouh! s'en occupe.</p><b>Nom du client</b><span>Gérante, commerce à Abidjan</span></div>
+ </div></div></section>
+
+<section id="faq" style="padding-top:20px"><div class="wrap">
+ <div class="head"><h2>Questions fréquentes</h2></div>
+ <div class="faq">
+  <details><summary>Comment démarre une collaboration ?</summary><p>Par un premier échange gratuit pour comprendre vos besoins. Nous vous envoyons ensuite une proposition détaillée avec calendrier et budget.</p></details>
+  <details><summary>Travaillez-vous avec les petites entreprises ?</summary><p>Oui. Nous accompagnons aussi bien les jeunes entreprises que les grandes structures, avec des offres adaptées à chaque budget.</p></details>
+  <details><summary>Quels délais prévoir pour un projet ?</summary><p>Un logo ou une charte demandent en général deux à quatre semaines. Une campagne complète se prépare sur un à deux mois.</p></details>
+  <details><summary>Quel est le lien avec Elite Buro ?</summary><p>Waouh! Agency est l'agence de communication d'Elite Buro. Vous profitez ainsi d'un accompagnement complet, de la stratégie à la mise en œuvre.</p></details>
+ </div></div></section>
+
+<section class="final" id="contact" style="padding-top:20px">
+ <div class="wrap"><div class="box">
+  <h2>Prêt pour votre <b>waouh</b> ?</h2>
+  <p>Parlez-nous de votre projet. Nous vous répondons rapidement avec une première proposition.</p>
+  <a class="btn" href="mailto:contact@waouhagency.ci">Nous écrire</a>
+  <div class="info">
+   <div><b>Adresse</b><span>Abidjan, Côte d'Ivoire<br>(à compléter)</span></div>
+   <div><b>Téléphone</b><span>+225 00 00 00 00 00</span></div>
+   <div><b>Email</b><span>contact@waouhagency.ci</span></div>
+   <div><b>Horaires</b><span>Lundi au vendredi<br>8h – 18h</span></div>
+  </div>
+ </div></div>
+</section>
+
+
+</body>
+</html>
