@@ -3,9 +3,9 @@
 
 {% block extra_css %}
 <style>
-:root{--red:#E8262B;--coral:#F26B6D;--sun:#F9B233;--pink:#B8348F;--plum:#8E3670;--ink:#3A2634;--mute:#7A6875;--line:#EFE4EB;--shadow:0 12px 40px rgba(142,54,112,.10);
+:root{--red:#E8262B;--coral:#F26B6D;--sun:#F9B233;--pink:#B8348F;--plum:#8E3670;--ink:#3A2634;--mute:#7A6875;--line:#EFE4EB;--shadow:0 12px 40px rgba(142,54,112,.10);--nav-h:124px;
 color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:90px;scroll-behavior:smooth;background:#fff}
+html{scroll-padding-top:150px;scroll-behavior:smooth;background:#fff}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:#fff;color:var(--ink);font:400 17px/1.7 'DM Sans',system-ui,sans-serif}
 h1,h2,h3{font-family:'Comfortaa','DM Sans',sans-serif;line-height:1.15;margin:0}
@@ -24,19 +24,22 @@ nav ul a:hover{background-size:100% 2px}
 .btn.ghost{background:#fff;color:var(--plum);box-shadow:inset 0 0 0 1.5px var(--plum)}
 .btn.ghost:hover{background:var(--plum);color:#fff}
 
-.hero{padding:120px 0 90px}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
-.hero h1{font-size:clamp(2.5rem,5.6vw,4.6rem);font-weight:300;color:var(--red);letter-spacing:-.02em}
-.hero h1 b{font-weight:700;color:var(--plum)}
-.hero p{max-width:31em;color:var(--mute);font-size:1.13rem;margin:26px 0 38px}
+.hero{padding:calc(var(--nav-h,110px) + 24px) 0 0;display:flex;flex-direction:column;gap:28px}
+.hero .wrap{width:100%}
+.hero-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px;padding-bottom:26px}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
-.art{width:100%;height:auto;overflow:visible}
-.art .ring{fill:none;stroke:var(--red);stroke-width:9;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 1.8s .2s ease forwards}
-.art .r2{animation-delay:.5s}
-.art .solid{fill:var(--plum);opacity:0;animation:fade .8s 1.3s forwards}
-.art .sq{opacity:0;animation:fade .6s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes fade{to{opacity:1}}
+.hero-media{position:relative;width:100%;display:flex;align-items:stretch;justify-content:center;background:#FFFBEB}
+.hero-media .art{flex:1 1 auto;min-width:0;height:auto;max-height:640px;object-fit:contain;object-position:center;display:block;background:transparent}
+.hero-media::before{content:"";position:absolute;top:0;bottom:0;left:0;width:22px;z-index:1;background:#FFFBEB}
+.hero-panel{flex:0 0 clamp(250px,26vw,330px);display:flex;flex-direction:column;justify-content:center;gap:28px;padding:40px 30px;background:#FFFBEB}
+.hero-panel .chips{flex-direction:column;align-items:stretch;margin:0;gap:10px}
+.hero-panel .chips span{padding:11px 16px;font-size:.9rem;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(142,54,112,.07)}
+.hero-panel .cta{flex-direction:column;align-items:stretch;gap:12px}
+.hero-panel .btn{text-align:center;padding:14px 18px}
+.hero-panel .divider{height:1px;background:var(--line)}
+.hero-brand{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:22px 50px}
+.hero-brand .tag{margin-bottom:0;background:rgba(255,255,255,.92);backdrop-filter:blur(6px)}
+.hero-brand img{height:60px;width:auto;display:block;background:#fff;border-radius:12px;padding:8px 12px;box-shadow:var(--shadow)}
 
 .strip{padding:34px 0;border-block:1px solid var(--line);text-align:center;font-family:'Comfortaa',sans-serif;color:var(--plum);font-size:1.08rem}
 .strip .wrap{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap}
@@ -82,12 +85,13 @@ footer img{height:46px}
 
 @media (max-width:900px){
  nav ul{display:none}
- .hero .wrap,.about .wrap{grid-template-columns:1fr;gap:40px}
- .art{max-width:440px;margin:0 auto;order:-1}
+.about .wrap{grid-template-columns:1fr;gap:40px}
  .grid,.steps{grid-template-columns:1fr 1fr}.steps::before{display:none}
-}
-@media (max-width:560px){.grid,.steps,.vals{grid-template-columns:1fr}nav .btn{padding:10px 18px}nav img{height:48px}section{padding:76px 0}.hero{padding-top:36px}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.art .ring{stroke-dashoffset:0}.art .solid,.art .sq{opacity:1}}
+ }
+@media (max-width:1023px){:root{--nav-h:100px}}
+@media (max-width:860px){.hero{flex-direction:column}.hero-media{flex-direction:column}.hero-panel{flex:0 0 auto;width:100%;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:22px 24px}.hero-panel .chips{flex-direction:row}.hero-panel .divider{display:none}.hero-panel .cta{flex-direction:row}}
+@media (max-width:560px){:root{--nav-h:92px}.grid,.steps,.vals{grid-template-columns:1fr}nav .btn{padding:10px 18px}nav img{height:48px}section{padding:76px 0}.hero-top{padding-bottom:10px}.hero-brand{padding:16px 38px}.hero-brand img{height:48px}.hero-panel{flex-direction:column;align-items:stretch}.hero-panel .cta{flex-direction:column}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .stats{padding:70px 0 20px}
 .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;text-align:center}
@@ -96,6 +100,36 @@ footer img{height:46px}
 .card ul{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px solid var(--line);font-size:.92rem;color:var(--ink)}
 .card li{padding:3px 0 3px 18px;position:relative}
 .card li::before{content:"";position:absolute;left:0;top:.8em;width:8px;height:8px;border-radius:2px;background:var(--c)}
+#activites{padding:56px 0}
+#activites .head{max-width:640px;margin:0 auto 40px;text-align:center}
+#activites .head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600;color:var(--plum)}
+.galerie{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;align-items:start;width:100%;padding:0 clamp(10px,2vw,32px)}
+.galerie figure{margin:0;position:relative;overflow:hidden;border-radius:14px;box-shadow:var(--shadow);background:#fff;transition:transform .4s,box-shadow .4s}
+.galerie img{display:block;width:100%;height:auto;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+.galerie figure:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(142,54,112,.18)}
+.galerie figure:hover img{transform:scale(1.05)}
+.galerie figure::after{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);pointer-events:none}
+.galerie .g1{grid-column:span 5}
+.galerie .g2{grid-column:span 3;margin-top:56px}
+.galerie .g3{grid-column:span 4;margin-top:112px}
+@media (max-width:900px){.galerie .g1,.galerie .g2,.galerie .g3{grid-column:span 6;margin-top:0}}
+@media (max-width:560px){.galerie{grid-template-columns:1fr}.galerie .g1,.galerie .g2,.galerie .g3{grid-column:span 1}}
+
+.realisations{columns:3;column-gap:16px;width:100%;padding:0 clamp(10px,2vw,32px)}
+.realisation{margin:0 0 16px;break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;position:relative;overflow:hidden;border-radius:14px;background:#fff;box-shadow:var(--shadow);transition:transform .4s,box-shadow .4s}
+.realisation img{display:block;width:100%;height:auto;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+.realisation:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(142,54,112,.20)}
+.realisation:hover img{transform:scale(1.05)}
+.realisation::after{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);pointer-events:none}
+.realisation figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 18px 16px;color:#fff;background:linear-gradient(to top,rgba(58,38,52,.82),transparent);font:600 .93rem 'Comfortaa',sans-serif;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.realisation:hover figcaption{opacity:1;transform:none}
+@media (max-width:900px){.realisations{columns:2}}
+@media (max-width:560px){.realisations{columns:1}}
+
+#realisations-img{padding:56px 0}
+#realisations-img .head{max-width:640px;margin:0 auto 40px;text-align:center}
+#realisations-img .head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600;color:var(--plum)}
+
 .works{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .work{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#fff}
 .work svg{display:block;width:100%;height:auto;border-bottom:1px solid var(--line)}
@@ -163,32 +197,21 @@ footer{border-top:1px solid var(--line)}
 {% block content %}
 
 <header class="hero" id="accueil">
- <div class="wrap">   
-  <div>
-    
-    <div class="flex items-center gap-2">
-      <img src="/media/logo web1.jpeg" alt="Waouh! Agency" class="h-12 w-auto">
-      <span class="tag">Agence de communication et événementiel</span>
+  <div class="hero-media">
+   <img class="art" src="/media/headerwaouhagency.jpeg" alt="Waouh! Agency Côte d'Ivoire, agence de communication et événementiel à Abidjan" />
+   <div class="hero-brand">
+    <img src="/media/logo web1.jpeg" alt="Waouh! Agency">
+    <span class="tag">Agence de communication et événementiel</span>
+   </div>
+   <div class="hero-panel">
+    <div class="chips"><span style="--c:var(--red)">Promotion de votre image</span><span style="--c:var(--coral)">Stratégie marketing</span><span style="--c:var(--sun)">Branding</span><span style="--c:var(--pink)">Communication digitale</span></div>
+    <div class="divider"></div>
+    <div class="cta">
+     <a class="btn" href="#contact">Lancer mon projet</a>
+     <a class="btn ghost" href="#services">Découvrir nos services</a>
     </div>
-   <h1>Donnez à votre marque un <b>waouh</b> qu'on n'oublie pas</h1>
-   <p>Nous construisons l'image de votre entreprise et la faisons connaître : stratégie, création, réseaux sociaux et événements, du premier brief au résultat.</p>
-   <div class="chips"><span style="--c:var(--red)">Promotion de votre image</span><span style="--c:var(--coral)">Stratégie marketing</span><span style="--c:var(--sun)">Branding</span><span style="--c:var(--pink)">Communication digitale</span></div>
-   <div class="cta">
-    <a class="btn" href="#contact">Lancer mon projet</a>
-    <a class="btn ghost" href="#services">Découvrir nos services</a>
    </div>
   </div>
-  <svg class="art" viewBox="0 0 520 420" aria-hidden="true">
-   <circle class="ring" cx="150" cy="190" r="118"/>
-   <circle class="ring r2" cx="300" cy="190" r="118"/>
-   <path class="solid" d="M440 40h56l-22 250h-12z"/>
-   <circle class="solid" cx="468" cy="350" r="30"/>
-   <g><rect class="sq" style="animation-delay:1.6s" x="70" y="375" width="34" height="34" rx="4" fill="#E8262B"/>
-   <rect class="sq" style="animation-delay:1.75s" x="114" y="375" width="34" height="34" rx="4" fill="#F26B6D"/>
-   <rect class="sq" style="animation-delay:1.9s" x="158" y="375" width="34" height="34" rx="4" fill="#F9B233"/>
-   <rect class="sq" style="animation-delay:2.05s" x="202" y="375" width="34" height="34" rx="4" fill="#B8348F"/></g>
-  </svg>
- </div>
 </header>
 
 <div class="strip"><div class="wrap"><span>Waouh! Agency</span><i><s style="background:var(--red)"></s><s style="background:var(--coral)"></s><s style="background:var(--sun)"></s><s style="background:var(--pink)"></s></i><span>Elite Buro</span></div></div>
@@ -199,6 +222,23 @@ footer{border-top:1px solid var(--line)}
  <div class="stat" style="--c:#E9A11F"><b>8 ans</b><span>d'expérience</span></div>
  <div class="stat" style="--c:var(--pink)"><b>6</b><span>expertises sous un même toit</span></div>
 </div></div>
+
+<section id="activites">
+  <div class="head">
+   <h2>Nos activités</h2>
+  </div>
+  <div class="galerie">
+   <figure class="g1">
+    <img src="/media/nos%20activiter1.jpeg" alt="Waouh! Agency en action" loading="lazy">
+   </figure>
+   <figure class="g2">
+    <img src="/media/nos%20activiter2.jpeg" alt="Réalisation d'un projet Waouh! Agency" loading="lazy">
+   </figure>
+   <figure class="g3">
+    <img src="/media/nos%20activiter3.jpeg" alt="Production visuelle et événementielle" loading="lazy">
+   </figure>
+  </div>
+</section>
 
 <section id="services">
  <div class="wrap">
@@ -249,6 +289,50 @@ footer{border-top:1px solid var(--line)}
  <svg viewBox="0 0 480 400" aria-hidden="true"><rect width="480" height="400" fill="#fff"/><circle cx="170" cy="190" r="110" fill="none" stroke="#E8262B" stroke-width="8"/><circle cx="310" cy="190" r="110" fill="none" stroke="#B8348F" stroke-width="8"/><path d="M228 110l28 45-28 45" fill="none" stroke="#8E3670" stroke-width="8" stroke-linecap="round"/><g><rect x="60" y="60" width="26" height="26" rx="4" fill="#F9B233"/><rect x="400" y="310" width="26" height="26" rx="4" fill="#F26B6D"/><rect x="380" y="50" width="20" height="20" rx="4" fill="#E8262B"/><rect x="70" y="320" width="20" height="20" rx="4" fill="#B8348F"/><circle cx="240" cy="345" r="9" fill="#8E3670"/></g></svg>
 </div></section>
 
+<section id="realisations-img">
+  <div class="head">
+   <h2>Nos réalisations</h2>
+  </div>
+  <div class="realisations">
+   <figure class="realisation">
+    <img src="/media/nos%20realisation1.jpeg" alt="Réalisation Waouh! Agency 1" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation2.jpeg" alt="Réalisation Waouh! Agency 2" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation3.jpeg" alt="Réalisation Waouh! Agency 3" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation4.jpeg" alt="Réalisation Waouh! Agency 4" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation5.jpeg" alt="Réalisation Waouh! Agency 5" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation6.jpeg" alt="Réalisation Waouh! Agency 6" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation7.jpeg" alt="Réalisation Waouh! Agency 7" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation8.jpeg" alt="Réalisation Waouh! Agency 8" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation9.jpeg" alt="Réalisation Waouh! Agency 9" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation10.jpeg" alt="Réalisation Waouh! Agency 10" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation11.jpeg" alt="Réalisation Waouh! Agency 11" loading="lazy">
+   </figure>
+   <figure class="realisation">
+    <img src="/media/nos%20realisation12.jpeg" alt="Réalisation Waouh! Agency 12" loading="lazy">
+   </figure>
+  </div>
+</section>
+
 <section id="realisations" style="padding-top:20px"><div class="wrap">
  <div class="head"><h2>Quelques exemples de projets</h2><p>Des campagnes pensées pour des secteurs très différents, avec le même souci du détail.</p></div>
  <div class="works">
@@ -257,21 +341,13 @@ footer{border-top:1px solid var(--line)}
   <article class="work" style="--c:#E9A11F"><svg viewBox="0 0 400 240" aria-hidden="true"><path d="M190 40h40l-14 120h-12z" fill="#8E3670"/><circle cx="210" cy="195" r="18" fill="#8E3670"/><circle cx="110" cy="120" r="46" fill="none" stroke="#F26B6D" stroke-width="7"/><circle cx="310" cy="120" r="30" fill="none" stroke="#F26B6D" stroke-width="7"/></svg><div><small>Événementiel</small><h3>Une conférence d'entreprise</h3><p>Scénographie, supports de communication et couverture presse de l'événement.</p></div></article>
  </div></div></section>
 
-<section id="offres" style="padding-top:20px"><div class="wrap">
- <div class="head"><h2>Des formules adaptées à votre besoin</h2><p>Chaque projet fait l'objet d'un devis personnalisé.</p></div>
- <div class="packs">
-  <div class="pack" style="--c:var(--coral)"><h3>Essentiel</h3><p>Pour poser les bases de votre image.</p><ul><li>Logo et charte graphique</li><li>Kit réseaux sociaux</li><li>Supports print de base</li></ul><a class="btn ghost" href="#contact">Demander un devis</a></div>
-  <div class="pack hot" style="--c:var(--red)"><em>Le plus demandé</em><h3>Croissance</h3><p>Pour accélérer votre visibilité.</p><ul><li>Stratégie marketing complète</li><li>Gestion mensuelle des réseaux</li><li>Campagnes publicitaires</li><li>Rapport de performance</li></ul><a class="btn" href="#contact">Demander un devis</a></div>
-  <div class="pack" style="--c:var(--pink)"><h3>Sur mesure</h3><p>Pour les grands projets et événements.</p><ul><li>Accompagnement 360°</li><li>Organisation d'événements</li><li>Relations presse</li><li>Équipe dédiée</li></ul><a class="btn ghost" href="#contact">Demander un devis</a></div>
- </div>
-</div></section>
 
 <section class="about" id="agence">
  <div class="wrap">
   <div>
    <h2>Une agence à taille humaine, des idées à grande échelle</h2>
    <p>Née au sein d'Elite Buro, Waouh! Agency réunit stratèges, créatifs et spécialistes du digital installés à Abidjan. Nous connaissons le marché ivoirien et ses codes, et nous travaillons main dans la main avec vous.</p>
-   <a class="btn ghost" href="#contact">Rencontrer l'équipe</a>
+   <a class="btn ghost" href="mailto:infos@waouhagency.ci">Rencontrer l'équipe</a>
   </div>
   <div class="vals">
    <div class="val" style="--c:var(--red)"><b>Écoute</b><span>Vos objectifs passent avant nos idées.</span></div>
@@ -282,12 +358,6 @@ footer{border-top:1px solid var(--line)}
  </div>
 </section>
 
-<section style="padding-top:20px"><div class="wrap">
- <div class="head"><h2>Ce que disent nos clients</h2></div>
- <div class="quotes">
-  <div class="quote" style="--c:var(--red)"><p>Une équipe à l'écoute, rapide et créative. Notre lancement a dépassé nos attentes.</p><b>Nom du client</b><span>Directeur commercial, entreprise partenaire</span></div>
-  <div class="quote" style="--c:var(--pink)"><p>Nos réseaux sociaux ont pris une autre dimension depuis que Waouh! s'en occupe.</p><b>Nom du client</b><span>Gérante, commerce à Abidjan</span></div>
- </div></div></section>
 
 <section id="faq" style="padding-top:20px"><div class="wrap">
  <div class="head"><h2>Questions fréquentes</h2></div>
@@ -302,11 +372,13 @@ footer{border-top:1px solid var(--line)}
  <div class="wrap"><div class="box">
   <h2>Prêt pour votre <b>waouh</b> ?</h2>
   <p>Parlez-nous de votre projet. Nous vous répondons rapidement avec une première proposition.</p>
-  <a class="btn" href="mailto:contact@waouhagency.ci">Nous écrire</a>
+  <a class="btn" href="mailto:infos@waouhagency.ci">Nous écrire</a>
   <div class="info">
-   <div><b>Adresse</b><span>Abidjan, Côte d'Ivoire<br>(à compléter)</span></div>
-   <div><b>Téléphone</b><span>+225 00 00 00 00 00</span></div>
-   <div><b>Email</b><span>contact@waouhagency.ci</span></div>
+   <div><b>Adresse</b><span>Riviera Palmeraie, Cocody, Abidjan</span></div>
+   <div><b>Téléphone</b><span>+225 01 41 13 67 17</span>
+              <br><span>+225 07 01 47 96 79</span>
+              <br><span>+225 27 22 20 38 89</span></div>
+   <div><b>Email</b><span>infos@waouhagency.ci</span></div>
    <div><b>Horaires</b><span>Lundi au vendredi<br>8h – 18h</span></div>
   </div>
  </div></div>

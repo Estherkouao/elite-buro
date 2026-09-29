@@ -495,63 +495,17 @@
        MOT DE LA DIRECTRICE
        ═══════════════════════════════════════════ */
     .directrice-section {
-      padding: 80px 0 88px;
+      padding: 0;
       background: var(--ivory);
-    }
-
-    .directrice-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 64px;
-      align-items: center;
-    }
-
-    .directrice-photo {
-      position: relative;
-      border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: var(--shadow-lg);
     }
 
-    .directrice-photo img {
+    .directrice-banner {
       width: 100%;
-      height: 700px;
+      display: block;
+      height: clamp(320px, 60vw, 720px);
       object-fit: cover;
-      object-position: top;
-    }
-
-    .directrice-name {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(23, 50, 92, 0.9), transparent);
-      padding: 40px 28px 28px;
-    }
-
-    .directrice-name h3 {
-      font-family: var(--font-display);
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 4px;
-    }
-
-    .directrice-name p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.7);
-    }
-
-    .directrice-message p {
-      font-size: 16px;
-      color: var(--text-muted);
-      line-height: 1.85;
-      margin-bottom: 20px;
-      text-align: justify;
-    }
-
-    .directrice-message p:last-child {
-      margin-bottom: 0;
+      object-position: center;
     }
 
     /* ═══════════════════════════════════════════
@@ -716,16 +670,7 @@
         gap: 32px;
       }
 
-      .directrice-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
       .president-photo img {
-        height: 350px;
-      }
-
-      .directrice-photo img {
         height: 350px;
       }
 
@@ -755,6 +700,29 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+    .directrice-section {
+      max-width: 1100px;      /* largeur d'une section normale */
+      margin: 60px auto;      /* centrée, avec de l'espace autour */
+      padding: 0 20px;
+    }
+
+    .directrice-banner {
+      display: block;
+      width: 100%;
+      max-width: 500px;       /* taille de l'image, à ajuster (400 à 600px) */
+      height: auto;           /* garde les proportions, aucune coupe */
+      margin: 0 auto;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .directrice-banner {
+        max-width: 100%;
+      }
     }
   </style>
 {% endblock %}
@@ -884,109 +852,12 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       MOT DU PRÉSIDENT
-       ═══════════════════════════════════════════ 
-  <section class="president-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="label">Dirigeant</p>
-        <h2>Le mot du Président</h2>
-        <div class="gold-divider"></div>
-      </div>
-
-      <div class="president-grid">
-        <div class="president-photo reveal">
-          <img src="/media/le president.jpeg" alt="M. TCHERO Huidi, Président d'EliteBuro" />
-          <div class="president-name">
-            <h3>M. TCHERO Huidi</h3>
-            <p>Fondateur & Président</p>
-          </div>
-          <div class="president-tagline">
-            <strong>"Créateur de liens et de business"</strong>
-          </div>
-        </div>
-
-        <div class="president-message reveal">
-          <p>
-            Chers Partenaires, 
-          </p>
-          <p>
-            C'est avec une conviction profonde et une passion intacte que je m'adresse à vous. Depuis 2018 ; Nous avons pensé et façonné ce groupe comme une plate-forme d'opportunités, une passerelle d'avenir destinée à favoriser l'éclosion des talents entrepreneuriaux d'ici et d'ailleurs. Nous croyons fermement que l'Afrique est la terre d'élection de l'innovation et de l'audace. Pour libérer ce potentiel extraordinaire, il faut créer des synergies et offrir aux esprits entreprenants le cadre et le soutien nécessaires pour transformer leurs idées en succès durables.
-          </p>
-          <p>
-            Cette vision se résume dans ce qui est bien plus qu'un slogan pour nous, c'est notre ADN : <strong>Créateurs de liens et de business</strong>.
-          </p>
-          <p>
-            <strong>Créateurs de liens</strong>, parce que nous sommes convaincus qu'aucune réussite solide ne se fait en solo. Nous tissons des ponts solides entre les acteurs locaux et internationaux, entre la jeunesse audacieuse et les investisseurs chevronnés, entre les cultures et les savoir-faire.
-            <strong>Créateurs de business</strong>, parce que la création de valeur concrète est le plus puissant moteur de développement socio-économique pour notre pays et notre continent.
-          </p>
-          <p>
-            Merci de faire partie de cette belle aventure.
-          </p>
-          <p>
-            <strong>Docteur TCHERO Huidi</strong><br>
-            Président-Fondateur
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  -->
 
   <!-- ═══════════════════════════════════════════
        MOT DE LA DIRECTRICE GÉNÉRALE
        ═══════════════════════════════════════════ -->
-  <section class="directrice-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="label">Direction</p>
-        <h2>Mot de la Directrice Générale</h2>
-        <div class="gold-divider"></div>
-      </div>
-
-      <div class="directrice-grid">
-        <div class="directrice-photo reveal">
-          <img src="/media/la directrice.jpeg" alt="Mireille BOLI-BISSOUMA, Directrice Générale d'EliteBuro" />
-          <div class="directrice-name">
-            <h3>Mireille BOLI-BISSOUMA</h3>
-            <p>Directrice Générale du groupe ELITE BURO S.A.S</p>
-          </div>
-        </div>
-
-        <div class="directrice-message reveal">
-          <p>
-            Chers Collaborateurs et Clients,
-          </p>
-          <p>
-            C'est un réel plaisir de m'adresser à vous et de vous ouvrir de nouveau les portes d'ELITE BURO S.A.S.
-          </p>
-          <p>
-            Au cœur de notre philosophie réside une conviction profonde : les plus belles réussites sont avant tout le fruit de synergies sincères et de collaborations durables. C'est pourquoi nous plaçons la confiance, l'écoute et la proximité au centre de toutes nos relations.
-          </p>
-          <p>
-            C'est un honneur pour moi de vous faire découvrir de nouveau la conciergerie d'entreprise by ELITE BURO COWORKING, un honneur de parler formation et compétences avec vous à travers ELITE ACADEMY et surtout un immense privilège d'imaginer, de rêver et de créer avec vous via WAOUH AGENCE COTE d'IVOIRE.
-          </p>
-          <p>
-            Conscients que chaque projet est unique et porte en lui des enjeux spécifiques, nous tenons à vous apporter une garantie essentielle : chez ELITE BURO S.A.S, chaque accompagnement est entièrement personnalisé.
-          </p>
-          <p>
-            Nous refusons les solutions standardisées. De la première rencontre jusqu'à l'aboutissement de vos projets, nos équipes s'engagent à construire avec vous un projet, une stratégie, voire même un bureau sur-mesure, ajusté à vos besoins, votre rythme et vos ambitions. Notre objectif est simple : faire en sorte que chaque partenaire se sente écouté, soutenu et pleinement privilégié.
-          </p>
-          <p>
-            Que vous souhaitiez initier de nouveaux projets, relever de nouveaux défis ou donner un élan décisif à vos activités, sachez que nous sommes prêts à mettre toute notre expertise et notre enthousiasme au service de votre succès.
-          </p>
-          <p>
-            Je vous invite chaleureusement à venir échanger avec nous et à imaginer, ensemble, de magnifiques opportunités de collaboration.
-          </p>
-          <p>
-            Bien à vous,<br>
-            <strong>Mireille BOLI-BISSOUMA</strong><br>
-            Directrice Générale du groupe ELITE BURO S.A.S
-          </p>
-        </div>
-      </div>
-    </div>
+<section class="directrice-section">
+    <img class="directrice-banner" src="/media/la directrice1.jpeg" alt="Mireille BOLI-BISSOUMA, Directrice Générale du groupe ELITE BURO S.A.S" />
   </section>
 
   <!-- ═══════════════════════════════════════════
