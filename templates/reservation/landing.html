@@ -15,12 +15,19 @@
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
     :root {
-        --elite-navy: #074cad;
-        --elite-navy-light: #5A9BD5;
-        --elite-gold: #074cad;
+        --elite-navy: #0B3FA8;
+        --elite-navy-light: #2E6BD1;
+        --elite-gold: #0B3FA8;
         --elite-gold-light: #5A9BD5;
         --elite-cream: #FAFAF7;
-        --elite-text: #074cad;
+        --elite-text: #1C1C1C;
+        --accent: #0B3FA8;
+        --accent-hover: #07307F;
+        --accent-soft: #E8EFFB;
+        --ink: #1C1C1C;
+        --muted: #5B5B5B;
+        --line: #E4EAF4;
+        --radius: 16px;
     }
 
     body {
@@ -34,33 +41,35 @@
     }
 
     .bg-elite-navy { background-color: var(--elite-navy); }
-    .text-elite-navy { color: var(--elite-navy); }
+    .text-elite-navy { color: var(--accent); }
     .bg-elite-gold { background-color: var(--elite-gold); }
-    .text-elite-gold { color: var(--elite-gold); }
-    .border-elite-gold { border-color: var(--elite-gold); }
+    .text-elite-gold { color: var(--accent); }
+    .border-elite-gold { border-color: var(--accent); }
 
     /* ===== BOUTONS ===== */
     .btn-gold {
-        background: var(--elite-gold);
+        background: var(--accent);
         color: #fff;
         font-weight: 600;
         letter-spacing: .01em;
-        box-shadow: 0 4px 12px rgba(5, 5, 5, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(11, 63, 168, .28);
         transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
         border: none;
     }
     .btn-gold:hover {
-        background: #0a0a0a;
+        background: var(--accent-hover);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(10, 10, 10, 0.5);
+        box-shadow: 0 10px 24px rgba(11, 63, 168, .34);
     }
-    .btn-gold:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(13,43,85,.40); }
+    .btn-gold:active { transform: translateY(0); box-shadow: 0 4px 12px rgba(11,63,168,.3); }
 
     .btn-outline-white {
         background: transparent;
         border: 1.5px solid rgba(255,255,255,0.55);
         color: #fff;
         font-weight: 600;
+        border-radius: 12px;
         transition: background .2s ease, border-color .2s ease;
     }
     .btn-outline-white:hover {
@@ -68,35 +77,113 @@
         border-color: #fff;
     }
 
+    /* ===== EN-TÊTE DE SECTION (harmonisé) ===== */
+    .sec {
+        padding: 92px 0;
+    }
+    .sec-head {
+        max-width: 720px;
+        margin: 0 auto 52px;
+        text-align: center;
+    }
+    .sec-head .eyebrow {
+        display: inline-block;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+    .sec-head h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.2;
+        margin: 0 0 16px;
+    }
+    .sec-head h2 strong { color: var(--accent); font-weight: 700; }
+    .sec-head .rule {
+        width: 56px; height: 3px; border-radius: 2px;
+        background: var(--accent);
+        margin: 0 auto 18px;
+    }
+    .sec-head p {
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+    .sec-head.left { margin: 0; text-align: left; }
+    .sec-head.left .rule { margin: 0 0 18px; }
+
     .hero-overlay {
         background: linear-gradient(rgba(18, 18, 19, 0.7), rgba(8, 8, 8, 0.7));
     }
 
-    /* ===== CARTES (coins carrés, pas arrondis) ===== */
+    /* ===== CARTES (rayon harmonisé avec la section Pourquoi choisir) ===== */
     .card-premium {
         background: white;
-        border-radius: 4px;
-        border: 1px solid #EFEAE0;
-        box-shadow: 0 4px 20px rgba(13, 43, 85, 0.06);
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
         transition: transform 0.3s ease, box-shadow 0.3s ease, border-color .3s ease;
     }
     .card-premium:hover {
         transform: translateY(-6px);
-        box-shadow: 0 16px 34px rgba(13, 43, 85, 0.14);
-        border-color: var(--elite-gold);
+        box-shadow: 0 18px 38px rgba(0,0,0,.10);
+        border-color: rgba(11, 63, 168, .40);
     }
 
-    .timeline-step::after {
-        content: '';
-        position: absolute;
-        top: 1.5rem;
-        left: 50%;
-        width: 100%;
-        height: 2px;
-        background-color: var(--elite-gold);
-        z-index: 0;
+    /* ===== ÉTAPES (harmonisées) ===== */
+    .steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 22px;
+        position: relative;
     }
-    .timeline-step:last-child::after { display: none; }
+    .step {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
+        padding: 30px 22px 28px;
+        text-align: center;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .step:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 38px rgba(0,0,0,.10);
+        border-color: rgba(11, 63, 168, .40);
+    }
+    .step-num {
+        width: 52px; height: 52px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.4rem;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 6px 18px rgba(11, 63, 168, .30);
+    }
+    .step h4 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.08rem;
+        color: var(--ink);
+        margin: 0 0 8px;
+    }
+    .step h4::after {
+        content: ""; display: block;
+        width: 26px; height: 2px; border-radius: 2px;
+        background: var(--accent);
+        margin: 8px auto 0;
+    }
+    .step p { color: var(--muted); font-size: .92rem; line-height: 1.5; margin: 12px 0 0; }
+    @media (max-width: 991px){ .steps{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px){ .steps{ grid-template-columns: 1fr; } }
     .hero-title {
         color: #ffffff;
         text-shadow: 0 2px 10px rgba(0,0,0,.35);
@@ -132,91 +219,143 @@
     .hero-fade {
         position: absolute;
         left: 0; right: 0; bottom: 0;
-        height: 45%;
-        background: linear-gradient(to top, rgba(64, 110, 196, 0.85) 0%, rgba(72, 106, 179, 0) 100%);
+        height: 55%;
+        background: linear-gradient(to top, rgba(7, 38, 99, .88) 0%, rgba(7, 38, 99, 0) 100%);
         z-index: 5;
         pointer-events: none;
     }
 
-    /* ===== SECTION AVANTAGES (wifi, clim, café...) ===== */
-    .advantage-card {
-        position: relative;
-        background: #fff;
-        border-radius: 4px;
-        border: 1px solid #EFEAE0;
-        padding: 2.25rem 1.75rem;
-        overflow: hidden;
-        transition: all .35s ease;
-    }
-    .advantage-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 4px; height: 100%;
-        background: linear-gradient(180deg, var(--elite-gold-light), var(--elite-gold));
-        transform: scaleY(0);
-        transform-origin: top;
-        transition: transform .35s ease;
-    }
-    .advantage-card:hover::before { transform: scaleY(1); }
-    .advantage-card:hover {
-        box-shadow: 0 18px 36px rgba(8, 8, 8, 0.12);
-        transform: translateY(-6px);
-        border-color: transparent;
-    }
-    .advantage-icon {
-        width: 64px; height: 64px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.75rem;
-        border-radius: 4px;
-        background: linear-gradient(135deg, var(--elite-navy) 0%, var(--elite-navy-light) 100%);
-        color: var(--elite-gold-light);
-        margin-bottom: 1.5rem;
-        box-shadow: 0 8px 18px rgba(3, 3, 3, 0.25);
-        transition: transform .35s ease;
-    }
-    .advantage-card:hover .advantage-icon {
-        transform: scale(1.08) rotate(-4deg);
-    }
+    /* Accent orange (ex-override gold) */
+    .bg-gold { background-color: var(--accent) !important; }
+    .bg-gold\/10 { background-color: var(--accent-soft) !important; }
+    .text-gold { color: var(--accent) !important; }
+    .shadow-gold\/5 { box-shadow: 0 2px 10px rgba(0, 0, 0, .05) !important; }
+    .shadow-gold\/25 { box-shadow: 0 6px 18px rgba(11, 63, 168, .28) !important; }
+    .hover\:shadow-gold\/5:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, .08) !important; }
+    .hover\:border-gold\/30:hover { border-color: rgba(11, 63, 168, .30) !important; }
+    .hover\:shadow-gold\/25:hover { box-shadow: 0 12px 30px rgba(11, 63, 168, .34) !important; }
 
-    /* Override Tailwind gold (orange) utilities with blue theme */
-    .bg-gold { background-color: var(--elite-navy) !important; }
-    .bg-gold\/10 { background-color: rgba(13, 13, 14, 0.1) !important; }
-    .text-gold { color: var(--elite-navy) !important; }
-    .shadow-gold\/5 { box-shadow: 0 10px 30px rgba(8, 8, 8, 0.05) !important; }
-    .shadow-gold\/25 { box-shadow: 0 10px 30px rgba(8, 8, 8, 0.25) !important; }
-    .hover\:shadow-gold\/5:hover { box-shadow: 0 10px 30px rgba(2, 2, 2, 0.1) !important; }
-    .hover\:border-gold\/30:hover { border-color: rgba(8, 8, 8, 0.3) !important; }
-    .hover\:shadow-gold\/25:hover { box-shadow: 0 20px 45px rgba(5, 5, 5, 0.25) !important; }
-
-    /* Override navy (black) to blue marine */
-    .bg-navy { background-color: var(--elite-navy) !important; }
-    .text-navy { color: var(--elite-navy) !important; }
-    .hover\:bg-navy:hover { background-color: var(--elite-navy) !important; }
-    .hover\:text-navy:hover { color: var(--elite-navy) !important; }
-    .shadow-navy\/30 { box-shadow: 0 10px 30px rgba(13, 13, 14, 0.3) !important; }
-    .hover\:shadow-navy\/30:hover { box-shadow: 0 20px 45px rgba(3, 3, 3, 0.35) !important; }
+    /* Neutre foncé (ex-override navy) */
+    .bg-navy { background-color: var(--accent-hover) !important; }
+    .text-navy { color: var(--accent) !important; }
+    .hover\:bg-navy:hover { background-color: var(--accent-hover) !important; }
+    .hover\:text-navy:hover { color: var(--accent-hover) !important; }
+    .shadow-navy\/30 { box-shadow: 0 10px 30px rgba(0, 0, 0, .18) !important; }
+    .hover\:shadow-navy\/30:hover { box-shadow: 0 14px 34px rgba(0, 0, 0, .22) !important; }
 
     /* ===== SECTION TÉMOIGNAGES ===== */
     .testimonial-card {
         position: relative;
         background: #ffffff;
-        border: 1px solid #E7E5E1;
-        border-top: 3px solid var(--elite-gold);
-        border-radius: 4px;
-        box-shadow: 0 2px 10px rgba(13,43,85,0.08);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--accent);
+        border-radius: var(--radius);
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
         text-align: left;
     }
     .testimonial-avatar {
         width: 48px; height: 48px;
         border-radius: 50%;
-        background: var(--elite-navy);
-        color: var(--elite-gold);
+        background: var(--accent);
+        color: #fff;
         font-weight: 700;
         display: flex; align-items: center; justify-content: center;
         font-size: 1.05rem;
         flex-shrink: 0;
     }
+    .testimonial-name {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        color: var(--ink);
+    }
+    .testimonial-role { color: var(--muted); }
+    .testimonial-text { color: var(--ink); }
+    .testimonial-star { color: var(--accent); }
+    .testimonial-star-off { color: #D8D3CE; }
+    /* ===== CONCIERGERIE (harmonisée) ===== */
+    .concierge-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
+        padding: 38px 32px;
+        height: 100%;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .concierge-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 38px rgba(0,0,0,.10);
+        border-color: rgba(11, 63, 168, .40);
+    }
+    .concierge-icon {
+        width: 64px; height: 64px;
+        border-radius: 14px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 22px;
+        transition: background .3s ease, color .3s ease, transform .3s ease;
+    }
+    .concierge-icon svg { width: 28px; height: 28px; }
+    .concierge-card:hover .concierge-icon {
+        background: var(--accent);
+        color: #fff;
+        transform: scale(1.06);
+    }
+    .concierge-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 0 0 12px;
+    }
+    .concierge-title::after {
+        content: ""; display: block;
+        width: 26px; height: 2px; border-radius: 2px;
+        background: var(--accent);
+        margin-top: 10px;
+    }
+
+    /* ===== SECTION "POURQUOI CHOISIR ELITEBURO ?" (harmonisée) ===== */
+    .why { background: #fff; }
+
+  .why-grid { display:grid; gap:24px; grid-template-columns:repeat(3,1fr); }
+  @media (max-width:991px){ .why-grid{ grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .why-grid{ grid-template-columns:1fr;} }
+
+  .why-card { position:relative; overflow:hidden; min-height:250px; background:#fff;
+              border:1px solid var(--line); border-radius:var(--radius);
+              box-shadow:0 2px 10px rgba(0,0,0,.05); padding:1.75rem 1.5rem;
+              transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+  .why-card:hover { transform:translateY(-6px); box-shadow:0 18px 38px rgba(0,0,0,.10); border-color:rgba(11,63,168,.40); }
+  .why-card-img { position:absolute; top:0; right:0; bottom:0; width:58%;
+                  background-size:cover; background-position:center; background-repeat:no-repeat; }
+  .why-card-img::after { content:""; position:absolute; inset:0;
+                         background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.9) 8%,rgba(255,255,255,0) 22%); }
+  .why-card-body { position:relative; z-index:1; max-width:58%; }
+
+  .why-icon { width:64px; height:64px; border-radius:50%; display:grid; place-items:center;
+              font-size:1.7rem; background:var(--accent-soft); color:var(--accent); margin-bottom:1.1rem;
+              transition:background .3s ease, color .3s ease, transform .3s ease; }
+  .why-card:nth-child(even) .why-icon { background:#E8EFFB; color:var(--accent-hover); }
+  .why-card:hover .why-icon { transform:scale(1.06); }
+
+  .why-card h3 { font-size:1.2rem; font-weight:700; color:var(--ink); margin:0 0 12px; }
+  .why-card h3::after { content:""; display:block; width:26px; height:2px; background:var(--accent); margin-top:10px; }
+  .why-card p { color:var(--muted); font-size:.95rem; line-height:1.5; margin:12px 0 0; }
+
+  @media (max-width:991px){
+    .why-card-body{ max-width:60%; }
+    .why-card-img{ width:52%; }
+  }
+  @media (max-width:600px){
+    .why-card{ min-height:0; padding:1.25rem; }
+    .why-card-img{ position:static; width:100%; height:180px; margin:-1.25rem -1.25rem 1.25rem;
+                   border-radius:16px 16px 0 0; }
+    .why-card-img::after{ background:linear-gradient(180deg,rgba(255,255,255,0) 55%,#fff 100%); }
+    .why-card-body{ max-width:100%; }
+  }
+
     /* Logo en haut à gauche de la vidéo */
     .hero-logo {
         position: absolute;
@@ -242,155 +381,17 @@
             padding: 1rem 1rem 2rem;
             margin-bottom: 1.5rem;
         }
-        .why-card {
-            padding: 1.5rem 1.25rem;
-        }
     }
     .hero-panel {
-        background: rgba(121, 171, 236, 0.55);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        border-radius: 8px;
+        background: rgba(7, 38, 99, .45);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: var(--radius);
         padding: 2rem 2rem 2.5rem;
         margin-bottom: 3rem;   /* remonte le panneau du bas du hero */
     }
-    /* ===== POURQUOI CHOISIR : LIGNE CENTRALE ===== */
-    /* ===== POURQUOI CHOISIR : TIMELINE PREMIUM ===== */
-    .why-timeline {
-        position: relative;
-        max-width: 1050px;
-        margin: 0 auto;
-        padding: 1rem 0;
-    }
-    .why-timeline::before {
-        content: '';
-        position: absolute;
-        top: 0; bottom: 0; left: 50%;
-        width: 3px;
-        transform: translateX(-50%);
-        background: linear-gradient(180deg, transparent, var(--elite-navy) 10%, var(--elite-navy-light) 90%, transparent);
-        border-radius: 2px;
-    }
+    
 
-    .why-item {
-        position: relative;
-        width: 50%;
-        padding: 0 4.5rem 0 0;
-        margin-bottom: 2.75rem;
-    }
-    .why-item.right {
-        margin-left: 50%;
-        padding: 0 0 0 4.5rem;
-    }
-
-    /* Point central avec icône */
-    .why-node {
-        position: absolute;
-        top: 1rem; right: -28px;
-        width: 56px; height: 56px;
-        border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.5rem;
-        background: linear-gradient(135deg, var(--elite-navy), var(--elite-navy-light));
-        border: 4px solid #fff;
-        box-shadow: 0 8px 20px rgba(7, 76, 173, 0.35);
-        z-index: 2;
-        transition: transform .35s ease;
-    }
-    .why-item.right .why-node { right: auto; left: -28px; }
-    .why-item:hover .why-node { transform: scale(1.12) rotate(-6deg); }
-
-    /* Halo qui pulse */
-    .why-node::after {
-        content: '';
-        position: absolute; inset: -4px;
-        border-radius: 50%;
-        border: 2px solid var(--elite-navy-light);
-        opacity: 0;
-        animation: whyPulse 2.6s ease-out infinite;
-    }
-    @keyframes whyPulse {
-        0%   { transform: scale(1);   opacity: .6; }
-        100% { transform: scale(1.6); opacity: 0; }
-    }
-
-    /* Trait de liaison point → carte */
-    .why-item::after {
-        content: '';
-        position: absolute;
-        top: calc(1rem + 27px);
-        right: 28px;
-        width: 44px; height: 2px;
-        background: linear-gradient(90deg, var(--elite-navy-light), var(--elite-navy));
-    }
-    .why-item.right::after {
-        right: auto; left: 28px;
-        background: linear-gradient(90deg, var(--elite-navy), var(--elite-navy-light));
-    }
-
-    /* Carte */
-    .why-card {
-        position: relative;
-        overflow: hidden;
-        background: #fff;
-        border: 1px solid #EFEAE0;
-        border-radius: 6px;
-        padding: 1.75rem 2rem;
-        box-shadow: 0 10px 30px rgba(7, 76, 173, 0.08);
-        transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
-    }
-    .why-card::before {
-        content: '';
-        position: absolute; top: 0; bottom: 0; right: 0;
-        width: 4px;
-        background: linear-gradient(180deg, var(--elite-navy-light), var(--elite-navy));
-    }
-    .why-item.right .why-card::before { right: auto; left: 0; }
-    .why-item:hover .why-card {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 44px rgba(7, 76, 173, 0.18);
-        border-color: rgba(7, 76, 173, 0.25);
-    }
-
-    /* Grand numéro en filigrane */
-    .why-num {
-        position: absolute;
-        top: -0.6rem; right: 1.25rem;
-        font-family: 'Playfair Display', serif;
-        font-size: 5.5rem;
-        font-weight: 700;
-        line-height: 1;
-        color: rgba(7, 76, 173, 0.07);
-        pointer-events: none;
-    }
-    .why-item.right .why-num { right: auto; left: 1.25rem; }
-
-    /* Apparition au scroll (activée seulement si le JS tourne) */
-    .why-anim .why-item { opacity: 0; transform: translateX(-50px); transition: opacity .7s ease, transform .7s ease; }
-    .why-anim .why-item.right { transform: translateX(50px); }
-    .why-anim .why-item.in-view { opacity: 1; transform: none; }
-
-    /* Mobile : ligne à gauche */
-    @media (max-width: 768px) {
-        .why-timeline::before { left: 22px; }
-        .why-item, .why-item.right {
-            width: 100%; margin-left: 0;
-            padding: 0 0 0 4.25rem;
-            margin-bottom: 2rem;
-        }
-        .why-node, .why-item.right .why-node {
-            left: 0; right: auto;
-            width: 44px; height: 44px; font-size: 1.2rem;
-            top: .75rem;
-        }
-        .why-item::after, .why-item.right::after {
-            left: 44px; right: auto; width: 20px;
-            top: calc(.75rem + 21px);
-        }
-        .why-card::before, .why-item.right .why-card::before { right: auto; left: 0; }
-        .why-num, .why-item.right .why-num { right: 1rem; left: auto; font-size: 4rem; }
-        .why-anim .why-item, .why-anim .why-item.right { transform: translateY(30px); }
-    }
 </style>
 
 <!-- 2) HERO SECTION -->
@@ -483,10 +484,12 @@
 -->
 
 <!-- 4) SECTION "NOS ESPACES" -->
-<section id="nos-espaces" class="py-24 container mx-auto px-6">
-    <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Nos Espaces</h2>
-        <div class="w-20 h-1 bg-elite-gold mx-auto"></div>
+<section id="nos-espaces" class="sec container mx-auto px-6">
+    <div class="sec-head">
+        <span class="eyebrow">Nos espaces</span>
+        <h2>Des espaces pensés pour <strong>travailler</strong></h2>
+        <div class="rule"></div>
+        <p>Bureaux privés, postes ouverts et salles de réunion équipés, à réserver en quelques clics.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
@@ -524,110 +527,135 @@
     </div>
 </section>
 
+
+
+{% load static %}
 <!-- 5) SECTION "POURQUOI CHOISIR ELITEBURO ?" -->
-<section class="py-24 bg-white">
-    <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Pourquoi choisir EliteBuro ?</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">L'excellence au service de votre productivité avec des équipements de pointe.</p>
-        </div>
-
-        <div class="why-timeline">
-            {% for advantage in advantages %}
-            <div class="why-item {% if forloop.counter|divisibleby:2 %}right{% endif %}">
-                <span class="why-node">{{ advantage.icon }}</span>
-                <div class="why-card">
-                    <span class="why-num">{{ forloop.counter|stringformat:"02d" }}</span>
-                    <h3 class="text-xl font-bold text-elite-navy mb-2">{{ advantage.title }}</h3>
-                    <p class="text-gray-600 leading-relaxed">{{ advantage.description }}</p>
-                </div>
-            </div>
-            {% empty %}
-            <div class="why-item">
-                <span class="why-node">📶</span>
-                <div class="why-card">
-                    <span class="why-num">01</span>
-                    <h3 class="text-xl font-bold text-elite-navy mb-2">Wi-Fi Haut Débit</h3>
-                    <p class="text-gray-600 leading-relaxed">Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
-                </div>
-            </div>
-            <div class="why-item right">
-                <span class="why-node">❄️</span>
-                <div class="why-card">
-                    <span class="why-num">02</span>
-                    <h3 class="text-xl font-bold text-elite-navy mb-2">Climatisation</h3>
-                    <p class="text-gray-600 leading-relaxed">Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
-                </div>
-            </div>
-            <div class="why-item">
-                <span class="why-node">☕</span>
-                <div class="why-card">
-                    <span class="why-num">03</span>
-                    <h3 class="text-xl font-bold text-elite-navy mb-2">Café offert</h3>
-                    <p class="text-gray-600 leading-relaxed">Une sélection de cafés et thés premium en libre-service pour nos membres.</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<section class="sec why">
+  <div class="container mx-auto px-6">
+    <div class="sec-head">
+        <span class="eyebrow">Nos services</span>
+        <h2>L'excellence au service de votre <strong>productivité</strong></h2>
+        <div class="rule"></div>
+        <p>avec des équipements de pointe.</p>
     </div>
+
+  <!-- 6 cartes -->
+  <div class="why-grid">
+    {% for advantage in advantages %}
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static advantage.image %}');"></div>
+      <div class="why-card-body">
+        <div class="why-icon">{{ advantage.icon }}</div>
+        <h3>{{ advantage.title }}</h3>
+        <p>{{ advantage.description }}</p>
+      </div>
+    </article>
+    {% empty %}
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static 'img/why/wifi.jpg' %}')"></div>
+      <div class="why-card-body">
+        <div class="why-icon">📶</div>
+        <h3>Wi-Fi Haut Débit</h3>
+        <p>Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
+      </div>
+    </article>
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static 'img/why/clim.jpg' %}')"></div>
+      <div class="why-card-body">
+        <div class="why-icon">❄️</div>
+        <h3>Climatisation</h3>
+        <p>Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
+      </div>
+    </article>
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static 'img/why/cafe.jpg' %}')"></div>
+      <div class="why-card-body">
+        <div class="why-icon">☕</div>
+        <h3>Café offert</h3>
+        <p>Une sélection de café de qualité, offert en libre service pour nos membres.</p>
+      </div>
+    </article>
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static 'img/why/securite.jpg' %}')"></div>
+      <div class="why-card-body">
+        <div class="why-icon">🛡️</div>
+        <h3>Sécurité 24h/24</h3>
+        <p>Contrôle d'accès biométrique et surveillance permanente de vos biens.</p>
+      </div>
+    </article>
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static 'img/why/imprimante.jpg' %}')"></div>
+      <div class="why-card-body">
+        <div class="why-icon">🖨️</div>
+        <h3>Équipements pro</h3>
+        <p>Imprimantes, scanner et projecteurs dernière génération à disposition.</p>
+      </div>
+    </article>
+    <article class="why-card">
+      <div class="why-card-img" style="background-image:url('{% static 'img/why/menage.jpg' %}')"></div>
+      <div class="why-card-body">
+        <div class="why-icon">🧹</div>
+        <h3>Ménage inclus</h3>
+        <p>Entretien quotidien de nos espaces par une équipe dédiée.</p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  </div>
 </section>
+
+
 <!-- 6) SECTION "COMMENT ÇA FONCTIONNE" -->
-<section class="py-24 overflow-hidden" style="background-color: var(--elite-cream);">
+<section class="sec" style="background-color: var(--elite-cream);">
     <div class="container mx-auto px-6">
-        <div class="text-center mb-20">
-            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Comment ça fonctionne</h2>
-            <p class="text-gray-600">Réservez votre espace en moins de 2 minutes.</p>
+        <div class="sec-head">
+            <span class="eyebrow">Réservation</span>
+            <h2>Comment ça <strong>fonctionne</strong></h2>
+            <div class="rule"></div>
+            <p>Réservez votre espace en moins de 2 minutes.</p>
         </div>
 
-        <div class="relative flex flex-col md:flex-row justify-between items-start gap-8 md:gap-4">
-            <!-- Steps -->
-            <div class="timeline-step relative z-10 flex flex-col md:flex-row items-center md:flex-col text-center flex-1 gap-4 md:gap-0">
-                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg shrink-0">1</div>
-                <div>
-                    <h4 class="font-bold text-elite-navy mb-2">Choisir un espace</h4>
-                    <p class="text-sm text-gray-600">Sélectionnez le type de bureau adapté.</p>
-                </div>
+        <div class="steps">
+            <div class="step relative z-10 flex-1">
+                <div class="step-num">1</div>
+                <h4>Choisir un espace</h4>
+                <p>Sélectionnez le type de bureau adapté.</p>
             </div>
-            <div class="timeline-step relative z-10 flex flex-col md:flex-row items-center md:flex-col text-center flex-1 gap-4 md:gap-0">
-                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg shrink-0">2</div>
-                <div>
-                    <h4 class="font-bold text-elite-navy mb-2">Sélectionner la date</h4>
-                    <p class="text-sm text-gray-600">Vérifiez les disponibilités en temps réel.</p>
-                </div>
+            <div class="step relative z-10 flex-1">
+                <div class="step-num">2</div>
+                <h4>Sélectionner la date</h4>
+                <p>Vérifiez les disponibilités en temps réel.</p>
             </div>
-            <div class="timeline-step relative z-10 flex flex-col md:flex-row items-center md:flex-col text-center flex-1 gap-4 md:gap-0">
-                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg shrink-0">3</div>
-                <div>
-                    <h4 class="font-bold text-elite-navy mb-2">Confirmer</h4>
-                    <p class="text-sm text-gray-600">Validez les détails de votre réservation.</p>
-                </div>
+            <div class="step relative z-10 flex-1">
+                <div class="step-num">3</div>
+                <h4>Confirmer</h4>
+                <p>Validez les détails de votre réservation.</p>
             </div>
-            <div class="timeline-step relative z-10 flex flex-col md:flex-row items-center md:flex-col text-center flex-1 gap-4 md:gap-0">
-                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg shrink-0">4</div>
-                <div>
-                    <h4 class="font-bold text-elite-navy mb-2">Paiement</h4>
-                    <p class="text-sm text-gray-600">Effectuez le règlement sécurisé.</p>
-                </div>
+            <div class="step relative z-10 flex-1">
+                <div class="step-num">4</div>
+                <h4>Paiement</h4>
+                <p>Effectuez le règlement sécurisé.</p>
             </div>
-            <div class="timeline-step relative z-10 flex flex-col md:flex-row items-center md:flex-col text-center flex-1 gap-4 md:gap-0">
-                <div class="w-12 h-12 bg-elite-gold text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg shrink-0">5</div>
-                <div>
-                    <h4 class="font-bold text-elite-navy mb-2">Confirmation</h4>
-                    <p class="text-sm text-gray-600">Recevez votre accès par email.</p>
-                </div>
+            <div class="step relative z-10 flex-1">
+                <div class="step-num">5</div>
+                <h4>Confirmation</h4>
+                <p>Recevez votre accès par email.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- 7) SECTION "ESPACES POPULAIRES" -->
-<section class="py-24 container mx-auto px-6">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-12">
-        <div>
-            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Espaces Populaires</h2>
-            <p class="text-gray-600">Les lieux les plus prisés par notre communauté.</p>
-        </div>
-        <a href="{% url 'coworking:workspace_list' %}" class="text-elite-gold font-bold flex items-center gap-2 hover:gap-4 transition-all mt-4 md:mt-0">
+<section class="sec container mx-auto px-6">
+    <div class="sec-head left mb-12">
+        <span class="eyebrow">Les plus prisés</span>
+        <h2>Espaces <strong>populaires</strong></h2>
+        <div class="rule"></div>
+        <p>Les lieux les plus réservés par notre communauté.</p>
+    </div>
+    <div class="flex md:justify-end -mt-8 mb-12">
+        <a href="{% url 'coworking:workspace_list' %}" class="text-elite-gold font-bold flex items-center gap-2 hover:gap-4 transition-all">
             Voir tout le catalogue <span>→</span>
         </a>
     </div>
@@ -677,34 +705,35 @@
 </section>
 
 <!-- 8) SECTION CONCIERGERIE -->
-<section class="py-24" style="background-color: var(--elite-cream);">
+<section class="sec" style="background-color: var(--elite-cream);">
     <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <span class="inline-block text-elite-gold font-bold tracking-[0.2em] text-xs uppercase mb-3">Service premium</span>
-            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Notre Conciergerie</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Un assistant personnel pour vous libérer du temps. Gestion administrative, démarches et accompagnement sur mesure.</p>
+        <div class="sec-head">
+            <span class="eyebrow">Service premium</span>
+            <h2>Notre <strong>Conciergerie</strong></h2>
+            <div class="rule"></div>
+            <p>Un assistant personnel pour vous libérer du temps. Gestion administrative, démarches et accompagnement sur mesure.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div class="p-8 rounded-2xl bg-white border border-gray-100 hover:border-elite-gold/30 hover:shadow-xl hover:shadow-gold/5 group transition-all duration-300 hover:-translate-y-1">
-                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-5 group-hover:bg-elite-navy group-hover:text-white group-hover:scale-105 transition-all duration-300">
+            <div class="concierge-card">
+                <div class="concierge-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
                 </div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">Gestion administrative</h3>
+                <h3 class="concierge-title">Gestion administrative</h3>
                 <p class="text-gray-500 leading-relaxed">Classement documentaire, suivi de dossiers, préparation de documents et relances organisées pour gagner un temps précieux.</p>
             </div>
-            <div class="p-8 rounded-2xl bg-white border border-gray-100 hover:border-elite-gold/30 hover:shadow-xl hover:shadow-gold/5 group transition-all duration-300 hover:-translate-y-1">
-                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-5 group-hover:bg-elite-navy group-hover:text-white group-hover:scale-105 transition-all duration-300">
+            <div class="concierge-card">
+                <div class="concierge-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-4.486c-.465-1.956-2.135-3.426-3.951-3.426a4.5 4.5 0 00-4.49 4.488c-.034.54-.07.865-.206 1.233l-.436.726m0 0l-2.889 2.696m5.654-5.418l-2.89-2.696"/></svg>
                 </div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">Assistance personnelle</h3>
+                <h3 class="concierge-title">Assistance personnelle</h3>
                 <p class="text-gray-500 leading-relaxed">Réservation de restaurants, organisation de déplacements, hôtels et gestion de rendez-vous pour simplifier votre quotidien.</p>
             </div>
-            <div class="p-8 rounded-2xl bg-white border border-gray-100 hover:border-elite-gold/30 hover:shadow-xl hover:shadow-gold/5 group transition-all duration-300 hover:-translate-y-1">
-                <div class="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl mb-5 group-hover:bg-elite-navy group-hover:text-white group-hover:scale-105 transition-all duration-300">
+            <div class="concierge-card">
+                <div class="concierge-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg>
                 </div>
-                <h3 class="text-xl font-bold text-elite-navy mb-3">Conciergerie entreprise</h3>
+                <h3 class="concierge-title">Conciergerie entreprise</h3>
                 <p class="text-gray-500 leading-relaxed">Accompagnement professionnel pour vos collaborateurs : accueil visiteurs, organisation de réunions et support aux équipes.</p>
             </div>
         </div>
@@ -720,12 +749,12 @@
 </section>
 
 <!-- 9) SECTION TÉMOIGNAGES -->
-<section class="py-24 bg-white">
+<section class="sec bg-white">
     <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <span class="inline-block text-elite-gold font-bold tracking-[0.2em] text-xs uppercase mb-3">Avis vérifiés</span>
-            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-elite-navy mb-4">Ce que disent nos clients</h2>
-            <div class="w-20 h-1 bg-elite-gold mx-auto"></div>
+        <div class="sec-head">
+            <span class="eyebrow">Avis vérifiés</span>
+            <h2>Ce que disent nos <strong>clients</strong></h2>
+            <div class="rule"></div>
         </div>
 
         <div id="testimonial-carousel" class="max-w-3xl mx-auto relative">
@@ -735,24 +764,24 @@
                     <div class="flex items-center gap-4">
                         <div class="testimonial-avatar">{{ testimonial.utilisateur.full_name|slice:":1" }}</div>
                         <div>
-                            <h4 class="font-bold text-elite-navy leading-tight">
+                            <h4 class="testimonial-name leading-tight">
                                 {{ testimonial.utilisateur.full_name }}
                             </h4>
-                            <p class="text-gray-500 text-sm">Membre EliteBuro</p>
+                            <p class="testimonial-role text-sm">Membre EliteBuro</p>
                         </div>
                     </div>
                     <div class="flex gap-0.5">
                         {% for i in "12345" %}
                             {% if forloop.counter <= testimonial.note %}
-                                <span class="text-elite-gold text-lg">★</span>
+                                <span class="testimonial-star text-lg">★</span>
                             {% else %}
-                                <span class="text-gray-300 text-lg">★</span>
+                                <span class="testimonial-star-off text-lg">★</span>
                             {% endif %}
                         {% endfor %}
                     </div>
                 </div>
 
-                <p class="text-gray-700 leading-relaxed">
+                <p class="testimonial-text leading-relaxed">
                     {{ testimonial.commentaire }}
                 </p>
             </div>
@@ -869,19 +898,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Start auto-slide
     interval = setInterval(nextSlide, 5000);
-});
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const timeline = document.querySelector('.why-timeline');
-    if (!timeline || !('IntersectionObserver' in window)) return;
-    timeline.classList.add('why-anim');
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-        });
-    }, { threshold: 0.15 });
-    timeline.querySelectorAll('.why-item').forEach(el => io.observe(el));
 });
 
     </script>

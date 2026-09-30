@@ -42,12 +42,42 @@ class ReservationLandingView(TemplateView):
         context["popular_spaces"] = popular_spaces
 
         context["advantages"] = [
-            {"icon": "📶", "title": "Wi-Fi Haut Débit", "description": "Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins."},
-            {"icon": "❄️", "title": "Climatisation", "description": "Un environnement tempéré pour un confort de travail optimal toute l'année."},
-            {"icon": "☕", "title": "Café offert", "description": "Une sélection de cafés et thés premium en libre-service pour nos membres."},
-            {"icon": "🔒", "title": "Sécurité 24h/24", "description": "Contrôle d'accès biométrique et surveillance permanente de vos biens."},
-            {"icon": "🖨️", "title": "Équipements pro", "description": "Imprimantes, scanners et projecteurs dernière génération à disposition."},
-            {"icon": "🧹", "title": "Ménage inclus", "description": "Entretien quotidien de votre espace de travail par notre équipe."},
+            {
+                "icon": "📶",
+                "title": "Wi-Fi Haut Débit",
+                "description": "Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.",
+                "image": "img/why/wifi.jpg",
+            },
+            {
+                "icon": "❄️",
+                "title": "Climatisation",
+                "description": "Un environnement tempéré pour un confort de travail optimal toute l'année.",
+                "image": "img/why/clim.jpg",
+            },
+            {
+                "icon": "☕",
+                "title": "Café offert",
+                "description": "Une sélection de café de qualité, offert en libre service pour nos membres.",
+                "image": "img/why/cafe.jpg",
+            },
+            {
+                "icon": "🛡️",
+                "title": "Sécurité 24h/24",
+                "description": "Contrôle d'accès biométrique et surveillance permanente de vos biens.",
+                "image": "img/why/securite.jpg",
+            },
+            {
+                "icon": "🖨️",
+                "title": "Équipements pro",
+                "description": "Imprimantes, scanner et projecteurs dernière génération à disposition.",
+                "image": "img/why/imprimante.jpg",
+            },
+            {
+                "icon": "🧹",
+                "title": "Ménage inclus",
+                "description": "Entretien quotidien de nos espaces par une équipe dédiée.",
+                "image": "img/why/menage.jpg",
+            },
         ]
 
         # Vrais témoignages approuvés depuis la base de données
