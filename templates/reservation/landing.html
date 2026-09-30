@@ -544,7 +544,7 @@
   <div class="why-grid">
     {% for advantage in advantages %}
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static advantage.image %}');"></div>
+      <div class="why-card-img" style="background-image:url('{{ advantage.image }}');"></div>
       <div class="why-card-body">
         <div class="why-icon">{{ advantage.icon }}</div>
         <h3>{{ advantage.title }}</h3>
@@ -553,7 +553,7 @@
     </article>
     {% empty %}
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static 'img/why/wifi.jpg' %}')"></div>
+      <div class="why-card-img" style="background-image:url('/media/wifi.jpg')"></div>
       <div class="why-card-body">
         <div class="why-icon">📶</div>
         <h3>Wi-Fi Haut Débit</h3>
@@ -561,7 +561,7 @@
       </div>
     </article>
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static 'img/why/clim.jpg' %}')"></div>
+      <div class="why-card-img" style="background-image:url('/media/clim.jpg')"></div>
       <div class="why-card-body">
         <div class="why-icon">❄️</div>
         <h3>Climatisation</h3>
@@ -569,7 +569,7 @@
       </div>
     </article>
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static 'img/why/cafe.jpg' %}')"></div>
+      <div class="why-card-img" style="background-image:url('/media/cafe.jpg')"></div>
       <div class="why-card-body">
         <div class="why-icon">☕</div>
         <h3>Café offert</h3>
@@ -577,7 +577,7 @@
       </div>
     </article>
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static 'img/why/securite.jpg' %}')"></div>
+      <div class="why-card-img" style="background-image:url('/media/securite.jpg')"></div>
       <div class="why-card-body">
         <div class="why-icon">🛡️</div>
         <h3>Sécurité 24h/24</h3>
@@ -585,7 +585,7 @@
       </div>
     </article>
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static 'img/why/imprimante.jpg' %}')"></div>
+      <div class="why-card-img" style="background-image:url('/media/imprimante.jpg')"></div>
       <div class="why-card-body">
         <div class="why-icon">🖨️</div>
         <h3>Équipements pro</h3>
@@ -593,7 +593,7 @@
       </div>
     </article>
     <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{% static 'img/why/menage.jpg' %}')"></div>
+      <div class="why-card-img" style="background-image:url('/media/menage.jpg')"></div>
       <div class="why-card-body">
         <div class="why-icon">🧹</div>
         <h3>Ménage inclus</h3>

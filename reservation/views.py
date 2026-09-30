@@ -46,37 +46,37 @@ class ReservationLandingView(TemplateView):
                 "icon": "📶",
                 "title": "Wi-Fi Haut Débit",
                 "description": "Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.",
-                "image": "img/why/wifi.jpg",
+                "image": "/media/wifi.jpg",
             },
             {
                 "icon": "❄️",
                 "title": "Climatisation",
                 "description": "Un environnement tempéré pour un confort de travail optimal toute l'année.",
-                "image": "img/why/clim.jpg",
+                "image": "/media/clim.jpg",
             },
             {
                 "icon": "☕",
                 "title": "Café offert",
                 "description": "Une sélection de café de qualité, offert en libre service pour nos membres.",
-                "image": "img/why/cafe.jpg",
+                "image": "/media/cafe.jpg",
             },
             {
                 "icon": "🛡️",
                 "title": "Sécurité 24h/24",
                 "description": "Contrôle d'accès biométrique et surveillance permanente de vos biens.",
-                "image": "img/why/securite.jpg",
+                "image": "/media/securite.jpg",
             },
             {
                 "icon": "🖨️",
                 "title": "Équipements pro",
                 "description": "Imprimantes, scanner et projecteurs dernière génération à disposition.",
-                "image": "img/why/imprimante.jpg",
+                "image": "/media/imprimante.jpg",
             },
             {
                 "icon": "🧹",
                 "title": "Ménage inclus",
                 "description": "Entretien quotidien de nos espaces par une équipe dédiée.",
-                "image": "img/why/menage.jpg",
+                "image": "/media/menage.jpg",
             },
         ]
 
