@@ -530,78 +530,100 @@
 
 
 {% load static %}
+
 <!-- 5) SECTION "POURQUOI CHOISIR ELITEBURO ?" -->
 <section class="sec why">
   <div class="container mx-auto px-6">
+
     <div class="sec-head">
-        <span class="eyebrow">Nos services</span>
-        <h2>L'excellence au service de votre <strong>productivité</strong></h2>
-        <div class="rule"></div>
-        <p>avec des équipements de pointe.</p>
+      <span class="eyebrow">Nos services</span>
+      <h2>L'excellence au service de votre <strong>productivité</strong></h2>
+      <div class="rule"></div>
+      <p>avec des équipements de pointe.</p>
     </div>
 
-  <!-- 6 cartes -->
-  <div class="why-grid">
-    {% for advantage in advantages %}
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('{{ advantage.image }}');"></div>
-      <div class="why-card-body">
-        <div class="why-icon">{{ advantage.icon }}</div>
-        <h3>{{ advantage.title }}</h3>
-        <p>{{ advantage.description }}</p>
-      </div>
-    </article>
-    {% empty %}
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('/media/wifi.jpg')"></div>
-      <div class="why-card-body">
-        <div class="why-icon">📶</div>
-        <h3>Wi-Fi Haut Débit</h3>
-        <p>Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
-      </div>
-    </article>
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('/media/clim.jpg')"></div>
-      <div class="why-card-body">
-        <div class="why-icon">❄️</div>
-        <h3>Climatisation</h3>
-        <p>Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
-      </div>
-    </article>
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('/media/cafe.jpg')"></div>
-      <div class="why-card-body">
-        <div class="why-icon">☕</div>
-        <h3>Café offert</h3>
-        <p>Une sélection de café de qualité, offert en libre service pour nos membres.</p>
-      </div>
-    </article>
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('/media/securite.jpg')"></div>
-      <div class="why-card-body">
-        <div class="why-icon">🛡️</div>
-        <h3>Sécurité 24h/24</h3>
-        <p>Contrôle d'accès biométrique et surveillance permanente de vos biens.</p>
-      </div>
-    </article>
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('/media/imprimante.jpg')"></div>
-      <div class="why-card-body">
-        <div class="why-icon">🖨️</div>
-        <h3>Équipements pro</h3>
-        <p>Imprimantes, scanner et projecteurs dernière génération à disposition.</p>
-      </div>
-    </article>
-    <article class="why-card">
-      <div class="why-card-img" style="background-image:url('/media/menage.jpg')"></div>
-      <div class="why-card-body">
-        <div class="why-icon">🧹</div>
-        <h3>Ménage inclus</h3>
-        <p>Entretien quotidien de nos espaces par une équipe dédiée.</p>
-      </div>
-    </article>
-    {% endfor %}
-  </div>
+    <!-- 6 cartes -->
+    <div class="why-grid">
+
+      <!-- Wi-Fi -->
+      <article class="why-card">
+        <div class="why-card-img"
+             style="background-image: url('/media/wifi.jpg');">
+        </div>
+
+        <div class="why-card-body">
+          <div class="why-icon">📶</div>
+          <h3>Wi-Fi Haut Débit</h3>
+          <p>Une connexion fibre optique sécurisée et ultra-rapide pour tous vos besoins.</p>
+        </div>
+      </article>
+
+      <!-- Climatisation -->
+      <article class="why-card">
+        <div class="why-card-img"
+             style="background-image: url('/media/clim.jpg');">
+        </div>
+
+        <div class="why-card-body">
+          <div class="why-icon">❄️</div>
+          <h3>Climatisation</h3>
+          <p>Un environnement tempéré pour un confort de travail optimal toute l'année.</p>
+        </div>
+      </article>
+
+      <!-- Café -->
+      <article class="why-card">
+        <div class="why-card-img"
+             style="background-image: url('/media/cafe.jpg');">
+        </div>
+
+        <div class="why-card-body">
+          <div class="why-icon">☕</div>
+          <h3>Café offert</h3>
+          <p>Une sélection de café de qualité, offert en libre service pour nos membres.</p>
+        </div>
+      </article>
+
+      <!-- Sécurité -->
+      <article class="why-card">
+        <div class="why-card-img"
+             style="background-image: url('/media/securite.jpg');">
+        </div>
+
+        <div class="why-card-body">
+          <div class="why-icon">🛡️</div>
+          <h3>Sécurité 24h/24</h3>
+          <p>Contrôle d'accès biométrique et surveillance permanente de vos biens.</p>
+        </div>
+      </article>
+
+      <!-- Équipements -->
+      <article class="why-card">
+        <div class="why-card-img"
+             style="background-image: url('/media/imprimante.jpg');">
+        </div>
+
+        <div class="why-card-body">
+          <div class="why-icon">🖨️</div>
+          <h3>Équipements pro</h3>
+          <p>Imprimantes, scanner et projecteurs dernière génération à disposition.</p>
+        </div>
+      </article>
+
+      <!-- Ménage -->
+      <article class="why-card">
+        <div class="why-card-img"
+             style="background-image: url('/media/menage.jpg');">
+        </div>
+
+        <div class="why-card-body">
+          <div class="why-icon">🧹</div>
+          <h3>Ménage inclus</h3>
+          <p>Entretien quotidien de nos espaces par une équipe dédiée.</p>
+        </div>
+      </article>
+
+    </div>
   </div>
 </section>
 
